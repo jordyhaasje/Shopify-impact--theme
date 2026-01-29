@@ -1,0 +1,306 @@
+{%- comment -%}
+  JSections - Hero Labor Day Sale
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  ⚠️ Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-hero-labor-day.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign bg_type = section.settings.bg_type
+  assign bg_opacity = section.settings.bg_opacity | divided_by: 100.0
+  
+  if bg_type == 'gradient'
+    assign bg_style = 'linear-gradient(' | append: section.settings.gradient_direction | append: ', ' | append: section.settings.gradient_color_1 | append: ', ' | append: section.settings.gradient_color_2 | append: ')'
+  else
+    assign bg_style = section.settings.solid_bg_color
+  endif
+  
+  assign image_opacity = section.settings.image_opacity | divided_by: 100.0
+  assign image_blend = 'normal'
+  if section.settings.image_transparent_blend
+    assign image_blend = 'multiply'
+  endif
+-%}
+
+<div
+  class="hero-labor-day"
+  style="
+    --bg-opacity: {{ bg_opacity }};
+    --padding-top: {{ section.settings.padding_top }}px;
+    --padding-bottom: {{ section.settings.padding_bottom }}px;
+    --min-height: {{ section.settings.min_height }}px;
+    --text-align: {{ section.settings.text_alignment }};
+    --image-opacity: {{ image_opacity }};
+    --image-blend: {{ image_blend }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="hero-labor-day__background" style="{% if bg_type == 'gradient' %}background: {{ bg_style }};{% else %}background-color: {{ bg_style }};{% endif %} opacity: var(--bg-opacity);"></div>
+  
+  <div class="hero-labor-day__container">
+    <div class="hero-labor-day__content">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero-labor-day__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      
+      {%- if section.settings.subheading != blank -%}
+        <p class="hero-labor-day__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.body_text != blank -%}
+        <p class="hero-labor-day__body">{{ section.settings.body_text }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_url | default: '#' }}" class="hero-labor-day__button">
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+      
+      {%- if section.settings.trust_badge_text != blank -%}
+        <div class="hero-labor-day__trust-badge">
+          <svg class="hero-labor-day__check-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="8" fill="currentColor" fill-opacity="0.2"/>
+            <path d="M11.5 5.5L6.5 10.5L4.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>{{ section.settings.trust_badge_text }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+    
+    {%- if section.settings.hero_image != blank -%}
+      <div class="hero-labor-day__image-wrapper">
+        <img
+          srcset="
+            {%- if section.settings.hero_image.width >= 375 -%}{{ section.settings.hero_image | image_url: width: 375 }} 375w,{%- endif -%}
+            {%- if section.settings.hero_image.width >= 550 -%}{{ section.settings.hero_image | image_url: width: 550 }} 550w,{%- endif -%}
+            {%- if section.settings.hero_image.width >= 750 -%}{{ section.settings.hero_image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if section.settings.hero_image.width >= 1000 -%}{{ section.settings.hero_image | image_url: width: 1000 }} 1000w,{%- endif -%}
+            {%- if section.settings.hero_image.width >= 1500 -%}{{ section.settings.hero_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+            {{ section.settings.hero_image | image_url }} {{ section.settings.hero_image.width }}w
+          "
+          src="{{ section.settings.hero_image | image_url: width: 750 }}"
+          loading="lazy"
+          alt="{{ section.settings.hero_image.alt | escape }}"
+          width="{{ section.settings.hero_image.width }}"
+          height="{{ section.settings.hero_image.height }}"
+          class="hero-labor-day__image"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "HS - Hero #2",
+  "tag": "section",
+  "class": "jsections-hero-labor-day",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "bg_type",
+      "label": "Background type",
+      "options": [
+        {
+          "value": "solid",
+          "label": "Solid color"
+        },
+        {
+          "value": "gradient",
+          "label": "Gradient"
+        }
+      ],
+      "default": "gradient"
+    },
+    {
+      "type": "color",
+      "id": "solid_bg_color",
+      "label": "Solid background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#FFC0CB"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#F5E6D3"
+    },
+    {
+      "type": "select",
+      "id": "gradient_direction",
+      "label": "Gradient direction",
+      "options": [
+        {
+          "value": "to right",
+          "label": "Left to right"
+        },
+        {
+          "value": "to bottom",
+          "label": "Top to bottom"
+        },
+        {
+          "value": "to bottom right",
+          "label": "Diagonal (top-left to bottom-right)"
+        },
+        {
+          "value": "135deg",
+          "label": "Diagonal 135°"
+        },
+        {
+          "value": "to top",
+          "label": "Bottom to top"
+        },
+        {
+          "value": "to left",
+          "label": "Right to left"
+        }
+      ],
+      "default": "135deg"
+    },
+    {
+      "type": "range",
+      "id": "bg_opacity",
+      "label": "Background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_transparent_blend",
+      "label": "Enable transparent image blend",
+      "info": "Makes the image blend into the background for a cohesive look",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_opacity",
+      "label": "Image opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 85
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "labor day sale"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "65% off sitewide."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "Discover how our solution can transform your experience with innovative features designed for your success."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "trust_badge_text",
+      "label": "Trust badge text",
+      "default": "30-Day Money-Back Guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Section padding top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Section padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum section height",
+      "min": 300,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    }
+  ],
+  "presets": [
+    {
+      "name": "HS - Hero #2"
+    }
+  ]
+}
+{% endschema %}
