@@ -1,0 +1,143 @@
+{%- comment -%}
+  JSections - Instagram Feed Card Pro
+  Version: 2.0.0
+  
+  This snippet renders a single Instagram post card with the new pro design.
+  
+  Parameters:
+  - block: The block object
+  - section_settings: Settings from the parent section
+  - section_id: Section ID for unique styling
+{%- endcomment -%}
+
+{%- liquid
+  assign image = block.settings.image
+  assign link = block.settings.link
+  assign caption = block.settings.caption
+  assign location = block.settings.location | default: section_settings.default_location
+  assign date = block.settings.date
+  assign is_video = block.settings.is_video | default: false
+  
+  assign instagram_username = section_settings.instagram_username
+  assign profile_avatar = section_settings.profile_avatar
+  
+  assign show_profile_avatar = section_settings.show_profile_avatar
+  assign show_username_top = section_settings.show_username_top
+  assign show_location = section_settings.show_location
+  assign show_dots_menu = section_settings.show_dots_menu
+  assign show_action_icons = section_settings.show_action_icons
+  assign show_username_bottom = section_settings.show_username_bottom
+  assign show_date = section_settings.show_date
+-%}
+
+<div class="insta-slide swiper-slide" {{ block.shopify_attributes }}>
+  <a href="{% if link != blank %}{{ link }}{% else %}https://www.instagram.com/{{ instagram_username }}/{% endif %}" 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     class="insta-card">
+    
+    {%- comment -%} Card Header with Avatar, Username, Location, Dots {%- endcomment -%}
+    <div class="insta-card__header">
+      {%- if show_profile_avatar -%}
+        <div class="insta-card__avatar">
+          {%- if profile_avatar != blank -%}
+            {{ profile_avatar | image_url: width: 100 | image_tag: 
+               class: 'insta-card__avatar-img', 
+               alt: instagram_username, 
+               loading: 'lazy'
+            }}
+          {%- else -%}
+            <div class="insta-card__avatar-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="8" r="4" fill="currentColor"/>
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="currentColor"/>
+              </svg>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="insta-card__info">
+        {%- if show_username_top and instagram_username != blank -%}
+          <p class="insta-card__username">@{{ instagram_username }}</p>
+        {%- endif -%}
+        {%- if show_location and location != blank -%}
+          <p class="insta-card__location">{{ location }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if show_dots_menu -%}
+        <div class="insta-card__dots">
+          <svg width="4" height="15" viewBox="0 0 4 15" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.75 2.5C2.16421 2.5 2.5 2.16421 2.5 1.75C2.5 1.33579 2.16421 1 1.75 1C1.33579 1 1 1.33579 1 1.75C1 2.16421 1.33579 2.5 1.75 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M1.75 8C2.16421 8 2.5 7.66421 2.5 7.25C2.5 6.83579 2.16421 6.5 1.75 6.5C1.33579 6.5 1 6.83579 1 7.25C1 7.66421 1.33579 8 1.75 8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M1.75 13.5C2.16421 13.5 2.5 13.1642 2.5 12.75C2.5 12.3358 2.16421 12 1.75 12C1.33579 12 1 12.3358 1 12.75C1 13.1642 1.33579 13.5 1.75 13.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+      {%- endif -%}
+    </div>
+    
+    {%- comment -%} Image {%- endcomment -%}
+    <div class="insta-card__image">
+      {% if image != blank %}
+        {{ image | image_url: width: 800 | image_tag: 
+           class: 'insta-card__img', 
+           alt: caption, 
+           loading: 'lazy',
+           sizes: '(min-width: 1200px) 400px, (min-width: 750px) 33vw, 80vw'
+        }}
+      {% else %}
+        <div class="insta-card__placeholder">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
+            <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+            <polyline points="21 15 16 10 5 21" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+      {% endif %}
+
+      {%- if is_video -%}
+        <div class="insta-card__video-badge">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
+          </svg>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Instagram Action Icons {%- endcomment -%}
+    {%- if show_action_icons -%}
+      <div class="insta-card__actions">
+        {%- comment -%} Heart / Like {%- endcomment -%}
+        <svg class="insta-icon insta-icon--heart" viewBox="0 0 21 19" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.3451 2.68122C19.4655 0.87105 16.932 -0.609994 13.9851 0.252303C12.5768 0.660241 11.3482 1.53507 10.4999 2.73387C9.65152 1.53507 8.42287 0.660241 7.01465 0.252303C4.0611 -0.596829 1.53416 0.87105 0.654657 2.68122C-0.579275 5.21545 -0.0673239 8.06563 2.17738 11.1528C3.93639 13.5685 6.4502 16.0172 10.0995 18.8608C10.3368 19.0464 10.6695 19.0464 10.9068 18.8608C14.5495 16.0238 17.0699 13.5949 18.8289 11.1528C21.067 8.06563 21.579 5.21545 20.3451 2.68122Z" fill="currentColor"/>
+        </svg>
+        
+        {%- comment -%} Comment {%- endcomment -%}
+        <svg class="insta-icon insta-icon--comment" viewBox="0 0 23 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M0.00126567 9.28571C0.00126567 4.15625 5.15715 0 11.5203 0C17.8834 0 23 4.15759 23 9.28571C23 14.4138 17.8834 18.5714 11.5203 18.5714C10.0487 18.5714 8.59972 18.3393 7.33969 17.9353C5.98967 18.8504 3.84763 20 1.08007 20C0.647163 20 0.261866 19.7411 0.0874423 19.3504C-0.081311 18.9598 -0.00255939 18.5022 0.295571 18.1897C0.318072 18.1732 1.71265 16.683 2.38226 14.9196C0.897233 13.3594 0.00126567 11.4121 0.00126567 9.28571ZM7.99761 15.8875C9.13433 16.2444 10.321 16.4286 11.5248 16.4286C16.6864 16.4286 20.8836 13.2254 20.8836 9.28571C20.8836 5.34598 16.6873 2.14286 11.5234 2.14286C6.35957 2.14286 2.16324 5.34598 2.16324 9.28571C2.16324 11.1696 3.14201 12.5938 3.95338 13.4547L4.8813 14.431L4.40339 15.681C4.15543 16.3283 3.84065 16.9368 3.50877 17.4779C4.57169 17.1377 5.45506 16.635 6.09632 16.1833L6.97384 15.5694L7.99761 15.8875Z" fill="currentColor"/>
+        </svg>
+        
+        {%- comment -%} Share / Send {%- endcomment -%}
+        <svg class="insta-icon insta-icon--share" viewBox="0 0 26 23" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M24.0488 0.0136606C24.4483 -0.0517754 24.8478 0.12136 25.0746 0.458208C25.2999 0.796075 25.3113 1.2363 25.104 1.5886L12.6405 22.6467L10.7615 22.1079L7.67859 11.8276L0 5.81718L0.54553 3.91468L24.0488 0.0136606ZM9.35085 11.6629L12.0008 20.4994L23.029 1.86551L2.08685 5.3417L8.41787 10.2974L18.2089 4.18801L19.066 5.60076L9.35085 11.6629Z" fill="currentColor"/>
+        </svg>
+        
+        {%- comment -%} Bookmark / Save {%- endcomment -%}
+        <svg class="insta-icon insta-icon--bookmark" viewBox="0 0 15 21" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 0H13.5C14.3284 0 15 0.671573 15 1.5V21L7.5 17.25L0 21V1.5C0 0.671573 0.671573 0 1.5 0ZM13.5 18.5625V1.5H1.5V18.5625L6.825 15.87L7.5 15.5325L8.175 15.87L13.5 18.5625Z" fill="currentColor"/>
+        </svg>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Username Below Actions {%- endcomment -%}
+    {%- if show_username_bottom and instagram_username != blank -%}
+      <p class="insta-card__username-bottom">@{{ instagram_username }}</p>
+    {%- endif -%}
+    
+    {%- comment -%} Date {%- endcomment -%}
+    {%- if show_date and date != blank -%}
+      <p class="insta-card__date">{{ date }}</p>
+    {%- endif -%}
+  </a>
+</div>
