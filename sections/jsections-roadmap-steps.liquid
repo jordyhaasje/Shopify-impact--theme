@@ -1,0 +1,393 @@
+{%- comment -%}
+  JSections - Roadmap Steps
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-roadmap-steps.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="roadmap-section jsections-roadmap-steps"
+  style="
+    --roadmap-bg: {{ section.settings.background }};
+    --roadmap-text: {{ section.settings.text_color }};
+    --roadmap-line-color: {{ section.settings.line_color }};
+    --roadmap-circle-bg: {{ section.settings.circle_bg }};
+    --roadmap-circle-icon: {{ section.settings.circle_icon_color }};
+    --roadmap-badge-bg: {{ section.settings.badge_bg }};
+    --roadmap-badge-text: {{ section.settings.badge_text_color }};
+    --roadmap-badge-border: {{ section.settings.badge_border_color }};
+    --roadmap-title-color: {{ section.settings.title_color }};
+    --roadmap-description-color: {{ section.settings.description_color }};
+    --roadmap-heading-color: {{ section.settings.heading_color }};
+    --roadmap-subheading-color: {{ section.settings.subheading_color }};
+    --roadmap-accent-from: {{ section.settings.accent_from }};
+    --roadmap-accent-to: {{ section.settings.accent_to }};
+    --roadmap-accent-color: {{ section.settings.accent_color }};
+    --roadmap-heading-size: {{ section.settings.heading_size }}px;
+    --roadmap-subheading-size: {{ section.settings.subheading_size }}px;
+    --roadmap-title-size: {{ section.settings.step_title_size }}px;
+    --roadmap-description-size: {{ section.settings.step_description_size }}px;
+    --roadmap-max-width: {{ section.settings.max_width }}px;
+    --roadmap-image-radius: {{ section.settings.image_radius }}px;
+  "
+>
+  <div class="roadmap-inner" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+    {%- if section.settings.heading_text != blank or section.settings.heading_accent != blank -%}
+      <div class="roadmap-header">
+        <h2 class="heading">
+          {{ section.settings.heading_text }}
+          {%- if section.settings.heading_accent != blank -%}
+            <span class="roadmap-accent roadmap-accent--{{ section.settings.accent_style }}">
+              {{ section.settings.heading_accent }}
+            </span>
+          {%- endif -%}
+        </h2>
+        {%- if section.settings.subheading != blank -%}
+          <div class="subheading rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="roadmap-container{% if section.settings.image_position == 'left' %} is-image-left{% endif %}">
+      <div class="roadmap-content">
+        <div class="roadmap-timeline">
+          {%- for block in section.blocks -%}
+            <div class="roadmap-item" {{ block.shopify_attributes }}>
+              <div class="roadmap-circle">
+                {%- case block.settings.icon -%}
+                  {%- when 'droplet' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" aria-hidden="true">
+                      <path d="M320 576C214 576 128 490 128 384C128 292.8 258.2 109.9 294.6 60.5C300.5 52.5 309.8 48 319.8 48L320.2 48C330.2 48 339.5 52.5 345.4 60.5C381.8 109.9 512 292.8 512 384C512 490 426 576 320 576zM240 376C240 362.7 229.3 352 216 352C202.7 352 192 362.7 192 376C192 451.1 252.9 512 328 512C341.3 512 352 501.3 352 488C352 474.7 341.3 464 328 464C279.4 464 240 424.6 240 376z"></path>
+                    </svg>
+                  {%- when 'shield' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" aria-hidden="true">
+                      <path d="M320 64C324.6 64 329.2 65 333.4 66.9L521.8 146.8C543.8 156.1 560.2 177.8 560.1 204C559.6 303.2 518.8 484.7 346.5 567.2C329.8 575.2 310.4 575.2 293.7 567.2C121.3 484.7 80.6 303.2 80.1 204C80 177.8 96.4 156.1 118.4 146.8L306.7 66.9C310.9 65 315.4 64 320 64zM320 130.8L320 508.9C458 442.1 495.1 294.1 496 205.5L320 130.9L320 130.9z"></path>
+                    </svg>
+                  {%- when 'spark' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" aria-hidden="true">
+                      <path d="M210.2 53.9C217.6 50.8 226 51.7 232.7 56.1L320.5 114.3L408.3 56.1C415 51.7 423.4 50.9 430.8 53.9C438.2 56.9 443.4 63.5 445 71.3L465.9 174.5L569.1 195.4C576.9 197 583.5 202.4 586.5 209.7C589.5 217 588.7 225.5 584.3 232.2L526.1 320L584.3 407.8C588.7 414.5 589.5 422.9 586.5 430.3C583.5 437.7 576.9 443.1 569.1 444.6L465.8 465.4L445 568.7C443.4 576.5 438 583.1 430.7 586.1C423.4 589.1 414.9 588.3 408.2 583.9L320.4 525.7L232.6 583.9C225.9 588.3 217.5 589.1 210.1 586.1C202.7 583.1 197.3 576.5 195.8 568.7L175 465.4L71.7 444.5C63.9 442.9 57.3 437.5 54.3 430.2C51.3 422.9 52.1 414.4 56.5 407.7L114.7 320L56.5 232.2C52.1 225.5 51.3 217.1 54.3 209.7C57.3 202.3 63.9 196.9 71.7 195.4L175 174.6L195.9 71.3C197.5 63.5 202.9 56.9 210.2 53.9zM239.6 320C239.6 275.6 275.6 239.6 320 239.6C364.4 239.6 400.4 275.6 400.4 320C400.4 364.4 364.4 400.4 320 400.4C275.6 400.4 239.6 364.4 239.6 320zM448.4 320C448.4 249.1 390.9 191.6 320 191.6C249.1 191.6 191.6 249.1 191.6 320C191.6 390.9 249.1 448.4 320 448.4C390.9 448.4 448.4 390.9 448.4 320z"></path>
+                    </svg>
+                  {%- when 'leaf' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" aria-hidden="true">
+                      <path d="M307.5 70.6L241.2 167C230 183.3 224 202.6 224 222.3L224 224C224 277 267 320 320 320C373 320 416 277 416 224L416 222.3C416 202.5 410 183.3 398.8 167L332.5 70.6C329.7 66.5 325 64 320 64C315 64 310.3 66.5 307.5 70.6zM141.3 405.5L98.7 448L64 448C46.3 448 32 462.3 32 480L32 544C32 561.7 46.3 576 64 576L384.5 576C413.5 576 441.8 566.7 465.2 549.5L591.8 456.2C609.6 443.1 613.4 418.1 600.3 400.3C587.2 382.5 562.2 378.7 544.4 391.8L424.6 480L312 480C298.7 480 288 469.3 288 456C288 442.7 298.7 432 312 432L384 432C401.7 432 416 417.7 416 400C416 382.3 401.7 368 384 368L231.8 368C197.9 368 165.3 381.5 141.3 405.5z"></path>
+                    </svg>
+                  {%- else -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" aria-hidden="true">
+                      <circle cx="320" cy="320" r="200"></circle>
+                    </svg>
+                {%- endcase -%}
+              </div>
+
+              {%- if block.settings.badge != blank -%}
+                <div class="roadmap-badge">{{ block.settings.badge }}</div>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="roadmap-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <div class="roadmap-description rte">{{ block.settings.description }}</div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if section.settings.image != blank -%}
+        <div class="roadmap-image-column">
+          {{ section.settings.image | image_url: width: 1200 | image_tag: class: 'roadmap-image', loading: 'lazy' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Roadmap steps",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "Your Journey to"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading accent",
+      "default": "RADIANT SKIN."
+    },
+    {
+      "type": "select",
+      "id": "accent_style",
+      "label": "Accent style",
+      "default": "gradient",
+      "options": [
+        { "value": "gradient", "label": "Gradient" },
+        { "value": "solid", "label": "Solid" }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Follow your progress and see what's ahead on your path to success</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "default": "right",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "linear-gradient(0deg, #ffffff 0%, #fffdf5 100%)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "accent_from",
+      "label": "Accent gradient from",
+      "default": "#ffb100"
+    },
+    {
+      "type": "color",
+      "id": "accent_to",
+      "label": "Accent gradient to",
+      "default": "#fdda36"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent solid color",
+      "default": "#ffb100"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Timeline line color",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "circle_bg",
+      "label": "Circle background",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "circle_icon_color",
+      "label": "Circle icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "badge_border_color",
+      "label": "Badge border color",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Step title color",
+      "default": "#333030"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Step description color",
+      "default": "#333030"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 28,
+      "max": 60,
+      "step": 1,
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "step_title_size",
+      "label": "Step title size",
+      "min": 16,
+      "max": 36,
+      "step": 1,
+      "default": 27
+    },
+    {
+      "type": "range",
+      "id": "step_description_size",
+      "label": "Step description size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width",
+      "min": 1000,
+      "max": 1600,
+      "step": 20,
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Week 1"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "First Touch"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Skin drinks it in instantly. Dry spots feel soothed, and you’ll notice a softer, more nourished surface right away.</p>"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "leaf",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "droplet", "label": "Droplet" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "spark", "label": "Spark" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Roadmap steps",
+      "category": "Product",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step", "settings": { "badge": "Week 2", "title": "Deep Hydration", "description": "<p>Fine lines start to blur as your skin barrier strengthens. The whipped balm’s nutrients lock in long-lasting moisture.</p>", "icon": "droplet" } },
+        { "type": "step", "settings": { "badge": "Week 3", "title": "Repair Mode", "description": "<p>Redness and irritation calm down, while your skin feels balanced, smooth, and more resilient.</p>", "icon": "shield" } },
+        { "type": "step", "settings": { "badge": "Week 4", "title": "Complete skin transformation", "description": "<p>Your complexion glows with health. Stronger, shielded, and radiant—your skin is thriving the Sunny Side way.</p>", "icon": "spark" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
