@@ -1,0 +1,948 @@
+{%- comment -%}
+  JSections - Video Hero Premium
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  Next-level video hero with advanced effects:
+  - iOS-compatible autoplay with mute
+  - Blur and opacity effects
+  - Parallax scrolling
+  - Ken Burns effect
+  - Gradient overlays
+  - Direct video upload support
+  - Full responsive design
+
+  ⚠️ Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-video-hero-premium.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="video-hero-premium"
+  style="
+    --bg-color: {{ section.settings.background_color }};
+    --border-radius: {{ section.settings.border_radius }}px;
+    --section-margin: {{ section.settings.section_margin }}px;
+    --min-height: {{ section.settings.min_height }}px;
+    --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --overlay-color: {{ section.settings.overlay_color }};
+    --blur-amount: {{ section.settings.blur_amount }}px;
+    --video-opacity: {{ section.settings.video_opacity | divided_by: 100.0 }};
+    --content-max-width: {{ section.settings.content_max_width }}px;
+  "
+  data-parallax="{{ section.settings.enable_parallax }}"
+  data-ken-burns="{{ section.settings.enable_ken_burns }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="video-hero-premium__container">
+    {%- comment -%} Background Video/Image Layer {%- endcomment -%}
+    <div class="video-hero-premium__background">
+      {%- if section.settings.background_video != blank -%}
+        <div class="video-hero-premium__video-wrapper">
+          {{
+            section.settings.background_video
+            | video_tag:
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              class: 'video-hero-premium__video',
+              preload: 'metadata'
+          }}
+        </div>
+      {%- elsif section.settings.image != blank -%}
+        <img
+          srcset="
+            {%- if section.settings.image.width >= 375 -%}{{ section.settings.image | image_url: width: 375 }} 375w,{%- endif -%}
+            {%- if section.settings.image.width >= 750 -%}{{ section.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if section.settings.image.width >= 1100 -%}{{ section.settings.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+            {%- if section.settings.image.width >= 1500 -%}{{ section.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+            {%- if section.settings.image.width >= 2000 -%}{{ section.settings.image | image_url: width: 2000 }} 2000w,{%- endif -%}
+            {%- if section.settings.image.width >= 3000 -%}{{ section.settings.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+            {{ section.settings.image | image_url }} {{ section.settings.image.width }}w
+          "
+          src="{{ section.settings.image | image_url: width: 1500 }}"
+          loading="eager"
+          fetchpriority="high"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          class="video-hero-premium__image"
+        >
+      {%- endif -%}
+
+      {%- comment -%} Gradient Overlay {%- endcomment -%}
+      <div class="video-hero-premium__overlay"></div>
+    </div>
+
+    {%- comment -%} Content Layer {%- endcomment -%}
+    <div class="video-hero-premium__content-wrapper">
+      <div class="video-hero-premium__content">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              <div
+                class="video-hero-premium__heading animate-fade-in"
+                style="
+                  --heading-color: {{ block.settings.color }};
+                  --heading-size: {{ block.settings.font_size }}px;
+                  --heading-align: {{ block.settings.text_align }};
+                  --heading-spacing: {{ block.settings.margin_top }}px;
+                  --heading-weight: {{ block.settings.font_weight }};
+                  --heading-letter-spacing: {{ block.settings.letter_spacing }}px;
+                  --text-shadow-strength: {{ block.settings.text_shadow }}px;
+                  animation-delay: {{ forloop.index0 | times: 0.15 }}s;
+                "
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.heading_tag == 'h1' -%}
+                  <h1>{{ block.settings.heading }}</h1>
+                {%- else -%}
+                  <h2>{{ block.settings.heading }}</h2>
+                {%- endif -%}
+              </div>
+
+            {%- when 'subheading' -%}
+              <div
+                class="video-hero-premium__subheading animate-fade-in"
+                style="
+                  --subheading-color: {{ block.settings.color }};
+                  --subheading-size: {{ block.settings.font_size }}px;
+                  --subheading-align: {{ block.settings.text_align }};
+                  --subheading-spacing: {{ block.settings.margin_top }}px;
+                  --subheading-weight: {{ block.settings.font_weight }};
+                  --text-shadow-strength: {{ block.settings.text_shadow }}px;
+                  animation-delay: {{ forloop.index0 | times: 0.15 }}s;
+                "
+                {{ block.shopify_attributes }}
+              >
+                <p>{{ block.settings.text }}</p>
+              </div>
+
+            {%- when 'text' -%}
+              <div
+                class="video-hero-premium__text animate-fade-in"
+                style="
+                  --text-color: {{ block.settings.color }};
+                  --text-size: {{ block.settings.font_size }}px;
+                  --text-align: {{ block.settings.text_align }};
+                  --text-spacing: {{ block.settings.margin_top }}px;
+                  --text-shadow-strength: {{ block.settings.text_shadow }}px;
+                  animation-delay: {{ forloop.index0 | times: 0.15 }}s;
+                "
+                {{ block.shopify_attributes }}
+              >
+                <p>{{ block.settings.text }}</p>
+              </div>
+
+            {%- when 'buttons' -%}
+              <div
+                class="video-hero-premium__buttons animate-fade-in"
+                style="
+                  --buttons-spacing: {{ block.settings.margin_top }}px;
+                  --buttons-gap: {{ block.settings.button_gap }}px;
+                  animation-delay: {{ forloop.index0 | times: 0.15 }}s;
+                "
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.button_label_1 != blank -%}
+                  <a
+                    href="{{ block.settings.button_link_1 }}"
+                    class="video-hero-premium__button video-hero-premium__button--primary"
+                    style="
+                      --button-bg: {{ block.settings.button_bg_1 }};
+                      --button-color: {{ block.settings.button_color_1 }};
+                      --button-hover-bg: {{ block.settings.button_hover_bg_1 }};
+                      --button-hover-color: {{ block.settings.button_hover_color_1 }};
+                      --button-border-radius: {{ block.settings.button_border_radius }}px;
+                      --button-padding-x: {{ block.settings.button_padding_x }}px;
+                      --button-padding-y: {{ block.settings.button_padding_y }}px;
+                    "
+                  >
+                    <span>{{ block.settings.button_label_1 }}</span>
+                    {%- if block.settings.show_arrow_1 -%}
+                      <svg
+                        class="video-hero-premium__button-icon"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6 3L11 8L6 13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {%- endif -%}
+                  </a>
+                {%- endif -%}
+
+                {%- if block.settings.button_label_2 != blank -%}
+                  <a
+                    href="{{ block.settings.button_link_2 }}"
+                    class="video-hero-premium__button video-hero-premium__button--secondary"
+                    style="
+                      --button-bg: {{ block.settings.button_bg_2 }};
+                      --button-color: {{ block.settings.button_color_2 }};
+                      --button-hover-bg: {{ block.settings.button_hover_bg_2 }};
+                      --button-hover-color: {{ block.settings.button_hover_color_2 }};
+                      --button-border-radius: {{ block.settings.button_border_radius }}px;
+                      --button-padding-x: {{ block.settings.button_padding_x }}px;
+                      --button-padding-y: {{ block.settings.button_padding_y }}px;
+                    "
+                  >
+                    <span>{{ block.settings.button_label_2 }}</span>
+                    {%- if block.settings.show_arrow_2 -%}
+                      <svg
+                        class="video-hero-premium__button-icon"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6 3L11 8L6 13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    {%- endif -%}
+                  </a>
+                {%- endif -%}
+              </div>
+
+            {%- when 'badge' -%}
+              <div
+                class="video-hero-premium__badge animate-fade-in"
+                style="
+                  --badge-bg: {{ block.settings.background_color }};
+                  --badge-color: {{ block.settings.text_color }};
+                  --badge-spacing: {{ block.settings.margin_top }}px;
+                  animation-delay: {{ forloop.index0 | times: 0.15 }}s;
+                "
+                {{ block.shopify_attributes }}
+              >
+                <span>{{ block.settings.text }}</span>
+              </div>
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} Scroll Indicator {%- endcomment -%}
+    {%- if section.settings.show_scroll_indicator -%}
+      <div class="video-hero-premium__scroll-indicator">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5V19M12 19L5 12M12 19L19 12"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  // iOS video autoplay fix & parallax/ken burns effects
+  document.addEventListener('DOMContentLoaded', function() {
+    const heroSections = document.querySelectorAll('.video-hero-premium');
+    if (!heroSections.length) return;
+
+    heroSections.forEach((heroSection) => {
+      const video = heroSection.querySelector('.video-hero-premium__video');
+      const videoWrapper = heroSection.querySelector('.video-hero-premium__video-wrapper');
+      const enableParallax = heroSection.dataset.parallax === 'true';
+      const enableKenBurns = heroSection.dataset.kenBurns === 'true';
+
+      // iOS autoplay fix
+      if (video) {
+        video.muted = true;
+        video.playsInline = true;
+        video.autoplay = true;
+
+        // Try to play the video
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            // Auto-play was prevented, try again on user interaction
+            document.addEventListener('touchstart', function playOnTouch() {
+              video.play();
+              document.removeEventListener('touchstart', playOnTouch);
+            }, { once: true });
+          });
+        }
+
+        // Loop the video seamlessly
+        video.addEventListener('ended', function() {
+          video.currentTime = 0;
+          video.play();
+        });
+      }
+
+      // Parallax effect
+      if (enableParallax && video) {
+        let ticking = false;
+        
+        window.addEventListener('scroll', function() {
+          if (!ticking) {
+            window.requestAnimationFrame(function() {
+              const scrolled = window.pageYOffset;
+              const heroHeight = heroSection.offsetHeight;
+              
+              if (scrolled < heroHeight) {
+                const parallaxValue = scrolled * 0.3;
+                video.style.transform = `translateY(${parallaxValue}px)`;
+              }
+              
+              ticking = false;
+            });
+            
+            ticking = true;
+          }
+        });
+      }
+
+      // Ken Burns effect (subtle zoom & pan)
+      if (enableKenBurns && video) {
+        video.classList.add('ken-burns-effect');
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Video Hero Premium",
+  "tag": "section",
+  "class": "jsections-video-hero-premium",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎥 Video & Background"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video",
+      "info": "Supports direct video upload. For best results, use MP4 format. Video will autoplay muted on all devices including iOS."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback background image",
+      "info": "Used if no video is uploaded"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "✨ Video Effects"
+    },
+    {
+      "type": "range",
+      "id": "video_opacity",
+      "label": "Video opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100,
+      "info": "Lower values create a faded video effect"
+    },
+    {
+      "type": "range",
+      "id": "blur_amount",
+      "label": "Video blur amount",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "info": "Add a blur effect to the video background"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "Enable parallax scroll effect",
+      "default": true,
+      "info": "Video moves slower than content when scrolling"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_ken_burns",
+      "label": "Enable Ken Burns effect",
+      "default": false,
+      "info": "Subtle zoom and pan animation on video"
+    },
+    {
+      "type": "header",
+      "content": "🎨 Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000",
+      "info": "Creates a gradient overlay on the video"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40,
+      "info": "Higher values darken the video more"
+    },
+    {
+      "type": "header",
+      "content": "📐 Layout"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Section height",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 700,
+      "info": "Minimum height of the hero section"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800,
+      "info": "Maximum width of the content area"
+    },
+    {
+      "type": "range",
+      "id": "section_margin",
+      "label": "Section margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0,
+      "info": "Space around the section"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 0,
+      "info": "Rounded corners"
+    },
+    {
+      "type": "header",
+      "content": "⚙️ Additional Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Show scroll indicator",
+      "default": true,
+      "info": "Animated arrow indicating users can scroll"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge text",
+          "default": "NEW COLLECTION"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading text",
+          "default": "UNBROKEN CODE"
+        },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading tag",
+          "options": [
+            {
+              "value": "h1",
+              "label": "H1"
+            },
+            {
+              "value": "h2",
+              "label": "H2"
+            }
+          ],
+          "default": "h1",
+          "info": "For SEO purposes, use H1 for the main heading"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "Font size (mobile)",
+          "min": 24,
+          "max": 96,
+          "step": 2,
+          "unit": "px",
+          "default": 48,
+          "info": "Desktop size will be 1.5x larger"
+        },
+        {
+          "type": "range",
+          "id": "font_weight",
+          "label": "Font weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 700
+        },
+        {
+          "type": "range",
+          "id": "letter_spacing",
+          "label": "Letter spacing",
+          "min": -2,
+          "max": 10,
+          "step": 0.5,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "text_shadow",
+          "label": "Text shadow",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "unit": "px",
+          "default": 4,
+          "info": "Helps text stand out on video"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 10
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Subheading text",
+          "default": "BRAND WITH A MESSAGE"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "Font size",
+          "min": 14,
+          "max": 48,
+          "step": 2,
+          "unit": "px",
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "font_weight",
+          "label": "Font weight",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "default": 400
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "text_shadow",
+          "label": "Text shadow",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 8
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Description Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Discover our latest collection and make a statement with your style."
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "Font size",
+          "min": 12,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "text_shadow",
+          "label": "Text shadow",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 16
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button 1 (Primary)"
+        },
+        {
+          "type": "text",
+          "id": "button_label_1",
+          "label": "Button label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_arrow_1",
+          "label": "Show arrow icon",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "button_bg_1",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_color_1",
+          "label": "Text color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_bg_1",
+          "label": "Hover background",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_color_1",
+          "label": "Hover text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Button 2 (Secondary)"
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "Button label",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_arrow_2",
+          "label": "Show arrow icon",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "button_bg_2",
+          "label": "Background color",
+          "default": "rgba(255,255,255,0.2)"
+        },
+        {
+          "type": "color",
+          "id": "button_color_2",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_bg_2",
+          "label": "Hover background",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_color_2",
+          "label": "Hover text color",
+          "default": "#000000"
+        },
+        {
+          "type": "header",
+          "content": "Button Style"
+        },
+        {
+          "type": "range",
+          "id": "button_border_radius",
+          "label": "Border radius",
+          "min": 0,
+          "max": 50,
+          "step": 2,
+          "unit": "px",
+          "default": 30
+        },
+        {
+          "type": "range",
+          "id": "button_padding_x",
+          "label": "Horizontal padding",
+          "min": 16,
+          "max": 60,
+          "step": 2,
+          "unit": "px",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "button_padding_y",
+          "label": "Vertical padding",
+          "min": 8,
+          "max": 30,
+          "step": 2,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "button_gap",
+          "label": "Space between buttons",
+          "min": 8,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 32
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Hero Premium",
+      "blocks": [
+        {
+          "type": "badge"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "subheading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "buttons"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
