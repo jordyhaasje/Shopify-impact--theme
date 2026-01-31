@@ -952,6 +952,91 @@
         "padding_top": 72,
         "padding_bottom": 72
       }
+    },
+    "jsections_scrolling_image_dNqbCR": {
+      "type": "jsections-scrolling-image",
+      "blocks": {
+        "image_ngwMJp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/model-with-leather-jacket-over-shoulders.jpg",
+            "link": ""
+          }
+        },
+        "image_czFKgj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/model-in-neutral-colors-by-window.jpg",
+            "link": ""
+          }
+        },
+        "image_BWRdmg": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/woman-infront-of-tree-with-berries.jpeg",
+            "link": ""
+          }
+        },
+        "image_8nQPdV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/fashion-portrait.jpg",
+            "link": ""
+          }
+        },
+        "image_mFJq7E": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/a-model-perched-on-a-stool-smiles.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_ngwMJp",
+        "image_czFKgj",
+        "image_BWRdmg",
+        "image_8nQPdV",
+        "image_mFJq7E"
+      ],
+      "name": "Scrolling images",
+      "settings": {
+        "show_heading": false,
+        "heading": "Follow us on socials",
+        "heading_size": 40,
+        "heading_color": "#000000",
+        "section_background": "#ffffff",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "slide_width": 300,
+        "slide_height": 400,
+        "slide_radius": 20,
+        "slide_gap": 10,
+        "slide_width_mobile": 180,
+        "slide_height_mobile": 200,
+        "slide_gap_mobile": 10,
+        "animation_seconds": 22,
+        "direction": "left",
+        "pause_on_hover": true,
+        "duplicate_tracks": 3,
+        "show_content": true,
+        "content_text": "<p>+12.000 people loves our natural wine</p>",
+        "content_align": "center",
+        "content_max_width": 380,
+        "content_padding": 14,
+        "content_radius": 10,
+        "content_border_width": 0,
+        "content_border_color": "#ffffff",
+        "content_bg": "#ffffff",
+        "content_text_color": "#111111",
+        "content_offset": -54,
+        "enable_glass": true,
+        "glass_blur": 20,
+        "glass_opacity": 0.1,
+        "glass_saturation": 0.7,
+        "glass_specular": 0.4,
+        "content_hover_scale": false
+      }
     }
   },
   "order": [
@@ -970,6 +1055,7 @@
     "featured-product",
     "feature-chart",
     "faq",
-    "jsections_roadmap_steps_V8aWYq"
+    "jsections_roadmap_steps_V8aWYq",
+    "jsections_scrolling_image_dNqbCR"
   ]
 }
