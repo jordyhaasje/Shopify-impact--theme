@@ -243,7 +243,8 @@
       "settings": {
         "collection": "frontpage",
         "products": [
-          "dames-lace-lage-sneakers"
+          "dames-lace-lage-sneakers",
+          "heren-slim-fit-chino-broeken"
         ],
         "full_width": true,
         "stack_products": false,
