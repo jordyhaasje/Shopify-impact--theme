@@ -1,0 +1,95 @@
+<div class="section-spacing">
+  <div class="page-width">
+    <div class="review-badge-block" aria-label="Trustpilot beoordeling">
+      <span class="review-badge-block__text">Excellent</span>
+      <span class="review-badge-block__stars" aria-hidden="true">
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star star--half">★</span>
+      </span>
+      <span class="review-badge-block__count">1988 avis sur</span>
+      <span class="review-badge-block__brand">★ Trustpilot</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  #shopify-section-{{ section.id }} .review-badge-block {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 16px;
+    background: #f3f3f3;
+    flex-wrap: wrap;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .review-badge-block__text,
+  #shopify-section-{{ section.id }} .review-badge-block__count,
+  #shopify-section-{{ section.id }} .review-badge-block__brand {
+    font-size: 14px;
+    color: #111;
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .review-badge-block__stars {
+    display: inline-flex;
+    gap: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .review-badge-block__stars .star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: #00b67a;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .review-badge-block__stars .star--half {
+    background: linear-gradient(to right, #00b67a 50%, #dcdce6 50%);
+  }
+
+  #shopify-section-{{ section.id }} .review-badge-block__brand {
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .review-badge-block {
+      gap: 8px;
+      padding: 8px 12px;
+    }
+
+    #shopify-section-{{ section.id }} .review-badge-block__text,
+    #shopify-section-{{ section.id }} .review-badge-block__count,
+    #shopify-section-{{ section.id }} .review-badge-block__brand {
+      font-size: 13px;
+    }
+
+    #shopify-section-{{ section.id }} .review-badge-block__stars .star {
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Review badge block",
+  "tag": "section",
+  "class": "shopify-section--review-badge-block",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Review badge block"
+    }
+  ]
+}
+{% endschema %}
