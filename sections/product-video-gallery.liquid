@@ -1,30 +1,46 @@
-{%- comment -%} Product Video Gallery Section {%- endcomment -%}
+{%- comment -%} Product Video Gallery Section - Met blokken voor handmatige video's {%- endcomment -%}
 <section class="section section--tight">
   <div class="container">
-    <h2 class="h2 text-center">Loved by 200,000+ happy customers.</h2>
+    <h2 class="h2 text-center">{{ section.settings.heading | escape }}</h2>
+    
     <div class="video-gallery" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
-      {%- for media in product.media limit: 3 -%}
-        {%- if media.media_type == 'video' -%}
-          <div class="video-item" style="cursor: pointer;" onclick="openLightbox('{{ media | video_tag: autoplay: true, muted: true }}')">
-            {{ media | video_tag: image_size: 'master', autoplay: true, muted: true, loop: true }}
-          </div>
-        {%- endif -%}
+      {%- for block in section.blocks -%}
+        <div class="video-item" style="cursor: pointer;">
+          {%- if block.settings.video != blank -%}
+            {{ block.settings.video | video_tag: autoplay: true, muted: true, loop: true, controls: false, style: 'width: 100%; border-radius: 8px;' }}
+          {%- else -%}
+            <div style="background: #eee; height: 300px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+              Voeg een video toe in de instellingen
+            </div>
+          {%- endif -%}
+        </div>
       {%- endfor -%}
     </div>
+    
     <div class="progress-container" style="height: 4px; background: #eee; margin-top: 15px;">
-      <div class="progress-bar" style="width: 50%; height: 100%; background: #e09f7d;"></div>
+      <div class="progress-bar" style="width: 33%; height: 100%; background: {{ section.settings.accent_color }};"></div>
     </div>
   </div>
 </section>
 
-<style>
-  .video-item video { width: 100%; border-radius: 8px; pointer-events: none; }
-</style>
-
 {% schema %}
 {
   "name": "Product Video Gallery",
-  "settings": [],
-  "presets": [{ "name": "Product Video Gallery" }]
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by 200,000+ happy customers." },
+    { "type": "color", "id": "accent_color", "label": "Progress bar color", "default": "#e09f7d" }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Select Video" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Product Video Gallery", "blocks": [
+    {"type": "video"}, {"type": "video"}, {"type": "video"}
+  ]}]
 }
 {% endschema %}
