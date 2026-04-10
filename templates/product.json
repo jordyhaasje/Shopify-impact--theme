@@ -130,10 +130,44 @@
         "product_card_background": "",
         "product_card_text_color": ""
       }
+    },
+    "product_video_gallery_YE6EVi": {
+      "type": "product-video-gallery",
+      "blocks": {
+        "video_zmBUi8": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4"
+          }
+        },
+        "video_hYq8WP": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/Ontwerp zonder titel (1).mp4"
+          }
+        },
+        "video_GtnXym": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "video_zmBUi8",
+        "video_hYq8WP",
+        "video_GtnXym"
+      ],
+      "name": "Product Video Gallery",
+      "settings": {
+        "heading": "Loved by 200,000+ happy customers.",
+        "accent_color": "#e09f7d"
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "product_video_gallery_YE6EVi"
   ]
 }
