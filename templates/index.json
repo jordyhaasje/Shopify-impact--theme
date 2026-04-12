@@ -907,6 +907,41 @@
         "empty_star_color": "#dcdce6",
         "star_text_color": "#ffffff"
       }
+    },
+    "media_header_YNaii9": {
+      "type": "media-header",
+      "name": "Media header",
+      "settings": {
+        "media_type": "image",
+        "subheading": "Subheading",
+        "heading": "Media header",
+        "text": "<p>Use this section as an image hero or video hero with separate mobile and desktop settings.</p>",
+        "button_link_1": "",
+        "button_label_1": "Shop now",
+        "button_style_1": "primary",
+        "button_link_2": "",
+        "button_label_2": "Learn more",
+        "button_style_2": "secondary",
+        "content_position": "middle-center",
+        "text_align": "center",
+        "animation_type": "fade",
+        "desktop_height": 80,
+        "mobile_height": 70,
+        "content_max_width": 800,
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "text_color": "#ffffff",
+        "heading_size_desktop": 56,
+        "heading_size_mobile": 36,
+        "text_size_desktop": 18,
+        "text_size_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_side_desktop": 40,
+        "padding_top_mobile": 24,
+        "padding_bottom_mobile": 24,
+        "padding_side_mobile": 60
+      }
     }
   },
   "order": [
@@ -925,6 +960,7 @@
     "featured-product",
     "feature-chart",
     "faq",
-    "review_badge_block_fdwiDa"
+    "review_badge_block_fdwiDa",
+    "media_header_YNaii9"
   ]
 }
