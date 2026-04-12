@@ -1,0 +1,735 @@
+<section id="review-slider-{{ section.id }}" class="review-slider-section">
+  <div class="review-slider review-slider--{{ section.settings.layout_mode }} color-{{ section.settings.color_scheme_custom }}">
+    <div class="review-slider__inner">
+      {% if section.settings.heading != blank or section.settings.subheading != blank %}
+        <div class="review-slider__header">
+          {% if section.settings.subheading != blank %}
+            <p class="review-slider__subheading">{{ section.settings.subheading }}</p>
+          {% endif %}
+          {% if section.settings.heading != blank %}
+            <h2 class="review-slider__heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="review-slider__viewport" data-review-slider>
+        <div class="review-slider__track" data-review-track>
+          {% for block in section.blocks %}
+            <article class="review-slide" {{ block.shopify_attributes }} data-review-slide>
+              <div class="review-slide__card">
+                <div class="review-slide__top">
+                  {% if block.settings.thumbnail != blank %}
+                    <div class="review-slide__thumb-wrap">
+                      {{ block.settings.thumbnail | image_url: width: 220 | image_tag: class: 'review-slide__thumb', loading: 'lazy', widths: '80,110,160,220', sizes: '(max-width: 749px) 64px, 80px' }}
+                    </div>
+                  {% endif %}
+
+                  <div class="review-slide__meta">
+                    {% if block.settings.author != blank %}
+                      <h3 class="review-slide__author">{{ block.settings.author }}</h3>
+                    {% endif %}
+                    {% if block.settings.label != blank %}
+                      <p class="review-slide__label">{{ block.settings.label }}</p>
+                    {% endif %}
+                    <div class="review-slide__stars" aria-label="{{ block.settings.rating }} van 5 sterren">
+                      {% for i in (1..5) %}
+                        <span class="review-slide__star{% if i <= block.settings.rating %} is-filled{% endif %}">★</span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+                {% if block.settings.title != blank %}
+                  <h4 class="review-slide__title">{{ block.settings.title }}</h4>
+                {% endif %}
+
+                {% if block.settings.review_text != blank %}
+                  <div class="review-slide__text rte">{{ block.settings.review_text }}</div>
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        {% if section.blocks.size > 1 %}
+          <button type="button" class="review-slider__nav review-slider__nav--prev" aria-label="Vorige review" data-review-prev>
+            <span>‹</span>
+          </button>
+          <button type="button" class="review-slider__nav review-slider__nav--next" aria-label="Volgende review" data-review-next>
+            <span>›</span>
+          </button>
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_thumbnails and section.blocks.size > 1 %}
+        <div class="review-slider__thumbs" data-review-thumbs>
+          {% for block in section.blocks %}
+            <button type="button" class="review-slider__thumb-button{% if forloop.first %} is-active{% endif %}" data-review-thumb="{{ forloop.index0 }}" aria-label="Ga naar review {{ forloop.index }}">
+              {% if block.settings.thumbnail != blank %}
+                {{ block.settings.thumbnail | image_url: width: 120 | image_tag: class: 'review-slider__thumb-image', loading: 'lazy', widths: '60,80,120', sizes: '60px' }}
+              {% else %}
+                <span class="review-slider__thumb-fallback">{{ block.settings.author | default: 'Review' | slice: 0, 1 }}</span>
+              {% endif %}
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.show_dots and section.blocks.size > 1 %}
+        <div class="review-slider__dots" data-review-dots>
+          {% for block in section.blocks %}
+            <button type="button" class="review-slider__dot{% if forloop.first %} is-active{% endif %}" data-review-dot="{{ forloop.index0 }}" aria-label="Ga naar slide {{ forloop.index }}"></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <style>
+    #review-slider-{{ section.id }} {
+      --section-padding-top: {{ section.settings.padding_top }}px;
+      --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+      --card-radius: {{ section.settings.card_radius }}px;
+      --card-padding-desktop: {{ section.settings.card_padding_desktop }}px;
+      --card-padding-mobile: {{ section.settings.card_padding_mobile }}px;
+      --heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+      --heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+      --text-size-desktop: {{ section.settings.text_size_desktop }}px;
+      --text-size-mobile: {{ section.settings.text_size_mobile }}px;
+      --bg-color: {{ section.settings.background_color }};
+      --card-bg: {{ section.settings.card_background }};
+      --text-color: {{ section.settings.text_color }};
+      --muted-color: {{ section.settings.muted_text_color }};
+      --accent-color: {{ section.settings.accent_color }};
+      --border-color: {{ section.settings.border_color }};
+      --max-width: {{ section.settings.content_max_width }}px;
+    }
+
+    #review-slider-{{ section.id }} .review-slider {
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: var(--section-padding-top) 20px var(--section-padding-bottom);
+    }
+
+    #review-slider-{{ section.id }} .review-slider__inner {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__subheading {
+      margin: 0 0 8px;
+      color: var(--accent-color);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__heading {
+      margin: 0;
+      font-size: var(--heading-size-desktop);
+      line-height: 1.1;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__viewport {
+      position: relative;
+      overflow: hidden;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__track {
+      display: flex;
+      transition: transform 0.45s ease;
+      will-change: transform;
+    }
+
+    #review-slider-{{ section.id }} .review-slide {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--card-radius);
+      padding: var(--card-padding-desktop);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      height: 100%;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__thumb-wrap {
+      flex: 0 0 auto;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__thumb {
+      width: 80px;
+      height: 80px;
+      border-radius: 999px;
+      object-fit: cover;
+      display: block;
+      border: 2px solid var(--border-color);
+    }
+
+    #review-slider-{{ section.id }} .review-slide__author {
+      margin: 0 0 4px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__label {
+      margin: 0 0 8px;
+      color: var(--muted-color);
+      font-size: 14px;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__stars {
+      display: flex;
+      gap: 3px;
+      line-height: 1;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__star {
+      font-size: 18px;
+      opacity: 0.25;
+      color: var(--accent-color);
+    }
+
+    #review-slider-{{ section.id }} .review-slide__star.is-filled {
+      opacity: 1;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__title {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    #review-slider-{{ section.id }} .review-slide__text {
+      font-size: var(--text-size-desktop);
+      line-height: 1.7;
+      color: var(--text-color);
+    }
+
+    #review-slider-{{ section.id }} .review-slider__nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.95);
+      color: var(--text-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__nav--prev { left: 12px; }
+    #review-slider-{{ section.id }} .review-slider__nav--next { right: 12px; }
+    #review-slider-{{ section.id }} .review-slider__nav span { font-size: 28px; line-height: 1; }
+
+    #review-slider-{{ section.id }} .review-slider__thumbs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__thumb-button {
+      width: 58px;
+      height: 58px;
+      padding: 0;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      opacity: 0.7;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__thumb-button.is-active {
+      border-color: var(--accent-color);
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    #review-slider-{{ section.id }} .review-slider__thumb-image,
+    #review-slider-{{ section.id }} .review-slider__thumb-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      object-fit: cover;
+      background: var(--card-bg);
+      color: var(--text-color);
+      font-weight: 700;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 0;
+      background: color-mix(in srgb, var(--accent-color) 30%, transparent);
+      cursor: pointer;
+    }
+
+    #review-slider-{{ section.id }} .review-slider__dot.is-active {
+      background: var(--accent-color);
+      transform: scale(1.15);
+    }
+
+    #review-slider-{{ section.id }} .review-slider--split .review-slide__card {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    #review-slider-{{ section.id }} .review-slider--split .review-slide__top {
+      display: block;
+      margin-bottom: 0;
+    }
+
+    #review-slider-{{ section.id }} .review-slider--split .review-slide__thumb {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 12px;
+    }
+
+    @media screen and (max-width: 749px) {
+      #review-slider-{{ section.id }} .review-slider {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      #review-slider-{{ section.id }} .review-slider__heading {
+        font-size: var(--heading-size-mobile);
+      }
+
+      #review-slider-{{ section.id }} .review-slide__card {
+        padding: var(--card-padding-mobile);
+      }
+
+      #review-slider-{{ section.id }} .review-slide__top {
+        gap: 12px;
+      }
+
+      #review-slider-{{ section.id }} .review-slide__thumb {
+        width: 64px;
+        height: 64px;
+      }
+
+      #review-slider-{{ section.id }} .review-slide__author {
+        font-size: 18px;
+      }
+
+      #review-slider-{{ section.id }} .review-slide__title {
+        font-size: 20px;
+      }
+
+      #review-slider-{{ section.id }} .review-slide__text {
+        font-size: var(--text-size-mobile);
+      }
+
+      #review-slider-{{ section.id }} .review-slider__nav {
+        width: 40px;
+        height: 40px;
+      }
+
+      #review-slider-{{ section.id }} .review-slider__nav--prev { left: 6px; }
+      #review-slider-{{ section.id }} .review-slider__nav--next { right: 6px; }
+
+      #review-slider-{{ section.id }} .review-slider--split .review-slide__card {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      #review-slider-{{ section.id }} .review-slider--split .review-slide__top {
+        display: flex;
+        margin-bottom: 18px;
+      }
+
+      #review-slider-{{ section.id }} .review-slider--split .review-slide__thumb {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 0;
+      }
+    }
+  </style>
+
+  <script>
+    (() => {
+      const sectionEl = document.getElementById('review-slider-{{ section.id }}');
+      if (!sectionEl) return;
+
+      const viewport = sectionEl.querySelector('[data-review-slider]');
+      const track = sectionEl.querySelector('[data-review-track]');
+      const slides = Array.from(sectionEl.querySelectorAll('[data-review-slide]'));
+      const prevBtn = sectionEl.querySelector('[data-review-prev]');
+      const nextBtn = sectionEl.querySelector('[data-review-next]');
+      const dots = Array.from(sectionEl.querySelectorAll('[data-review-dot]'));
+      const thumbs = Array.from(sectionEl.querySelectorAll('[data-review-thumb]'));
+
+      if (!track || slides.length === 0) return;
+
+      let index = 0;
+      let autoplay = {{ section.settings.enable_autoplay | json }};
+      let autoplaySpeed = {{ section.settings.autoplay_speed | times: 1000 }};
+      let timer = null;
+
+      const update = () => {
+        track.style.transform = `translateX(-${index * 100}%)`;
+
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+        thumbs.forEach((thumb, i) => thumb.classList.toggle('is-active', i === index));
+      };
+
+      const goTo = (newIndex) => {
+        index = (newIndex + slides.length) % slides.length;
+        update();
+      };
+
+      const next = () => goTo(index + 1);
+      const prev = () => goTo(index - 1);
+
+      const stopAutoplay = () => {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      };
+
+      const startAutoplay = () => {
+        stopAutoplay();
+        if (!autoplay || slides.length < 2) return;
+        timer = setInterval(next, autoplaySpeed);
+      };
+
+      if (prevBtn) prevBtn.addEventListener('click', () => { prev(); startAutoplay(); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { next(); startAutoplay(); });
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          goTo(i);
+          startAutoplay();
+        });
+      });
+
+      thumbs.forEach((thumb, i) => {
+        thumb.addEventListener('click', () => {
+          goTo(i);
+          startAutoplay();
+        });
+      });
+
+      viewport.addEventListener('mouseenter', stopAutoplay);
+      viewport.addEventListener('mouseleave', startAutoplay);
+      viewport.addEventListener('touchstart', stopAutoplay, { passive: true });
+      viewport.addEventListener('touchend', startAutoplay, { passive: true });
+
+      let startX = 0;
+      let deltaX = 0;
+
+      viewport.addEventListener('touchstart', (event) => {
+        startX = event.touches[0].clientX;
+      }, { passive: true });
+
+      viewport.addEventListener('touchmove', (event) => {
+        deltaX = event.touches[0].clientX - startX;
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', () => {
+        if (Math.abs(deltaX) > 50) {
+          if (deltaX < 0) {
+            next();
+          } else {
+            prev();
+          }
+        }
+        deltaX = 0;
+        startAutoplay();
+      });
+
+      update();
+      startAutoplay();
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Review slider",
+  "tag": "section",
+  "class": "section section-review-slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What our customers say"
+    },
+    {
+      "type": "select",
+      "id": "layout_mode",
+      "label": "Layout mode",
+      "default": "stacked",
+      "options": [
+        { "value": "stacked", "label": "Stacked card" },
+        { "value": "split", "label": "Split card" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show thumbnails",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1100
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f8f6f2"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#6b6b6b"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#c89b3c"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e8e0d3"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_padding_desktop",
+      "label": "Card padding desktop",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "card_padding_mobile",
+      "label": "Card padding mobile",
+      "min": 12,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size desktop",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size mobile",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_size_desktop",
+      "label": "Text size desktop",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "min": 13,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "thumbnail",
+          "label": "Thumbnail"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Jane Doe"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Verified buyer"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review title",
+          "default": "Amazing quality"
+        },
+        {
+          "type": "richtext",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "<p>This product exceeded my expectations. Great quality, fast shipping and beautiful presentation.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review slider",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
