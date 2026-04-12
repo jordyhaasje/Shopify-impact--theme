@@ -907,6 +907,40 @@
         "empty_star_color": "#dcdce6",
         "star_text_color": "#ffffff"
       }
+    },
+    "media_header_yk46FU": {
+      "type": "media-header",
+      "name": "Media header",
+      "settings": {
+        "media_type": "shopify_video",
+        "shopify_video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
+        "subheading": "Subheading",
+        "heading": "Media header",
+        "text": "<p>Use this section as an image hero or video hero with separate mobile and desktop settings.</p>",
+        "button_link_1": "",
+        "button_label_1": "Shop now",
+        "button_style_1": "primary",
+        "button_link_2": "",
+        "button_label_2": "Learn more",
+        "button_style_2": "secondary",
+        "content_position": "middle-center",
+        "text_align": "center",
+        "animation_type": "slide-up",
+        "desktop_height": 80,
+        "mobile_height": 70,
+        "content_max_width": 1040,
+        "overlay_color": "#000000",
+        "overlay_opacity": 50,
+        "text_color": "#ffffff",
+        "heading_size_desktop": 56,
+        "heading_size_mobile": 36,
+        "text_size_desktop": 18,
+        "text_size_mobile": 16,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 24,
+        "padding_bottom_mobile": 24
+      }
     }
   },
   "order": [
@@ -925,6 +959,7 @@
     "featured-product",
     "feature-chart",
     "faq",
-    "review_badge_block_fdwiDa"
+    "review_badge_block_fdwiDa",
+    "media_header_yk46FU"
   ]
 }
