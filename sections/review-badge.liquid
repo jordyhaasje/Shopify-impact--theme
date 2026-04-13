@@ -1,0 +1,51 @@
+{% schema %}
+{
+  "name": "Review Badge",
+  "settings": [],
+  "presets": [
+    {"name": "Review Badge"}
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
+
+<div class="review-badge">
+  <span class="review-text">Exellent</span>
+  <div class="stars">
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star">★</span>
+    <span class="star half">★</span>
+  </div>
+  <span class="review-count">20,921 reviews</span>
+</div>
+
+<style>
+.review-badge {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family: inherit;
+}
+.review-text {
+  font-size:16px;
+}
+.stars {
+  display:flex;
+  gap:2px;
+  background:#00b67a;
+  padding:4px 6px;
+  border-radius:4px;
+}
+.star {
+  color:white;
+  font-size:14px;
+}
+.review-count {
+  font-weight:700;
+  font-size:16px;
+}
+</style>
