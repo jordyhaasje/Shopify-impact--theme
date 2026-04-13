@@ -1,0 +1,541 @@
+<style>
+  :root {
+    --ps-bg-gradient-start: #E8B4E8;
+    --ps-bg-gradient-end: #B3E5FC;
+    --ps-accent-bg: #2C2C3C;
+    --ps-accent-text: #FFFFFF;
+    --ps-button-bg: #2C2C3C;
+    --ps-button-text: #FFFFFF;
+    --ps-heading-color: #2C2C3C;
+    --ps-subheading-color: #666666;
+    --ps-description-color: #333333;
+    --ps-selected-border-color: #2C2C3C;
+  }
+
+  #shopify-section-{{ section.id }} {
+    background: linear-gradient(135deg, var(--ps-bg-gradient-start) 0%, var(--ps-bg-gradient-end) 100%);
+    padding: 80px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-selector-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .product-selector-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .product-selector-heading {
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--ps-heading-color);
+    margin: 0 0 15px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, serif;
+    letter-spacing: -0.5px;
+  }
+
+  .product-selector-subheading {
+    font-size: 18px;
+    color: var(--ps-subheading-color);
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .category-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+  }
+
+  .category-button {
+    padding: 12px 28px;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.3);
+    color: var(--ps-accent-text);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-family: inherit;
+  }
+
+  .category-button:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .category-button.active {
+    background: var(--ps-accent-bg);
+    color: var(--ps-accent-text);
+    border-color: var(--ps-selected-border-color);
+  }
+
+  .products-carousel {
+    position: relative;
+    margin-bottom: 80px;
+  }
+
+  .products-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    position: relative;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .product-item {
+    flex: 0 1 auto;
+    text-align: center;
+    cursor: pointer;
+    transition: all 300ms ease;
+    transform: scale(1);
+  }
+
+  .product-item.featured {
+    flex: 0 0 220px;
+    transform: scale(1.15);
+    z-index: 10;
+  }
+
+  .product-item:not(.featured) {
+    flex: 0 0 150px;
+    opacity: 0.7;
+  }
+
+  .product-item:not(.featured):hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .product-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
+    transition: all 300ms ease;
+  }
+
+  .product-item:hover .product-image {
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.25)) brightness(1.1);
+  }
+
+  .product-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ps-heading-color);
+    margin: 0;
+  }
+
+  .carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  .carousel-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 24px;
+    color: var(--ps-accent-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .carousel-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .product-details {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 50px 40px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .product-details-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--ps-heading-color);
+    margin: 0 0 20px 0;
+  }
+
+  .product-details-description {
+    font-size: 16px;
+    color: var(--ps-description-color);
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .shop-button {
+    background: var(--ps-button-bg);
+    color: var(--ps-button-text);
+    border: none;
+    padding: 16px 45px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .shop-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      padding: 60px 15px;
+      min-height: auto;
+    }
+
+    .product-selector-heading {
+      font-size: 36px;
+    }
+
+    .product-selector-subheading {
+      font-size: 16px;
+    }
+
+    .category-buttons {
+      margin-bottom: 40px;
+      gap: 10px;
+    }
+
+    .category-button {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+
+    .products-container {
+      gap: 20px;
+      margin-bottom: 30px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .product-item.featured {
+      flex: 0 0 180px;
+    }
+
+    .product-item:not(.featured) {
+      flex: 0 0 120px;
+    }
+
+    .product-details {
+      padding: 30px 20px;
+    }
+
+    .product-details-title {
+      font-size: 32px;
+    }
+
+    .product-details-description {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<div class="product-selector-wrapper">
+  <div class="product-selector-header">
+    <h2 class="product-selector-heading">{{ section.settings.heading_text }}</h2>
+    <p class="product-selector-subheading">{{ section.settings.subheading_text }}</p>
+  </div>
+
+  <div class="category-buttons">
+    {% for block in section.blocks %}
+      {% if block.type == 'category' %}
+        <button
+          class="category-button{% if forloop.first %} active{% endif %}"
+          data-category="{{ block.settings.category_name }}"
+          onclick="selectCategory(this, event)"
+        >
+          {{ block.settings.category_name }}
+        </button>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="products-carousel">
+    <div class="products-container" id="products-container">
+      {% for block in section.blocks %}
+        {% if block.type == 'product' %}
+          <div class="product-item{% if forloop.index == 3 %} featured{% endif %}" data-product-index="{{ forloop.index }}" onclick="selectProduct({{ forloop.index }})" {{ block.shopify_attributes }}>
+            {% if block.settings.product_image %}
+              {{ block.settings.product_image | image_url: width: 200 | image_tag: class: 'product-image', alt: block.settings.product_name, width: 200, height: 250 }}
+            {% endif %}
+            <p class="product-name">{{ block.settings.product_name }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="carousel-controls">
+      <button class="carousel-button" onclick="previousProduct()" aria-label="Previous product">‹</button>
+      <button class="carousel-button" onclick="nextProduct()" aria-label="Next product">›</button>
+    </div>
+  </div>
+
+  <div class="product-details">
+    <h3 class="product-details-title" id="details-title">{{ section.settings.default_product_title }}</h3>
+    <p class="product-details-description" id="details-description">{{ section.settings.default_product_description }}</p>
+    <button class="shop-button" onclick="handleShopNow()">{{ section.settings.cta_button_text }}</button>
+  </div>
+</div>
+
+<script>
+  let currentProductIndex = 2;
+  const products = [];
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const productItems = document.querySelectorAll('.product-item');
+    productItems.forEach((item, index) => {
+      products.push({
+        name: item.querySelector('.product-name').textContent,
+        index: parseInt(item.dataset.productIndex)
+      });
+    });
+  });
+
+  function selectProduct(index) {
+    const productItems = document.querySelectorAll('.product-item');
+    productItems.forEach(item => item.classList.remove('featured'));
+    const selected = document.querySelector(`[data-product-index="${index}"]`);
+    if (selected) {
+      selected.classList.add('featured');
+      const title = selected.querySelector('.product-name').textContent;
+      document.getElementById('details-title').textContent = title;
+    }
+  }
+
+  function nextProduct() {
+    const productItems = document.querySelectorAll('.product-item');
+    const current = document.querySelector('.product-item.featured');
+    const currentIndex = Array.from(productItems).indexOf(current);
+    const nextIndex = (currentIndex + 1) % productItems.length;
+    selectProduct(nextIndex + 1);
+  }
+
+  function previousProduct() {
+    const productItems = document.querySelectorAll('.product-item');
+    const current = document.querySelector('.product-item.featured');
+    const currentIndex = Array.from(productItems).indexOf(current);
+    const prevIndex = (currentIndex - 1 + productItems.length) % productItems.length;
+    selectProduct(prevIndex + 1);
+  }
+
+  function selectCategory(button, event) {
+    event.preventDefault();
+    document.querySelectorAll('.category-button').forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+  }
+
+  function handleShopNow() {
+    const featured = document.querySelector('.product-item.featured');
+    if (featured) {
+      console.log('Shop now clicked for:', featured.querySelector('.product-name').textContent);
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Product Selector",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Hand-picked for you"
+    },
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subheading",
+      "default": "We guarantee you will love them"
+    },
+    {
+      "type": "text",
+      "id": "default_product_title",
+      "label": "Default product title",
+      "default": "Grape"
+    },
+    {
+      "type": "richtext",
+      "id": "default_product_description",
+      "label": "Default product description",
+      "default": "<p>Ripe, juicy grape notes come alive in this bubbly blend that's as lively as it is refreshing.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "CTA Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "bg_gradient_start",
+      "label": "Background gradient start color",
+      "default": "#E8B4E8"
+    },
+    {
+      "type": "color",
+      "id": "bg_gradient_end",
+      "label": "Background gradient end color",
+      "default": "#B3E5FC"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#2C2C3C"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description text color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "accent_bg_color",
+      "label": "Active button background color",
+      "default": "#2C2C3C"
+    },
+    {
+      "type": "color",
+      "id": "accent_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "CTA button background color",
+      "default": "#2C2C3C"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "CTA button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "selected_border_color",
+      "label": "Selected category border color",
+      "default": "#2C2C3C"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Animation duration (ms)",
+      "min": 100,
+      "max": 800,
+      "step": 50,
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "section_padding_desktop",
+      "label": "Section padding desktop (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_mobile",
+      "label": "Section padding mobile (px)",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Category name",
+          "default": "Category"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product image"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product name",
+          "default": "Product Name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Selector",
+      "blocks": [
+        { "type": "category", "settings": { "category_name": "Everyday" } },
+        { "type": "category", "settings": { "category_name": "Boost" } },
+        { "type": "category", "settings": { "category_name": "Night" } },
+        { "type": "category", "settings": { "category_name": "Immune" } },
+        { "type": "product", "settings": { "product_name": "Lemon Lime" } },
+        { "type": "product", "settings": { "product_name": "Orange" } },
+        { "type": "product", "settings": { "product_name": "Grape" } },
+        { "type": "product", "settings": { "product_name": "Citrus" } },
+        { "type": "product", "settings": { "product_name": "Strawberry" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
