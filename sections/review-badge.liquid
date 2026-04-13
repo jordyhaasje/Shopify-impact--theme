@@ -1,51 +1,305 @@
-{% schema %}
-{
-  "name": "Review Badge",
-  "settings": [],
-  "presets": [
-    {"name": "Review Badge"}
-  ],
-  "enabled_on": {
-    "templates": ["product"]
-  }
-}
-{% endschema %}
+{%- liquid
+  assign label_text = section.settings.label_text | default: 'Exellent'
+  assign review_count = section.settings.review_count | default: '20,921'
+  assign reviews_label = section.settings.reviews_label | default: 'reviews'
+-%}
 
-<div class="review-badge">
-  <span class="review-text">Exellent</span>
-  <div class="stars">
-    <span class="star">★</span>
-    <span class="star">★</span>
-    <span class="star">★</span>
-    <span class="star">★</span>
-    <span class="star half">★</span>
+<section class="tp-review-badge tp-review-badge--{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="tp-review-badge__inner">
+    <span class="tp-review-badge__label">{{ label_text }}</span>
+
+    <div class="tp-review-badge__stars" aria-label="4.5 out of 5 stars">
+      {%- for i in (1..4) -%}
+        <span class="tp-review-badge__star-box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="tp-review-badge__star-icon" focusable="false" aria-hidden="true">
+            <path d="M12 2.25l2.92 5.92 6.53.95-4.72 4.6 1.11 6.5L12 17.17l-5.84 3.05 1.12-6.5-4.73-4.6 6.54-.95L12 2.25z" fill="currentColor"></path>
+          </svg>
+        </span>
+      {%- endfor -%}
+
+      <span class="tp-review-badge__star-box tp-review-badge__star-box--half" aria-hidden="true">
+        <svg viewBox="0 0 24 24" class="tp-review-badge__star-icon" focusable="false" aria-hidden="true">
+          <path d="M12 2.25l2.92 5.92 6.53.95-4.72 4.6 1.11 6.5L12 17.17l-5.84 3.05 1.12-6.5-4.73-4.6 6.54-.95L12 2.25z" fill="currentColor"></path>
+        </svg>
+      </span>
+    </div>
+
+    <span class="tp-review-badge__count">
+      <strong>{{ review_count }}</strong> {{ reviews_label }}
+    </span>
   </div>
-  <span class="review-count">20,921 reviews</span>
-</div>
+</section>
 
 <style>
-.review-badge {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-family: inherit;
-}
-.review-text {
-  font-size:16px;
-}
-.stars {
-  display:flex;
-  gap:2px;
-  background:#00b67a;
-  padding:4px 6px;
-  border-radius:4px;
-}
-.star {
-  color:white;
-  font-size:14px;
-}
-.review-count {
-  font-weight:700;
-  font-size:16px;
-}
+  .tp-review-badge--{{ section.id }} {
+    --tp-text: {{ section.settings.text_color }};
+    --tp-accent: {{ section.settings.accent_color }};
+    --tp-empty: {{ section.settings.empty_star_color }};
+    --tp-bg: {{ section.settings.background_color }};
+    --tp-radius: {{ section.settings.star_radius }}px;
+    --tp-gap: {{ section.settings.item_gap }}px;
+    --tp-star-gap: {{ section.settings.star_gap }}px;
+    --tp-star-size: {{ section.settings.star_size }}px;
+    --tp-pad-y: {{ section.settings.padding_y }}px;
+    --tp-pad-x: {{ section.settings.padding_x }}px;
+    --tp-font: {{ section.settings.text_size }}px;
+    --tp-count-weight: {{ section.settings.count_weight }};
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__inner {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tp-gap);
+    padding: var(--tp-pad-y) var(--tp-pad-x);
+    background: var(--tp-bg);
+    color: var(--tp-text);
+    font-size: var(--tp-font);
+    line-height: 1;
+    flex-wrap: wrap;
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__label,
+  .tp-review-badge--{{ section.id }} .tp-review-badge__count {
+    color: var(--tp-text);
+    letter-spacing: 0;
+    line-height: 1.1;
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__label {
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__count {
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__count strong {
+    font-weight: var(--tp-count-weight);
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tp-star-gap);
+    line-height: 0;
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__star-box {
+    width: var(--tp-star-size);
+    height: var(--tp-star-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tp-accent);
+    border-radius: var(--tp-radius);
+    color: #ffffff;
+    flex: 0 0 var(--tp-star-size);
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__star-box--half {
+    background: linear-gradient(90deg, var(--tp-accent) 0 50%, var(--tp-empty) 50% 100%);
+  }
+
+  .tp-review-badge--{{ section.id }} .tp-review-badge__star-icon {
+    width: calc(var(--tp-star-size) * 0.64);
+    height: calc(var(--tp-star-size) * 0.64);
+    display: block;
+  }
+
+  @media screen and (max-width: 749px) {
+    .tp-review-badge--{{ section.id }} .tp-review-badge__inner {
+      gap: max(6px, calc(var(--tp-gap) - 2px));
+      font-size: calc(var(--tp-font) - 1px);
+    }
+
+    .tp-review-badge--{{ section.id }} {
+      --tp-star-size: {{ section.settings.star_size_mobile }}px;
+      --tp-gap: {{ section.settings.item_gap_mobile }}px;
+      --tp-pad-y: {{ section.settings.padding_y_mobile }}px;
+      --tp-pad-x: {{ section.settings.padding_x_mobile }}px;
+    }
+  }
 </style>
+
+{% schema %}
+{
+  "name": "Trustpilot review badge",
+  "tag": "section",
+  "class": "section section-trustpilot-review-badge",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Left text",
+      "default": "Exellent"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "20,921"
+    },
+    {
+      "type": "text",
+      "id": "reviews_label",
+      "label": "Reviews text",
+      "default": "reviews"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "count_weight",
+      "label": "Review count weight",
+      "default": "700",
+      "options": [
+        { "value": "600", "label": "Semi bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Star size desktop",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "star_size_mobile",
+      "label": "Star size mobile",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "star_radius",
+      "label": "Star corner radius",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Item gap desktop",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "item_gap_mobile",
+      "label": "Item gap mobile",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "star_gap",
+      "label": "Gap between stars",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Padding top/bottom desktop",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Padding left/right desktop",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_y_mobile",
+      "label": "Padding top/bottom mobile",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_x_mobile",
+      "label": "Padding left/right mobile",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Filled star color",
+      "default": "#00b67a"
+    },
+    {
+      "type": "color",
+      "id": "empty_star_color",
+      "label": "Half star empty color",
+      "default": "#dcdce6"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "rgba(0,0,0,0)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trustpilot review badge"
+    }
+  ]
+}
+{% endschema %}
