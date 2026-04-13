@@ -1,284 +1,346 @@
 <style>
-  :root {
-    --ps-bg-gradient-start: #E8B4E8;
-    --ps-bg-gradient-end: #B3E5FC;
-    --ps-accent-bg: #2C2C3C;
-    --ps-accent-text: #FFFFFF;
-    --ps-button-bg: #2C2C3C;
-    --ps-button-text: #FFFFFF;
-    --ps-heading-color: #2C2C3C;
-    --ps-subheading-color: #666666;
-    --ps-description-color: #333333;
-    --ps-selected-border-color: #2C2C3C;
-  }
-
   #shopify-section-{{ section.id }} {
-    background: linear-gradient(135deg, var(--ps-bg-gradient-start) 0%, var(--ps-bg-gradient-end) 100%);
-    padding: 80px 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background: linear-gradient(135deg, #E8B4E8 0%, #B3E5FC 100%);
+    padding: 60px 20px 80px 20px;
+    min-height: auto;
   }
 
-  .product-selector-wrapper {
-    max-width: 1200px;
+  .ps-wrapper {
+    max-width: 1400px;
     margin: 0 auto;
-    width: 100%;
   }
 
-  .product-selector-header {
+  .ps-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
   }
 
-  .product-selector-heading {
-    font-size: 52px;
+  .ps-title {
+    font-size: 56px;
     font-weight: 700;
-    color: var(--ps-heading-color);
-    margin: 0 0 15px 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, serif;
-    letter-spacing: -0.5px;
+    color: #2C2C3C;
+    margin: 0 0 12px 0;
+    font-family: 'Georgia', serif;
+    letter-spacing: -1px;
   }
 
-  .product-selector-subheading {
+  .ps-subtitle {
     font-size: 18px;
-    color: var(--ps-subheading-color);
+    color: #5A5A6F;
     margin: 0;
     font-weight: 400;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
-  .category-buttons {
+  .ps-categories {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     justify-content: center;
     margin-bottom: 60px;
     flex-wrap: wrap;
   }
 
-  .category-button {
-    padding: 12px 28px;
-    border: 2px solid transparent;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.3);
-    color: var(--ps-accent-text);
+  .ps-category-btn {
+    padding: 12px 32px;
+    border: 2px solid #9B7BA6;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #333;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 300ms ease;
+    transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
     font-family: inherit;
   }
 
-  .category-button:hover {
-    background: rgba(255, 255, 255, 0.5);
+  .ps-category-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
   }
 
-  .category-button.active {
-    background: var(--ps-accent-bg);
-    color: var(--ps-accent-text);
-    border-color: var(--ps-selected-border-color);
+  .ps-category-btn.active {
+    background: #D4E3F0;
+    border-color: #B3D9E8;
+    color: #333;
   }
 
-  .products-carousel {
+  .ps-carousel-section {
+    margin-bottom: 70px;
+  }
+
+  .ps-carousel-wrapper {
     position: relative;
-    margin-bottom: 80px;
-  }
-
-  .products-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 30px;
-    position: relative;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-  }
-
-  .product-item {
-    flex: 0 1 auto;
-    text-align: center;
-    cursor: pointer;
-    transition: all 300ms ease;
-    transform: scale(1);
-  }
-
-  .product-item.featured {
-    flex: 0 0 220px;
-    transform: scale(1.15);
-    z-index: 10;
-  }
-
-  .product-item:not(.featured) {
-    flex: 0 0 150px;
-    opacity: 0.7;
-  }
-
-  .product-item:not(.featured):hover {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-
-  .product-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    position: relative;
-    margin-bottom: 15px;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
-    transition: all 300ms ease;
-  }
-
-  .product-item:hover .product-image {
-    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.25)) brightness(1.1);
-  }
-
-  .product-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ps-heading-color);
-    margin: 0;
-  }
-
-  .carousel-controls {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-  }
-
-  .carousel-button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: white;
-    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0;
+  }
+
+  .ps-carousel-track {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 20px;
+    position: relative;
+    width: 100%;
+    padding: 0 60px;
+  }
+
+  .ps-product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
+    transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+
+  .ps-product.featured {
+    opacity: 1;
+    transform: scale(1.25);
+    z-index: 10;
+  }
+
+  .ps-product:hover:not(.featured) {
+    opacity: 0.85;
+    transform: scale(0.95);
+  }
+
+  .ps-product-img-wrapper {
+    position: relative;
+    margin-bottom: 12px;
+    transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ps-product.featured .ps-product-img-wrapper {
+    filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.25));
+  }
+
+  .ps-product:hover .ps-product-img-wrapper {
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.2)) brightness(1.15);
+  }
+
+  .ps-product img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .ps-product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2C2C3C;
+    text-align: center;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 350ms ease;
+  }
+
+  .ps-product.featured .ps-product-name,
+  .ps-product:hover .ps-product-name {
+    opacity: 1;
+  }
+
+  .ps-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #2C2C3C;
     transition: all 300ms ease;
-    font-size: 24px;
-    color: var(--ps-accent-bg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 5;
   }
 
-  .carousel-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  .ps-carousel-nav:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }
 
-  .product-details {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
+  .ps-carousel-nav.prev {
+    left: 15px;
+  }
+
+  .ps-carousel-nav.next {
+    right: 15px;
+  }
+
+  .ps-details {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 24px;
     padding: 50px 40px;
     text-align: center;
-    backdrop-filter: blur(10px);
+    max-width: 600px;
+    margin: 0 auto;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   }
 
-  .product-details-title {
-    font-size: 42px;
+  .ps-details-title {
+    font-size: 44px;
     font-weight: 700;
-    color: var(--ps-heading-color);
+    color: #2C2C3C;
     margin: 0 0 20px 0;
+    font-family: 'Georgia', serif;
   }
 
-  .product-details-description {
+  .ps-details-desc {
     font-size: 16px;
-    color: var(--ps-description-color);
-    line-height: 1.6;
-    margin: 0 0 30px 0;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    color: #555;
+    line-height: 1.7;
+    margin: 0 0 35px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
-  .shop-button {
-    background: var(--ps-button-bg);
-    color: var(--ps-button-text);
+  .ps-cta-btn {
+    background: #2C2C3C;
+    color: white;
     border: none;
-    padding: 16px 45px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 30px;
+    padding: 15px 50px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 28px;
     cursor: pointer;
     transition: all 300ms ease;
-    text-decoration: none;
-    display: inline-block;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
   }
 
-  .shop-button:hover {
+  .ps-cta-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 1024px) {
+    .ps-carousel-track {
+      padding: 0 50px;
+      gap: 15px;
+    }
+
+    .ps-product {
+      transform: scale(0.75);
+    }
+
+    .ps-product.featured {
+      transform: scale(1.1);
+    }
+
+    .ps-carousel-nav {
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+    }
+
+    .ps-carousel-nav.prev {
+      left: 10px;
+    }
+
+    .ps-carousel-nav.next {
+      right: 10px;
+    }
   }
 
   @media (max-width: 768px) {
     #shopify-section-{{ section.id }} {
-      padding: 60px 15px;
-      min-height: auto;
+      padding: 40px 15px 60px 15px;
     }
 
-    .product-selector-heading {
+    .ps-title {
       font-size: 36px;
+      margin-bottom: 8px;
     }
 
-    .product-selector-subheading {
+    .ps-subtitle {
       font-size: 16px;
     }
 
-    .category-buttons {
+    .ps-categories {
       margin-bottom: 40px;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .category-button {
-      padding: 10px 20px;
+    .ps-category-btn {
+      padding: 10px 24px;
       font-size: 14px;
+      border-width: 1px;
     }
 
-    .products-container {
-      gap: 20px;
-      margin-bottom: 30px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+    .ps-carousel-section {
+      margin-bottom: 50px;
     }
 
-    .product-item.featured {
-      flex: 0 0 180px;
+    .ps-carousel-track {
+      padding: 0 40px;
+      gap: 12px;
     }
 
-    .product-item:not(.featured) {
-      flex: 0 0 120px;
+    .ps-product {
+      transform: scale(0.65);
     }
 
-    .product-details {
+    .ps-product.featured {
+      transform: scale(0.9);
+    }
+
+    .ps-carousel-nav {
+      width: 38px;
+      height: 38px;
+      font-size: 16px;
+    }
+
+    .ps-carousel-nav.prev {
+      left: 5px;
+    }
+
+    .ps-carousel-nav.next {
+      right: 5px;
+    }
+
+    .ps-details {
       padding: 30px 20px;
+      border-radius: 16px;
     }
 
-    .product-details-title {
+    .ps-details-title {
       font-size: 32px;
+      margin-bottom: 15px;
     }
 
-    .product-details-description {
+    .ps-details-desc {
       font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .ps-cta-btn {
+      padding: 12px 40px;
+      font-size: 12px;
     }
   }
 </style>
 
-<div class="product-selector-wrapper">
-  <div class="product-selector-header">
-    <h2 class="product-selector-heading">{{ section.settings.heading_text }}</h2>
-    <p class="product-selector-subheading">{{ section.settings.subheading_text }}</p>
+<div class="ps-wrapper">
+  <div class="ps-header">
+    <h1 class="ps-title">{{ section.settings.heading_text }}</h1>
+    <p class="ps-subtitle">{{ section.settings.subtitle_text }}</p>
   </div>
 
-  <div class="category-buttons">
+  <div class="ps-categories">
     {% for block in section.blocks %}
       {% if block.type == 'category' %}
         <button
-          class="category-button{% if forloop.first %} active{% endif %}"
+          class="ps-category-btn{% if forloop.first %} active{% endif %}"
           data-category="{{ block.settings.category_name }}"
-          onclick="selectCategory(this, event)"
+          onclick="selectCategory(this)"
         >
           {{ block.settings.category_name }}
         </button>
@@ -286,84 +348,85 @@
     {% endfor %}
   </div>
 
-  <div class="products-carousel">
-    <div class="products-container" id="products-container">
-      {% for block in section.blocks %}
-        {% if block.type == 'product' %}
-          <div class="product-item{% if forloop.index == 3 %} featured{% endif %}" data-product-index="{{ forloop.index }}" onclick="selectProduct({{ forloop.index }})" {{ block.shopify_attributes }}>
-            {% if block.settings.product_image %}
-              {{ block.settings.product_image | image_url: width: 200 | image_tag: class: 'product-image', alt: block.settings.product_name, width: 200, height: 250 }}
-            {% endif %}
-            <p class="product-name">{{ block.settings.product_name }}</p>
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
+  <div class="ps-carousel-section">
+    <div class="ps-carousel-wrapper">
+      <button class="ps-carousel-nav prev" onclick="scrollCarousel(-1)" aria-label="Previous">
+        &#8249;
+      </button>
 
-    <div class="carousel-controls">
-      <button class="carousel-button" onclick="previousProduct()" aria-label="Previous product">‹</button>
-      <button class="carousel-button" onclick="nextProduct()" aria-label="Next product">›</button>
+      <div class="ps-carousel-track" id="ps-carousel">
+        {% for block in section.blocks %}
+          {% if block.type == 'product' %}
+            <div
+              class="ps-product{% if forloop.index == 3 %} featured{% endif %}"
+              data-product-index="{{ forloop.index }}"
+              {{ block.shopify_attributes }}
+              onclick="selectProduct(this)"
+            >
+              <div class="ps-product-img-wrapper">
+                {% if block.settings.product_image %}
+                  {{ block.settings.product_image | image_url: width: 180 | image_tag: class: 'ps-product-img', alt: block.settings.product_name, width: 180, height: 220 }}
+                {% else %}
+                  <div style="width: 180px; height: 220px; background: #f0f0f0; border-radius: 10px;"></div>
+                {% endif %}
+              </div>
+              <p class="ps-product-name">{{ block.settings.product_name }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button class="ps-carousel-nav next" onclick="scrollCarousel(1)" aria-label="Next">
+        &#8250;
+      </button>
     </div>
   </div>
 
-  <div class="product-details">
-    <h3 class="product-details-title" id="details-title">{{ section.settings.default_product_title }}</h3>
-    <p class="product-details-description" id="details-description">{{ section.settings.default_product_description }}</p>
-    <button class="shop-button" onclick="handleShopNow()">{{ section.settings.cta_button_text }}</button>
+  <div class="ps-details">
+    <h2 class="ps-details-title" id="ps-selected-title">{{ section.settings.default_product_title }}</h2>
+    <p class="ps-details-desc" id="ps-selected-desc">{{ section.settings.default_product_description }}</p>
+    <button class="ps-cta-btn" onclick="handleShopNow()">{{ section.settings.cta_button_text }}</button>
   </div>
 </div>
 
 <script>
-  let currentProductIndex = 2;
-  const products = [];
+  let currentFeatured = 2;
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const productItems = document.querySelectorAll('.product-item');
-    productItems.forEach((item, index) => {
-      products.push({
-        name: item.querySelector('.product-name').textContent,
-        index: parseInt(item.dataset.productIndex)
-      });
+  function selectProduct(element) {
+    const products = document.querySelectorAll('.ps-product');
+    products.forEach(p => p.classList.remove('featured'));
+    element.classList.add('featured');
+    updateDetails();
+  }
+
+  function scrollCarousel(direction) {
+    const products = document.querySelectorAll('.ps-product');
+    const current = document.querySelector('.ps-product.featured');
+    const currentIndex = Array.from(products).indexOf(current);
+    const newIndex = (currentIndex + direction + products.length) % products.length;
+    selectProduct(products[newIndex]);
+  }
+
+  function selectCategory(btn) {
+    document.querySelectorAll('.ps-category-btn').forEach(b => {
+      b.classList.remove('active');
     });
-  });
+    btn.classList.add('active');
+  }
 
-  function selectProduct(index) {
-    const productItems = document.querySelectorAll('.product-item');
-    productItems.forEach(item => item.classList.remove('featured'));
-    const selected = document.querySelector(`[data-product-index="${index}"]`);
-    if (selected) {
-      selected.classList.add('featured');
-      const title = selected.querySelector('.product-name').textContent;
-      document.getElementById('details-title').textContent = title;
+  function updateDetails() {
+    const featured = document.querySelector('.ps-product.featured');
+    if (featured) {
+      const name = featured.querySelector('.ps-product-name').textContent;
+      document.getElementById('ps-selected-title').textContent = name;
     }
   }
 
-  function nextProduct() {
-    const productItems = document.querySelectorAll('.product-item');
-    const current = document.querySelector('.product-item.featured');
-    const currentIndex = Array.from(productItems).indexOf(current);
-    const nextIndex = (currentIndex + 1) % productItems.length;
-    selectProduct(nextIndex + 1);
-  }
-
-  function previousProduct() {
-    const productItems = document.querySelectorAll('.product-item');
-    const current = document.querySelector('.product-item.featured');
-    const currentIndex = Array.from(productItems).indexOf(current);
-    const prevIndex = (currentIndex - 1 + productItems.length) % productItems.length;
-    selectProduct(prevIndex + 1);
-  }
-
-  function selectCategory(button, event) {
-    event.preventDefault();
-    document.querySelectorAll('.category-button').forEach(b => b.classList.remove('active'));
-    button.classList.add('active');
-  }
-
   function handleShopNow() {
-    const featured = document.querySelector('.product-item.featured');
+    const featured = document.querySelector('.ps-product.featured');
     if (featured) {
-      console.log('Shop now clicked for:', featured.querySelector('.product-name').textContent);
+      const name = featured.querySelector('.ps-product-name').textContent;
+      console.log('Shopping for:', name);
     }
   }
 </script>
@@ -380,8 +443,8 @@
     },
     {
       "type": "text",
-      "id": "subheading_text",
-      "label": "Subheading",
+      "id": "subtitle_text",
+      "label": "Subtitle",
       "default": "We guarantee you will love them"
     },
     {
@@ -399,95 +462,8 @@
     {
       "type": "text",
       "id": "cta_button_text",
-      "label": "CTA Button Text",
-      "default": "Shop Now"
-    },
-    {
-      "type": "color",
-      "id": "bg_gradient_start",
-      "label": "Background gradient start color",
-      "default": "#E8B4E8"
-    },
-    {
-      "type": "color",
-      "id": "bg_gradient_end",
-      "label": "Background gradient end color",
-      "default": "#B3E5FC"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading color",
-      "default": "#2C2C3C"
-    },
-    {
-      "type": "color",
-      "id": "subheading_color",
-      "label": "Subheading color",
-      "default": "#666666"
-    },
-    {
-      "type": "color",
-      "id": "description_color",
-      "label": "Description text color",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "accent_bg_color",
-      "label": "Active button background color",
-      "default": "#2C2C3C"
-    },
-    {
-      "type": "color",
-      "id": "accent_text_color",
-      "label": "Button text color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "button_bg_color",
-      "label": "CTA button background color",
-      "default": "#2C2C3C"
-    },
-    {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "CTA button text color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "selected_border_color",
-      "label": "Selected category border color",
-      "default": "#2C2C3C"
-    },
-    {
-      "type": "range",
-      "id": "animation_duration",
-      "label": "Animation duration (ms)",
-      "min": 100,
-      "max": 800,
-      "step": 50,
-      "default": 300
-    },
-    {
-      "type": "range",
-      "id": "section_padding_desktop",
-      "label": "Section padding desktop (px)",
-      "min": 20,
-      "max": 200,
-      "step": 10,
-      "default": 80
-    },
-    {
-      "type": "range",
-      "id": "section_padding_mobile",
-      "label": "Section padding mobile (px)",
-      "min": 20,
-      "max": 100,
-      "step": 10,
-      "default": 60
+      "label": "CTA button text",
+      "default": "SHOP NOW"
     }
   ],
   "blocks": [
