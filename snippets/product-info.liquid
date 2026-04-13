@@ -319,6 +319,93 @@
           </div>
         {%- endif -%}
 
+      {%- when 'shipping_countdown' -%}
+        {%- assign sc_today_num = 'now' | date: '%w' | plus: 0 -%}
+        {%- comment -%}%w: 0=Sun,1=Mon...6=Sat. Weekenden overslaan.{%- endcomment -%}
+        {%- if sc_today_num == 6 -%}
+          {%- assign sc_days_add = 2 -%}
+        {%- elsif sc_today_num == 0 -%}
+          {%- assign sc_days_add = 1 -%}
+        {%- else -%}
+          {%- assign sc_days_add = 0 -%}
+        {%- endif -%}
+        {%- assign sc_ship_wday = sc_today_num | plus: sc_days_add | modulo: 7 -%}
+        {%- assign sc_ship_mday = 'now' | date: '%-d' | plus: sc_days_add -%}
+        {%- assign sc_ship_month_idx = 'now' | date: '%-m' | minus: 1 -%}
+        {%- assign sc_nl_days = 'zo,ma,di,wo,do,vr,za' | split: ',' -%}
+        {%- assign sc_nl_months = 'jan,feb,mrt,apr,mei,jun,jul,aug,sep,okt,nov,dec' | split: ',' -%}
+        {%- assign sc_day_label = sc_nl_days[sc_ship_wday] | capitalize -%}
+        {%- assign sc_month_label = sc_nl_months[sc_ship_month_idx] -%}
+        <div class="product-info__shipping-countdown" {{ block.shopify_attributes }}>
+          <style>
+            .sc-bar-{{ block.id }} {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              background: {{ block.settings.background_color }};
+              border-radius: {{ block.settings.border_radius }}px;
+              padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            }
+            .sc-bar-{{ block.id }} .sc-dot {
+              width: 9px;
+              height: 9px;
+              border-radius: 50%;
+              background: {{ block.settings.dot_color }};
+              flex-shrink: 0;
+            }
+            .sc-bar-{{ block.id }} .sc-text {
+              font-size: {{ block.settings.font_size }}px;
+              color: {{ block.settings.text_color }};
+              font-weight: 500;
+              line-height: 1.3;
+              flex: 1;
+            }
+            .sc-bar-{{ block.id }} .sc-text strong {
+              font-weight: 700;
+            }
+            .sc-bar-{{ block.id }} .sc-badge {
+              display: inline-flex;
+              align-items: center;
+              gap: 5px;
+              background: {{ block.settings.badge_bg_color }};
+              color: {{ block.settings.badge_text_color }};
+              font-size: {{ block.settings.badge_font_size }}px;
+              font-weight: 600;
+              padding: 4px 12px;
+              border-radius: 20px;
+              white-space: nowrap;
+              flex-shrink: 0;
+            }
+            .sc-bar-{{ block.id }} .sc-flag {
+              display: inline-flex;
+              border-radius: 2px;
+              overflow: hidden;
+              flex-shrink: 0;
+              width: {{ block.settings.flag_size }}px;
+            }
+            .sc-bar-{{ block.id }} .sc-flag svg {
+              display: block;
+              width: 100%;
+              height: auto;
+            }
+          </style>
+          <div class="sc-bar-{{ block.id }}">
+            <span class="sc-dot"></span>
+            <span class="sc-text">{{ block.settings.label_prefix }} <strong>{{ sc_day_label }}. {{ sc_ship_mday }} {{ sc_month_label }}</strong></span>
+            <span class="sc-badge">
+              <span class="sc-flag">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6">
+                  <rect width="9" height="6" fill="#AE1C28"/>
+                  <rect y="2" width="9" height="2" fill="white"/>
+                  <rect y="4" width="9" height="2" fill="#21468B"/>
+                </svg>
+              </span>
+              {{ block.settings.badge_text }}
+            </span>
+          </div>
+        </div>
+
       {%- when 'share_buttons' -%}
         <div class="product-form__share {% if block.settings.alignment == 'center' %}justify-self-center{% elsif block.settings.alignment == 'end' %}justify-self-end{% endif %}" {{ block.shopify_attributes }}>
           <div class="product-info__share-buttons">
