@@ -1,0 +1,226 @@
+{% liquid
+  assign section_id = section.id
+%}
+
+<section class="reviews-section" id="reviews-{{ section_id }}">
+  <div class="page-width">
+    <div class="reviews-header">
+      {% if section.settings.heading != blank %}
+        <h2 class="reviews-title">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.show_summary %}
+        {% assign total = 0 %}
+        {% assign count = 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            {% assign total = total | plus: block.settings.rating %}
+            {% assign count = count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+        {% if count > 0 %}
+          {% assign average = total | times: 1.0 | divided_by: count %}
+          <div class="reviews-summary" aria-label="Gemiddelde beoordeling {{ average }} van 5">
+            <span class="stars" aria-hidden="true">
+              {%- assign rounded = average | round -%}
+              {%- for i in (1..5) -%}
+                {% if i <= rounded %}★{% else %}☆{% endif %}
+              {%- endfor -%}
+            </span>
+            <span class="summary-text">{{ average | round: 1 }}/5 ({{ count }} reviews)</span>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div class="reviews-track" data-mobile-slider="{{ section.settings.enable_mobile_swipe }}">
+      {% for block in section.blocks %}
+        {% if block.type == 'review' %}
+          <article class="review-card" {{ block.shopify_attributes }}>
+            <div class="review-rating" aria-label="{{ block.settings.rating }} van 5 sterren">
+              {% for i in (1..5) %}
+                {% if i <= block.settings.rating %}★{% else %}☆{% endif %}
+              {% endfor %}
+            </div>
+
+            {% if block.settings.title != blank %}
+              <h3 class="review-card-title">{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <div class="review-text rte">{{ block.settings.text }}</div>
+            {% endif %}
+
+            <footer class="review-footer">
+              <span class="review-author">{{ block.settings.author | escape }}</span>
+              {% if block.settings.verified %}
+                <span class="review-verified">✓ Verified buyer</span>
+              {% endif %}
+              {% if block.settings.date != blank %}
+                <time class="review-date">{{ block.settings.date }}</time>
+              {% endif %}
+            </footer>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    #reviews-{{ section_id }} {
+      --reviews-bg: {{ section.settings.bg_color }};
+      --reviews-card: {{ section.settings.card_color }};
+      --reviews-text: {{ section.settings.text_color }};
+      --reviews-muted: color-mix(in srgb, {{ section.settings.text_color }} 70%, #999 30%);
+      --reviews-accent: {{ section.settings.star_color }};
+      background: var(--reviews-bg);
+      color: var(--reviews-text);
+      padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    }
+
+    #reviews-{{ section_id }} .reviews-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    #reviews-{{ section_id }} .reviews-title { margin: 0; }
+
+    #reviews-{{ section_id }} .reviews-summary {
+      display: inline-flex;
+      gap: .5rem;
+      align-items: center;
+      font-size: .95rem;
+      opacity: .95;
+    }
+
+    #reviews-{{ section_id }} .stars,
+    #reviews-{{ section_id }} .review-rating {
+      color: var(--reviews-accent);
+      letter-spacing: .04em;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    #reviews-{{ section_id }} .reviews-track {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat({{ section.settings.desktop_columns }}, minmax(0, 1fr));
+    }
+
+    #reviews-{{ section_id }} .review-card {
+      background: var(--reviews-card);
+      border-radius: 14px;
+      padding: 1.1rem;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      height: 100%;
+    }
+
+    #reviews-{{ section_id }} .review-card-title {
+      margin: 0;
+      font-size: 1.02rem;
+    }
+
+    #reviews-{{ section_id }} .review-text {
+      color: var(--reviews-text);
+      opacity: .92;
+      font-size: .95rem;
+    }
+
+    #reviews-{{ section_id }} .review-footer {
+      margin-top: auto;
+      display: flex;
+      gap: .5rem .8rem;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: .85rem;
+      color: var(--reviews-muted);
+    }
+
+    #reviews-{{ section_id }} .review-author { font-weight: 600; color: var(--reviews-text); }
+
+    #reviews-{{ section_id }} .review-verified {
+      background: color-mix(in srgb, var(--reviews-accent) 18%, transparent);
+      color: var(--reviews-text);
+      border-radius: 999px;
+      padding: .18rem .5rem;
+      font-size: .75rem;
+      line-height: 1;
+    }
+
+    @media screen and (max-width: 749px) {
+      #reviews-{{ section_id }} .reviews-track {
+        {% if section.settings.enable_mobile_swipe %}
+          display: grid;
+          grid-auto-flow: column;
+          grid-auto-columns: minmax(84%, 1fr);
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          padding-bottom: .35rem;
+        {% else %}
+          grid-template-columns: 1fr;
+        {% endif %}
+      }
+
+      #reviews-{{ section_id }} .review-card {
+        {% if section.settings.enable_mobile_swipe %}
+          scroll-snap-align: start;
+        {% endif %}
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titel", "default": "Wat klanten zeggen" },
+    { "type": "checkbox", "id": "show_summary", "label": "Toon gemiddelde score", "default": true },
+    { "type": "range", "id": "desktop_columns", "label": "Kolommen desktop", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "checkbox", "id": "enable_mobile_swipe", "label": "Swipe op mobiel", "default": true },
+
+    { "type": "color", "id": "bg_color", "label": "Achtergrond", "default": "#f8f8f8" },
+    { "type": "color", "id": "card_color", "label": "Card achtergrond", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Tekstkleur", "default": "#1f1f1f" },
+    { "type": "color", "id": "star_color", "label": "Sterkleur", "default": "#f5a623" },
+
+    { "type": "range", "id": "padding_top", "label": "Padding boven", "min": 0, "max": 120, "step": 4, "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding onder", "min": 0, "max": 120, "step": 4, "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Beoordeling", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Titel", "default": "Topkwaliteit" },
+        { "type": "richtext", "id": "text", "label": "Reviewtekst", "default": "<p>Snelle levering en erg tevreden over de kwaliteit.</p>" },
+        { "type": "text", "id": "author", "label": "Naam", "default": "S. de Vries" },
+        { "type": "text", "id": "date", "label": "Datum", "default": "2026-04-14" },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": true }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Reviews",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
