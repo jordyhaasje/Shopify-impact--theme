@@ -1,0 +1,290 @@
+<section
+  class="ig-section"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="ig-inner">
+    <div class="ig-text">
+      <h2 class="ig-heading">
+        {{ section.settings.heading | split: 'Instagram' | first -}}
+        <em>Instagram</em>
+        {%- assign after = section.settings.heading | split: 'Instagram' | last -%}
+        {%- if after != blank %}{{ after }}{% endif %}
+      </h2>
+      {%- if section.settings.subtext != blank -%}
+        <p class="ig-subtext">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+      {%- if section.settings.instagram_handle != blank -%}
+        <a
+          class="ig-handle-btn"
+          href="{{ section.settings.instagram_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="color: {{ section.settings.handle_color }}; border-color: {{ section.settings.handle_color }};"
+        >
+          @{{ section.settings.instagram_handle }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="ig-photos-wrap">
+      <div class="ig-photos">
+        {%- for i in (1..5) -%}
+          {%- assign img_key = 'image_' | append: i -%}
+          {%- assign img = section.settings[img_key] -%}
+          {%- if img != blank -%}
+            <div class="ig-photo">
+              <img
+                src="{{ img | image_url: width: 400 }}"
+                alt="{{ img.alt | default: 'Instagram photo' | escape }}"
+                width="400"
+                height="400"
+                loading="lazy"
+              >
+            </div>
+          {%- else -%}
+            <div class="ig-photo ig-photo--placeholder">
+              {{ 'image' | placeholder_svg_tag: 'ig-placeholder-svg' }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ig-section {
+    overflow: hidden;
+  }
+
+  .ig-inner {
+    max-width: 1300px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+
+  .ig-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .ig-heading {
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: {{ section.settings.heading_color }};
+    margin: 0;
+  }
+
+  .ig-heading em {
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  .ig-subtext {
+    font-size: clamp(0.8125rem, 1.2vw, 0.9375rem);
+    color: #666;
+    line-height: 1.55;
+    max-width: 38ch;
+    margin: 0;
+  }
+
+  .ig-handle-btn {
+    display: inline-block;
+    border: 1.5px solid currentColor;
+    border-radius: 9999px;
+    padding: 0.45rem 1.25rem;
+    font-size: clamp(0.8125rem, 1vw, 0.9375rem);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease;
+    margin-top: 0.25rem;
+  }
+
+  .ig-handle-btn:hover {
+    background-color: {{ section.settings.handle_color }};
+    color: #fff;
+  }
+
+  .ig-photos-wrap {
+    overflow: hidden;
+    margin-right: calc(-1 * clamp(1rem, 4vw, 3rem));
+  }
+
+  .ig-photos {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .ig-photo {
+    flex: 0 0 clamp(120px, 15vw, 200px);
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #d4d4d4;
+  }
+
+  .ig-photo img,
+  .ig-photo .ig-placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ig-photo:first-child {
+    margin-left: -30px;
+  }
+
+  .ig-photo--placeholder svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .ig-inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .ig-photos-wrap {
+      margin-right: calc(-1 * clamp(1rem, 4vw, 3rem));
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .ig-photos-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ig-photos {
+      flex-wrap: nowrap;
+      padding-right: clamp(1rem, 4vw, 3rem);
+    }
+
+    .ig-photo:first-child {
+      margin-left: 0;
+    }
+
+    .ig-photo {
+      flex: 0 0 clamp(130px, 38vw, 180px);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Instagram Feed",
+  "tag": "section",
+  "class": "section-instagram-feed",
+  "enabled_on": {
+    "templates": ["*"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Follow us on Instagram"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Get your daily dose of design inspiration. Join our Instagram community today!"
+    },
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "label": "Instagram handle (without @)",
+      "default": "yourhandle"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram profile URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Photo 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Photo 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Photo 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Photo 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Photo 6"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#edf0f8"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "handle_color",
+      "label": "Button / handle color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram Feed"
+    }
+  ]
+}
+{% endschema %}
