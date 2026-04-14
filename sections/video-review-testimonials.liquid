@@ -22,7 +22,6 @@
       <div class="video-review-testimonials__trust">
         <div class="video-review-testimonials__trust-line video-review-testimonials__trust-line--customers">{{ section.settings.customer_count_text }}</div>
         <div class="video-review-testimonials__trust-line video-review-testimonials__trust-line--rating">
-          <span class="video-review-testimonials__rating-text">{{ section.settings.rating_text }}</span>
           <span class="video-review-testimonials__stars" aria-hidden="true">
             {% for i in (1..5) %}
               <span class="video-review-testimonials__star-box {% if i == 5 and section.settings.partial_last_star %}is-partial{% endif %}">
@@ -32,14 +31,15 @@
               </span>
             {% endfor %}
           </span>
+          <span class="video-review-testimonials__rating-text">{{ section.settings.rating_text }}</span>
         </div>
       </div>
     </div>
 
     <div class="video-review-testimonials__header">
-      <h2 class="video-review-testimonials__heading">
+      <div class="video-review-testimonials__heading-wrap rte">
         {{ section.settings.heading | replace: '[underline]', '<span class="video-review-testimonials__underline">' | replace: '[/underline]', '</span>' }}
-      </h2>
+      </div>
     </div>
 
     <div class="video-review-testimonials__carousel-wrapper">
@@ -48,12 +48,22 @@
           {% liquid
             assign has_uploaded_video = false
             assign has_external_video = false
+            assign autoplay_enabled = false
+            assign show_play_button = true
+
             if block.settings.video != blank
               assign has_uploaded_video = true
             endif
+
             if block.settings.external_video != blank
               assign has_external_video = true
             endif
+
+            if block.settings.autoplay_without_button
+              assign autoplay_enabled = true
+              assign show_play_button = false
+            endif
+
             assign media_image = block.settings.poster_image
             if media_image == blank
               assign media_image = block.settings.fallback_image
@@ -63,9 +73,44 @@
           <article class="video-review-testimonials__card" {{ block.shopify_attributes }}>
             <div class="video-review-testimonials__media">
               {% if has_uploaded_video %}
-                {{ block.settings.video | video_tag: class: 'video-review-testimonials__video', image_size: '900x', controls: false, autoplay: false, loop: false, muted: false, playsinline: true }}
+                {{ block.settings.video | video_tag: class: 'video-review-testimonials__video', image_size: '900x', controls: false, autoplay: autoplay_enabled, loop: autoplay_enabled, muted: autoplay_enabled, playsinline: true, preload: 'metadata' }}
               {% elsif has_external_video %}
-                {{ block.settings.external_video | external_video_tag: class: 'video-review-testimonials__video-embed', loading: 'lazy' }}
+                {% liquid
+                  assign external_type = block.settings.external_video.type
+                  assign external_id = block.settings.external_video.id
+                  assign autoplay_value = 0
+                  assign mute_value = 0
+                  assign loop_value = 0
+                  assign playsinline_value = 1
+                  assign controls_value = 0
+
+                  if autoplay_enabled
+                    assign autoplay_value = 1
+                    assign mute_value = 1
+                    assign loop_value = 1
+                  endif
+                %}
+                {% if external_type == 'youtube' %}
+                  <iframe
+                    class="video-review-testimonials__video-embed"
+                    src="https://www.youtube.com/embed/{{ external_id }}?playsinline={{ playsinline_value }}&autoplay={{ autoplay_value }}&mute={{ mute_value }}&controls={{ controls_value }}&rel=0&modestbranding=1&loop={{ loop_value }}{% if autoplay_enabled %}&playlist={{ external_id }}{% endif %}&enablejsapi=1"
+                    title="{{ block.settings.play_label | default: 'Video review' | escape }}"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  ></iframe>
+                {% elsif external_type == 'vimeo' %}
+                  <iframe
+                    class="video-review-testimonials__video-embed"
+                    src="https://player.vimeo.com/video/{{ external_id }}?autoplay={{ autoplay_value }}&muted={{ mute_value }}&loop={{ loop_value }}&autopause=0&byline=0&title=0&portrait=0&controls=0&playsinline={{ playsinline_value }}"
+                    title="{{ block.settings.play_label | default: 'Video review' | escape }}"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  ></iframe>
+                {% endif %}
               {% elsif media_image != blank %}
                 {{ media_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320,420,540,720,900', class: 'video-review-testimonials__image' }}
               {% else %}
@@ -76,9 +121,11 @@
                 <div class="video-review-testimonials__overlay-text">{{ block.settings.overlay_text }}</div>
               {% endif %}
 
-              <button type="button" class="video-review-testimonials__play-button" data-video-review-play aria-label="{{ block.settings.play_label | default: 'Play video review' | escape }}">
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6.5v11l9-5.5-9-5.5Z" fill="currentColor"/></svg>
-              </button>
+              {% if show_play_button and has_uploaded_video or show_play_button and has_external_video %}
+                <button type="button" class="video-review-testimonials__play-button" data-video-review-play aria-label="{{ block.settings.play_label | default: 'Play video review' | escape }}">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6.5v11l9-5.5-9-5.5Z" fill="currentColor"/></svg>
+                </button>
+              {% endif %}
             </div>
 
             <div class="video-review-testimonials__content">
@@ -139,17 +186,17 @@
   }
 
   #{{ section_id }} .video-review-testimonials__inner {
-    max-width: 1440px;
+    max-width: 1520px;
     margin: 0 auto;
-    padding: 0 56px;
+    padding: 0 58px;
   }
 
   #{{ section_id }} .video-review-testimonials__top {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 24px;
+    gap: 18px;
+    margin-bottom: 26px;
   }
 
   #{{ section_id }} .video-review-testimonials__avatars {
@@ -162,10 +209,10 @@
     height: 42px;
     border-radius: 999px;
     overflow: hidden;
-    border: 2px solid #fff;
+    border: 2px solid #ffffff;
     background: linear-gradient(135deg, #f7d7a7, #d8e7ef);
     margin-left: -10px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   }
 
   #{{ section_id }} .video-review-testimonials__avatar:first-child { margin-left: 0; }
@@ -175,8 +222,8 @@
     font-size: 18px;
     line-height: 1.2;
     font-weight: 500;
-    letter-spacing: 0.02em;
-    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
   }
 
   #{{ section_id }} .video-review-testimonials__trust-line--rating {
@@ -187,23 +234,24 @@
     line-height: 1.2;
   }
 
-  #{{ section_id }} .video-review-testimonials__rating-text { order: 2; }
   #{{ section_id }} .video-review-testimonials__stars,
   #{{ section_id }} .video-review-testimonials__review-stars {
     display: inline-flex;
     align-items: center;
     gap: 3px;
     color: #ffffff;
+    flex-wrap: nowrap;
   }
 
   #{{ section_id }} .video-review-testimonials__star-box {
-    width: 32px;
+    width: 26px;
     height: 24px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background: #10b981;
     position: relative;
+    overflow: hidden;
   }
 
   #{{ section_id }} .video-review-testimonials__star-box.is-partial::after {
@@ -216,16 +264,28 @@
     background: #d9d9d9;
   }
 
-  #{{ section_id }} .video-review-testimonials__star-box svg { width: 14px; height: 14px; position: relative; z-index: 1; }
+  #{{ section_id }} .video-review-testimonials__star-box svg {
+    width: 14px;
+    height: 14px;
+    position: relative;
+    z-index: 1;
+  }
 
   #{{ section_id }} .video-review-testimonials__header {
     text-align: center;
-    margin-bottom: 46px;
+    margin-bottom: 48px;
   }
 
-  #{{ section_id }} .video-review-testimonials__heading {
+  #{{ section_id }} .video-review-testimonials__heading-wrap > * {
     margin: 0;
-    font-size: clamp(44px, 5vw, 68px);
+  }
+
+  #{{ section_id }} .video-review-testimonials__heading-wrap p,
+  #{{ section_id }} .video-review-testimonials__heading-wrap h1,
+  #{{ section_id }} .video-review-testimonials__heading-wrap h2,
+  #{{ section_id }} .video-review-testimonials__heading-wrap h3 {
+    margin: 0;
+    font-size: clamp(44px, 4.8vw, 62px);
     line-height: 1;
     letter-spacing: -0.04em;
     font-weight: 700;
@@ -234,6 +294,7 @@
   #{{ section_id }} .video-review-testimonials__underline {
     position: relative;
     display: inline-block;
+    padding-bottom: 0.04em;
   }
 
   #{{ section_id }} .video-review-testimonials__underline::after {
@@ -241,7 +302,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0.08em;
+    bottom: 0;
     height: 0.08em;
     background: var(--vrt-accent);
     border-radius: 999px;
@@ -251,6 +312,7 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 18px;
+    align-items: stretch;
   }
 
   #{{ section_id }} .video-review-testimonials__card {
@@ -280,17 +342,25 @@
     border: 0;
   }
 
+  #{{ section_id }} .video-review-testimonials__video {
+    pointer-events: none;
+  }
+
+  #{{ section_id }} .video-review-testimonials__media.is-playing .video-review-testimonials__video {
+    pointer-events: auto;
+  }
+
   #{{ section_id }} .video-review-testimonials__overlay-text {
     position: absolute;
     left: 50%;
     bottom: 34px;
     transform: translateX(-50%);
-    color: #fff;
+    color: #ffffff;
     font-size: 16px;
     line-height: 1.15;
     font-weight: 600;
     text-align: center;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.45);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
     max-width: calc(100% - 40px);
     z-index: 2;
     pointer-events: none;
@@ -304,8 +374,8 @@
     height: 84px;
     border-radius: 999px;
     border: 0;
-    background: rgba(0,0,0,0.92);
-    color: #fff;
+    background: rgba(0, 0, 0, 0.94);
+    color: #ffffff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -314,8 +384,15 @@
     transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
-  #{{ section_id }} .video-review-testimonials__play-button:hover { transform: translate(-50%, -50%) scale(1.04); }
-  #{{ section_id }} .video-review-testimonials__play-button svg { width: 30px; height: 30px; margin-left: 4px; }
+  #{{ section_id }} .video-review-testimonials__play-button:hover {
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+
+  #{{ section_id }} .video-review-testimonials__play-button svg {
+    width: 30px;
+    height: 30px;
+    margin-left: 4px;
+  }
 
   #{{ section_id }} .video-review-testimonials__content {
     padding: 22px 26px 26px;
@@ -331,8 +408,13 @@
     margin-bottom: 24px;
   }
 
-  #{{ section_id }} .video-review-testimonials__quote p { margin: 0; }
-  #{{ section_id }} .video-review-testimonials__meta { margin-top: auto; }
+  #{{ section_id }} .video-review-testimonials__quote p {
+    margin: 0;
+  }
+
+  #{{ section_id }} .video-review-testimonials__meta {
+    margin-top: auto;
+  }
 
   #{{ section_id }} .video-review-testimonials__review-row {
     display: flex;
@@ -349,7 +431,7 @@
     padding: 5px 12px;
     border-radius: 4px;
     background: #10b981;
-    color: #fff;
+    color: #ffffff;
     font-size: 15px;
     line-height: 1;
     font-weight: 700;
@@ -388,8 +470,15 @@
     transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
-  #{{ section_id }} .video-review-testimonials__button:hover { transform: translateY(-1px); }
-  #{{ section_id }} .video-review-testimonials__button--primary { background: var(--vrt-accent); color: var(--vrt-button-text); }
+  #{{ section_id }} .video-review-testimonials__button:hover {
+    transform: translateY(-1px);
+  }
+
+  #{{ section_id }} .video-review-testimonials__button--primary {
+    background: var(--vrt-accent);
+    color: var(--vrt-button-text);
+  }
+
   #{{ section_id }} .video-review-testimonials__button--secondary {
     min-width: 326px;
     min-height: 56px;
@@ -404,8 +493,13 @@
   }
 
   @media screen and (max-width: 1199px) {
-    #{{ section_id }} .video-review-testimonials__inner { padding: 0 28px; }
-    #{{ section_id }} .video-review-testimonials__carousel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #{{ section_id }} .video-review-testimonials__inner {
+      padding: 0 28px;
+    }
+
+    #{{ section_id }} .video-review-testimonials__carousel {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   @media screen and (max-width: 767px) {
@@ -414,7 +508,9 @@
       padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
     }
 
-    #{{ section_id }} .video-review-testimonials__inner { padding: 0 0 0 22px; }
+    #{{ section_id }} .video-review-testimonials__inner {
+      padding: 0 0 0 22px;
+    }
 
     #{{ section_id }} .video-review-testimonials__top {
       justify-content: flex-start;
@@ -445,7 +541,10 @@
       margin-bottom: 28px;
     }
 
-    #{{ section_id }} .video-review-testimonials__heading {
+    #{{ section_id }} .video-review-testimonials__heading-wrap p,
+    #{{ section_id }} .video-review-testimonials__heading-wrap h1,
+    #{{ section_id }} .video-review-testimonials__heading-wrap h2,
+    #{{ section_id }} .video-review-testimonials__heading-wrap h3 {
       font-size: 43px;
       line-height: 0.95;
     }
@@ -464,7 +563,9 @@
       scrollbar-width: none;
     }
 
-    #{{ section_id }} .video-review-testimonials__carousel::-webkit-scrollbar { display: none; }
+    #{{ section_id }} .video-review-testimonials__carousel::-webkit-scrollbar {
+      display: none;
+    }
 
     #{{ section_id }} .video-review-testimonials__card {
       flex: 0 0 68.6vw;
@@ -473,9 +574,19 @@
       border-radius: 22px;
     }
 
-    #{{ section_id }} .video-review-testimonials__media { aspect-ratio: 0.755; }
-    #{{ section_id }} .video-review-testimonials__play-button { width: 68px; height: 68px; }
-    #{{ section_id }} .video-review-testimonials__play-button svg { width: 24px; height: 24px; }
+    #{{ section_id }} .video-review-testimonials__media {
+      aspect-ratio: 0.755;
+    }
+
+    #{{ section_id }} .video-review-testimonials__play-button {
+      width: 68px;
+      height: 68px;
+    }
+
+    #{{ section_id }} .video-review-testimonials__play-button svg {
+      width: 24px;
+      height: 24px;
+    }
 
     #{{ section_id }} .video-review-testimonials__content {
       padding: 24px 28px 28px;
@@ -487,9 +598,19 @@
       margin-bottom: 24px;
     }
 
-    #{{ section_id }} .video-review-testimonials__review-row { gap: 8px; margin-bottom: 18px; }
-    #{{ section_id }} .video-review-testimonials__verified { min-height: 28px; font-size: 15px; }
-    #{{ section_id }} .video-review-testimonials__author { font-size: 18px; }
+    #{{ section_id }} .video-review-testimonials__review-row {
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    #{{ section_id }} .video-review-testimonials__verified {
+      min-height: 28px;
+      font-size: 15px;
+    }
+
+    #{{ section_id }} .video-review-testimonials__author {
+      font-size: 18px;
+    }
 
     #{{ section_id }} .video-review-testimonials__buttons {
       margin-top: 38px;
@@ -525,9 +646,13 @@
         const media = button.closest('.video-review-testimonials__media');
         if (!media) return;
 
+        media.classList.add('is-playing');
+
         const video = media.querySelector('video');
         if (video) {
-          video.setAttribute('controls', 'controls');
+          video.muted = false;
+          video.removeAttribute('controls');
+          video.controls = false;
           video.play();
           button.style.display = 'none';
           return;
@@ -537,11 +662,19 @@
         if (iframe) {
           const src = iframe.getAttribute('src');
           if (src && src.indexOf('autoplay=1') === -1) {
-            iframe.setAttribute('src', src + (src.indexOf('?') === -1 ? '?' : '&') + 'autoplay=1');
+            iframe.setAttribute('src', src.replace('autoplay=0', 'autoplay=1').replace('muted=0', 'muted=1').replace('mute=0', 'mute=1'));
           }
           button.style.display = 'none';
         }
       });
+    });
+
+    root.querySelectorAll('.video-review-testimonials__media video[autoplay]').forEach((video) => {
+      video.muted = true;
+      video.playsInline = true;
+      video.removeAttribute('controls');
+      video.controls = false;
+      video.play().catch(() => {});
     });
   })();
 </script>
@@ -586,7 +719,8 @@
       "name": "Review card",
       "settings": [
         { "type": "video", "id": "video", "label": "Uploaded video" },
-        { "type": "video_url", "id": "external_video", "label": "External video", "accept": ["youtube", "vimeo"], "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc" },
+        { "type": "video_url", "id": "external_video", "label": "External video", "accept": ["youtube", "vimeo"] },
+        { "type": "checkbox", "id": "autoplay_without_button", "label": "Autoplay without play button (muted)", "default": false },
         { "type": "image_picker", "id": "poster_image", "label": "Poster image" },
         { "type": "image_picker", "id": "fallback_image", "label": "Fallback image" },
         { "type": "text", "id": "overlay_text", "label": "Overlay text" },
