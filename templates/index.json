@@ -1078,6 +1078,90 @@
         "button_bg": "#131038",
         "button_text": "#ffffff"
       }
+    },
+    "video_review_testimonials_RXreN3": {
+      "type": "video-review-testimonials",
+      "blocks": {
+        "review_3VbByh": {
+          "type": "review",
+          "settings": {
+            "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
+            "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "overlay_text": "",
+            "quote": "I'm hitting with more power and control than ever before, and my serve has improved dramatically.",
+            "partial_last_star": true,
+            "verified_text": "Verified",
+            "author": "David Smith",
+            "play_label": "Play video review"
+          }
+        },
+        "review_9hw7my": {
+          "type": "review",
+          "settings": {
+            "video": "shopify://files/videos/Ontwerp zonder titel (1).mp4",
+            "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "overlay_text": "",
+            "quote": "It's incredibly lightweight and maneuverable, which allows me to react quickly and hit with more power.",
+            "partial_last_star": true,
+            "verified_text": "Verified",
+            "author": "Michael Wilson",
+            "play_label": "Play video review"
+          }
+        },
+        "review_DFkPzX": {
+          "type": "review",
+          "settings": {
+            "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "overlay_text": "",
+            "quote": "They never cease to impress me. The quality of their products is exceptional!",
+            "partial_last_star": true,
+            "verified_text": "Verified",
+            "author": "Kathy Miller",
+            "play_label": "Play video review"
+          }
+        },
+        "review_h8d6kp": {
+          "type": "review",
+          "settings": {
+            "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "overlay_text": "",
+            "quote": "Finally found the perfect racket! My game has improved significantly since switching.",
+            "partial_last_star": true,
+            "verified_text": "Verified",
+            "author": "Emily Johnson",
+            "play_label": "Play video review"
+          }
+        }
+      },
+      "block_order": [
+        "review_3VbByh",
+        "review_9hw7my",
+        "review_DFkPzX",
+        "review_h8d6kp"
+      ],
+      "name": "Video review testimonials",
+      "settings": {
+        "customer_count_text": "50K+ Happy Customers",
+        "rating_text": "Excellent 4.7",
+        "partial_last_star": true,
+        "heading": "<p>In [underline]your[/underline] own words —</p>",
+        "button_link": "",
+        "button_label": "SHOP NOW",
+        "secondary_button_link": "",
+        "secondary_button_label": "Money-Back Guarantee",
+        "background_color": "#EEF5F1",
+        "card_background_color": "#FFFFFF",
+        "text_color": "#111111",
+        "accent_color": "#10B981",
+        "button_text_color": "#FFFFFF",
+        "secondary_button_bg_color": "#BCECD8",
+        "secondary_button_text_color": "#11A66E",
+        "secondary_button_border_color": "#11A66E",
+        "padding_top": 24,
+        "padding_bottom": 36,
+        "mobile_padding_top": 20,
+        "mobile_padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -1098,6 +1182,7 @@
     "faq",
     "review_badge_block_fdwiDa",
     "media_header_YNaii9",
-    "cn_comparison_table_6_dezwLg"
+    "cn_comparison_table_6_dezwLg",
+    "video_review_testimonials_RXreN3"
   ]
 }
