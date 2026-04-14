@@ -913,6 +913,7 @@
       "name": "Media header",
       "settings": {
         "media_type": "image",
+        "external_video": "",
         "subheading": "Subheading",
         "heading": "Media header",
         "text": "<p>Use this section as an image hero or video hero with separate mobile and desktop settings.</p>",
@@ -942,6 +943,141 @@
         "padding_bottom_mobile": 24,
         "padding_side_mobile": 60
       }
+    },
+    "cn_comparison_table_6_dezwLg": {
+      "type": "cn-comparison-table-6",
+      "blocks": {
+        "bullet_thEy4q": {
+          "type": "bullet",
+          "settings": {
+            "icon": "check",
+            "text": "Fall asleep quicker"
+          }
+        },
+        "bullet_qydXkc": {
+          "type": "bullet",
+          "settings": {
+            "icon": "check",
+            "text": "Relax & Restorative sleep"
+          }
+        },
+        "bullet_RNqX4F": {
+          "type": "bullet",
+          "settings": {
+            "icon": "check",
+            "text": "Wake up refreshed"
+          }
+        },
+        "bullet_Bay8rx": {
+          "type": "bullet",
+          "settings": {
+            "icon": "check",
+            "text": "Plant based"
+          }
+        },
+        "row_JfRYzj": {
+          "type": "row",
+          "settings": {
+            "label": "Optimized Dosing",
+            "brand_status": "check",
+            "other_status": "cross"
+          }
+        },
+        "row_icNLKN": {
+          "type": "row",
+          "settings": {
+            "label": "Plant Based",
+            "brand_status": "check",
+            "other_status": "cross"
+          }
+        },
+        "row_HjMGtY": {
+          "type": "row",
+          "settings": {
+            "label": "Low Sugar",
+            "brand_status": "check",
+            "other_status": "cross"
+          }
+        },
+        "row_CiKiUx": {
+          "type": "row",
+          "settings": {
+            "label": "Simple Ingredients",
+            "brand_status": "check",
+            "other_status": "cross"
+          }
+        },
+        "row_4qwaLT": {
+          "type": "row",
+          "settings": {
+            "label": "3rd Party Tested",
+            "brand_status": "check",
+            "other_status": "cross"
+          }
+        },
+        "row_UhiN4K": {
+          "type": "row",
+          "settings": {
+            "label": "Delicious Taste",
+            "brand_status": "check",
+            "other_status": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "bullet_thEy4q",
+        "bullet_qydXkc",
+        "bullet_RNqX4F",
+        "bullet_Bay8rx",
+        "row_JfRYzj",
+        "row_icNLKN",
+        "row_HjMGtY",
+        "row_CiKiUx",
+        "row_4qwaLT",
+        "row_UhiN4K"
+      ],
+      "name": "CN comparison table",
+      "settings": {
+        "heading": "US vs Other Brands",
+        "heading_size": "h1",
+        "heading_size_desktop": 78,
+        "heading_size_mobile": 48,
+        "description": "<p>We pride ourselves in our quality and focus on sleep, we cannot say the same for others.</p>",
+        "body_size_desktop": 18,
+        "body_size_mobile": 16,
+        "button_label": "TRY DEEP DREAMS",
+        "button_link": "",
+        "button_width_desktop": 300,
+        "button_size_desktop": 16,
+        "button_size_mobile": 15,
+        "brand_header": "DeepSleep",
+        "other_header": "Other Brands",
+        "table_text_size_desktop": 18,
+        "table_text_size_mobile": 14,
+        "page_width": 1600,
+        "desktop_gap": 60,
+        "mobile_gap": 28,
+        "corner_radius": 24,
+        "mobile_table_min_width": 520,
+        "mobile_side_padding": 20,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 44,
+        "padding_bottom_mobile": 44,
+        "bullet_size_desktop": 18,
+        "bullet_size_mobile": 16,
+        "background_color": "#eeebf1",
+        "text_color": "#12121d",
+        "muted_text_color": "#525061",
+        "table_bg_color": "#eeebf1",
+        "border_color": "#4b4a5a",
+        "brand_column_bg": "#2c2946",
+        "brand_column_text": "#ffffff",
+        "check_color": "#a7d9ae",
+        "cross_color": "#ef8398",
+        "button_bg": "#131038",
+        "button_text": "#ffffff"
+      }
     }
   },
   "order": [
@@ -961,6 +1097,7 @@
     "feature-chart",
     "faq",
     "review_badge_block_fdwiDa",
-    "media_header_YNaii9"
+    "media_header_YNaii9",
+    "cn_comparison_table_6_dezwLg"
   ]
 }
