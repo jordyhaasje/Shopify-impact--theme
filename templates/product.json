@@ -65,7 +65,7 @@
         "stock_status_pill_3KhEWT": {
           "type": "stock_status_pill",
           "settings": {
-            "text": "In stock & ready to ship",
+            "text": "In stock & ready to shipmk",
             "background_color": "#ffffff",
             "text_color": "#111111",
             "dot_color": "#008763"
