@@ -1087,6 +1087,7 @@
           "settings": {
             "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
             "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "autoplay_without_button": false,
             "overlay_text": "",
             "quote": "I'm hitting with more power and control than ever before, and my serve has improved dramatically.",
             "partial_last_star": true,
@@ -1100,6 +1101,7 @@
           "settings": {
             "video": "shopify://files/videos/Ontwerp zonder titel (1).mp4",
             "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "autoplay_without_button": false,
             "overlay_text": "",
             "quote": "It's incredibly lightweight and maneuverable, which allows me to react quickly and hit with more power.",
             "partial_last_star": true,
@@ -1112,6 +1114,7 @@
           "type": "review",
           "settings": {
             "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "autoplay_without_button": false,
             "overlay_text": "",
             "quote": "They never cease to impress me. The quality of their products is exceptional!",
             "partial_last_star": true,
@@ -1124,6 +1127,7 @@
           "type": "review",
           "settings": {
             "external_video": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "autoplay_without_button": false,
             "overlay_text": "",
             "quote": "Finally found the perfect racket! My game has improved significantly since switching.",
             "partial_last_star": true,
@@ -1153,18 +1157,34 @@
         "button_label": "SHOP NOW",
         "secondary_button_link": "",
         "secondary_button_label": "Money-Back Guarantee",
-        "background_color": "#EEF5F1",
-        "card_background_color": "#FFFFFF",
+        "background_color": "#eef5f1",
+        "card_background_color": "#ffffff",
         "text_color": "#111111",
-        "accent_color": "#10B981",
-        "button_text_color": "#FFFFFF",
-        "secondary_button_bg_color": "#BCECD8",
-        "secondary_button_text_color": "#11A66E",
-        "secondary_button_border_color": "#11A66E",
+        "accent_color": "#10b981",
+        "button_text_color": "#ffffff",
+        "secondary_button_bg_color": "#bcecd8",
+        "secondary_button_text_color": "#11a66e",
+        "secondary_button_border_color": "#11a66e",
         "padding_top": 24,
         "padding_bottom": 36,
         "mobile_padding_top": 20,
         "mobile_padding_bottom": 36
+      }
+    },
+    "instagram_feed_pLLt3h": {
+      "type": "instagram-feed",
+      "name": "Instagram Feed",
+      "settings": {
+        "heading": "Follow us on",
+        "subtext": "Get your daily dose of design inspiration. Join our Instagram community today!",
+        "instagram_handle": "yourhandle",
+        "instagram_url": "",
+        "image_1": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "bg_color": "#edf0f8",
+        "heading_color": "#1a1a2e",
+        "handle_color": "#1a1a2e",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     }
   },
@@ -1187,6 +1207,7 @@
     "review_badge_block_fdwiDa",
     "media_header_YNaii9",
     "cn_comparison_table_6_dezwLg",
-    "video_review_testimonials_RXreN3"
+    "video_review_testimonials_RXreN3",
+    "instagram_feed_pLLt3h"
   ]
 }
