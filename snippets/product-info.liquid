@@ -29,6 +29,56 @@
       {%- when 'badges' -%}
         {%- render 'product-badges', product: product, types: 'custom', form_id: product_form_id, class: 'product-info__badge-list', block: block -%}
 
+      {%- when 'stock_status_pill' -%}
+        <div class="product-info__stock-status-pill" {{ block.shopify_attributes }}>
+          <style>
+            .stock-status-pill-{{ block.id }} {
+              display: inline-flex;
+              align-items: center;
+              gap: 16px;
+              padding: 14px 22px;
+              border-radius: 999px;
+              background: {{ block.settings.background_color }};
+              color: {{ block.settings.text_color }};
+              line-height: 1;
+            }
+
+            .stock-status-pill-{{ block.id }}__dot {
+              width: 28px;
+              height: 28px;
+              border-radius: 50%;
+              background: {{ block.settings.dot_color }};
+              flex-shrink: 0;
+            }
+
+            .stock-status-pill-{{ block.id }}__text {
+              font-size: 20px;
+              font-weight: 500;
+              letter-spacing: -0.02em;
+            }
+
+            @media screen and (max-width: 749px) {
+              .stock-status-pill-{{ block.id }} {
+                gap: 12px;
+                padding: 10px 14px;
+              }
+
+              .stock-status-pill-{{ block.id }}__dot {
+                width: 22px;
+                height: 22px;
+              }
+
+              .stock-status-pill-{{ block.id }}__text {
+                font-size: 16px;
+              }
+            }
+          </style>
+          <div class="stock-status-pill-{{ block.id }}">
+            <span class="stock-status-pill-{{ block.id }}__dot"></span>
+            <span class="stock-status-pill-{{ block.id }}__text">{{ block.settings.text }}</span>
+          </div>
+        </div>
+
       {%- when 'sku' -%}
         <variant-sku form="{{ product_form_id }}" class="product-info__sku text-xs text-subdued" {% if product.selected_or_first_available_variant.sku == blank %}hidden{% endif %} {{ block.shopify_attributes }}>
           {{- 'product.general.sku' | t }} {{ product.selected_or_first_available_variant.sku -}}
