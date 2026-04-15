@@ -1,467 +1,504 @@
+{% comment %} Instagram Feed — v3 (rich cards, full settings, responsive) {% endcomment %}
+
+{%- assign col_d = section.settings.columns_desktop | default: 3 -%}
+{%- assign col_m = section.settings.columns_mobile | default: '1' -%}
+
 <section
-  class="ig-feed-v2 color-{{ section.id }}"
+  id="ig-feed-{{ section.id }}"
+  class="ig-feed"
   style="
-    --ig-bg: {{ section.settings.bg_color }};
-    --ig-card-bg: {{ section.settings.card_bg_color }};
-    --ig-heading: {{ section.settings.heading_color }};
-    --ig-text: {{ section.settings.text_color }};
-    --ig-muted: {{ section.settings.meta_color }};
-    --ig-button: {{ section.settings.handle_color }};
+    background: {{ section.settings.bg_color }};
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   "
 >
-  <div class="ig-feed-v2__inner page-width">
-    <div class="ig-feed-v2__intro">
-      <div class="ig-feed-v2__eyebrow">
-        <span class="ig-feed-v2__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="ig-feed__container">
+
+    <div class="ig-feed__header ig-feed__header--{{ section.settings.header_align }}">
+
+      <div class="ig-feed__brand">
+        <span class="ig-feed__brand-icon">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="igGradient-{{ section.id }}" x1="3" y1="21" x2="21" y2="3" gradientUnits="userSpaceOnUse">
+              <linearGradient id="ig-grad-{{ section.id }}" x1="2" y1="30" x2="30" y2="2" gradientUnits="userSpaceOnUse">
                 <stop stop-color="#F58529"/>
-                <stop offset="0.35" stop-color="#FEDA77"/>
-                <stop offset="0.6" stop-color="#DD2A7B"/>
-                <stop offset="0.82" stop-color="#8134AF"/>
+                <stop offset="0.25" stop-color="#FEDA77"/>
+                <stop offset="0.55" stop-color="#DD2A7B"/>
+                <stop offset="0.78" stop-color="#8134AF"/>
                 <stop offset="1" stop-color="#515BD4"/>
               </linearGradient>
             </defs>
-            <rect x="3" y="3" width="18" height="18" rx="5" stroke="url(#igGradient-{{ section.id }})" stroke-width="2"/>
-            <circle cx="12" cy="12" r="4.2" stroke="url(#igGradient-{{ section.id }})" stroke-width="2"/>
-            <circle cx="17.2" cy="6.8" r="1.2" fill="url(#igGradient-{{ section.id }})"/>
+            <rect x="3" y="3" width="26" height="26" rx="7.5" stroke="url(#ig-grad-{{ section.id }})" stroke-width="2.5"/>
+            <circle cx="16" cy="16" r="5.8" stroke="url(#ig-grad-{{ section.id }})" stroke-width="2.5"/>
+            <circle cx="23.3" cy="8.7" r="1.7" fill="url(#ig-grad-{{ section.id }})"/>
           </svg>
         </span>
-        <span>{{ section.settings.eyebrow }}</span>
+        <span class="ig-feed__brand-label">{{ section.settings.eyebrow }}</span>
       </div>
 
-      <h2 class="ig-feed-v2__heading">
-        {{ section.settings.heading | split: 'Instagram' | first -}}
-        <em>Instagram</em>
-        {%- assign after_heading = section.settings.heading | split: 'Instagram' | last -%}
-        {%- if after_heading != blank %}{{ after_heading }}{% endif %}
+      <h2 class="ig-feed__heading">
+        {%- assign parts = section.settings.heading | split: 'Instagram' -%}
+        {{ parts[0] }}<em>Instagram</em>{{ parts[1] }}
       </h2>
 
       {%- if section.settings.subtext != blank -%}
-        <div class="ig-feed-v2__subtext rte">
-          <p>{{ section.settings.subtext }}</p>
-        </div>
+        <p class="ig-feed__subtext">{{ section.settings.subtext }}</p>
       {%- endif -%}
 
-      <div class="ig-feed-v2__actions">
-        {%- if section.settings.instagram_handle != blank -%}
+      {%- if section.settings.instagram_handle != blank -%}
+        <div class="ig-feed__cta">
           <a
-            class="ig-feed-v2__button"
-            href="{{ section.settings.instagram_url | default: '#' }}"
-            {% if section.settings.instagram_url != blank %}target="_blank" rel="noopener noreferrer"{% endif %}
+            class="ig-feed__follow-btn"
+            {% if section.settings.instagram_url != blank %}
+              href="{{ section.settings.instagram_url }}"
+              target="_blank"
+              rel="noopener noreferrer"
+            {% else %}
+              href="#"
+            {% endif %}
           >
-            <span class="ig-feed-v2__button-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/>
-                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
-                <circle cx="17" cy="7" r="1.1" fill="currentColor"/>
+            <span class="ig-feed__follow-btn-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/>
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                <circle cx="17.2" cy="6.8" r="1.3" fill="currentColor"/>
               </svg>
             </span>
-            <span>@{{ section.settings.instagram_handle }}</span>
+            @{{ section.settings.instagram_handle }}
           </a>
-        {%- endif -%}
-      </div>
+        </div>
+      {%- endif -%}
     </div>
 
-    <div class="ig-feed-v2__cards-wrap">
-      <div class="ig-feed-v2__cards" role="list">
+    {%- if section.blocks.size > 0 -%}
+      <div
+        class="ig-feed__grid ig-feed__grid--mob-{{ col_m }}"
+        style="--ig-cols-d: {{ col_d }}; --ig-gap: {{ section.settings.card_gap }}px; --ig-radius: {{ section.settings.card_radius }}px;"
+      >
         {%- for block in section.blocks -%}
-          <article class="ig-post-card" {{ block.shopify_attributes }} role="listitem">
-            <div class="ig-post-card__top">
-              <div class="ig-post-card__profile">
-                <span class="ig-post-card__avatar">
+          <article class="ig-post" {{ block.shopify_attributes }}>
+
+            <header class="ig-post__head">
+              <div class="ig-post__profile">
+                <div class="ig-post__avatar-ring">
                   {%- if section.settings.brand_avatar != blank -%}
                     <img
-                      src="{{ section.settings.brand_avatar | image_url: width: 72 }}"
-                      alt="{{ section.settings.instagram_handle | default: shop.name | escape }}"
-                      width="36"
-                      height="36"
-                      loading="lazy"
+                      class="ig-post__avatar-img"
+                      src="{{ section.settings.brand_avatar | image_url: width: 80 }}"
+                      alt="{{ section.settings.instagram_handle | escape }}"
+                      width="40" height="40" loading="lazy"
                     >
                   {%- else -%}
-                    <span class="ig-post-card__avatar-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/>
-                        <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
-                        <circle cx="17" cy="7" r="1.1" fill="currentColor"/>
+                    <span class="ig-post__avatar-fallback">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
                       </svg>
                     </span>
                   {%- endif -%}
-                </span>
-                <div class="ig-post-card__account">
-                  <strong>{{ section.settings.instagram_handle | prepend: '@' }}</strong>
+                </div>
+                <div class="ig-post__account-info">
+                  <span class="ig-post__username">{{ section.settings.instagram_handle | prepend: '@' }}</span>
                   {%- if block.settings.location != blank -%}
-                    <span>{{ block.settings.location }}</span>
+                    <span class="ig-post__location">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+                      {{ block.settings.location }}
+                    </span>
                   {%- endif -%}
                 </div>
               </div>
-              <span class="ig-post-card__menu" aria-hidden="true">•••</span>
-            </div>
+              <span class="ig-post__more" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+              </span>
+            </header>
 
-            <div class="ig-post-card__media">
+            <div class="ig-post__media">
               {%- if block.settings.image != blank -%}
                 <img
-                  src="{{ block.settings.image | image_url: width: 900 }}"
-                  alt="{{ block.settings.alt | default: block.settings.caption | escape }}"
-                  width="450"
-                  height="450"
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  alt="{{ block.settings.alt | default: block.settings.caption | truncate: 80 | escape }}"
+                  width="800" height="800"
                   loading="lazy"
                 >
               {%- else -%}
-                {{ 'image' | placeholder_svg_tag: 'ig-post-card__placeholder' }}
+                <div class="ig-post__media-placeholder">
+                  {{ 'collection-1' | placeholder_svg_tag: 'ig-post__placeholder-svg' }}
+                </div>
+              {%- endif -%}
+              {%- if block.settings.show_overlay -%}
+                <div class="ig-post__media-overlay" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="white" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="white" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="white"/></svg>
+                </div>
               {%- endif -%}
             </div>
 
-            <div class="ig-post-card__body">
-              <div class="ig-post-card__meta-row">
-                <div class="ig-post-card__icons" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.62 20.55 12 21.13l-.62-.58C5.4 15.05 2 11.96 2 8.16 2 5.07 4.42 3 7.3 3c1.63 0 3.2.76 4.2 1.95C12.5 3.76 14.07 3 15.7 3 18.58 3 21 5.07 21 8.16c0 3.8-3.4 6.89-9.38 12.39Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 3 11 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 3 15 21l-4-7-7-4 18-7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="ig-post__body">
+              <div class="ig-post__actions">
+                <div class="ig-post__action-left">
+                  <span class="ig-post__action-btn ig-post__action-btn--like" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12.62 20.55 12 21.13l-.62-.58C5.4 15.05 2 11.96 2 8.16 2 5.07 4.42 3 7.3 3c1.63 0 3.2.76 4.2 1.95C12.5 3.76 14.07 3 15.7 3 18.58 3 21 5.07 21 8.16c0 3.8-3.4 6.89-9.38 12.39Z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span class="ig-post__action-btn" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span class="ig-post__action-btn" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 3 11 14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 3 15 21l-4-7-7-4 18-7Z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
                 </div>
-                <span class="ig-post-card__save" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="ig-post__action-btn ig-post__action-btn--save" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
               </div>
 
+              {%- if block.settings.likes != blank -%}
+                <p class="ig-post__likes">{{ block.settings.likes }} vind-ik-leuks</p>
+              {%- endif -%}
+
               {%- if block.settings.caption != blank -%}
-                <p class="ig-post-card__caption">
-                  <strong>@{{ section.settings.instagram_handle }}</strong>
-                  <span>{{ block.settings.caption }}</span>
+                <p class="ig-post__caption">
+                  <span class="ig-post__caption-user">@{{ section.settings.instagram_handle }}</span>
+                  {{ block.settings.caption }}
                 </p>
               {%- endif -%}
 
-              <div class="ig-post-card__details">
+              {%- if block.settings.hashtags != blank -%}
+                <p class="ig-post__hashtags">{{ block.settings.hashtags }}</p>
+              {%- endif -%}
+
+              <div class="ig-post__meta">
                 {%- if block.settings.date != blank -%}
-                  <span>{{ block.settings.date }}</span>
-                {%- endif -%}
-                {%- if block.settings.location != blank and block.settings.date != blank -%}
-                  <span>•</span>
-                {%- endif -%}
-                {%- if block.settings.location != blank -%}
-                  <span>{{ block.settings.location }}</span>
+                  <time class="ig-post__date" datetime="{{ block.settings.date }}">{{ block.settings.date }}</time>
                 {%- endif -%}
               </div>
             </div>
+
           </article>
         {%- endfor -%}
       </div>
-    </div>
+    {%- else -%}
+      <div class="ig-feed__empty">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></svg>
+        <p>Voeg posts toe via de customizer.</p>
+      </div>
+    {%- endif -%}
+
   </div>
 </section>
 
 <style>
-  .ig-feed-v2 {
-    background: var(--ig-bg);
-    overflow: hidden;
+#ig-feed-{{ section.id }} {
+  --ig-bg:     {{ section.settings.bg_color }};
+  --ig-card:   {{ section.settings.card_bg_color }};
+  --ig-h:      {{ section.settings.heading_color }};
+  --ig-txt:    {{ section.settings.text_color }};
+  --ig-muted:  {{ section.settings.meta_color }};
+  --ig-accent: {{ section.settings.accent_color }};
+  --ig-border: {{ section.settings.card_border_color }};
+}
+
+.ig-feed__container {
+  max-width: {{ section.settings.container_width }}px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2.5rem);
+}
+
+.ig-feed__header {
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.ig-feed__header--center { text-align: center; }
+.ig-feed__header--center .ig-feed__brand,
+.ig-feed__header--center .ig-feed__cta { justify-content: center; }
+.ig-feed__header--left { text-align: left; }
+
+.ig-feed__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-bottom: .85rem;
+}
+.ig-feed__brand-icon { display: flex; align-items: center; }
+.ig-feed__brand-label {
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ig-muted);
+}
+
+.ig-feed__heading {
+  margin: 0 0 .55rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  color: var(--ig-h);
+}
+.ig-feed__heading em {
+  font-style: italic;
+  background: linear-gradient(90deg, #f58529, #dd2a7b 55%, #8134af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ig-feed__subtext {
+  font-size: clamp(.9rem, 1.4vw, 1.05rem);
+  color: var(--ig-txt);
+  line-height: 1.65;
+  max-width: 54ch;
+  margin: 0 0 1.25rem;
+}
+.ig-feed__header--center .ig-feed__subtext { margin-inline: auto; }
+
+.ig-feed__cta { display: flex; }
+
+.ig-feed__follow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 44px;
+  padding: .6rem 1.4rem;
+  border-radius: 999px;
+  border: 1.5px solid;
+  border-image: linear-gradient(135deg, #f58529, #dd2a7b, #8134af) 1;
+  background: var(--ig-card);
+  color: var(--ig-h);
+  font-size: .95rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease;
+  position: relative;
+  overflow: hidden;
+}
+.ig-feed__follow-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af);
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+.ig-feed__follow-btn:hover::before { opacity: 1; }
+.ig-feed__follow-btn:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+.ig-feed__follow-btn > * { position: relative; z-index: 1; }
+.ig-feed__follow-btn-icon { display: flex; align-items: center; }
+
+.ig-feed__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--ig-cols-d, 3), minmax(0, 1fr));
+  gap: var(--ig-gap, 20px);
+}
+
+.ig-post {
+  background: var(--ig-card);
+  border-radius: var(--ig-radius, 18px);
+  overflow: hidden;
+  border: 1px solid var(--ig-border);
+  box-shadow: {{ section.settings.card_shadow }};
+  display: flex;
+  flex-direction: column;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+.ig-post:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 48px rgba(0,0,0,.13);
+}
+
+.ig-post__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .85rem 1rem .7rem;
+  gap: .75rem;
+}
+.ig-post__profile {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  min-width: 0;
+}
+.ig-post__avatar-ring {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f58529 0%, #dd2a7b 55%, #8134af 100%);
+  padding: 2px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ig-post__avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  object-fit: cover;
+  background: var(--ig-card);
+  display: block;
+}
+.ig-post__avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c13584;
+}
+.ig-post__account-info {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  min-width: 0;
+}
+.ig-post__username {
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ig-h);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ig-post__location {
+  display: inline-flex;
+  align-items: center;
+  gap: .2rem;
+  font-size: .7rem;
+  color: var(--ig-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ig-post__more {
+  color: var(--ig-h);
+  opacity: .5;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.ig-post__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #e8e8e8;
+  overflow: hidden;
+}
+.ig-post__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+.ig-post:hover .ig-post__media img { transform: scale(1.04); }
+.ig-post__media-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ebebeb;
+}
+.ig-post__placeholder-svg { width: 100%; height: 100%; }
+.ig-post__media-overlay {
+  position: absolute;
+  bottom: .7rem;
+  right: .7rem;
+  background: rgba(0,0,0,.32);
+  border-radius: 8px;
+  padding: .28rem .38rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.ig-post__body {
+  padding: .7rem 1rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  flex: 1;
+}
+
+.ig-post__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .2rem;
+}
+.ig-post__action-left {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+.ig-post__action-btn {
+  color: var(--ig-h);
+  line-height: 0;
+  display: inline-flex;
+}
+
+.ig-post__likes {
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--ig-h);
+  margin: 0;
+}
+
+.ig-post__caption {
+  font-size: .86rem;
+  color: var(--ig-txt);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ig-post__caption-user {
+  font-weight: 700;
+  color: var(--ig-h);
+  margin-right: .3rem;
+}
+
+.ig-post__hashtags {
+  font-size: .78rem;
+  color: var(--ig-accent);
+  margin: 0;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.ig-post__meta { margin-top: auto; padding-top: .35rem; }
+.ig-post__date {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ig-muted);
+}
+
+.ig-feed__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: var(--ig-muted);
+  text-align: center;
+}
+
+@media screen and (max-width: 989px) {
+  .ig-feed__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .ig-feed-v2 .page-width {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding-left: clamp(1.25rem, 3vw, 2.5rem);
-    padding-right: clamp(1.25rem, 3vw, 2.5rem);
-  }
-
-  .ig-feed-v2__inner {
-    display: grid;
-    grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.6fr);
-    gap: clamp(1.5rem, 4vw, 3.5rem);
-    align-items: start;
-  }
-
-  .ig-feed-v2__intro {
-    position: sticky;
-    top: 2rem;
-  }
-
-  .ig-feed-v2__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.85rem;
-    color: var(--ig-muted);
-    margin-bottom: 0.9rem;
-    letter-spacing: 0.01em;
-  }
-
-  .ig-feed-v2__icon,
-  .ig-feed-v2__button-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ig-feed-v2__icon svg {
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-
-  .ig-feed-v2__heading {
-    margin: 0;
-    color: var(--ig-heading);
-    font-size: clamp(1.8rem, 3vw, 3rem);
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    font-weight: 600;
-    max-width: 12ch;
-  }
-
-  .ig-feed-v2__heading em {
-    font-style: italic;
-    font-weight: 700;
-  }
-
-  .ig-feed-v2__subtext {
-    margin-top: 1rem;
-    max-width: 35ch;
-    color: var(--ig-text);
-    font-size: 0.98rem;
-    line-height: 1.65;
-  }
-
-  .ig-feed-v2__actions {
-    margin-top: 1.35rem;
-  }
-
-  .ig-feed-v2__button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    min-height: 46px;
-    padding: 0.7rem 1.1rem;
-    border: 1px solid color-mix(in srgb, var(--ig-button) 28%, transparent);
-    border-radius: 999px;
-    background: #fff;
-    color: var(--ig-button);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .ig-feed-v2__button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 16px 35px rgba(17, 24, 39, 0.1);
-  }
-
-  .ig-feed-v2__button-icon svg {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .ig-feed-v2__cards-wrap {
-    min-width: 0;
-  }
-
-  .ig-feed-v2__cards {
-    display: grid;
-    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
-    gap: clamp(1rem, 2vw, 1.4rem);
-  }
-
-  .ig-post-card {
-    min-width: 0;
-    background: var(--ig-card-bg);
-    border: 1px solid rgba(17, 24, 39, 0.08);
-    border-radius: 1.45rem;
-    overflow: hidden;
-    box-shadow: 0 16px 40px rgba(17, 24, 39, 0.08);
-  }
-
-  .ig-post-card__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 1rem 0.85rem;
-  }
-
-  .ig-post-card__profile {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    min-width: 0;
-  }
-
-  .ig-post-card__avatar {
-    width: 2.35rem;
-    height: 2.35rem;
-    border-radius: 999px;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #f58529 0%, #dd2a7b 55%, #8134af 100%);
-    color: #fff;
-    flex: 0 0 auto;
-    padding: 2px;
-  }
-
-  .ig-post-card__avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 999px;
-    background: #fff;
-  }
-
-  .ig-post-card__avatar-icon {
-    width: 100%;
-    height: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    border-radius: 999px;
-    color: #c13584;
-  }
-
-  .ig-post-card__avatar-icon svg {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .ig-post-card__account {
-    min-width: 0;
-    display: grid;
-    gap: 0.1rem;
-  }
-
-  .ig-post-card__account strong,
-  .ig-post-card__caption strong {
-    color: var(--ig-heading);
-    font-size: 0.92rem;
-    line-height: 1.25;
-  }
-
-  .ig-post-card__account span,
-  .ig-post-card__details,
-  .ig-post-card__menu {
-    color: var(--ig-muted);
-    font-size: 0.78rem;
-    line-height: 1.35;
-  }
-
-  .ig-post-card__media {
-    aspect-ratio: 1 / 1;
-    background: #ececec;
-    overflow: hidden;
-  }
-
-  .ig-post-card__media img,
-  .ig-post-card__placeholder {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-  }
-
-  .ig-post-card__body {
-    padding: 0.95rem 1rem 1.05rem;
-  }
-
-  .ig-post-card__meta-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    color: var(--ig-heading);
-  }
-
-  .ig-post-card__icons {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .ig-post-card__icons svg,
-  .ig-post-card__save svg {
-    width: 1.3rem;
-    height: 1.3rem;
-  }
-
-  .ig-post-card__caption {
-    margin: 0.75rem 0 0;
-    color: var(--ig-text);
-    font-size: 0.9rem;
-    line-height: 1.55;
-    display: grid;
-    gap: 0.25rem;
-  }
-
-  .ig-post-card__caption span {
-    display: inline;
-  }
-
-  .ig-post-card__details {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  @media screen and (max-width: 989px) {
-    .ig-feed-v2__inner {
-      grid-template-columns: 1fr;
-    }
-
-    .ig-feed-v2__intro {
-      position: static;
-      max-width: 100%;
-    }
-
-    .ig-feed-v2__heading {
-      max-width: 100%;
-    }
-
-    .ig-feed-v2__cards {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x proximity;
-      padding-bottom: 0.4rem;
-      margin-right: -1rem;
-      padding-right: 1rem;
-      scrollbar-width: none;
-    }
-
-    .ig-feed-v2__cards::-webkit-scrollbar {
-      display: none;
-    }
-
-    .ig-post-card {
-      flex: 0 0 min(82vw, 360px);
-      scroll-snap-align: start;
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .ig-feed-v2__heading {
-      font-size: clamp(1.6rem, 8vw, 2.2rem);
-    }
-
-    .ig-feed-v2__subtext {
-      font-size: 0.92rem;
-    }
-
-    .ig-post-card {
-      flex-basis: min(86vw, 320px);
-      border-radius: 1.2rem;
-    }
-
-    .ig-post-card__top,
-    .ig-post-card__body {
-      padding-left: 0.85rem;
-      padding-right: 0.85rem;
-    }
-  }
+}
+@media screen and (max-width: 749px) {
+  .ig-feed__grid--mob-1 { grid-template-columns: 1fr; }
+  .ig-feed__grid--mob-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ig-feed__heading { letter-spacing: -.02em; }
+  .ig-feed__follow-btn { font-size: .88rem; padding: .55rem 1.15rem; }
+}
 </style>
 
 {% schema %}
@@ -469,57 +506,125 @@
   "name": "Instagram Feed",
   "tag": "section",
   "class": "section-instagram-feed",
-  "enabled_on": {
-    "templates": ["*"]
-  },
+  "enabled_on": { "templates": ["*"] },
   "settings": [
+    {
+      "type": "header",
+      "content": "Sectie header"
+    },
+    {
+      "type": "select",
+      "id": "header_align",
+      "label": "Header uitlijning",
+      "options": [
+        { "value": "left",   "label": "Links" },
+        { "value": "center", "label": "Gecentreerd" }
+      ],
+      "default": "left"
+    },
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Instagram updates"
+      "label": "Eyebrow tekst",
+      "default": "Volg ons"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
+      "label": "Heading (gebruik 'Instagram' voor gradient stijl)",
       "default": "Follow us on Instagram"
     },
     {
       "type": "textarea",
       "id": "subtext",
-      "label": "Subtext",
-      "default": "Dagelijkse design inspiratie. Volg ons op Instagram en mis niets."
+      "label": "Subtekst",
+      "default": "Dagelijkse design inspiratie. Volg ons voor de nieuwste updates."
+    },
+    {
+      "type": "header",
+      "content": "Instagram account"
     },
     {
       "type": "text",
       "id": "instagram_handle",
-      "label": "Instagram handle (zonder @)",
+      "label": "Handle (zonder @)",
       "default": "namingthislater"
     },
     {
       "type": "url",
       "id": "instagram_url",
-      "label": "Instagram profiel URL"
+      "label": "Profiel URL"
     },
     {
       "type": "image_picker",
       "id": "brand_avatar",
-      "label": "Profielafbeelding"
+      "label": "Profielfoto (avatar)"
+    },
+    {
+      "type": "header",
+      "content": "Grid instellingen"
     },
     {
       "type": "range",
       "id": "columns_desktop",
-      "label": "Aantal columns (desktop)",
+      "label": "Kolommen \u2014 desktop",
       "min": 2,
       "max": 4,
       "step": 1,
       "default": 3
     },
     {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Kolommen \u2014 mobiel",
+      "options": [
+        { "value": "1", "label": "1 kolom" },
+        { "value": "2", "label": "2 kolommen" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Ruimte tussen cards (px)",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Card stijl"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border-radius (px)",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "card_shadow",
+      "label": "Card schaduw",
+      "options": [
+        { "value": "none",                        "label": "Geen" },
+        { "value": "0 2px 8px rgba(0,0,0,.06)",   "label": "Subtiel" },
+        { "value": "0 8px 24px rgba(0,0,0,.10)",  "label": "Middel" },
+        { "value": "0 20px 48px rgba(0,0,0,.14)", "label": "Sterk" }
+      ],
+      "default": "0 8px 24px rgba(0,0,0,.10)"
+    },
+    {
+      "type": "header",
+      "content": "Kleuren"
+    },
+    {
       "type": "color",
       "id": "bg_color",
-      "label": "Achtergrondkleur sectie",
+      "label": "Sectie achtergrond",
       "default": "#eef0f8"
     },
     {
@@ -530,53 +635,70 @@
     },
     {
       "type": "color",
+      "id": "card_border_color",
+      "label": "Card border kleur",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
       "id": "heading_color",
-      "label": "Heading kleur",
-      "default": "#171717"
+      "label": "Heading en primaire tekst",
+      "default": "#111111"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Tekstkleur",
+      "label": "Body tekst (caption)",
       "default": "#444444"
     },
     {
       "type": "color",
       "id": "meta_color",
-      "label": "Meta kleur (datum, locatie)",
-      "default": "#7a7a7a"
+      "label": "Meta tekst (datum, locatie, eyebrow)",
+      "default": "#8a8a8a"
     },
     {
       "type": "color",
-      "id": "handle_color",
-      "label": "Button kleur",
-      "default": "#171717"
+      "id": "accent_color",
+      "label": "Accent kleur (hashtags)",
+      "default": "#0095f6"
+    },
+    {
+      "type": "header",
+      "content": "Afmetingen"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Max. breedte container (px)",
+      "min": 960,
+      "max": 1600,
+      "step": 40,
+      "default": 1320
     },
     {
       "type": "range",
       "id": "padding_top",
+      "label": "Padding boven (px)",
       "min": 0,
-      "max": 140,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding boven",
-      "default": 64
+      "max": 160,
+      "step": 8,
+      "default": 72
     },
     {
       "type": "range",
       "id": "padding_bottom",
+      "label": "Padding onder (px)",
       "min": 0,
-      "max": 140,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding onder",
-      "default": 64
+      "max": 160,
+      "step": 8,
+      "default": 72
     }
   ],
   "blocks": [
     {
       "type": "post",
-      "name": "Post",
+      "name": "Instagram Post",
       "settings": [
         {
           "type": "image_picker",
@@ -586,30 +708,47 @@
         {
           "type": "text",
           "id": "alt",
-          "label": "Alt tekst"
+          "label": "Alt tekst (toegankelijkheid)"
         },
         {
           "type": "textarea",
           "id": "caption",
-          "label": "Bericht (caption)",
-          "default": "Nieuwe post caption hier."
+          "label": "Caption"
+        },
+        {
+          "type": "text",
+          "id": "hashtags",
+          "label": "Hashtags",
+          "placeholder": "#design #shopify #lifestyle"
+        },
+        {
+          "type": "text",
+          "id": "likes",
+          "label": "Aantal likes",
+          "placeholder": "1.234"
         },
         {
           "type": "text",
           "id": "date",
           "label": "Datum",
-          "default": "12 APR 2026"
+          "default": "15 APR 2026"
         },
         {
           "type": "text",
           "id": "location",
           "label": "Locatie",
-          "default": "Amsterdam, NL"
+          "placeholder": "Amsterdam, NL"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overlay",
+          "label": "Toon Instagram icoon overlay op foto",
+          "default": false
         }
       ]
     }
   ],
-  "max_blocks": 8,
+  "max_blocks": 12,
   "presets": [
     {
       "name": "Instagram Feed",
