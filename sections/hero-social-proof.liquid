@@ -1,0 +1,309 @@
+<div class="hsp-section" id="hsp-{{ section.id }}">
+  <div class="hsp-content">
+
+    <div class="hsp-badge">
+      {%- if section.settings.avatar_1 != blank or section.settings.avatar_2 != blank or section.settings.avatar_3 != blank or section.settings.avatar_4 != blank -%}
+        <div class="hsp-avatars">
+          {%- if section.settings.avatar_1 != blank -%}<img src="{{ section.settings.avatar_1 | image_url: width: 80 }}" alt="" width="40" height="40" loading="lazy" class="hsp-avatar">{%- endif -%}
+          {%- if section.settings.avatar_2 != blank -%}<img src="{{ section.settings.avatar_2 | image_url: width: 80 }}" alt="" width="40" height="40" loading="lazy" class="hsp-avatar">{%- endif -%}
+          {%- if section.settings.avatar_3 != blank -%}<img src="{{ section.settings.avatar_3 | image_url: width: 80 }}" alt="" width="40" height="40" loading="lazy" class="hsp-avatar">{%- endif -%}
+          {%- if section.settings.avatar_4 != blank -%}<img src="{{ section.settings.avatar_4 | image_url: width: 80 }}" alt="" width="40" height="40" loading="lazy" class="hsp-avatar">{%- endif -%}
+        </div>
+      {%- endif -%}
+      <div class="hsp-badge__text">
+        {%- if section.settings.badge_label != blank -%}
+          <span class="hsp-badge__label">{{ section.settings.badge_label }}</span>
+        {%- endif -%}
+        {%- if section.settings.show_stars -%}
+          {%- assign star_score = section.settings.star_score -%}
+          {%- assign full_stars = star_score | divided_by: 10 | floor -%}
+          {%- assign decimal = star_score | modulo: 10 -%}
+          {%- assign half_star_pos = full_stars | plus: 1 -%}
+          {%- assign score_display = star_score | times: 1.0 | divided_by: 10 -%}
+          <div class="hsp-stars" aria-label="Rated {{ score_display }} out of 5">
+            {%- for i in (1..5) -%}
+              {%- if i <= full_stars -%}
+                <svg class="hsp-star" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.7 4.1L8 10.25l-3.7 1.93.7-4.1-3-2.92 4.15-.6z" fill="#00b67a"/></svg>
+              {%- elsif i == half_star_pos and decimal >= 3 -%}
+                <svg class="hsp-star" viewBox="0 0 16 16" aria-hidden="true"><defs><linearGradient id="hg{{ section.id }}{{ i }}"><stop offset="50%" stop-color="#00b67a"/><stop offset="50%" stop-color="#ddd"/></linearGradient></defs><path d="M8 1l1.85 3.75 4.15.6-3 2.93.7 4.1L8 10.25l-3.7 1.93.7-4.1-3-2.92 4.15-.6z" fill="url(#hg{{ section.id }}{{ i }})"/></svg>
+              {%- else -%}
+                <svg class="hsp-star" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.7 4.1L8 10.25l-3.7 1.93.7-4.1-3-2.92 4.15-.6z" fill="#ddd"/></svg>
+              {%- endif -%}
+            {%- endfor -%}
+            <span class="hsp-stars__score">{{ score_display }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.heading != blank -%}
+      {%- assign heading_parts = section.settings.heading | split: '|' -%}
+      <h1 class="hsp-heading">
+        {%- for part in heading_parts -%}
+          {%- if forloop.index == section.settings.highlight_word_position -%}<span class="hsp-heading__highlight">{{ part }}</span>{%- else -%}{{ part }}{%- endif -%}
+        {%- endfor -%}
+      </h1>
+    {%- endif -%}
+
+    {%- if section.settings.subtext != blank -%}
+      <p class="hsp-subtext">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.btn1_label != blank or section.settings.btn2_label != blank -%}
+      <div class="hsp-buttons">
+        {%- if section.settings.btn1_label != blank -%}
+          <a href="{{ section.settings.btn1_url | default: '#' }}" class="hsp-btn">{{ section.settings.btn1_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.btn2_label != blank -%}
+          <a href="{{ section.settings.btn2_url | default: '#' }}" class="hsp-btn">{{ section.settings.btn2_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.tagline != blank -%}
+      <p class="hsp-tagline">{{ section.settings.tagline }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="hsp-media">
+    {%- if section.settings.hero_image != blank -%}
+      <img
+        src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+        srcset="{{ section.settings.hero_image | image_url: width: 600 }} 600w, {{ section.settings.hero_image | image_url: width: 900 }} 900w, {{ section.settings.hero_image | image_url: width: 1200 }} 1200w"
+        sizes="(max-width: 768px) 100vw, 55vw"
+        alt="{{ section.settings.hero_image.alt | default: '' | escape }}"
+        width="1200" height="900"
+        loading="eager"
+        fetchpriority="high"
+        class="hsp-media__img"
+      >
+    {%- else -%}
+      <div class="hsp-media__placeholder">{{ 'product-1' | placeholder_svg_tag: 'hsp-placeholder-svg' }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  #hsp-{{ section.id }} {
+    --hsp-bg:            {{ section.settings.bg_color }};
+    --hsp-text:          {{ section.settings.text_color }};
+    --hsp-heading-color: {{ section.settings.heading_color }};
+    --hsp-highlight-bg:  {{ section.settings.highlight_color }};
+    --hsp-btn-bg:        {{ section.settings.btn_bg_color }};
+    --hsp-btn-text:      {{ section.settings.btn_text_color }};
+    --hsp-btn-border:    {{ section.settings.btn_border_color }};
+    --hsp-tagline-color: {{ section.settings.tagline_color }};
+    --hsp-min-height:    {{ section.settings.min_height }}px;
+  }
+</style>
+
+{%- stylesheet -%}
+.hsp-section {
+  position: relative;
+  display: grid;
+  grid-template-columns: 45fr 55fr;
+  align-items: stretch;
+  min-height: var(--hsp-min-height, 560px);
+  background-color: var(--hsp-bg, #f2b8b8);
+  overflow: hidden;
+}
+.hsp-content {
+  position: relative;
+  z-index: 2;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  justify-content: center;
+}
+.hsp-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.hsp-avatars {
+  display: flex;
+  align-items: center;
+}
+.hsp-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--hsp-bg, #f2b8b8);
+  object-fit: cover;
+  margin-left: -10px;
+  display: block;
+}
+.hsp-avatars .hsp-avatar:first-child { margin-left: 0; }
+.hsp-badge__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.hsp-badge__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--hsp-text, #1a1a1a);
+  line-height: 1.2;
+}
+.hsp-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+.hsp-star {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.hsp-stars__score {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--hsp-text, #1a1a1a);
+  margin-left: 0.25rem;
+}
+.hsp-heading {
+  font-size: clamp(2.2rem, 5vw, 3.75rem);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--hsp-heading-color, #1a1a1a);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.hsp-heading__highlight {
+  position: relative;
+  display: inline;
+  background: linear-gradient(to bottom, transparent 55%, var(--hsp-highlight-bg, #ffe066) 55%);
+  padding-bottom: 0.04em;
+}
+.hsp-subtext {
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  color: var(--hsp-text, #1a1a1a);
+  line-height: 1.65;
+  max-width: 42ch;
+  margin: 0;
+}
+.hsp-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+.hsp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  background-color: var(--hsp-btn-bg, #ffffff);
+  color: var(--hsp-btn-text, #1a1a1a);
+  border: 2px solid var(--hsp-btn-border, #1a1a1a);
+  border-radius: 2px;
+  transition: background-color 0.18s, color 0.18s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.hsp-btn:hover {
+  background-color: var(--hsp-btn-text, #1a1a1a);
+  color: var(--hsp-btn-bg, #ffffff);
+}
+.hsp-tagline {
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--hsp-tagline-color, #1a1a1a);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.hsp-media {
+  position: relative;
+  overflow: hidden;
+}
+.hsp-media__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.hsp-media__placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: var(--hsp-min-height, 560px);
+  background: rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hsp-placeholder-svg { width: 50%; opacity: 0.3; }
+@media (max-width: 768px) {
+  .hsp-section {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .hsp-content {
+    text-align: center;
+    align-items: center;
+    order: 2;
+    padding: 2rem 1.25rem 2.5rem;
+  }
+  .hsp-subtext { max-width: 100%; }
+  .hsp-media {
+    order: 1;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
+  .hsp-badge { justify-content: center; }
+  .hsp-buttons { justify-content: center; }
+}
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Hero — Social Proof",
+  "tag": "section",
+  "class": "hsp-section-wrapper",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "min_height", "label": "Min. sectie hoogte (px)", "min": 400, "max": 900, "step": 20, "default": 560 },
+    { "type": "header", "content": "Kleuren" },
+    { "type": "color", "id": "bg_color", "label": "Achtergrond", "default": "#f2b8b8" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#1a1a1a" },
+    { "type": "color", "id": "highlight_color", "label": "Highlight kleur", "default": "#ffe066" },
+    { "type": "color", "id": "text_color", "label": "Tekst", "default": "#1a1a1a" },
+    { "type": "color", "id": "tagline_color", "label": "Tagline", "default": "#1a1a1a" },
+    { "type": "header", "content": "Knoppen" },
+    { "type": "color", "id": "btn_bg_color", "label": "Knop achtergrond", "default": "#ffffff" },
+    { "type": "color", "id": "btn_text_color", "label": "Knop tekst", "default": "#1a1a1a" },
+    { "type": "color", "id": "btn_border_color", "label": "Knop rand", "default": "#1a1a1a" },
+    { "type": "header", "content": "Social Proof Badge" },
+    { "type": "image_picker", "id": "avatar_1", "label": "Avatar 1" },
+    { "type": "image_picker", "id": "avatar_2", "label": "Avatar 2" },
+    { "type": "image_picker", "id": "avatar_3", "label": "Avatar 3" },
+    { "type": "image_picker", "id": "avatar_4", "label": "Avatar 4" },
+    { "type": "text", "id": "badge_label", "label": "Badge tekst", "default": "50K+ Happy Customers" },
+    { "type": "checkbox", "id": "show_stars", "label": "Toon sterren", "default": true },
+    { "type": "range", "id": "star_score", "label": "Sterrenscore (x10)", "min": 10, "max": 50, "step": 1, "default": 49, "info": "49 = 4.9 sterren" },
+    { "type": "header", "content": "Tekst" },
+    { "type": "textarea", "id": "heading", "label": "Heading — gebruik | om woord te markeren", "default": "It's all |about| the crave" },
+    { "type": "range", "id": "highlight_word_position", "label": "Highlight woordpositie", "min": 1, "max": 5, "step": 1, "default": 2 },
+    { "type": "textarea", "id": "subtext", "label": "Subtekst", "default": "Our products are easy to understand, made from organic, nutritious and delicious ingredients." },
+    { "type": "text", "id": "btn1_label", "label": "Knop 1 tekst", "default": "Shop bars" },
+    { "type": "url", "id": "btn1_url", "label": "Knop 1 URL" },
+    { "type": "text", "id": "btn2_label", "label": "Knop 2 tekst", "default": "Shop chips" },
+    { "type": "url", "id": "btn2_url", "label": "Knop 2 URL" },
+    { "type": "text", "id": "tagline", "label": "Tagline onderaan", "default": "Over 50.000 Happy Customers" },
+    { "type": "header", "content": "Hero afbeelding" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero afbeelding (rechts)" }
+  ],
+  "presets": [
+    { "name": "Hero — Social Proof" }
+  ],
+  "enabled_on": { "templates": ["*"] }
+}
+{% endschema %}
