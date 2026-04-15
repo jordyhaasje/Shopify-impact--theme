@@ -1,0 +1,520 @@
+{% comment %}
+  Feature-22 Section — Split image + text layout
+  Left: image with badge overlay | Right: eyebrow, heading, body, CTA
+{% endcomment %}
+
+{%- liquid
+  assign section_padding_top    = section.settings.padding_top
+  assign section_padding_bottom = section.settings.padding_bottom
+-%}
+
+<section
+  id="section-{{ section.id }}"
+  class="feature-22{% if section.settings.image_position == 'right' %} feature-22--img-right{% endif %}"
+  style="
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section_padding_top }}px;
+    padding-bottom: {{ section_padding_bottom }}px;
+  "
+>
+  <div class="feature-22__inner">
+
+    <div class="feature-22__media">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 900 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="900"
+          height="{{ 900 | divided_by: section.settings.image.aspect_ratio | round }}"
+          loading="lazy"
+          decoding="async"
+          class="feature-22__img"
+        >
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'feature-22__img feature-22__img--placeholder' }}
+      {%- endif -%}
+
+      {%- if section.settings.image_badge != blank -%}
+        <div class="feature-22__img-badge" style="background-color: {{ section.settings.badge_bg_color }}; color: {{ section.settings.badge_text_color }};">
+          {{ section.settings.image_badge }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="feature-22__content">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="feature-22__eyebrow" style="color: {{ section.settings.accent_color }};">
+          {{- section.settings.eyebrow -}}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="feature-22__heading" style="color: {{ section.settings.heading_color }};">
+          {{- section.settings.heading -}}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="feature-22__subheading" style="color: {{ section.settings.text_color }};">
+          {{- section.settings.subheading -}}
+        </p>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'checklist_item' -%}
+            <div class="feature-22__check-item" {{ block.shopify_attributes }}>
+              <span class="feature-22__check-icon" style="color: {{ section.settings.accent_color }};">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div>
+                {%- if block.settings.title != blank -%}
+                  <strong class="feature-22__check-title" style="color: {{ section.settings.heading_color }};">{{ block.settings.title }}</strong>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <p class="feature-22__check-text" style="color: {{ section.settings.text_color }};">{{ block.settings.text }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+
+          {%- when 'button' -%}
+            <div class="feature-22__buttons" {{ block.shopify_attributes }}>
+              {%- if block.settings.button_label != blank -%}
+                <a
+                  href="{{ block.settings.button_url | default: '#' }}"
+                  class="feature-22__btn feature-22__btn--primary"
+                  style="background-color: {{ section.settings.accent_color }}; color: {{ section.settings.btn_text_color }};"
+                  {% if block.settings.button_url == blank %}aria-disabled="true"{% endif %}
+                >
+                  {{- block.settings.button_label -}}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if block.settings.secondary_label != blank -%}
+                <a
+                  href="{{ block.settings.secondary_url | default: '#' }}"
+                  class="feature-22__btn feature-22__btn--ghost"
+                  style="color: {{ section.settings.accent_color }}; border-color: {{ section.settings.accent_color }};"
+                >
+                  {{- block.settings.secondary_label -}}
+                </a>
+              {%- endif -%}
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  #section-{{ section.id }} {
+    --f22-accent: {{ section.settings.accent_color }};
+    --f22-radius: {{ section.settings.image_radius }}px;
+  }
+
+  .feature-22__inner {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .feature-22--img-right .feature-22__media { order: 2; }
+  .feature-22--img-right .feature-22__content { order: 1; }
+
+  .feature-22__media {
+    position: relative;
+    border-radius: var(--f22-radius);
+    overflow: hidden;
+    aspect-ratio: 4/5;
+  }
+
+  .feature-22__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--f22-radius);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .feature-22__media:hover .feature-22__img {
+    transform: scale(1.03);
+  }
+
+  .feature-22__img--placeholder {
+    width: 100%;
+    height: 100%;
+    background: #f0ede8;
+  }
+
+  .feature-22__img-badge {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    pointer-events: none;
+  }
+
+  .feature-22__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .feature-22__eyebrow {
+    font-size: clamp(0.75rem, 1vw, 0.875rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1;
+  }
+
+  .feature-22__heading {
+    font-size: clamp(1.75rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .feature-22__subheading {
+    font-size: clamp(0.9375rem, 1.25vw, 1.0625rem);
+    line-height: 1.7;
+    max-width: 48ch;
+    opacity: 0.85;
+  }
+
+  .feature-22__check-item {
+    display: flex;
+    gap: 0.875rem;
+    align-items: flex-start;
+  }
+
+  .feature-22__check-icon {
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .feature-22__check-title {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  .feature-22__check-text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    max-width: 100%;
+  }
+
+  .feature-22__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .feature-22__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+  }
+
+  .feature-22__btn--primary {
+    border: 2px solid transparent;
+  }
+
+  .feature-22__btn--primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+
+  .feature-22__btn--ghost {
+    background: transparent;
+    border: 2px solid currentColor;
+  }
+
+  .feature-22__btn--ghost:hover {
+    background: var(--f22-accent);
+    color: #fff !important;
+    border-color: var(--f22-accent);
+  }
+
+  @media (max-width: 767px) {
+    .feature-22__inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .feature-22--img-right .feature-22__media,
+    .feature-22--img-right .feature-22__content {
+      order: unset;
+    }
+
+    .feature-22__media {
+      aspect-ratio: 3/2;
+      border-radius: calc(var(--f22-radius) * 0.75);
+    }
+
+    .feature-22__content {
+      gap: 1rem;
+    }
+
+    .feature-22__heading {
+      font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+
+    .feature-22__buttons {
+      flex-direction: column;
+    }
+
+    .feature-22__btn {
+      justify-content: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Feature 22",
+  "tag": "section",
+  "class": "section-feature-22",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left",  "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_badge",
+      "label": "Image badge text",
+      "default": "⭐ 4.9 / 5 Rating"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Why choose us"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built for the way you work today"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading / description",
+      "default": "Everything you need to run your store smarter — from first click to repeat customer."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body text color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Badge background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "checklist_item",
+      "name": "Checklist item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature highlight"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "A short supporting line that explains the benefit clearly."
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Primary button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Primary button URL"
+        },
+        {
+          "type": "text",
+          "id": "secondary_label",
+          "label": "Secondary button label",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "secondary_url",
+          "label": "Secondary button URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature 22",
+      "blocks": [
+        {
+          "type": "checklist_item",
+          "settings": {
+            "title": "Premium quality materials",
+            "text": "Every product is crafted with care using only the finest components."
+          }
+        },
+        {
+          "type": "checklist_item",
+          "settings": {
+            "title": "Free shipping worldwide",
+            "text": "No minimums — your order ships free to over 50 countries."
+          }
+        },
+        {
+          "type": "checklist_item",
+          "settings": {
+            "title": "30-day hassle-free returns",
+            "text": "Not happy? Return it, no questions asked."
+          }
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
