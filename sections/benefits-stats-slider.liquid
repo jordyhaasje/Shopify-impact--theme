@@ -1,0 +1,165 @@
+{%- comment -%} benefits-stats-slider.liquid {%- endcomment -%}
+<div class="bss-section" id="bss-{{ section.id }}">
+  <div class="bss-inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="bss-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="bss-track-wrap" aria-label="{{ section.settings.heading | escape }}">
+      <div class="bss-track" id="bss-track-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- assign pct = block.settings.percentage | default: 0 -%}
+          {%- assign radius = 38 -%}
+          {%- assign circ = 238.76 -%}
+          {%- assign dash = pct | times: circ | divided_by: 100.0 -%}
+          <div class="bss-card" {{ block.shopify_attributes }}>
+            <div class="bss-card__image-wrap">
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.image.alt | default: block.settings.stat_label | escape }}" width="600" height="720" loading="lazy" class="bss-card__img">
+              {%- else -%}
+                <div class="bss-card__img bss-card__img--placeholder">{{ 'collection-1' | placeholder_svg_tag: 'bss-placeholder-svg' }}</div>
+              {%- endif -%}
+              <div class="bss-stat">
+                <svg class="bss-stat__ring" viewBox="0 0 88 88" aria-hidden="true">
+                  <circle class="bss-stat__track" cx="44" cy="44" r="{{ radius }}"/>
+                  <circle class="bss-stat__fill" cx="44" cy="44" r="{{ radius }}" stroke-dasharray="{{ dash }} {{ circ }}"/>
+                </svg>
+                <span class="bss-stat__pct">{{ pct }}%</span>
+              </div>
+              {%- if block.settings.stat_label != blank -%}
+                <p class="bss-stat__label">{{ block.settings.stat_label }}</p>
+              {%- endif -%}
+            </div>
+            <div class="bss-card__body">
+              {%- if block.settings.benefit_label != blank -%}
+                <p class="bss-card__eyebrow">{{ block.settings.benefit_label }}</p>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="bss-card__desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    {%- if section.blocks.size > 1 -%}
+      <div class="bss-nav" id="bss-nav-{{ section.id }}">
+        <button class="bss-nav__btn" id="bss-prev-{{ section.id }}" aria-label="Previous slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <span class="bss-nav__counter" id="bss-counter-{{ section.id }}">1 of {{ section.blocks.size }}</span>
+        <button class="bss-nav__btn" id="bss-next-{{ section.id }}" aria-label="Next slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  #bss-{{ section.id }} {
+    --bss-accent: {{ section.settings.accent_color }};
+    --bss-heading-color: {{ section.settings.heading_color }};
+    --bss-bg: {{ section.settings.background_color }};
+    --bss-card-bg: {{ section.settings.card_bg_color }};
+    --bss-text: {{ section.settings.text_color }};
+    --bss-eyebrow-color: {{ section.settings.eyebrow_color }};
+    --bss-stat-size: {{ section.settings.stat_size }}px;
+    background-color: var(--bss-bg);
+  }
+</style>
+
+{%- javascript -%}
+(function () {
+  document.querySelectorAll('[id^="bss-track-"]').forEach(function (track) {
+    var id = track.id.replace('bss-track-', '');
+    var prev = document.getElementById('bss-prev-' + id);
+    var next = document.getElementById('bss-next-' + id);
+    var counter = document.getElementById('bss-counter-' + id);
+    var cards = track.querySelectorAll('.bss-card');
+    var total = cards.length;
+    var current = 0;
+    function goTo(idx) {
+      idx = Math.max(0, Math.min(total - 1, idx));
+      current = idx;
+      var cardWidth = cards[0].offsetWidth;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 20;
+      track.style.transform = 'translateX(-' + (idx * (cardWidth + gap)) + 'px)';
+      if (counter) counter.textContent = (idx + 1) + ' of ' + total;
+    }
+    if (prev) prev.addEventListener('click', function () { goTo(current - 1); });
+    if (next) next.addEventListener('click', function () { goTo(current + 1); });
+    var startX = 0;
+    track.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', function (e) {
+      var diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+    });
+  });
+})();
+{%- endjavascript -%}
+
+{%- stylesheet -%}
+.bss-section { padding-block: clamp(2.5rem, 5vw, 5rem); background-color: var(--bss-bg, #fff); }
+.bss-inner { max-width: 1280px; margin-inline: auto; padding-inline: clamp(1rem, 4vw, 3rem); }
+.bss-heading { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 800; color: var(--bss-heading-color, #1a1a1a); line-height: 1.15; margin-bottom: clamp(1.5rem, 4vw, 3rem); max-width: 28ch; }
+.bss-track-wrap { overflow: hidden; }
+.bss-track { display: grid; grid-auto-flow: column; grid-auto-columns: min(calc(100% / 3 - 0.9rem), 440px); gap: 1.25rem; transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform; }
+.bss-card { border-radius: 1rem; overflow: hidden; background: var(--bss-card-bg, #f0eef8); display: flex; flex-direction: column; }
+.bss-card__image-wrap { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #d9d4ee; }
+.bss-card__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bss-card__img--placeholder { display: flex; align-items: center; justify-content: center; }
+.bss-placeholder-svg { width: 60%; height: 60%; opacity: 0.35; }
+.bss-stat { position: absolute; bottom: 3.5rem; left: 1rem; width: var(--bss-stat-size, 80px); height: var(--bss-stat-size, 80px); display: flex; align-items: center; justify-content: center; }
+.bss-stat__ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.bss-stat__track { fill: none; stroke: rgba(255,255,255,0.3); stroke-width: 5; }
+.bss-stat__fill { fill: none; stroke: var(--bss-accent, #fff); stroke-width: 5; stroke-linecap: round; }
+.bss-stat__pct { position: relative; z-index: 1; color: #fff; font-size: clamp(0.875rem, 1.5vw, 1.1rem); font-weight: 700; line-height: 1; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+.bss-stat__label { position: absolute; bottom: .75rem; left: 0; right: 0; padding-inline: 1rem; color: #fff; font-size: clamp(.75rem, 1.2vw, .875rem); line-height: 1.3; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+.bss-card__body { padding: 1.25rem 1.25rem 1.5rem; flex: 1; }
+.bss-card__eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--bss-eyebrow-color, #1a1a1a); margin-bottom: .75rem; }
+.bss-card__desc { font-size: clamp(.875rem, 1.2vw, 1rem); color: var(--bss-text, #333); line-height: 1.6; max-width: 40ch; }
+.bss-nav { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 2rem; }
+.bss-nav__btn { display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: #888; padding: .25rem; transition: color .18s; }
+.bss-nav__btn:hover { color: #1a1a1a; }
+.bss-nav__counter { font-size: .875rem; color: #555; background: var(--bss-card-bg, #f0eef8); border-radius: 9999px; padding: .5rem 1.75rem; min-width: 7rem; text-align: center; }
+@media (max-width: 900px) { .bss-track { grid-auto-columns: min(80vw, 360px); gap: 1rem; } }
+@media (max-width: 600px) { .bss-track { grid-auto-columns: calc(100vw - 2.5rem); } .bss-heading { max-width: 100%; } }
+{%- endstylesheet -%}
+
+{% schema %}
+{
+  "name": "Benefits Stats Slider",
+  "tag": "section",
+  "class": "bss-section-wrapper",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "88% of customers report improvements" },
+    { "type": "color", "id": "background_color", "label": "Section background", "default": "#ffffff" },
+    { "type": "color", "id": "card_bg_color", "label": "Card background", "default": "#f0eef8" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#1a1a1a" },
+    { "type": "color", "id": "text_color", "label": "Body text color", "default": "#333333" },
+    { "type": "color", "id": "eyebrow_color", "label": "Benefit label color", "default": "#1a1a1a" },
+    { "type": "color", "id": "accent_color", "label": "Percentage ring color", "default": "#ffffff" },
+    { "type": "range", "id": "stat_size", "label": "Percentage badge size (px)", "min": 60, "max": 120, "step": 4, "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "range", "id": "percentage", "label": "Percentage", "min": 0, "max": 100, "step": 1, "default": 84 },
+        { "type": "text", "id": "stat_label", "label": "Stat description", "default": "Report a visible fading of dark spots." },
+        { "type": "text", "id": "benefit_label", "label": "Benefit label", "default": "BENEFIT # 1" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Retinoids can help to stimulate cell turnover and improve skin texture and quality." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits Stats Slider",
+      "blocks": [
+        { "type": "benefit", "settings": { "percentage": 84, "stat_label": "Report a visible fading of dark spots.", "benefit_label": "BENEFIT # 1", "description": "Retinoids can help to stimulate cell turnover and improve skin texture and quality, reducing the appearance of dark spots." } },
+        { "type": "benefit", "settings": { "percentage": 87, "stat_label": "Report a decrease in skin sensitivity.", "benefit_label": "BENEFIT # 2", "description": "Ingredients that help to strengthen the skin's protective layer, such as ceramides and fatty acids, can be beneficial." } },
+        { "type": "benefit", "settings": { "percentage": 95, "stat_label": "Report a noticeable improvement in tone.", "benefit_label": "BENEFIT # 3", "description": "Well-hydrated skin is more resilient and appears healthier. Ingredients like hyaluronic acid can help to lock in moisture." } }
+      ]
+    }
+  ],
+  "enabled_on": { "templates": ["*"] }
+}
+{% endschema %}
