@@ -876,6 +876,100 @@
         "accordion_background": "",
         "accordion_text_color": ""
       }
+    },
+    "video_social_results_AMyFmP": {
+      "type": "video-social-results",
+      "blocks": {
+        "video_card_4DDjEY": {
+          "type": "video_card",
+          "settings": {
+            "alt_text": "",
+            "autoplay": true,
+            "loop_video": true
+          }
+        },
+        "video_card_tHzfGf": {
+          "type": "video_card",
+          "settings": {
+            "alt_text": "",
+            "autoplay": true,
+            "loop_video": true
+          }
+        },
+        "video_card_jn6e7x": {
+          "type": "video_card",
+          "settings": {
+            "alt_text": "",
+            "autoplay": true,
+            "loop_video": true
+          }
+        },
+        "stat_nPe3wg": {
+          "type": "stat",
+          "settings": {
+            "percentage": 95,
+            "text": "of participants reported their skin felt firmer"
+          }
+        },
+        "stat_cqgmeW": {
+          "type": "stat",
+          "settings": {
+            "percentage": 93,
+            "text": "of participants reported their acne appeared less visible"
+          }
+        },
+        "stat_qCtiLK": {
+          "type": "stat",
+          "settings": {
+            "percentage": 87,
+            "text": "of participants reported that their skin was brighter and plumper"
+          }
+        }
+      },
+      "block_order": [
+        "video_card_4DDjEY",
+        "video_card_tHzfGf",
+        "video_card_jn6e7x",
+        "stat_nPe3wg",
+        "stat_cqgmeW",
+        "stat_qCtiLK"
+      ],
+      "name": "Video social results",
+      "settings": {
+        "heading": "Real Results",
+        "footnote": "* Observed in a 3-week clinical study of 96 participants ages 18-29",
+        "button_label": "Shop now",
+        "button_link": "",
+        "section_max_width": 1680,
+        "panel_gap": 72,
+        "card_width": 262,
+        "card_height": 472,
+        "cards_gap": 22,
+        "visible_cards": 3,
+        "mobile_card_width": 216,
+        "mobile_card_height": 360,
+        "visible_cards_mobile": "1",
+        "mobile_cards_gap": 14,
+        "card_radius": 12,
+        "stat_circle_size": 118,
+        "stat_stroke": 8,
+        "video_progress_width": 24,
+        "enable_autoplay": false,
+        "autoplay_speed": 5,
+        "slide_duration": 600,
+        "background": "#f3f3f3",
+        "heading_color": "#202020",
+        "text_color": "#5a5a5a",
+        "accent_color": "#f36c83",
+        "progress_track": "#f5d9de",
+        "divider_color": "#dfd7dd",
+        "button_background": "#f36c83",
+        "button_text_color": "#ffffff",
+        "padding_top": 84,
+        "padding_bottom": 84,
+        "mobile_padding_top": 48,
+        "mobile_padding_bottom": 48
+      }
     }
   },
   "order": [
@@ -893,6 +987,7 @@
     "multiple-images-with-text",
     "featured-product",
     "feature-chart",
-    "faq"
+    "faq",
+    "video_social_results_AMyFmP"
   ]
 }
