@@ -1,0 +1,22 @@
+{% liquid
+  assign card_count = 0
+  for block in section.blocks
+    if block.type == 'video_card'
+      assign card_count = card_count | plus: 1
+    endif
+  endfor
+%}
+
+<section>
+  <div>Video social results section</div>
+</section>
+
+{% schema %}
+{
+  "name": "Video social results",
+  "settings": [
+    { "type": "range", "id": "visible_cards_mobile", "min": 1, "max": 3, "step": 1, "label": "Visible cards mobile", "default": 1 }
+  ],
+  "presets": [{ "name": "Video social results" }]
+}
+{% endschema %}
