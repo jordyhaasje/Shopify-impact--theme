@@ -87,6 +87,14 @@ LIQUID
 
           <div {% render 'surface', class: content_class, text_color: block.settings.text_color %}>
             <div class="prose">
+              <div class="hero-trust-row" style="margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <div style="display:flex; gap:2px;">
+                  {% for i in (1..5) %}
+                    <span style="background:#00B67A; color:#fff; font-size:10px; padding:3px 4px; border-radius:2px;">★</span>
+                  {% endfor %}
+                </div>
+                <span style="font-size:12px;">4.8/5 • 3.000+ reviews</span>
+              </div>
               {%- if block.settings.subheading != blank -%}
                 <p class="bold" data-sequence="subheading">{{ block.settings.subheading | escape }}</p>
               {%- endif -%}
