@@ -37,6 +37,12 @@
         <div class="hero-subtext rte">{{ section.settings.subtext }}</div>
       {% endif %}
 
+      <div class="hero-usp-row">
+        {% if section.settings.usp_1 != blank %}<span>✓ {{ section.settings.usp_1 }}</span>{% endif %}
+        {% if section.settings.usp_2 != blank %}<span>✓ {{ section.settings.usp_2 }}</span>{% endif %}
+        {% if section.settings.usp_3 != blank %}<span>✓ {{ section.settings.usp_3 }}</span>{% endif %}
+      </div>
+
       <div class="hero-buttons">
         {% if section.settings.primary_button_label != blank %}
           <a href="{{ section.settings.primary_button_link }}" class="btn-primary">
