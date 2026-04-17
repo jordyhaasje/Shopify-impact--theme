@@ -2,11 +2,14 @@
   assign section_id = section.id
 %}
 
-<section id="hero-{{ section_id }}" class="hero-trustpilot" style="--overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+<section id="hero-{{ section_id }}" class="hero-trustpilot hero-trustpilot--{{ section.settings.desktop_content_alignment }} hero-trustpilot--mobile-{{ section.settings.mobile_content_alignment }}" style="--overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}; --content-max-width: {{ section.settings.content_max_width }}px; --desktop-height: {{ section.settings.desktop_height }}px; --mobile-height: {{ section.settings.mobile_height }}px; --section-text-color: {{ section.settings.text_color }}; --primary-button-background: {{ section.settings.primary_button_background }}; --primary-button-text: {{ section.settings.primary_button_text_color }}; --secondary-button-border: {{ section.settings.secondary_button_border_color }}; --secondary-button-text: {{ section.settings.secondary_button_text_color }};">
   <div class="hero-media">
     {% if section.settings.background_image != blank %}
-      {{ section.settings.background_image | image_url: width: 2000 | image_tag: class: 'hero-bg', loading: 'lazy' }}
+      {{ section.settings.background_image | image_url: width: 2400 | image_tag: class: 'hero-bg', loading: 'lazy', widths: '480,640,768,960,1200,1440,1800,2200,2400' }}
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-bg hero-bg--placeholder' }}
     {% endif %}
+
     {% if section.settings.enable_overlay %}
       <div class="hero-overlay"></div>
     {% endif %}
@@ -15,8 +18,8 @@
   <div class="hero-content">
     <div class="hero-inner">
       {% if section.settings.show_rating %}
-        <div class="hero-rating">
-          <div class="rating-stars">
+        <div class="hero-rating" aria-label="Customer rating">
+          <div class="rating-stars" aria-hidden="true">
             {% for i in (1..5) %}
               <span class="star">★</span>
             {% endfor %}
@@ -37,22 +40,31 @@
         <div class="hero-subtext rte">{{ section.settings.subtext }}</div>
       {% endif %}
 
-      <div class="hero-usp-row">
-        {% if section.settings.usp_1 != blank %}<span>✓ {{ section.settings.usp_1 }}</span>{% endif %}
-        {% if section.settings.usp_2 != blank %}<span>✓ {{ section.settings.usp_2 }}</span>{% endif %}
-        {% if section.settings.usp_3 != blank %}<span>✓ {{ section.settings.usp_3 }}</span>{% endif %}
-      </div>
-
       <div class="hero-buttons">
         {% if section.settings.primary_button_label != blank %}
-          <a href="{{ section.settings.primary_button_link }}" class="btn-primary">
+          <a href="{{ section.settings.primary_button_link | default: '#' }}" class="btn-primary">
             {{ section.settings.primary_button_label }}
           </a>
         {% endif %}
+
         {% if section.settings.secondary_button_label != blank %}
-          <a href="{{ section.settings.secondary_button_link }}" class="btn-secondary">
+          <a href="{{ section.settings.secondary_button_link | default: '#' }}" class="btn-secondary">
             {{ section.settings.secondary_button_label }}
           </a>
+        {% endif %}
+      </div>
+
+      <div class="hero-meta">
+        {% if section.settings.show_usp_row %}
+          <div class="hero-usp-row">
+            {% if section.settings.usp_1 != blank %}<span>✓ {{ section.settings.usp_1 }}</span>{% endif %}
+            {% if section.settings.usp_2 != blank %}<span>✓ {{ section.settings.usp_2 }}</span>{% endif %}
+            {% if section.settings.usp_3 != blank %}<span>✓ {{ section.settings.usp_3 }}</span>{% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.microcopy != blank %}
+          <p class="hero-microcopy">{{ section.settings.microcopy }}</p>
         {% endif %}
       </div>
     </div>
@@ -64,14 +76,19 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: {{ section.settings.desktop_height }}px;
-  text-align: center;
+  min-height: var(--desktop-height);
+  color: var(--section-text-color);
+  overflow: hidden;
+}
+
+#hero-{{ section_id }} .hero-media,
+#hero-{{ section_id }} .hero-overlay,
+#hero-{{ section_id }} .hero-bg {
+  position: absolute;
+  inset: 0;
 }
 
 #hero-{{ section_id }} .hero-media {
-  position: absolute;
-  inset: 0;
   overflow: hidden;
 }
 
@@ -81,83 +98,271 @@
   object-fit: cover;
 }
 
+#hero-{{ section_id }} .hero-bg--placeholder {
+  background: #f3f3f3;
+}
+
 #hero-{{ section_id }} .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: black;
-  opacity: var(--overlay-opacity);
+  background: linear-gradient(90deg, rgba(0,0,0,calc(var(--overlay-opacity) + 0.15)) 0%, rgba(0,0,0,var(--overlay-opacity)) 45%, rgba(0,0,0,calc(var(--overlay-opacity) - 0.1)) 100%);
 }
 
 #hero-{{ section_id }} .hero-content {
   position: relative;
   z-index: 2;
-  max-width: {{ section.settings.content_max_width }}px;
-  padding: 20px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 56px 24px;
 }
 
-.hero-heading {
-  font-size: 42px;
-  font-weight: 700;
-  margin-bottom: 16px;
+#hero-{{ section_id }} .hero-inner {
+  max-width: var(--content-max-width);
 }
 
-.hero-subtext {
-  font-size: 16px;
-  margin-bottom: 20px;
+#hero-{{ section_id }}.hero-trustpilot--left .hero-inner {
+  text-align: left;
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
+#hero-{{ section_id }}.hero-trustpilot--center .hero-inner {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.btn-primary {
-  background: #00B67A;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  text-decoration: none;
+#hero-{{ section_id }}.hero-trustpilot--right .hero-inner {
+  text-align: right;
+  margin-left: auto;
 }
 
-.btn-secondary {
-  border: 1px solid black;
-  padding: 12px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-}
-
-.hero-rating {
-  display: flex;
+#hero-{{ section_id }} .hero-rating {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 12px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  color: #111111;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
-.rating-stars {
+#hero-{{ section_id }} .rating-stars {
   display: flex;
   gap: 2px;
 }
 
-.rating-stars .star {
+#hero-{{ section_id }} .rating-stars .star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 2px;
   background: #00B67A;
-  color: white;
-  font-size: 12px;
-  padding: 4px;
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1;
 }
 
-@media screen and (max-width: 768px) {
+#hero-{{ section_id }} .rating-text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+}
+
+#hero-{{ section_id }} .rating-text strong {
+  font-weight: 700;
+}
+
+#hero-{{ section_id }} .rating-text small {
+  color: #5f6368;
+  font-size: 12px;
+}
+
+#hero-{{ section_id }} .hero-heading {
+  margin: 0 0 16px;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  max-width: 12ch;
+}
+
+#hero-{{ section_id }}.hero-trustpilot--center .hero-heading {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#hero-{{ section_id }}.hero-trustpilot--right .hero-heading {
+  margin-left: auto;
+}
+
+#hero-{{ section_id }} .hero-subtext {
+  max-width: 52ch;
+  margin-bottom: 24px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--section-text-color) 88%, white 12%);
+}
+
+#hero-{{ section_id }}.hero-trustpilot--center .hero-subtext {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#hero-{{ section_id }}.hero-trustpilot--right .hero-subtext {
+  margin-left: auto;
+}
+
+#hero-{{ section_id }} .hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+#hero-{{ section_id }}.hero-trustpilot--center .hero-buttons {
+  justify-content: center;
+}
+
+#hero-{{ section_id }}.hero-trustpilot--right .hero-buttons {
+  justify-content: flex-end;
+}
+
+#hero-{{ section_id }} .btn-primary,
+#hero-{{ section_id }} .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+#hero-{{ section_id }} .btn-primary:hover,
+#hero-{{ section_id }} .btn-secondary:hover {
+  transform: translateY(-1px);
+}
+
+#hero-{{ section_id }} .btn-primary {
+  background: var(--primary-button-background);
+  color: var(--primary-button-text);
+}
+
+#hero-{{ section_id }} .btn-secondary {
+  border: 1px solid var(--secondary-button-border);
+  color: var(--secondary-button-text);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+}
+
+#hero-{{ section_id }} .hero-meta {
+  display: grid;
+  gap: 10px;
+}
+
+#hero-{{ section_id }} .hero-usp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#hero-{{ section_id }}.hero-trustpilot--center .hero-usp-row {
+  justify-content: center;
+}
+
+#hero-{{ section_id }}.hero-trustpilot--right .hero-usp-row {
+  justify-content: flex-end;
+}
+
+#hero-{{ section_id }} .hero-microcopy {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: 0.88;
+}
+
+@media screen and (max-width: 767px) {
   #hero-{{ section_id }} {
-    min-height: {{ section.settings.mobile_height }}px;
+    min-height: var(--mobile-height);
   }
 
-  .hero-heading {
-    font-size: 28px;
+  #hero-{{ section_id }} .hero-content {
+    padding: 32px 18px;
   }
 
-  .hero-buttons {
+  #hero-{{ section_id }}.hero-trustpilot--mobile-left .hero-inner {
+    text-align: left;
+  }
+
+  #hero-{{ section_id }}.hero-trustpilot--mobile-center .hero-inner {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #hero-{{ section_id }}.hero-trustpilot--mobile-right .hero-inner {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  #hero-{{ section_id }} .hero-rating {
+    gap: 10px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+  }
+
+  #hero-{{ section_id }} .rating-stars .star {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  #hero-{{ section_id }} .rating-text {
+    font-size: 13px;
+  }
+
+  #hero-{{ section_id }} .hero-heading {
+    font-size: clamp(28px, 9vw, 42px);
+    max-width: none;
+  }
+
+  #hero-{{ section_id }} .hero-subtext {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  #hero-{{ section_id }} .hero-buttons {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  #hero-{{ section_id }} .btn-primary,
+  #hero-{{ section_id }} .btn-secondary {
+    width: 100%;
+  }
+
+  #hero-{{ section_id }} .hero-usp-row {
+    gap: 8px 12px;
+    font-size: 13px;
+  }
+
+  #hero-{{ section_id }}.hero-trustpilot--mobile-center .hero-buttons,
+  #hero-{{ section_id }}.hero-trustpilot--mobile-center .hero-usp-row {
+    justify-content: center;
+  }
+
+  #hero-{{ section_id }}.hero-trustpilot--mobile-right .hero-buttons,
+  #hero-{{ section_id }}.hero-trustpilot--mobile-right .hero-usp-row {
+    justify-content: flex-end;
   }
 }
 </style>
@@ -167,27 +372,48 @@
   "name": "Hero Trustpilot Style",
   "settings": [
     { "type": "image_picker", "id": "background_image", "label": "Background image" },
-    { "type": "range", "id": "desktop_height", "min": 300, "max": 900, "step": 50, "default": 600, "label": "Desktop height" },
-    { "type": "range", "id": "mobile_height", "min": 200, "max": 700, "step": 50, "default": 400, "label": "Mobile height" },
+    { "type": "range", "id": "desktop_height", "min": 420, "max": 980, "step": 20, "default": 720, "label": "Desktop height" },
+    { "type": "range", "id": "mobile_height", "min": 360, "max": 820, "step": 20, "default": 560, "label": "Mobile height" },
+    { "type": "range", "id": "content_max_width", "min": 480, "max": 900, "step": 20, "default": 640, "label": "Content width" },
+
+    { "type": "select", "id": "desktop_content_alignment", "label": "Desktop content alignment", "default": "left", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ]},
+    { "type": "select", "id": "mobile_content_alignment", "label": "Mobile content alignment", "default": "center", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ]},
 
     { "type": "checkbox", "id": "enable_overlay", "label": "Enable overlay", "default": true },
-    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "default": 30, "label": "Overlay opacity" },
+    { "type": "range", "id": "overlay_opacity", "min": 10, "max": 90, "step": 5, "default": 45, "label": "Overlay opacity" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
 
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Sterk bewijs. Direct vertrouwen." },
-    { "type": "richtext", "id": "subtext", "label": "Subtext" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Meer vertrouwen. Meer conversie. Meer omzet." },
+    { "type": "richtext", "id": "subtext", "label": "Subtext", "default": "<p>Bouw direct vertrouwen op met een converterende hero die reviews, duidelijke benefits en sterke call-to-actions combineert.</p>" },
 
     { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
     { "type": "text", "id": "rating_label", "label": "Rating label", "default": "Uitstekend" },
     { "type": "text", "id": "rating_value", "label": "Rating value", "default": "4.8/5" },
-    { "type": "text", "id": "review_count", "label": "Review count", "default": "3.214 reviews" },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "Gebaseerd op 3.214 reviews" },
 
-    { "type": "text", "id": "primary_button_label", "label": "Primary button label" },
+    { "type": "text", "id": "primary_button_label", "label": "Primary button label", "default": "Shop bestsellers" },
     { "type": "url", "id": "primary_button_link", "label": "Primary button link" },
+    { "type": "color", "id": "primary_button_background", "label": "Primary button background", "default": "#00B67A" },
+    { "type": "color", "id": "primary_button_text_color", "label": "Primary button text color", "default": "#ffffff" },
 
-    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label" },
+    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label", "default": "Lees reviews" },
     { "type": "url", "id": "secondary_button_link", "label": "Secondary button link" },
+    { "type": "color", "id": "secondary_button_border_color", "label": "Secondary button border color", "default": "#ffffff" },
+    { "type": "color", "id": "secondary_button_text_color", "label": "Secondary button text color", "default": "#ffffff" },
 
-    { "type": "range", "id": "content_max_width", "min": 600, "max": 1200, "step": 20, "default": 800, "label": "Content width" }
+    { "type": "checkbox", "id": "show_usp_row", "label": "Show USP row", "default": true },
+    { "type": "text", "id": "usp_1", "label": "USP 1", "default": "Gratis verzending vanaf €50" },
+    { "type": "text", "id": "usp_2", "label": "USP 2", "default": "30 dagen retourneren" },
+    { "type": "text", "id": "usp_3", "label": "USP 3", "default": "Voor 23:59 besteld = morgen in huis" },
+    { "type": "text", "id": "microcopy", "label": "Microcopy", "default": "Meer dan 3.000 klanten gingen je voor." }
   ],
   "presets": [
     {
