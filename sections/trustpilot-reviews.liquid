@@ -1,0 +1,115 @@
+{% comment %}
+Trustpilot Style Reviews Section
+{% endcomment %}
+
+<section id="trustpilot-{{ section.id }}" class="trustpilot-section" style="padding: {{ section.settings.section_spacing }}px 0;">
+  <div class="trustpilot-container">
+
+    {% if section.settings.heading != blank %}
+      <div class="trustpilot-header">
+        <h2>{{ section.settings.heading }}</h2>
+        <div class="trustpilot-score">
+          <span class="score">{{ section.settings.score }}</span>
+          <span class="out-of">/ 5</span>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="trustpilot-summary">
+      <div class="stars">
+        {% for i in (1..5) %}
+          <span class="star">★</span>
+        {% endfor %}
+      </div>
+      <div class="reviews-count">{{ section.settings.total_reviews }} reviews</div>
+    </div>
+
+    <div class="trustpilot-breakdown">
+      {% for block in section.blocks %}
+        {% if block.type == 'rating_bar' %}
+        <div class="bar-row" {{ block.shopify_attributes }}>
+          <span>{{ block.settings.label }}</span>
+          <div class="bar">
+            <div class="fill" style="width: {{ block.settings.percentage }}%;"></div>
+          </div>
+          <span>({{ block.settings.count }})</span>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="trustpilot-reviews" data-section-id="{{ section.id }}">
+      {% for block in section.blocks %}
+        {% if block.type == 'review' %}
+          <div class="review-card" {{ block.shopify_attributes }}>
+            <div class="review-stars">
+              {% for i in (1..block.settings.stars) %}
+                ★
+              {% endfor %}
+            </div>
+            <p class="review-text">{{ block.settings.text }}</p>
+            <div class="review-author">{{ block.settings.author }}</div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+#trustpilot-{{ section.id }} .trustpilot-container {max-width: {{ section.settings.content_max_width }}px; margin: 0 auto;}
+.trustpilot-header {display:flex; justify-content:space-between; align-items:center;}
+.trustpilot-score {font-size:24px; font-weight:bold;}
+.trustpilot-summary {text-align:center; margin:20px 0;}
+.trustpilot-summary .stars {color:#00b67a; font-size:20px;}
+.trustpilot-breakdown .bar-row {display:flex; align-items:center; gap:10px; margin:6px 0;}
+.trustpilot-breakdown .bar {flex:1; background:#eee; height:6px; border-radius:4px;}
+.trustpilot-breakdown .fill {background:#00b67a; height:100%; border-radius:4px;}
+.trustpilot-reviews {display:flex; gap: {{ section.settings.card_gap }}px; overflow-x:auto;}
+.review-card {min-width: {{ section.settings.mobile_card_width }}px; background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);} 
+.review-stars {color:#00b67a;}
+
+@media(min-width: 768px){
+  .review-card {min-width: {{ section.settings.desktop_card_width }}px;}
+}
+</style>
+
+{% schema %}
+{
+  "name": "Trustpilot Reviews",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"Rated Excellent"},
+    {"type":"text","id":"score","label":"Score","default":"4.7"},
+    {"type":"text","id":"total_reviews","label":"Total Reviews","default":"437"},
+    {"type":"range","id":"section_spacing","min":0,"max":80,"step":4,"default":48,"label":"Section spacing"},
+    {"type":"range","id":"content_max_width","min":600,"max":1200,"step":20,"default":840,"label":"Content width"},
+    {"type":"range","id":"desktop_card_width","min":220,"max":360,"step":4,"default":280,"label":"Desktop card width"},
+    {"type":"range","id":"mobile_card_width","min":220,"max":320,"step":4,"default":248,"label":"Mobile card width"},
+    {"type":"range","id":"card_gap","min":8,"max":32,"step":2,"default":20,"label":"Card gap"}
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {"type":"text","id":"author","label":"Author","default":"John Doe"},
+        {"type":"textarea","id":"text","label":"Review text","default":"Amazing service!"},
+        {"type":"range","id":"stars","min":1,"max":5,"step":1,"default":5,"label":"Stars"}
+      ]
+    },
+    {
+      "type": "rating_bar",
+      "name": "Rating Bar",
+      "settings": [
+        {"type":"text","id":"label","label":"Label","default":"5 stars"},
+        {"type":"range","id":"percentage","min":0,"max":100,"step":5,"default":80,"label":"Percentage"},
+        {"type":"number","id":"count","label":"Count","default":200}
+      ]
+    }
+  ],
+  "presets": [
+    {"name": "Trustpilot Reviews"}
+  ]
+}
+{% endschema %}
