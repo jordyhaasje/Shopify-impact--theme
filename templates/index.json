@@ -987,18 +987,6 @@
             "highlight_3": ""
           }
         },
-        "review_rWXHeE": {
-          "type": "review",
-          "settings": {
-            "name": "Marcus Thorne",
-            "role": "Founder & CEO, Thorne...",
-            "rating": 5,
-            "review_text": "We've tried about five different platforms before landing on this one. It strikes the perfect balance between having advanced features and keeping it simple enough for new hires to learn in a day.",
-            "highlight_1": "perfect balance between having advanced features and keeping it simple",
-            "highlight_2": "",
-            "highlight_3": ""
-          }
-        },
         "review_nQB8yk": {
           "type": "review",
           "settings": {
@@ -1027,7 +1015,6 @@
       },
       "block_order": [
         "review_iEkbrK",
-        "review_rWXHeE",
         "review_nQB8yk",
         "review_ye44LF"
       ],
@@ -1039,14 +1026,14 @@
         "subheading": "<p>Here’s what they have to say</p>",
         "button_label": "View All Reviews",
         "button_link": "",
-        "section_spacing": 48,
+        "section_spacing": 36,
         "content_max_width": 840,
         "heading_max_width": 760,
-        "desktop_card_width": 284,
+        "desktop_card_width": 260,
         "mobile_card_width": 252,
-        "card_gap": 20,
+        "card_gap": 16,
         "card_radius": 22,
-        "card_shadow_y": 18,
+        "card_shadow_y": 0,
         "card_shadow_blur": 0,
         "card_shadow_opacity": 0,
         "background": "#ffffff",
