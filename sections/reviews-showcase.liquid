@@ -1,631 +1,374 @@
-{% liquid
-  assign padding_top = section.settings.padding_top
-  assign padding_bottom = section.settings.padding_bottom
-  assign card_gap = section.settings.card_gap
-  assign desktop_card_width = section.settings.desktop_card_width
-  assign mobile_card_width = section.settings.mobile_card_width
-%}
-
-<section class="reviews-showcase color-{{ section.settings.color_scheme }}" style="--pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --card-gap: {{ card_gap }}px; --desktop-card-width: {{ desktop_card_width }}px; --mobile-card-width: {{ mobile_card_width }}px; --section-bg: {{ section.settings.section_background }}; --heading-color: {{ section.settings.heading_color }}; --text-color: {{ section.settings.text_color }}; --muted-color: {{ section.settings.muted_color }}; --accent-color: {{ section.settings.accent_color }}; --eyebrow-bg: {{ section.settings.eyebrow_background }}; --eyebrow-color: {{ section.settings.eyebrow_text_color }}; --button-bg: {{ section.settings.button_background }}; --button-text: {{ section.settings.button_text_color }}; --card-bg: {{ section.settings.card_background }}; --card-radius: {{ section.settings.card_radius }}px; --card-shadow-opacity: {{ section.settings.card_shadow_opacity | times: 0.01 }}; --highlight-bg: {{ section.settings.highlight_background }}; --stars-color: {{ section.settings.stars_color }}; --container-max: {{ section.settings.container_max_width }}px;">
-  <div class="reviews-showcase__inner page-width {% if section.settings.full_width %}reviews-showcase__inner--full{% endif %}">
-    {% if section.settings.eyebrow != blank %}
-      <div class="reviews-showcase__eyebrow">{{ section.settings.eyebrow }}</div>
-    {% endif %}
-
-    {% if section.settings.heading != blank or section.settings.heading_accent != blank %}
-      <h2 class="reviews-showcase__heading">
-        {% if section.settings.heading != blank %}<span>{{ section.settings.heading }}</span>{% endif %}
-        {% if section.settings.heading_accent != blank %}<span class="accent"> {{ section.settings.heading_accent }}</span>{% endif %}
-      </h2>
-    {% endif %}
-
-    {% if section.settings.subheading != blank %}
-      <div class="reviews-showcase__subheading rte">{{ section.settings.subheading }}</div>
-    {% endif %}
-
-    {% if section.settings.button_label != blank %}
-      <div class="reviews-showcase__button-wrap">
-        <a href="{{ section.settings.button_link | default: '#' }}" class="reviews-showcase__button">
-          {{ section.settings.button_label }}
-        </a>
-      </div>
-    {% endif %}
-
-    <div class="reviews-showcase__cards-wrapper">
-      <div class="reviews-showcase__cards" role="list">
-        {% for block in section.blocks %}
-          {% assign processed_text = block.settings.review_text | newline_to_br %}
-          {% assign highlight_1 = block.settings.highlight_1 | strip %}
-          {% assign highlight_2 = block.settings.highlight_2 | strip %}
-          {% assign highlight_3 = block.settings.highlight_3 | strip %}
-
-          {% if highlight_1 != blank %}
-            {% capture replacement_1 %}<mark>{{ highlight_1 }}</mark>{% endcapture %}
-            {% assign processed_text = processed_text | replace: highlight_1, replacement_1 %}
-          {% endif %}
-          {% if highlight_2 != blank %}
-            {% capture replacement_2 %}<mark>{{ highlight_2 }}</mark>{% endcapture %}
-            {% assign processed_text = processed_text | replace: highlight_2, replacement_2 %}
-          {% endif %}
-          {% if highlight_3 != blank %}
-            {% capture replacement_3 %}<mark>{{ highlight_3 }}</mark>{% endcapture %}
-            {% assign processed_text = processed_text | replace: highlight_3, replacement_3 %}
-          {% endif %}
-
-          <article class="review-card" {{ block.shopify_attributes }} role="listitem">
-            <div class="review-card__header">
-              {% if block.settings.avatar != blank %}
-                {{ block.settings.avatar | image_url: width: 96 | image_tag: class: 'review-card__avatar', widths: '48,72,96', loading: 'lazy', alt: block.settings.name }}
-              {% else %}
-                <div class="review-card__avatar review-card__avatar--placeholder">{{ block.settings.name | strip | slice: 0, 1 }}</div>
-              {% endif %}
-              <div class="review-card__meta">
-                {% if block.settings.name != blank %}
-                  <div class="review-card__name">{{ block.settings.name }}</div>
-                {% endif %}
-                {% if block.settings.role != blank %}
-                  <div class="review-card__role">{{ block.settings.role }}</div>
-                {% endif %}
-              </div>
-            </div>
-
-            <div class="review-card__stars" aria-label="{{ block.settings.rating }} out of 5 stars">
-              {% for i in (1..5) %}
-                <span class="review-card__star-box {% if i > block.settings.rating %}is-empty{% endif %}">
-                  <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-                    <path d="M9.999 1.667l2.575 5.217 5.758.837-4.166 4.061.983 5.734-5.15-2.707-5.149 2.707.983-5.734-4.166-4.061 5.758-.837L9.999 1.667z" fill="currentColor"/>
-                  </svg>
-                </span>
-              {% endfor %}
-            </div>
-
-            {% if processed_text != blank %}
-              <div class="review-card__text rte">{{ processed_text }}</div>
-            {% endif %}
-          </article>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
+{%- render 'section-spacing-collapsing' -%}
 
 <style>
-  .reviews-showcase {
-    padding-top: var(--pt);
-    padding-bottom: var(--pb);
-    background: var(--section-bg);
-    overflow: hidden;
+  #shopify-section-{{ section.id }} {
+    --reviews-section-background: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --reviews-card-background: {{ section.settings.card_background.red }}, {{ section.settings.card_background.green }}, {{ section.settings.card_background.blue }};
+    --reviews-heading-color: {{ section.settings.heading_color.red }}, {{ section.settings.heading_color.green }}, {{ section.settings.heading_color.blue }};
+    --reviews-text-color: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --reviews-muted-color: {{ section.settings.muted_color.red }}, {{ section.settings.muted_color.green }}, {{ section.settings.muted_color.blue }};
+    --reviews-accent-color: {{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }};
+    --reviews-badge-background: {{ section.settings.badge_background.red }}, {{ section.settings.badge_background.green }}, {{ section.settings.badge_background.blue }};
+    --reviews-badge-text: {{ section.settings.badge_text_color.red }}, {{ section.settings.badge_text_color.green }}, {{ section.settings.badge_text_color.blue }};
+    --reviews-button-background: {{ section.settings.button_background.red }}, {{ section.settings.button_background.green }}, {{ section.settings.button_background.blue }};
+    --reviews-button-text: {{ section.settings.button_text_color.red }}, {{ section.settings.button_text_color.green }}, {{ section.settings.button_text_color.blue }};
+    --reviews-highlight: {{ section.settings.highlight_color.red }}, {{ section.settings.highlight_color.green }}, {{ section.settings.highlight_color.blue }};
+    --reviews-stars: {{ section.settings.stars_color.red }}, {{ section.settings.stars_color.green }}, {{ section.settings.stars_color.blue }};
+    --reviews-star-empty: {{ section.settings.stars_empty_color.red }}, {{ section.settings.stars_empty_color.green }}, {{ section.settings.stars_empty_color.blue }};
+    --reviews-card-radius: {{ section.settings.card_radius }}px;
+    --reviews-card-shadow-y: {{ section.settings.card_shadow_y }}px;
+    --reviews-card-shadow-blur: {{ section.settings.card_shadow_blur }}px;
+    --reviews-card-shadow-opacity: {{ section.settings.card_shadow_opacity | divided_by: 100.0 }};
+    --reviews-card-gap: {{ section.settings.card_gap }}px;
+    --reviews-desktop-card-width: {{ section.settings.desktop_card_width }}px;
+    --reviews-mobile-card-width: {{ section.settings.mobile_card_width }}px;
+    --reviews-heading-max: {{ section.settings.heading_max_width }}px;
+    --reviews-content-max: {{ section.settings.content_max_width }}px;
+    --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
   }
 
-  .reviews-showcase .page-width {
-    max-width: var(--container-max);
+  #shopify-section-{{ section.id }} .reviews-showcase {
+    background: rgb(var(--reviews-section-background));
   }
 
-  .reviews-showcase__inner {
+  #shopify-section-{{ section.id }} .reviews-showcase__inner {
+    display: grid;
+    gap: 40px;
+  }
+
+  #shopify-section-{{ section.id }} .reviews-showcase__content {
+    max-width: var(--reviews-content-max);
+    margin-inline: auto;
     text-align: center;
   }
 
-  .reviews-showcase__inner--full {
-    max-width: 100%;
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .reviews-showcase__eyebrow {
+  #shopify-section-{{ section.id }} .reviews-showcase__badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 36px;
-    padding: 8px 22px;
-    border-radius: 999px;
-    background: var(--eyebrow-bg);
-    color: var(--eyebrow-color);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0;
     margin-bottom: 18px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgb(var(--reviews-badge-background));
+    color: rgb(var(--reviews-badge-text));
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 
-  .reviews-showcase__heading {
-    margin: 0;
-    color: var(--heading-color);
-    font-size: clamp(32px, 3.6vw, 62px);
-    line-height: 0.97;
+  #shopify-section-{{ section.id }} .reviews-showcase__heading {
+    max-width: var(--reviews-heading-max);
+    margin: 0 auto;
+    color: rgb(var(--reviews-heading-color));
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 0.98;
     letter-spacing: -0.03em;
     font-weight: 600;
   }
 
-  .reviews-showcase__heading .accent {
-    color: var(--accent-color);
-    font-family: Georgia, 'Times New Roman', serif;
+  #shopify-section-{{ section.id }} .reviews-showcase__heading .accent {
+    color: rgb(var(--reviews-accent-color));
     font-style: italic;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    display: inline-block;
-  }
-
-  .reviews-showcase__subheading {
-    margin: 16px auto 0;
-    max-width: 800px;
-    color: var(--muted-color);
-    font-size: clamp(18px, 1.3vw, 24px);
-    line-height: 1.25;
+    font-family: Georgia, 'Times New Roman', serif;
     font-weight: 500;
   }
 
-  .reviews-showcase__subheading p {
+  #shopify-section-{{ section.id }} .reviews-showcase__subheading {
+    margin-top: 16px;
+    color: rgb(var(--reviews-muted-color));
+    font-size: 18px;
+    line-height: 1.45;
+  }
+
+  #shopify-section-{{ section.id }} .reviews-showcase__subheading p {
     margin: 0;
   }
 
-  .reviews-showcase__button-wrap {
-    margin-top: 22px;
+  #shopify-section-{{ section.id }} .reviews-showcase__actions {
+    margin-top: 24px;
   }
 
-  .reviews-showcase__button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 220px;
-    min-height: 54px;
-    padding: 12px 24px;
-    border-radius: 999px;
-    background: var(--button-bg);
-    color: var(--button-text);
-    text-decoration: none;
-    font-size: 17px;
-    line-height: 1;
-    font-weight: 700;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-
-  .reviews-showcase__button:hover {
-    transform: translateY(-1px);
-    opacity: 0.95;
-  }
-
-  .reviews-showcase__cards-wrapper {
-    margin-top: 48px;
-    position: relative;
-  }
-
-  .reviews-showcase__cards {
+  #shopify-section-{{ section.id }} .reviews-showcase__cards {
     display: flex;
-    gap: var(--card-gap);
+    gap: var(--reviews-card-gap);
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 16px 0 12px;
+    padding: 4px 0 10px;
     scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    justify-content: flex-start;
-    mask-image: linear-gradient(to right, transparent 0, black 4%, black 96%, transparent 100%);
+    -webkit-overflow-scrolling: touch;
   }
 
-  .reviews-showcase__cards::-webkit-scrollbar {
+  #shopify-section-{{ section.id }} .reviews-showcase__cards::-webkit-scrollbar {
     display: none;
   }
 
-  .review-card {
-    flex: 0 0 var(--mobile-card-width);
-    width: var(--mobile-card-width);
-    min-height: 320px;
-    background: var(--card-bg);
-    border-radius: var(--card-radius);
-    box-shadow: 0 20px 60px rgba(26, 27, 36, var(--card-shadow-opacity));
-    padding: 20px 18px 19px;
+  #shopify-section-{{ section.id }} .reviews-showcase__card {
+    flex: 0 0 var(--reviews-mobile-card-width);
+    width: var(--reviews-mobile-card-width);
+    min-width: var(--reviews-mobile-card-width);
+    padding: 24px;
+    border-radius: var(--reviews-card-radius);
+    background: rgb(var(--reviews-card-background));
+    box-shadow: 0 var(--reviews-card-shadow-y) var(--reviews-card-shadow-blur) rgba(18, 18, 18, var(--reviews-card-shadow-opacity));
     text-align: left;
     scroll-snap-align: start;
   }
 
-  .review-card__header {
+  #shopify-section-{{ section.id }} .reviews-showcase__card-header {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 17px;
+    margin-bottom: 18px;
   }
 
-  .review-card__avatar {
+  #shopify-section-{{ section.id }} .reviews-showcase__avatar,
+  #shopify-section-{{ section.id }} .reviews-showcase__avatar-placeholder {
     width: 46px;
     height: 46px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex: 0 0 46px;
+    min-width: 46px;
+    border-radius: 999px;
   }
 
-  .review-card__avatar--placeholder {
+  #shopify-section-{{ section.id }} .reviews-showcase__avatar {
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ section.id }} .reviews-showcase__avatar-placeholder {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #e7e3df;
-    color: var(--heading-color);
-    font-size: 20px;
+    background: rgba(var(--reviews-heading-color), 0.08);
+    color: rgb(var(--reviews-heading-color));
+    font-size: 18px;
     font-weight: 700;
   }
 
-  .review-card__meta {
-    min-width: 0;
-  }
-
-  .review-card__name {
-    color: var(--heading-color);
+  #shopify-section-{{ section.id }} .reviews-showcase__name {
+    color: rgb(var(--reviews-heading-color));
     font-size: 17px;
     line-height: 1.2;
     font-weight: 600;
-    letter-spacing: -0.01em;
   }
 
-  .review-card__role {
-    margin-top: 5px;
-    color: var(--muted-color);
-    font-size: 12.5px;
-    line-height: 1.25;
-    font-weight: 500;
+  #shopify-section-{{ section.id }} .reviews-showcase__role {
+    margin-top: 4px;
+    color: rgb(var(--reviews-muted-color));
+    font-size: 12px;
+    line-height: 1.35;
   }
 
-  .review-card__stars {
+  #shopify-section-{{ section.id }} .reviews-showcase__stars {
     display: flex;
-    gap: 3px;
-    margin-bottom: 19px;
+    gap: 4px;
+    margin-bottom: 18px;
   }
 
-  .review-card__star-box {
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
-    background: var(--stars-color);
-    color: #fff;
+  #shopify-section-{{ section.id }} .reviews-showcase__star {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background: rgb(var(--reviews-stars));
+    color: #fff;
   }
 
-  .review-card__star-box.is-empty {
-    background: #d6d7d9;
+  #shopify-section-{{ section.id }} .reviews-showcase__star.is-empty {
+    background: rgb(var(--reviews-star-empty));
   }
 
-  .review-card__star-box svg {
+  #shopify-section-{{ section.id }} .reviews-showcase__star svg {
     width: 11px;
     height: 11px;
     display: block;
   }
 
-  .review-card__text {
-    color: var(--text-color);
-    font-size: 14.5px;
+  #shopify-section-{{ section.id }} .reviews-showcase__text {
+    color: rgb(var(--reviews-text-color));
+    font-size: 14px;
     line-height: 1.65;
-    font-weight: 500;
   }
 
-  .review-card__text p {
+  #shopify-section-{{ section.id }} .reviews-showcase__text p {
     margin: 0;
   }
 
-  .review-card__text mark {
-    background: linear-gradient(transparent 32%, var(--highlight-bg) 32%, var(--highlight-bg) 84%, transparent 84%);
+  #shopify-section-{{ section.id }} .reviews-showcase__text mark {
+    background: linear-gradient(transparent 30%, rgba(var(--reviews-highlight), 0.9) 30%, rgba(var(--reviews-highlight), 0.9) 85%, transparent 85%);
     color: inherit;
     padding: 0;
   }
 
-  @media screen and (max-width: 989px) {
-    .reviews-showcase {
-      padding-top: var(--pt);
-      padding-bottom: var(--pb);
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} .reviews-showcase__inner {
+      gap: 28px;
     }
 
-    .reviews-showcase .page-width:not(.reviews-showcase__inner--full) {
-      padding-left: 20px;
-      padding-right: 20px;
+    #shopify-section-{{ section.id }} .reviews-showcase__heading {
+      font-size: clamp(28px, 8.5vw, 40px);
     }
 
-    .reviews-showcase__heading {
-      font-size: clamp(28px, 9vw, 46px);
-      line-height: 1.02;
-    }
-
-    .reviews-showcase__subheading {
+    #shopify-section-{{ section.id }} .reviews-showcase__subheading {
       font-size: 16px;
-      max-width: 340px;
     }
 
-    .reviews-showcase__button-wrap {
-      margin-top: 18px;
-    }
-
-    .reviews-showcase__button {
-      min-width: 200px;
-      min-height: 48px;
-      font-size: 15.5px;
-      padding-left: 24px;
-      padding-right: 24px;
-    }
-
-    .reviews-showcase__cards-wrapper {
-      margin-top: 32px;
-    }
-
-    .reviews-showcase__cards {
-      padding-left: 20px;
-      padding-right: 20px;
-      mask-image: none;
+    #shopify-section-{{ section.id }} .reviews-showcase__cards {
+      padding-inline: 20px;
+      margin-inline: -20px;
     }
   }
 
-  @media screen and (min-width: 990px) {
-    .reviews-showcase__cards {
+  @media screen and (min-width: 700px) {
+    #shopify-section-{{ section.id }} .reviews-showcase__cards {
       justify-content: center;
-      overflow: visible;
       flex-wrap: nowrap;
-      align-items: stretch;
     }
 
-    .review-card {
-      flex: 0 0 var(--desktop-card-width);
-      width: var(--desktop-card-width);
-      min-height: 340px;
-      padding: 21px 19px 20px;
+    #shopify-section-{{ section.id }} .reviews-showcase__card {
+      flex-basis: var(--reviews-desktop-card-width);
+      width: var(--reviews-desktop-card-width);
+      min-width: 0;
     }
   }
 </style>
 
+<section class="reviews-showcase">
+  <div {% render 'section-properties', background: section.settings.background, text_color: section.settings.heading_color %}>
+    <div class="container">
+      <div class="reviews-showcase__inner">
+        <div class="reviews-showcase__content">
+          {%- if section.settings.badge != blank -%}
+            <p class="reviews-showcase__badge">{{ section.settings.badge | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank or section.settings.heading_accent != blank -%}
+            <h2 class="reviews-showcase__heading">
+              {{ section.settings.heading | escape }}{% if section.settings.heading_accent != blank %} <span class="accent">{{ section.settings.heading_accent | escape }}</span>{% endif %}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.subheading != blank -%}
+            <div class="reviews-showcase__subheading rte">
+              {{ section.settings.subheading }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <div class="reviews-showcase__actions">
+              {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'lg', style: 'fill', background: section.settings.button_background, text_color: section.settings.button_text_color %}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="reviews-showcase__cards" role="list">
+          {%- for block in section.blocks -%}
+            {%- assign review_text = block.settings.review_text | newline_to_br -%}
+            {%- assign highlight_1 = block.settings.highlight_1 | strip -%}
+            {%- assign highlight_2 = block.settings.highlight_2 | strip -%}
+            {%- assign highlight_3 = block.settings.highlight_3 | strip -%}
+
+            {%- if highlight_1 != blank -%}
+              {%- capture replacement_1 -%}<mark>{{ highlight_1 }}</mark>{%- endcapture -%}
+              {%- assign review_text = review_text | replace: highlight_1, replacement_1 -%}
+            {%- endif -%}
+            {%- if highlight_2 != blank -%}
+              {%- capture replacement_2 -%}<mark>{{ highlight_2 }}</mark>{%- endcapture -%}
+              {%- assign review_text = review_text | replace: highlight_2, replacement_2 -%}
+            {%- endif -%}
+            {%- if highlight_3 != blank -%}
+              {%- capture replacement_3 -%}<mark>{{ highlight_3 }}</mark>{%- endcapture -%}
+              {%- assign review_text = review_text | replace: highlight_3, replacement_3 -%}
+            {%- endif -%}
+
+            <article class="reviews-showcase__card" role="listitem" {{ block.shopify_attributes }}>
+              <div class="reviews-showcase__card-header">
+                {%- if block.settings.avatar != blank -%}
+                  {{ block.settings.avatar | image_url: width: 92 | image_tag: loading: 'lazy', widths: '46,92', class: 'reviews-showcase__avatar', alt: block.settings.name }}
+                {%- else -%}
+                  <span class="reviews-showcase__avatar-placeholder">{{ block.settings.name | strip | slice: 0, 1 }}</span>
+                {%- endif -%}
+
+                <div>
+                  <div class="reviews-showcase__name">{{ block.settings.name | escape }}</div>
+                  <div class="reviews-showcase__role">{{ block.settings.role | escape }}</div>
+                </div>
+              </div>
+
+              <div class="reviews-showcase__stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                {%- for i in (1..5) -%}
+                  <span class="reviews-showcase__star {% if i > block.settings.rating %}is-empty{% endif %}">
+                    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                      <path d="M9.999 1.667l2.575 5.217 5.758.837-4.166 4.061.983 5.734-5.15-2.707-5.149 2.707.983-5.734-4.166-4.061 5.758-.837L9.999 1.667z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                {%- endfor -%}
+              </div>
+
+              <div class="reviews-showcase__text rte">
+                <p>{{ review_text }}</p>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% schema %}
 {
   "name": "Reviews showcase",
-  "class": "section",
+  "tag": "section",
+  "class": "shopify-section--reviews-showcase",
   "settings": [
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow text",
-      "default": "Half if the stock is already sold!"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Why people love"
-    },
-    {
-      "type": "text",
-      "id": "heading_accent",
-      "label": "Heading accent",
-      "default": "our brand."
-    },
-    {
-      "type": "richtext",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "<p>Here's what they have to say</p>"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button label",
-      "default": "View All Reviews"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button link"
-    },
-    {
-      "type": "select",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1",
-      "options": [
-        { "value": "scheme-1", "label": "Scheme 1" },
-        { "value": "scheme-2", "label": "Scheme 2" },
-        { "value": "scheme-3", "label": "Scheme 3" },
-        { "value": "scheme-4", "label": "Scheme 4" },
-        { "value": "scheme-5", "label": "Scheme 5" }
-      ]
-    },
-    {
-      "type": "checkbox",
-      "id": "full_width",
-      "label": "Use full width",
-      "default": false
-    },
-    {
-      "type": "range",
-      "id": "container_max_width",
-      "label": "Container max width",
-      "min": 1200,
-      "max": 1800,
-      "step": 20,
-      "default": 1320
-    },
-    {
-      "type": "range",
-      "id": "desktop_card_width",
-      "label": "Desktop card width",
-      "min": 220,
-      "max": 360,
-      "step": 4,
-      "default": 284
-    },
-    {
-      "type": "range",
-      "id": "mobile_card_width",
-      "label": "Mobile card width",
-      "min": 200,
-      "max": 320,
-      "step": 4,
-      "default": 252
-    },
-    {
-      "type": "range",
-      "id": "card_gap",
-      "label": "Card gap",
-      "min": 8,
-      "max": 40,
-      "step": 2,
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "card_radius",
-      "label": "Card corner radius",
-      "min": 0,
-      "max": 40,
-      "step": 2,
-      "default": 22
-    },
-    {
-      "type": "range",
-      "id": "card_shadow_opacity",
-      "label": "Card shadow opacity",
-      "min": 0,
-      "max": 20,
-      "step": 1,
-      "default": 6
-    },
-    {
-      "type": "color",
-      "id": "section_background",
-      "label": "Section background",
-      "default": "#f7f7f8"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading color",
-      "default": "#2b2e3a"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text color",
-      "default": "#4a4f5f"
-    },
-    {
-      "type": "color",
-      "id": "muted_color",
-      "label": "Muted text color",
-      "default": "#737b91"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent color",
-      "default": "#ff5a1f"
-    },
-    {
-      "type": "color",
-      "id": "eyebrow_background",
-      "label": "Eyebrow background",
-      "default": "#ffe9e0"
-    },
-    {
-      "type": "color",
-      "id": "eyebrow_text_color",
-      "label": "Eyebrow text color",
-      "default": "#ff5a1f"
-    },
-    {
-      "type": "color",
-      "id": "button_background",
-      "label": "Button background",
-      "default": "#ff6728"
-    },
-    {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "Button text color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "card_background",
-      "label": "Card background",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "highlight_background",
-      "label": "Highlight background",
-      "default": "#f5e7ae"
-    },
-    {
-      "type": "color",
-      "id": "stars_color",
-      "label": "Stars color",
-      "default": "#00b67a"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "label": "Padding top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "default": 56
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "default": 48
-    }
+    {"type":"text","id":"badge","label":"Badge text","default":"Half if the stock is already sold!"},
+    {"type":"text","id":"heading","label":"Heading","default":"Why people love"},
+    {"type":"text","id":"heading_accent","label":"Heading accent","default":"our brand."},
+    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Here’s what they have to say</p>"},
+    {"type":"text","id":"button_label","label":"Button label","default":"View All Reviews"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"header","content":"Layout"},
+    {"type":"range","id":"section_spacing","label":"Section spacing","min":0,"max":80,"step":4,"default":48},
+    {"type":"range","id":"content_max_width","label":"Content max width","min":600,"max":1200,"step":20,"default":840},
+    {"type":"range","id":"heading_max_width","label":"Heading max width","min":400,"max":1000,"step":20,"default":760},
+    {"type":"range","id":"desktop_card_width","label":"Desktop card width","min":220,"max":360,"step":4,"default":284},
+    {"type":"range","id":"mobile_card_width","label":"Mobile card width","min":220,"max":320,"step":4,"default":252},
+    {"type":"range","id":"card_gap","label":"Card gap","min":8,"max":32,"step":2,"default":20},
+    {"type":"range","id":"card_radius","label":"Card radius","min":0,"max":32,"step":2,"default":22},
+    {"type":"range","id":"card_shadow_y","label":"Card shadow Y offset","min":0,"max":32,"step":1,"default":18},
+    {"type":"range","id":"card_shadow_blur","label":"Card shadow blur","min":0,"max":80,"step":2,"default":50},
+    {"type":"range","id":"card_shadow_opacity","label":"Card shadow opacity","min":0,"max":20,"step":1,"default":6},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background","label":"Section background","default":"#F7F7F7"},
+    {"type":"color","id":"card_background","label":"Card background","default":"#FFFFFF"},
+    {"type":"color","id":"heading_color","label":"Heading color","default":"#222738"},
+    {"type":"color","id":"text_color","label":"Review text color","default":"#4E5566"},
+    {"type":"color","id":"muted_color","label":"Muted text color","default":"#7A8193"},
+    {"type":"color","id":"accent_color","label":"Accent color","default":"#FF642D"},
+    {"type":"color","id":"badge_background","label":"Badge background","default":"#FFE8DE"},
+    {"type":"color","id":"badge_text_color","label":"Badge text color","default":"#FF642D"},
+    {"type":"color","id":"button_background","label":"Button background","default":"#FF642D"},
+    {"type":"color","id":"button_text_color","label":"Button text color","default":"#FFFFFF"},
+    {"type":"color","id":"highlight_color","label":"Highlight color","default":"#F4E49F"},
+    {"type":"color","id":"stars_color","label":"Filled star color","default":"#00B67A"},
+    {"type":"color","id":"stars_empty_color","label":"Empty star color","default":"#D9DDE3"}
   ],
   "blocks": [
     {
       "type": "review",
-      "name": "Review card",
+      "name": "Review",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "avatar",
-          "label": "Avatar"
-        },
-        {
-          "type": "text",
-          "id": "name",
-          "label": "Reviewer name",
-          "default": "Jessica Park"
-        },
-        {
-          "type": "text",
-          "id": "role",
-          "label": "Reviewer role",
-          "default": "Creative Lead"
-        },
-        {
-          "type": "range",
-          "id": "rating",
-          "label": "Rating",
-          "min": 1,
-          "max": 5,
-          "step": 1,
-          "default": 5
-        },
-        {
-          "type": "textarea",
-          "id": "review_text",
-          "label": "Review text",
-          "default": "I was terrified of moving our data over from our old legacy system. The onboarding team handled everything, and we were up and running with zero downtime. Incredible service."
-        },
-        {
-          "type": "text",
-          "id": "highlight_1",
-          "label": "Highlight phrase 1",
-          "default": "running with zero downtime"
-        },
-        {
-          "type": "text",
-          "id": "highlight_2",
-          "label": "Highlight phrase 2"
-        },
-        {
-          "type": "text",
-          "id": "highlight_3",
-          "label": "Highlight phrase 3"
-        }
+        {"type":"image_picker","id":"avatar","label":"Avatar"},
+        {"type":"text","id":"name","label":"Reviewer name","default":"Sarah Jenkins"},
+        {"type":"text","id":"role","label":"Reviewer role","default":"Operations Manager at..."},
+        {"type":"range","id":"rating","label":"Rating","min":1,"max":5,"step":1,"default":5},
+        {"type":"textarea","id":"review_text","label":"Review text","default":"I was skeptical at first, but after the 14-day trial, I couldn't imagine going back to spreadsheets. The UI is incredibly intuitive, and the integration with Slack makes communication seamless."},
+        {"type":"text","id":"highlight_1","label":"Highlight phrase 1","default":"incredibly intuitive"},
+        {"type":"text","id":"highlight_2","label":"Highlight phrase 2"},
+        {"type":"text","id":"highlight_3","label":"Highlight phrase 3"}
       ]
     }
   ],
@@ -633,46 +376,10 @@
     {
       "name": "Reviews showcase",
       "blocks": [
-        {
-          "type": "review",
-          "settings": {
-            "name": "Sarah Jenkins",
-            "role": "Operations Manager at...",
-            "rating": 4,
-            "review_text": "I was skeptical at first, but after the 14-day trial, I couldn't imagine going back to spreadsheets. The UI is incredibly intuitive, and the integration with Slack makes communication seamless. The advanced features have truly revolutionized my workflow, saving me valuable time and reducing errors.",
-            "highlight_1": "incredibly intuitive"
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "name": "Marcus Thorne",
-            "role": "Founder & CEO, Thorne...",
-            "rating": 5,
-            "review_text": "We've tried about five different platforms before landing on this one. It strikes the perfect balance between having advanced features and keeping it simple enough for new hires to learn in a day.",
-            "highlight_1": "perfect balance between having advanced features and keeping it simple"
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "name": "David Chen",
-            "role": "Freelance Web Developer",
-            "rating": 5,
-            "review_text": "Rarely do I leave reviews, but I had to give a shoutout to the support team. I had a syncing issue on a Sunday, and Mark resolved it within 20 minutes. Great product, even better people. The exceptional support team at our store is always ready to assist customers with any technical issues they may encounter.",
-            "highlight_1": "Great product, even better people"
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "name": "Jessica Park",
-            "role": "Creative Lead",
-            "rating": 5,
-            "review_text": "I was terrified of moving our data over from our old legacy system. The onboarding team handled everything, and we were up and running with zero downtime. Incredible service. Our initial fear of data migration from the old legacy system was swiftly alleviated by the onboarding team's proficient handling. Not a moment of downtime was experienced, exemplifying impeccable service.",
-            "highlight_1": "running with zero downtime"
-          }
-        }
+        {"type":"review","settings":{"name":"Sarah Jenkins","role":"Operations Manager at...","rating":4,"review_text":"I was skeptical at first, but after the 14-day trial, I couldn't imagine going back to spreadsheets. The UI is incredibly intuitive, and the integration with Slack makes communication seamless. The advanced features have truly revolutionized my workflow, saving me valuable time and reducing errors.","highlight_1":"incredibly intuitive"}},
+        {"type":"review","settings":{"name":"Marcus Thorne","role":"Founder & CEO, Thorne...","rating":5,"review_text":"We've tried about five different platforms before landing on this one. It strikes the perfect balance between having advanced features and keeping it simple enough for new hires to learn in a day.","highlight_1":"perfect balance between having advanced features and keeping it simple"}},
+        {"type":"review","settings":{"name":"David Chen","role":"Freelance Web Developer","rating":5,"review_text":"Rarely do I leave reviews, but I had to give a shoutout to the support team. I had a syncing issue on a Sunday, and Mark resolved it within 20 minutes. Great product, even better people.","highlight_1":"Great product, even better people"}},
+        {"type":"review","settings":{"name":"Jessica Park","role":"Creative Lead","rating":5,"review_text":"I was terrified of moving our data over from our old legacy system. The onboarding team handled everything, and we were up and running with zero downtime. Incredible service.","highlight_1":"running with zero downtime"}}
       ]
     }
   ]
