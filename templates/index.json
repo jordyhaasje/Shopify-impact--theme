@@ -1039,6 +1039,97 @@
         "background": "#ffffff",
         "card_background": "#f7f7f7",
         "heading_color": "#222738",
+        "text_color": "#4e5566",
+        "muted_color": "#7a8193",
+        "accent_color": "#ff642d",
+        "badge_background": "#ffe8de",
+        "badge_text_color": "#ff642d",
+        "button_background": "#ff642d",
+        "button_text_color": "#ffffff",
+        "highlight_color": "#f4e49f",
+        "stars_color": "#00b67a",
+        "stars_empty_color": "#d9dde3"
+      }
+    },
+    "reviews_showcase_cnrNRm": {
+      "type": "reviews-showcase",
+      "blocks": {
+        "review_BUWpdP": {
+          "type": "review",
+          "settings": {
+            "name": "Sofie Jensen",
+            "role": "Driftschef hos...",
+            "rating": 4,
+            "review_text": "Jeg var skeptisk i starten, men efter den 14-dages prøveperiode kunne jeg slet ikke forestille mig at gå tilbage til regneark. Brugerfladen er utrolig intuitiv, og integrationen med Slack gør kommunikationen helt problemfri. De avancerede funktioner har virkelig revolutioneret min arbejdsdag, sparet mig værdifuld tid og reduceret fejl.",
+            "highlight_1": "utrolig intuitiv",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        },
+        "review_FzrbrD": {
+          "type": "review",
+          "settings": {
+            "name": "Mikkel Thorne",
+            "role": "Founder & CEO, Thorne...",
+            "rating": 5,
+            "review_text": "Vi prøvede omkring fem forskellige platforme, før vi landede på denne. Den rammer den perfekte balance mellem avancerede funktioner og at være så enkel, at nye medarbejdere kan lære den på én dag.",
+            "highlight_1": "perfekte balance mellem avancerede funktioner og at være så enkel",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        },
+        "review_wQd3Wm": {
+          "type": "review",
+          "settings": {
+            "name": "David Chen",
+            "role": "Freelance webudvikler",
+            "rating": 5,
+            "review_text": "Jeg skriver sjældent anmeldelser, men jeg var nødt til at rose supportteamet. Jeg havde et synkroniseringsproblem en søndag, og Mark løste det inden for 20 minutter. Fantastisk produkt, endnu bedre mennesker.",
+            "highlight_1": "Fantastisk produkt, endnu bedre mennesker",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        },
+        "review_LPpKye": {
+          "type": "review",
+          "settings": {
+            "name": "Jessica Park",
+            "role": "Kreativ leder",
+            "rating": 5,
+            "review_text": "Jeg var virkelig nervøs for at flytte vores data fra det gamle system. Onboarding-teamet klarede det hele, og vi var oppe at køre uden nogen nedetid. Fantastisk service.",
+            "highlight_1": "uden nogen nedetid",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_BUWpdP",
+        "review_FzrbrD",
+        "review_wQd3Wm",
+        "review_LPpKye"
+      ],
+      "name": "Reviews showcase",
+      "settings": {
+        "badge": "Halvdelen af lageret er allerede udsolgt!",
+        "heading": "Derfor elsker folk",
+        "heading_accent": "vores brand.",
+        "subheading": "<p>Her er, hvad de har at sige</p>",
+        "button_label": "Se alle anmeldelser",
+        "button_link": "",
+        "section_spacing": 48,
+        "content_max_width": 840,
+        "heading_max_width": 760,
+        "desktop_card_width": 284,
+        "mobile_card_width": 252,
+        "card_gap": 20,
+        "card_radius": 22,
+        "card_shadow_y": 18,
+        "card_shadow_blur": 50,
+        "card_shadow_opacity": 6,
+        "background": "#F7F7F7",
+        "card_background": "#FFFFFF",
+        "heading_color": "#222738",
         "text_color": "#4E5566",
         "muted_color": "#7A8193",
         "accent_color": "#FF642D",
@@ -1069,6 +1160,7 @@
     "feature-chart",
     "faq",
     "video_social_results_AMyFmP",
-    "reviews_showcase_3F7rfM"
+    "reviews_showcase_3F7rfM",
+    "reviews_showcase_cnrNRm"
   ]
 }
