@@ -1,111 +1,89 @@
 {% comment %}
-Trustpilot Style Reviews Section V3 (Pixel Trustpilot Clone)
+Trustpilot Style Reviews Section V4 (Fixed Syntax)
 {% endcomment %}
 
-{%- assign review_count = 0 -%}
-{%- assign breakdown_count = 0 -%}
-{%- for block in section.blocks -%}
-  {%- if block.type == 'review' -%}
-    {%- assign review_count = review_count | plus: 1 -%}
-  {%- elsif block.type == 'rating_bar' -%}
-    {%- assign breakdown_count = breakdown_count | plus: 1 -%}
-  {%- endif -%}
-{%- endfor -%}
+<section id="trustpilot-{{ section.id }}" class="tp-clone">
+  <div class="tp-inner">
 
-<section id="trustpilot-{{ section.id }}" class="trustpilot-v2" style="--tp-bg: {{ section.settings.background_color }}; --tp-card-bg: {{ section.settings.card_background_color }}; --tp-text: {{ section.settings.text_color }}; --tp-muted: {{ section.settings.muted_text_color }}; --tp-accent: {{ section.settings.accent_color }}; --tp-border: {{ section.settings.border_color }}; --tp-star-text: {{ section.settings.star_text_color }}; --tp-radius: {{ section.settings.card_radius }}px; padding-top: {{ section.settings.section_spacing_top }}px; padding-bottom: {{ section.settings.section_spacing_bottom }}px;">
+    <div class="tp-header">
+      <h2>{{ section.settings.rating_title }}</h2>
+      <div class="tp-stars">
+        {% assign full = section.settings.score | floor %}
+        {% for i in (1..5) %}
+          <span class="star {% if i <= full %}full{% else %}empty{% endif %}">★</span>
+        {% endfor %}
+      </div>
+      <p>{{ section.settings.rating_caption }}</p>
+    </div>
 
-<div class="trustpilot-v2__inner" style="max-width: {{ section.settings.content_max_width }}px; margin:0 auto;">
+    {% if section.settings.show_breakdown %}
+      <div class="tp-breakdown">
+        {% for block in section.blocks %}
+          {% if block.type == 'rating_bar' %}
+            <div class="row">
+              <span>{{ block.settings.label }}</span>
+              <div class="bar">
+                <div style="width:{{ block.settings.percentage }}%; background:{{ block.settings.bar_color }}"></div>
+              </div>
+              <span>{{ block.settings.count }}</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
 
-<div class="trustpilot-v2__summary-wrap">
+    {% if section.settings.show_reviews %}
+      <div class="tp-reviews">
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <div class="card">
+              <div class="stars">
+                {% for i in (1..block.settings.stars) %}★{% endfor %}
+              </div>
+              <p>{{ block.settings.text }}</p>
+              <strong>{{ block.settings.author }}</strong>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
 
-<div class="trustpilot-v2__summary-card">
-<h2 class="trustpilot-v2__rating-title">{{ section.settings.rating_title }}</h2>
-<div class="trustpilot-v2__stars">
-{% assign rounded = section.settings.score | round %}
-{% for i in (1..5) %}
-<span class="star-box {% if i > rounded %}empty{% endif %}">★</span>
-{% endfor %}
-</div>
-<p>{{ section.settings.rating_caption }}</p>
-</div>
-
-{% if section.settings.show_breakdown %}
-<div class="trustpilot-v2__breakdown">
-{% for block in section.blocks %}
-{% if block.type == 'rating_bar' %}
-<div class="row">
-<span>{{ block.settings.label }}</span>
-<div class="bar"><div style="width:{{ block.settings.percentage }}%; background:{{ block.settings.bar_color }}"></div></div>
-<span>{{ block.settings.count }}</span>
-</div>
-{% endif %}
-{% endfor %}
-</div>
-{% endif %}
-
-</div>
-
-{% if section.settings.show_reviews %}
-<div class="trustpilot-v2__carousel" data-carousel>
-{% for block in section.blocks %}
-{% if block.type == 'review' %}
-<div class="card">
-<div class="stars">{% for i in (1..block.settings.stars) %}★{% endfor %}</div>
-<p>{{ block.settings.text }}</p>
-<strong>{{ block.settings.author }}</strong>
-</div>
-{% endif %}
-{% endfor %}
-</div>
-{% endif %}
-
-</div>
+  </div>
 </section>
 
 {% schema %}
 {
-"name":"Trustpilot Reviews",
-"settings":[
-{"type":"text","id":"rating_title","default":"Rated 4.7 / 5","label":"Title"},
-{"type":"text","id":"rating_caption","default":"Based on 437 reviews","label":"Caption"},
-{"type":"range","id":"score","min":0,"max":5,"step":0.1,"default":4.7,"label":"Score"},
-{"type":"checkbox","id":"show_breakdown","default":true,"label":"Show breakdown"},
-{"type":"checkbox","id":"show_reviews","default":true,"label":"Show reviews"},
-{"type":"color","id":"background_color","default":"#f5f5f7","label":"Background"},
-{"type":"color","id":"card_background_color","default":"#ffffff","label":"Card bg"},
-{"type":"color","id":"text_color","default":"#111","label":"Text"},
-{"type":"color","id":"muted_text_color","default":"#777","label":"Muted"},
-{"type":"color","id":"accent_color","default":"#00b67a","label":"Accent"},
-{"type":"color","id":"border_color","default":"#e5e7eb","label":"Border"},
-{"type":"color","id":"star_text_color","default":"#fff","label":"Star color"},
-{"type":"range","id":"card_radius","min":0,"max":24,"step":2,"default":12,"label":"Radius"},
-{"type":"range","id":"section_spacing_top","min":0,"max":120,"step":4,"default":56,"label":"Top"},
-{"type":"range","id":"section_spacing_bottom","min":0,"max":120,"step":4,"default":56,"label":"Bottom"},
-{"type":"range","id":"content_max_width","min":600,"max":1400,"step":20,"default":1200,"label":"Width"}
-],
-"blocks":[
-{
-"type":"rating_bar",
-"name":"Rating bar",
-"settings":[
-{"type":"text","id":"label","default":"5 stars","label":"Label"},
-{"type":"range","id":"percentage","min":0,"max":100,"step":5,"default":80,"label":"%"},
-{"type":"number","id":"count","default":200,"label":"Count"},
-{"type":"color","id":"bar_color","default":"#00b67a","label":"Color"}
-]
-},
-{
-"type":"review",
-"name":"Review",
-"settings":[
-{"type":"range","id":"stars","min":1,"max":5,"step":1,"default":5,"label":"Stars"},
-{"type":"textarea","id":"text","default":"Great!","label":"Text"},
-{"type":"text","id":"author","default":"John","label":"Author"}
-]
-}
-],
-"presets":[{
-"name":"Trustpilot Reviews"
-}]
+  "name": "Trustpilot Reviews",
+  "settings": [
+    { "type": "text", "id": "rating_title", "default": "Rated 4.6 / 5", "label": "Title" },
+    { "type": "text", "id": "rating_caption", "default": "Based on 147 reviews", "label": "Caption" },
+    { "type": "range", "id": "score", "min": 0, "max": 5, "step": 0.1, "default": 4.6, "label": "Score" },
+    { "type": "checkbox", "id": "show_breakdown", "default": true, "label": "Show breakdown" },
+    { "type": "checkbox", "id": "show_reviews", "default": true, "label": "Show reviews" }
+  ],
+  "blocks": [
+    {
+      "type": "rating_bar",
+      "name": "Rating bar",
+      "settings": [
+        { "type": "text", "id": "label", "default": "5 stars", "label": "Label" },
+        { "type": "range", "id": "percentage", "min": 0, "max": 100, "step": 5, "default": 80, "label": "Percentage" },
+        { "type": "number", "id": "count", "default": 212, "label": "Count" },
+        { "type": "color", "id": "bar_color", "default": "#00b67a", "label": "Color" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "default": 5, "label": "Stars" },
+        { "type": "textarea", "id": "text", "default": "Great!", "label": "Text" },
+        { "type": "text", "id": "author", "default": "John", "label": "Author" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Trustpilot Reviews" }
+  ]
 }
 {% endschema %}
