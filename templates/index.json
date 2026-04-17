@@ -971,86 +971,6 @@
         "mobile_padding_bottom": 48
       }
     },
-    "reviews_showcase_3F7rfM": {
-      "type": "reviews-showcase",
-      "blocks": {
-        "review_iEkbrK": {
-          "type": "review",
-          "settings": {
-            "avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
-            "name": "Sarah Jenkins",
-            "role": "Operations Manager at...",
-            "rating": 4,
-            "review_text": "I was skeptical at first, but after the 14-day trial, I couldn't imagine going back to spreadsheets. The UI is incredibly intuitive, and the integration with Slack makes communication seamless. The advanced features have truly revolutionized my workflow, saving me valuable time and reducing errors.",
-            "highlight_1": "incredibly intuitive",
-            "highlight_2": "",
-            "highlight_3": ""
-          }
-        },
-        "review_nQB8yk": {
-          "type": "review",
-          "settings": {
-            "avatar": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
-            "name": "David Chen",
-            "role": "Freelance Web Developer",
-            "rating": 5,
-            "review_text": "Rarely do I leave reviews, but I had to give a shoutout to the support team. I had a syncing issue on a Sunday, and Mark resolved it within 20 minutes. Great product, even better people.",
-            "highlight_1": "Great product, even better people",
-            "highlight_2": "",
-            "highlight_3": ""
-          }
-        },
-        "review_ye44LF": {
-          "type": "review",
-          "settings": {
-            "name": "Jessica Park",
-            "role": "Creative Lead",
-            "rating": 5,
-            "review_text": "I was terrified of moving our data over from our old legacy system. The onboarding team handled everything, and we were up and running with zero downtime. Incredible service.",
-            "highlight_1": "running with zero downtime",
-            "highlight_2": "",
-            "highlight_3": ""
-          }
-        }
-      },
-      "block_order": [
-        "review_iEkbrK",
-        "review_nQB8yk",
-        "review_ye44LF"
-      ],
-      "name": "Reviews showcase",
-      "settings": {
-        "badge": "Half if the stock is already sold!",
-        "heading": "Why people love",
-        "heading_accent": "our brand.",
-        "subheading": "<p>Here’s what they have to say</p>",
-        "button_label": "View All Reviews",
-        "button_link": "",
-        "section_spacing": 36,
-        "content_max_width": 840,
-        "heading_max_width": 760,
-        "desktop_card_width": 260,
-        "mobile_card_width": 252,
-        "card_gap": 16,
-        "card_radius": 22,
-        "card_shadow_y": 0,
-        "card_shadow_blur": 0,
-        "card_shadow_opacity": 0,
-        "background": "#ffffff",
-        "card_background": "#f7f7f7",
-        "heading_color": "#222738",
-        "text_color": "#4e5566",
-        "muted_color": "#7a8193",
-        "accent_color": "#ff642d",
-        "badge_background": "#ffe8de",
-        "badge_text_color": "#ff642d",
-        "button_background": "#ff642d",
-        "button_text_color": "#ffffff",
-        "highlight_color": "#f4e49f",
-        "stars_color": "#00b67a",
-        "stars_empty_color": "#d9dde3"
-      }
-    },
     "reviews_showcase_cnrNRm": {
       "type": "reviews-showcase",
       "blocks": {
@@ -1124,10 +1044,10 @@
         "mobile_card_width": 252,
         "card_gap": 20,
         "card_radius": 22,
-        "card_shadow_y": 18,
-        "card_shadow_blur": 50,
-        "card_shadow_opacity": 6,
-        "background": "#F7F7F7",
+        "card_shadow_y": 3,
+        "card_shadow_blur": 8,
+        "card_shadow_opacity": 5,
+        "background": "#ffffff",
         "card_background": "#FFFFFF",
         "heading_color": "#222738",
         "text_color": "#4E5566",
@@ -1140,6 +1060,67 @@
         "highlight_color": "#F4E49F",
         "stars_color": "#00B67A",
         "stars_empty_color": "#D9DDE3"
+      }
+    },
+    "text_with_icons_qpRaQ8": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_Pkb88L": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "circle",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Free shipping",
+            "content": "<p>Free worldwide shipping and returns - customs and duties taxes included</p>"
+          }
+        },
+        "item_myCzEE": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "circle",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Customer service",
+            "content": "<p>We are available from monday to friday to answer your questions.</p>"
+          }
+        },
+        "item_UEbchh": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "circle",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Secure payment",
+            "content": "<p>Your payment information is processed securely.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_Pkb88L",
+        "item_myCzEE",
+        "item_UEbchh"
+      ],
+      "name": "Text with icons",
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "title": "",
+        "heading_tag": "h5",
+        "text_alignment": "center",
+        "icon_spacing": "medium",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
       }
     }
   },
@@ -1160,7 +1141,7 @@
     "feature-chart",
     "faq",
     "video_social_results_AMyFmP",
-    "reviews_showcase_3F7rfM",
-    "reviews_showcase_cnrNRm"
+    "reviews_showcase_cnrNRm",
+    "text_with_icons_qpRaQ8"
   ]
 }
