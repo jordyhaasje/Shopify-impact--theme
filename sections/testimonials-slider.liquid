@@ -1,0 +1,77 @@
+{% stylesheet %}
+.testimonials-section{background:#f5f5f7;border-radius:24px;padding:60px 40px;margin:40px 0;}
+.testimonials-header{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;}
+.testimonials-left h2{font-size:48px;line-height:1.1;font-weight:700;margin-bottom:20px;}
+.testimonials-rating{font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px;}
+.testimonials-right{max-width:420px;font-size:18px;line-height:1.6;color:#555;}
+.testimonials-slider{margin-top:40px;position:relative;overflow:hidden;}
+.testimonials-track{display:flex;gap:20px;transition:transform .4s ease;}
+.testimonial-card{background:#fff;border-radius:16px;padding:24px;min-width:320px;box-shadow:0 10px 20px rgba(0,0,0,0.05);}
+.testimonial-title{font-weight:700;font-size:20px;margin:10px 0;}
+.testimonial-text{font-size:15px;color:#555;line-height:1.6;}
+.testimonial-author{margin-top:16px;font-size:13px;color:#777;}
+.slider-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.slider-btn.prev{left:-10px;}
+.slider-btn.next{right:-10px;}
+.testimonials-footer{margin-top:40px;text-align:center;}
+.cta-btn{background:#3b6edc;color:#fff;padding:16px 28px;border-radius:30px;text-decoration:none;font-weight:600;display:inline-block;}
+@media(max-width:768px){
+.testimonials-header{flex-direction:column;}
+.testimonials-left h2{font-size:32px;}
+.testimonial-card{min-width:260px;}
+}
+{% endstylesheet %}
+
+<div class="testimonials-section">
+  <div class="testimonials-header">
+    <div class="testimonials-left">
+      <h2>Our customers tell it better than we do!</h2>
+      <div class="testimonials-rating">★ 4.7 /5 based on 12,067 reviews</div>
+    </div>
+    <div class="testimonials-right">
+      Join thousands of Shopify merchants growing their business with our templates.
+    </div>
+  </div>
+
+  <div class="testimonials-slider">
+    <div class="slider-btn prev" onclick="prevSlide{{ section.id }}()">‹</div>
+    <div class="slider-btn next" onclick="nextSlide{{ section.id }}()">›</div>
+
+    <div class="testimonials-track" id="track-{{ section.id }}">
+      {% for i in (1..5) %}
+      <div class="testimonial-card">
+        <div>★★★★★</div>
+        <div class="testimonial-title">Changed my entire storefront!</div>
+        <div class="testimonial-text">The templates are incredibly easy to use and customized. My conversion rate has doubled since I switched. Highly recommend!</div>
+        <div class="testimonial-author">Sarah J., Shopify Merchant - Oct 26, 2023</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="testimonials-footer">
+    <a href="#" class="cta-btn">View All Reviews →</a>
+  </div>
+</div>
+
+<script>
+let index{{ section.id }} = 0;
+function nextSlide{{ section.id }}(){
+  const track = document.getElementById('track-{{ section.id }}');
+  index{{ section.id }}++;
+  track.style.transform = `translateX(-${index{{ section.id }} * 340}px)`;
+}
+function prevSlide{{ section.id }}(){
+  const track = document.getElementById('track-{{ section.id }}');
+  index{{ section.id }} = Math.max(0,index{{ section.id }}-1);
+  track.style.transform = `translateX(-${index{{ section.id }} * 340}px)`;
+}
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials Slider",
+  "settings": [],
+  "presets": [{"name":"Testimonials Slider"}]
+}
+{% endschema %}
