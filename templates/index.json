@@ -970,6 +970,55 @@
         "mobile_padding_top": 48,
         "mobile_padding_bottom": 48
       }
+    },
+    "reviews_showcase_mXmpVF": {
+      "type": "reviews-showcase",
+      "blocks": {
+        "review_FFP3wB": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+            "name": "John Doe",
+            "role": "Position",
+            "rating": 5,
+            "text": "<p>Great product!</p>"
+          }
+        },
+        "review_LK3zYJ": {
+          "type": "review",
+          "settings": {
+            "name": "John Doe",
+            "role": "Position",
+            "rating": 5,
+            "text": "<p>Great product!</p>"
+          }
+        },
+        "review_KhG7H9": {
+          "type": "review",
+          "settings": {
+            "name": "John Doe",
+            "role": "Position",
+            "rating": 5,
+            "text": "<p>Great product!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "review_FFP3wB",
+        "review_LK3zYJ",
+        "review_KhG7H9"
+      ],
+      "name": "Reviews Showcase",
+      "settings": {
+        "eyebrow": "Half if the stock is already sold!",
+        "heading": "Why people love",
+        "heading_accent": "our brand.",
+        "subheading": "Here's what they have to say",
+        "button_label": "View All Reviews",
+        "button_link": "",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
@@ -988,6 +1037,7 @@
     "featured-product",
     "feature-chart",
     "faq",
-    "video_social_results_AMyFmP"
+    "video_social_results_AMyFmP",
+    "reviews_showcase_mXmpVF"
   ]
 }
