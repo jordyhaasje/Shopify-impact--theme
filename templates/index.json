@@ -970,6 +970,99 @@
         "mobile_padding_top": 48,
         "mobile_padding_bottom": 48
       }
+    },
+    "reviews_showcase_3F7rfM": {
+      "type": "reviews-showcase",
+      "blocks": {
+        "review_iEkbrK": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+            "name": "Sarah Jenkins",
+            "role": "Operations Manager at...",
+            "rating": 4,
+            "review_text": "I was skeptical at first, but after the 14-day trial, I couldn't imagine going back to spreadsheets. The UI is incredibly intuitive, and the integration with Slack makes communication seamless. The advanced features have truly revolutionized my workflow, saving me valuable time and reducing errors.",
+            "highlight_1": "incredibly intuitive",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        },
+        "review_rWXHeE": {
+          "type": "review",
+          "settings": {
+            "name": "Marcus Thorne",
+            "role": "Founder & CEO, Thorne...",
+            "rating": 5,
+            "review_text": "We've tried about five different platforms before landing on this one. It strikes the perfect balance between having advanced features and keeping it simple enough for new hires to learn in a day.",
+            "highlight_1": "perfect balance between having advanced features and keeping it simple",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        },
+        "review_nQB8yk": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
+            "name": "David Chen",
+            "role": "Freelance Web Developer",
+            "rating": 5,
+            "review_text": "Rarely do I leave reviews, but I had to give a shoutout to the support team. I had a syncing issue on a Sunday, and Mark resolved it within 20 minutes. Great product, even better people.",
+            "highlight_1": "Great product, even better people",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        },
+        "review_ye44LF": {
+          "type": "review",
+          "settings": {
+            "name": "Jessica Park",
+            "role": "Creative Lead",
+            "rating": 5,
+            "review_text": "I was terrified of moving our data over from our old legacy system. The onboarding team handled everything, and we were up and running with zero downtime. Incredible service.",
+            "highlight_1": "running with zero downtime",
+            "highlight_2": "",
+            "highlight_3": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_iEkbrK",
+        "review_rWXHeE",
+        "review_nQB8yk",
+        "review_ye44LF"
+      ],
+      "name": "Reviews showcase",
+      "settings": {
+        "badge": "Half if the stock is already sold!",
+        "heading": "Why people love",
+        "heading_accent": "our brand.",
+        "subheading": "<p>Here’s what they have to say</p>",
+        "button_label": "View All Reviews",
+        "button_link": "",
+        "section_spacing": 48,
+        "content_max_width": 840,
+        "heading_max_width": 760,
+        "desktop_card_width": 284,
+        "mobile_card_width": 252,
+        "card_gap": 20,
+        "card_radius": 22,
+        "card_shadow_y": 18,
+        "card_shadow_blur": 0,
+        "card_shadow_opacity": 0,
+        "background": "#ffffff",
+        "card_background": "#f7f7f7",
+        "heading_color": "#222738",
+        "text_color": "#4E5566",
+        "muted_color": "#7A8193",
+        "accent_color": "#FF642D",
+        "badge_background": "#FFE8DE",
+        "badge_text_color": "#FF642D",
+        "button_background": "#FF642D",
+        "button_text_color": "#FFFFFF",
+        "highlight_color": "#F4E49F",
+        "stars_color": "#00B67A",
+        "stars_empty_color": "#D9DDE3"
+      }
     }
   },
   "order": [
@@ -988,6 +1081,7 @@
     "featured-product",
     "feature-chart",
     "faq",
-    "video_social_results_AMyFmP"
+    "video_social_results_AMyFmP",
+    "reviews_showcase_3F7rfM"
   ]
 }
