@@ -217,12 +217,66 @@
         "text_color": "#111111",
         "avatar_border_color": "#ffffff"
       }
+    },
+    "upgrade_water_bottle_g3CacU": {
+      "type": "upgrade-water-bottle",
+      "blocks": {
+        "feature_Lzt3BB": {
+          "type": "feature",
+          "settings": {
+            "text": "Holds cold for 24 hours"
+          }
+        },
+        "feature_CAnjzx": {
+          "type": "feature",
+          "settings": {
+            "text": "Holds cold for 24 hours"
+          }
+        },
+        "feature_3BYNCC": {
+          "type": "feature",
+          "settings": {
+            "text": "Holds cold for 24 hours"
+          }
+        },
+        "feature_TMy3Rn": {
+          "type": "feature",
+          "settings": {
+            "text": "Holds cold for 24 hours"
+          }
+        }
+      },
+      "block_order": [
+        "feature_Lzt3BB",
+        "feature_CAnjzx",
+        "feature_3BYNCC",
+        "feature_TMy3Rn"
+      ],
+      "name": "Upgrade water bottle",
+      "settings": {
+        "heading": "Reasons to upgrade",
+        "heading_accent": "your water bottle",
+        "quote": "<p>\"I bring this bottle everywhere I go. It contains 910 ml, stays cold forever and is so easy to carry around. Perfect for my active lifestyle.\"</p>",
+        "avatar": "shopify://shop_images/blik1.webp",
+        "button_label": "Learn More",
+        "button_link": "",
+        "delivery_text": "Fast delivery, within 1-2 days.",
+        "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
+        "background": "#F5F5F5",
+        "heading_color": "#1A1A1A",
+        "accent_color": "#8B2C2C",
+        "text_color": "#5C5C5C",
+        "button_background": "#111111",
+        "button_text_color": "#FFFFFF",
+        "section_spacing": 48
+      }
     }
   },
   "order": [
     "main",
     "related-products",
     "product_video_gallery_YE6EVi",
-    "product_social_proof_PRA8Yy"
+    "product_social_proof_PRA8Yy",
+    "upgrade_water_bottle_g3CacU"
   ]
 }
