@@ -71,6 +71,20 @@
             "dot_color": "#008763"
           }
         },
+        "pair_with_6YxXmp": {
+          "type": "pair_with",
+          "settings": {
+            "heading": "Pair with",
+            "product": "azaria-pak",
+            "subtext": "Complete the look with this matching item.",
+            "button_label": "Shop now",
+            "card_background": "#ffffff",
+            "text_color": "#111111",
+            "label_color": "#6b7280",
+            "button_background": "#111111",
+            "button_text_color": "#ffffff"
+          }
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -98,6 +112,7 @@
         "description",
         "variant_picker",
         "stock_status_pill_3KhEWT",
+        "pair_with_6YxXmp",
         "quantity_selector",
         "buy_buttons"
       ],
