@@ -1439,6 +1439,98 @@ quick buy information in a template, that will be extracted in JS, but ensure it
       ]
     },
     {
+      "type": "conversion_highlight",
+      "name": "Conversion highlight",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titel",
+          "default": "Summer Sale ☀️"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tekst",
+          "default": "<p>Vandaag 20% korting op alle producten.</p>"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icoon",
+          "options": [
+            {
+              "value": "none",
+              "label": "Geen"
+            },
+            {
+              "value": "picto-percent",
+              "label": "Percent"
+            },
+            {
+              "value": "picto-coupon",
+              "label": "Coupon"
+            },
+            {
+              "value": "picto-star",
+              "label": "Star"
+            },
+            {
+              "value": "picto-gift",
+              "label": "Gift"
+            },
+            {
+              "value": "picto-like",
+              "label": "Like"
+            }
+          ],
+          "default": "picto-percent"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight_border",
+          "label": "Highlight border",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Background",
+          "default": "#FFF7ED"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#111111"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border color",
+          "default": "#F97316"
+        },
+        {
+          "type": "range",
+          "id": "border_radius",
+          "label": "Border radius",
+          "min": 0,
+          "max": 30,
+          "step": 2,
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "padding",
+          "label": "Padding",
+          "min": 8,
+          "max": 32,
+          "step": 2,
+          "default": 16
+        }
+      ]
+    },
+    {
       "type": "share_buttons",
       "name": "Share buttons",
       "settings": [

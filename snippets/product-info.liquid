@@ -816,6 +816,85 @@
           </div>
         {%- endif -%}
 
+      {%- when 'conversion_highlight' -%}
+        {%- if block.settings.title != blank or block.settings.content != blank -%}
+          <div class="product-info__conversion-highlight" {{ block.shopify_attributes }}>
+            <style>
+              .conversion-highlight-{{ block.id }} {
+                display: grid;
+                gap: 10px;
+                padding: {{ block.settings.padding }}px;
+                border-radius: {{ block.settings.border_radius }}px;
+                background: {{ block.settings.background }};
+                color: {{ block.settings.text_color }};
+                {% if block.settings.highlight_border %}
+                  border: 2px solid {{ block.settings.border_color }};
+                {% else %}
+                  border: 1px solid rgba(0, 0, 0, 0.08);
+                {% endif %}
+                box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+              }
+
+              .conversion-highlight-{{ block.id }}__row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+              }
+
+              .conversion-highlight-{{ block.id }}__icon {
+                flex-shrink: 0;
+              }
+
+              .conversion-highlight-{{ block.id }}__title {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 1.2;
+              }
+
+              .conversion-highlight-{{ block.id }}__content {
+                font-size: 14px;
+                line-height: 1.5;
+                opacity: 0.9;
+              }
+
+              @media screen and (max-width: 749px) {
+                .conversion-highlight-{{ block.id }} {
+                  padding: {{ block.settings.padding | minus: 4 }}px;
+                }
+
+                .conversion-highlight-{{ block.id }}__title {
+                  font-size: 15px;
+                }
+
+                .conversion-highlight-{{ block.id }}__content {
+                  font-size: 13px;
+                }
+              }
+            </style>
+
+            <div class="conversion-highlight-{{ block.id }}">
+              <div class="conversion-highlight-{{ block.id }}__row">
+                {%- if block.settings.icon != 'none' -%}
+                  <span class="conversion-highlight-{{ block.id }}__icon">
+                    {%- render 'icon' with block.settings.icon, width: 20, height: 20 -%}
+                  </span>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <h3 class="conversion-highlight-{{ block.id }}__title">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.content != blank -%}
+                <div class="conversion-highlight-{{ block.id }}__content">
+                  {{ block.settings.content }}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
       {%- when 'share_buttons' -%}
         <div class="product-form__share {% if block.settings.alignment == 'center' %}justify-self-center{% elsif block.settings.alignment == 'end' %}justify-self-end{% endif %}" {{ block.shopify_attributes }}>
           <div class="product-info__share-buttons">
