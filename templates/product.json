@@ -224,24 +224,28 @@
         "feature_Lzt3BB": {
           "type": "feature",
           "settings": {
+            "icon_style": "bottle",
             "text": "Holds cold for 24 hours"
           }
         },
         "feature_CAnjzx": {
           "type": "feature",
           "settings": {
+            "icon_style": "bottle",
             "text": "Holds cold for 24 hours"
           }
         },
         "feature_3BYNCC": {
           "type": "feature",
           "settings": {
+            "icon_style": "bottle",
             "text": "Holds cold for 24 hours"
           }
         },
         "feature_TMy3Rn": {
           "type": "feature",
           "settings": {
+            "icon_style": "bottle",
             "text": "Holds cold for 24 hours"
           }
         }
@@ -262,13 +266,25 @@
         "button_link": "",
         "delivery_text": "Fast delivery, within 1-2 days.",
         "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
+        "main_image": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+        "thumb_1": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
+        "thumb_2": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+        "thumb_3": "shopify://shop_images/2_dd19edbb-9b84-42c4-b3c5-38590d4a213a.jpg",
+        "section_spacing": 48,
+        "section_max_width": 1440,
+        "media_radius": 24,
+        "thumb_radius": 20,
         "background": "#f5f5f5",
         "heading_color": "#1a1a1a",
         "accent_color": "#8b2c2c",
         "text_color": "#5c5c5c",
+        "muted_color": "#8a8787",
+        "feature_color": "#9e3f3e",
+        "divider_color": "#ddd7d3",
         "button_background": "#111111",
         "button_text_color": "#ffffff",
-        "section_spacing": 48
+        "control_background": "#ffffff",
+        "control_icon_color": "#120d10"
       }
     }
   },
