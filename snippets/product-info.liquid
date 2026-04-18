@@ -310,6 +310,10 @@
       {%- when 'pair_with' -%}
         {%- assign pair_product = block.settings.product -%}
 
+        {%- if pair_product == blank and block.settings.product != blank -%}
+          {%- assign pair_product = all_products[block.settings.product] -%}
+        {%- endif -%}
+
         {%- if pair_product != blank -%}
           <div class="product-info__pair-with" {{ block.shopify_attributes }}>
             <style>
@@ -464,6 +468,8 @@
                   <a href="{{ pair_product.url }}" class="pair-with-{{ block.id }}__image" aria-label="{{ pair_product.title | escape }}">
                     {%- if pair_product.featured_media != blank -%}
                       {{- pair_product.featured_media | image_url: width: 200 | image_tag: loading: 'lazy', widths: '72,84,144,168,200', alt: pair_product.title -}}
+                    {%- else -%}
+                      <div style="width: 100%; aspect-ratio: 1; background: rgba(0, 0, 0, 0.04);"></div>
                     {%- endif -%}
                   </a>
                 </div>
@@ -483,11 +489,18 @@
                     </div>
 
                     <a href="{{ pair_product.url }}" class="pair-with-{{ block.id }}__button">
-                      {{ block.settings.button_label | escape }}
+                      {{ block.settings.button_label | default: 'Shop now' | escape }}
                     </a>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        {%- elsif request.design_mode -%}
+          <div class="product-info__pair-with" {{ block.shopify_attributes }}>
+            <div style="padding: 16px; border: 1px dashed rgba(0,0,0,0.2); border-radius: 16px;">
+              <p style="margin: 0; font-weight: 700;">Pair with block</p>
+              <p style="margin: 6px 0 0; opacity: 0.7;">Selecteer een upsell product om dit block zichtbaar te maken.</p>
             </div>
           </div>
         {%- endif -%}
