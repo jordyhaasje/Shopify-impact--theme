@@ -6,122 +6,396 @@
   --uwb-heading: {{ section.settings.heading_color.rgb }};
   --uwb-accent: {{ section.settings.accent_color.rgb }};
   --uwb-text: {{ section.settings.text_color.rgb }};
+  --uwb-muted: {{ section.settings.muted_color.rgb }};
   --uwb-button-bg: {{ section.settings.button_background.rgb }};
   --uwb-button-text: {{ section.settings.button_text_color.rgb }};
+  --uwb-divider: {{ section.settings.divider_color.rgb }};
+  --uwb-control-bg: {{ section.settings.control_background.rgb }};
+  --uwb-control-icon: {{ section.settings.control_icon_color.rgb }};
+  --uwb-feature-color: {{ section.settings.feature_color.rgb }};
+  --uwb-thumb-radius: {{ section.settings.thumb_radius }}px;
+  --uwb-media-radius: {{ section.settings.media_radius }}px;
+  --uwb-section-max: {{ section.settings.section_max_width }}px;
   --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
+}
+
+#shopify-section-{{ section.id }} .uwb-section {
+  background: rgb(var(--uwb-bg));
+}
+
+#shopify-section-{{ section.id }} .uwb-shell {
+  max-width: var(--uwb-section-max);
+  margin-inline: auto;
 }
 
 #shopify-section-{{ section.id }} .uwb-wrapper {
   display: grid;
-  gap: 40px;
+  gap: 48px;
   align-items: center;
 }
 
 @media screen and (min-width: 990px) {
   #shopify-section-{{ section.id }} .uwb-wrapper {
-    grid-template-columns: 1.05fr 1fr;
-    gap: 60px;
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    gap: 72px;
   }
 }
 
+#shopify-section-{{ section.id }} .uwb-content {
+  max-width: 720px;
+}
+
 #shopify-section-{{ section.id }} .uwb-heading {
-  font-size: clamp(34px, 4vw, 56px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  margin: 0;
   color: rgb(var(--uwb-heading));
-  margin: 0 0 18px;
+  font-size: clamp(36px, 4.25vw, 58px);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+
+#shopify-section-{{ section.id }} .uwb-heading-line {
+  display: block;
+}
+
+#shopify-section-{{ section.id }} .uwb-heading-line + .uwb-heading-line {
+  margin-top: 8px;
 }
 
 #shopify-section-{{ section.id }} .uwb-heading .accent {
   color: rgb(var(--uwb-accent));
   font-style: italic;
   font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 #shopify-section-{{ section.id }} .uwb-quote {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 22px;
+  display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  margin-top: 34px;
 }
 
-#shopify-section-{{ section.id }} .uwb-quote img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+#shopify-section-{{ section.id }} .uwb-avatar,
+#shopify-section-{{ section.id }} .uwb-avatar-placeholder {
+  width: 66px;
+  height: 66px;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+#shopify-section-{{ section.id }} .uwb-avatar {
   object-fit: cover;
+  display: block;
+}
+
+#shopify-section-{{ section.id }} .uwb-avatar-placeholder {
+  background: rgba(var(--uwb-heading), 0.08);
 }
 
 #shopify-section-{{ section.id }} .uwb-quote-text {
-  font-size: 16px;
-  line-height: 1.6;
-  color: rgb(var(--uwb-text));
+  color: rgb(var(--uwb-heading));
+  font-size: 18px;
+  line-height: 1.62;
+  font-style: italic;
+  font-family: Georgia, 'Times New Roman', serif;
+  letter-spacing: -0.01em;
+}
+
+#shopify-section-{{ section.id }} .uwb-quote-text p {
+  margin: 0;
 }
 
 #shopify-section-{{ section.id }} .uwb-button-wrap {
-  margin-top: 10px;
+  margin-top: 28px;
+}
+
+#shopify-section-{{ section.id }} .uwb-button-wrap .button {
+  min-width: 314px;
+  border-radius: 999px;
+  padding-inline: 34px;
+  min-height: 64px;
+  font-size: 18px;
+  box-shadow: none;
 }
 
 #shopify-section-{{ section.id }} .uwb-delivery {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: rgb(var(--uwb-muted));
   font-size: 14px;
-  color: rgb(var(--uwb-text));
-  margin-top: 12px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+#shopify-section-{{ section.id }} .uwb-delivery svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
 }
 
 #shopify-section-{{ section.id }} .uwb-divider {
   height: 1px;
-  background: rgba(0,0,0,0.08);
-  margin: 28px 0;
+  background: rgb(var(--uwb-divider));
+  margin: 34px 0 28px;
 }
 
 #shopify-section-{{ section.id }} .uwb-features {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px 22px;
-}
-
-@media screen and (min-width: 750px) {
-  #shopify-section-{{ section.id }} .uwb-features {
-    grid-template-columns: 1fr 1fr;
-  }
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px 28px;
 }
 
 #shopify-section-{{ section.id }} .uwb-feature {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  color: rgb(var(--uwb-feature-color));
+  font-size: 18px;
+  line-height: 1.25;
   font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+#shopify-section-{{ section.id }} .uwb-feature-media,
+#shopify-section-{{ section.id }} .uwb-feature-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+}
+
+#shopify-section-{{ section.id }} .uwb-feature-media {
+  object-fit: contain;
+}
+
+#shopify-section-{{ section.id }} .uwb-media {
+  min-width: 0;
 }
 
 #shopify-section-{{ section.id }} .uwb-media-main {
   position: relative;
-  border-radius: 22px;
+  border-radius: var(--uwb-media-radius);
   overflow: hidden;
+  aspect-ratio: 1.09 / 1;
+  background: rgba(var(--uwb-heading), 0.06);
 }
 
-#shopify-section-{{ section.id }} .uwb-media-main video,
-#shopify-section-{{ section.id }} .uwb-media-main img {
+#shopify-section-{{ section.id }} .uwb-media-stage,
+#shopify-section-{{ section.id }} .uwb-media-item,
+#shopify-section-{{ section.id }} .uwb-media-image,
+#shopify-section-{{ section.id }} .uwb-media-video,
+#shopify-section-{{ section.id }} .uwb-media-video video,
+#shopify-section-{{ section.id }} .uwb-media-video iframe {
   width: 100%;
-  height: auto;
+  height: 100%;
+}
+
+#shopify-section-{{ section.id }} .uwb-media-stage {
+  position: relative;
+}
+
+#shopify-section-{{ section.id }} .uwb-media-item {
+  display: none;
+}
+
+#shopify-section-{{ section.id }} .uwb-media-item.is-active {
+  display: block;
+}
+
+#shopify-section-{{ section.id }} .uwb-media-image,
+#shopify-section-{{ section.id }} .uwb-media-video video,
+#shopify-section-{{ section.id }} .uwb-media-video iframe {
+  display: block;
+  object-fit: cover;
+}
+
+#shopify-section-{{ section.id }} .uwb-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+}
+
+#shopify-section-{{ section.id }} .uwb-control {
+  appearance: none;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--uwb-control-bg));
+  color: rgb(var(--uwb-control-icon));
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+#shopify-section-{{ section.id }} .uwb-control svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+#shopify-section-{{ section.id }} .uwb-control .icon-pause,
+#shopify-section-{{ section.id }} .uwb-control.is-playing .icon-play,
+#shopify-section-{{ section.id }} .uwb-control.is-muted .icon-volume,
+#shopify-section-{{ section.id }} .uwb-control:not(.is-playing) .icon-pause,
+#shopify-section-{{ section.id }} .uwb-control:not(.is-muted) .icon-volume-off {
+  display: none;
+}
+
+#shopify-section-{{ section.id }} .uwb-control.is-playing .icon-pause,
+#shopify-section-{{ section.id }} .uwb-control.is-muted .icon-volume-off,
+#shopify-section-{{ section.id }} .uwb-control:not(.is-playing) .icon-play,
+#shopify-section-{{ section.id }} .uwb-control:not(.is-muted) .icon-volume {
   display: block;
 }
 
 #shopify-section-{{ section.id }} .uwb-thumbs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-top: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
 }
 
-#shopify-section-{{ section.id }} .uwb-thumb img {
-  border-radius: 14px;
-  width: 100%;
-  height: auto;
+#shopify-section-{{ section.id }} .uwb-thumb {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
   display: block;
+  border-radius: var(--uwb-thumb-radius);
+  overflow: hidden;
+  position: relative;
+}
+
+#shopify-section-{{ section.id }} .uwb-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: var(--uwb-thumb-radius);
+  pointer-events: none;
+}
+
+#shopify-section-{{ section.id }} .uwb-thumb.is-active::after {
+  border-color: rgba(var(--uwb-heading), 0.24);
+}
+
+#shopify-section-{{ section.id }} .uwb-thumb img,
+#shopify-section-{{ section.id }} .uwb-thumb video {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: block;
+  object-fit: cover;
+  border-radius: var(--uwb-thumb-radius);
 }
 
 @media screen and (max-width: 989px) {
+  #shopify-section-{{ section.id }} .uwb-wrapper {
+    gap: 34px;
+  }
+
   #shopify-section-{{ section.id }} .uwb-media {
     order: -1;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-content {
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  #shopify-section-{{ section.id }} .container {
+    padding-inline: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-wrapper {
+    gap: 28px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-heading {
+    font-size: clamp(34px, 10vw, 54px);
+    line-height: 0.97;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-heading-line + .uwb-heading-line {
+    margin-top: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-quote {
+    grid-template-columns: 60px minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-avatar,
+  #shopify-section-{{ section.id }} .uwb-avatar-placeholder {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-quote-text {
+    font-size: 16px;
+    line-height: 1.56;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-button-wrap {
+    margin-top: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-button-wrap .button {
+    width: 100%;
+    min-width: 0;
+    min-height: 58px;
+    font-size: 17px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-delivery {
+    margin-top: 16px;
+    font-size: 13px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-divider {
+    margin: 28px 0 24px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-features {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-feature {
+    font-size: 16px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-media-main {
+    aspect-ratio: 1 / 1.06;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-controls {
+    top: 22px;
+    left: 22px;
+    gap: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-control {
+    width: 56px;
+    height: 56px;
+  }
+
+  #shopify-section-{{ section.id }} .uwb-thumbs {
+    gap: 12px;
+    margin-top: 12px;
   }
 }
 </style>
@@ -129,88 +403,238 @@
 <section class="uwb-section">
   <div {% render 'section-properties', background: section.settings.background, text_color: section.settings.heading_color %}>
     <div class="container">
-      <div class="uwb-wrapper">
-
-        <div class="uwb-content">
-
-          <h2 class="uwb-heading">
-            {{ section.settings.heading }}
-            <span class="accent">{{ section.settings.heading_accent }}</span>
-          </h2>
-
-          <div class="uwb-quote">
-            {% if section.settings.avatar != blank %}
-              {{ section.settings.avatar | image_url: width: 96 | image_tag: loading: 'lazy' }}
-            {% endif %}
-            <div class="uwb-quote-text rte">
-              {{ section.settings.quote }}
-            </div>
-          </div>
-
-          {% if section.settings.button_label != blank %}
-            <div class="uwb-button-wrap">
-              {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'lg', style: 'fill', background: section.settings.button_background, text_color: section.settings.button_text_color %}
-            </div>
-          {% endif %}
-
-          {% if section.settings.delivery_text != blank %}
-            <div class="uwb-delivery">
-              {{ section.settings.delivery_text }}
-            </div>
-          {% endif %}
-
-          <div class="uwb-divider"></div>
-
-          <div class="uwb-features">
-            {% for block in section.blocks %}
-              <div class="uwb-feature" {{ block.shopify_attributes }}>
-                {% if block.settings.icon != blank %}
-                  {{ block.settings.icon | image_url: width: 40 | image_tag: loading: 'lazy' }}
+      <div class="uwb-shell">
+        <div class="uwb-wrapper" data-section-id="{{ section.id }}">
+          <div class="uwb-content">
+            {% if section.settings.heading != blank or section.settings.heading_accent != blank %}
+              <h2 class="uwb-heading">
+                {% if section.settings.heading != blank %}
+                  <span class="uwb-heading-line">{{ section.settings.heading | escape }}</span>
                 {% endif %}
-                <span>{{ block.settings.text }}</span>
+                {% if section.settings.heading_accent != blank %}
+                  <span class="uwb-heading-line accent">{{ section.settings.heading_accent | escape }}</span>
+                {% endif %}
+              </h2>
+            {% endif %}
+
+            <div class="uwb-quote">
+              {% if section.settings.avatar != blank %}
+                {{ section.settings.avatar | image_url: width: 132 | image_tag: loading: 'lazy', widths: '66,132', class: 'uwb-avatar', alt: 'Review avatar' }}
+              {% else %}
+                <div class="uwb-avatar-placeholder"></div>
+              {% endif %}
+
+              <div class="uwb-quote-text rte">
+                {{ section.settings.quote }}
               </div>
-            {% endfor %}
+            </div>
+
+            {% if section.settings.button_label != blank %}
+              <div class="uwb-button-wrap">
+                {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'lg', style: 'fill', background: section.settings.button_background, text_color: section.settings.button_text_color %}
+              </div>
+            {% endif %}
+
+            {% if section.settings.delivery_text != blank %}
+              <div class="uwb-delivery">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M8 1.333 2.667 3.2v4.102c0 3.17 2.272 6.136 5.333 7.365 3.061-1.229 5.333-4.195 5.333-7.365V3.2L8 1.333Z" fill="currentColor" opacity=".16"></path>
+                  <path d="M8 2.333 3.5 3.908v3.394c0 2.692 1.869 5.203 4.5 6.355 2.631-1.152 4.5-3.663 4.5-6.355V3.908L8 2.333Z" stroke="currentColor" stroke-width="1.2"></path>
+                  <path d="m6.2 8 1.133 1.133L9.933 6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span>{{ section.settings.delivery_text | escape }}</span>
+              </div>
+            {% endif %}
+
+            <div class="uwb-divider"></div>
+
+            <div class="uwb-features">
+              {% for block in section.blocks %}
+                <div class="uwb-feature" {{ block.shopify_attributes }}>
+                  {% if block.settings.icon != blank %}
+                    {{ block.settings.icon | image_url: width: 44 | image_tag: loading: 'lazy', widths: '22,44', class: 'uwb-feature-media', alt: block.settings.text }}
+                  {% else %}
+                    <svg class="uwb-feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                      {% case block.settings.icon_style %}
+                        {% when 'sparkle' %}
+                          <path d="M12 2.5 13.833 8.167 19.5 10 13.833 11.833 12 17.5 10.167 11.833 4.5 10l5.667-1.833L12 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                          <path d="M18.5 3.5v3M20 5h-3M5.5 16.5v2M6.5 17.5h-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+                        {% when 'pen' %}
+                          <path d="M4 20l4.4-1 9.3-9.3a1.9 1.9 0 0 0 0-2.7l-.7-.7a1.9 1.9 0 0 0-2.7 0L5 15.6 4 20Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                          <path d="m12.5 6.5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                        {% else %}
+                          <path d="M9 3h6v3.2l1 1.3V21H8V7.5l1-1.3V3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                          <path d="M10 3h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                          <path d="M9 8h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                          <path d="M10.5 1.75h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                        {% endcase %}
+                    </svg>
+                  {% endif %}
+                  <span>{{ block.settings.text | escape }}</span>
+                </div>
+              {% endfor %}
+            </div>
           </div>
 
+          <div class="uwb-media" data-uwb-media-root>
+            <div class="uwb-media-main">
+              <div class="uwb-controls" {% if section.settings.video == blank %}hidden{% endif %}>
+                <button type="button" class="uwb-control is-playing" data-uwb-play-toggle aria-label="Pause video">
+                  <svg class="icon-play" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 6.5v11l8-5.5-8-5.5Z" fill="currentColor"></path></svg>
+                  <svg class="icon-pause" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6.5h3v11H8zM13 6.5h3v11h-3z" fill="currentColor"></path></svg>
+                </button>
+                <button type="button" class="uwb-control is-muted" data-uwb-mute-toggle aria-label="Unmute video">
+                  <svg class="icon-volume" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 14.5h3.4L13 19V5l-4.6 4.5H5v5Z" fill="currentColor"></path><path d="M16 9.25a4 4 0 0 1 0 5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path><path d="M18.5 6.75a7.5 7.5 0 0 1 0 10.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+                  <svg class="icon-volume-off" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 14.5h3.4L13 19V5l-4.6 4.5H5v5Z" fill="currentColor"></path><path d="m16.5 8.5 4 4m0-4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></svg>
+                </button>
+              </div>
+
+              <div class="uwb-media-stage">
+                {% assign has_any_media = false %}
+
+                {% if section.settings.video != blank %}
+                  {% assign has_any_media = true %}
+                  <div class="uwb-media-item is-active" data-uwb-media-item data-media-type="video" data-media-id="video-main">
+                    <div class="uwb-media-video">
+                      {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '1200x' }}
+                    </div>
+                  </div>
+                {% endif %}
+
+                {% if section.settings.main_image != blank %}
+                  {% assign has_any_media = true %}
+                  <div class="uwb-media-item {% if section.settings.video == blank %}is-active{% endif %}" data-uwb-media-item data-media-type="image" data-media-id="image-main">
+                    {{ section.settings.main_image | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '700,900,1200,1600', class: 'uwb-media-image', alt: section.settings.heading }}
+                  </div>
+                {% endif %}
+
+                {% if has_any_media == false %}
+                  <div class="uwb-media-item is-active" data-uwb-media-item data-media-type="placeholder" data-media-id="placeholder-main"></div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="uwb-thumbs">
+              {% if section.settings.thumb_1 != blank %}
+                <button type="button" class="uwb-thumb {% if section.settings.video == blank %}is-active{% endif %}" data-uwb-thumb-target="image-main" aria-label="Show thumbnail 1 image">
+                  {{ section.settings.thumb_1 | image_url: width: 560 | image_tag: loading: 'lazy', widths: '180,260,360,560', alt: 'Thumbnail 1' }}
+                </button>
+              {% endif %}
+
+              {% if section.settings.thumb_2 != blank %}
+                <button type="button" class="uwb-thumb {% if section.settings.video != blank %}is-active{% endif %}" data-uwb-thumb-target="video-main" aria-label="Show main video">
+                  {{ section.settings.thumb_2 | image_url: width: 560 | image_tag: loading: 'lazy', widths: '180,260,360,560', alt: 'Thumbnail 2' }}
+                </button>
+              {% endif %}
+
+              {% if section.settings.thumb_3 != blank %}
+                <button type="button" class="uwb-thumb" data-uwb-thumb-target="image-main" aria-label="Show thumbnail 3 image">
+                  {{ section.settings.thumb_3 | image_url: width: 560 | image_tag: loading: 'lazy', widths: '180,260,360,560', alt: 'Thumbnail 3' }}
+                </button>
+              {% endif %}
+            </div>
+          </div>
         </div>
-
-        <div class="uwb-media">
-
-          <div class="uwb-media-main">
-            {% if section.settings.video != blank %}
-              {{ section.settings.video | video_tag: controls: false, autoplay: false, loop: true, muted: true }}
-            {% elsif section.settings.main_image != blank %}
-              {{ section.settings.main_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
-            {% endif %}
-          </div>
-
-          <div class="uwb-thumbs">
-            {% if section.settings.thumb_1 != blank %}
-              <div class="uwb-thumb">{{ section.settings.thumb_1 | image_url: width: 400 | image_tag }}</div>
-            {% endif %}
-            {% if section.settings.thumb_2 != blank %}
-              <div class="uwb-thumb">{{ section.settings.thumb_2 | image_url: width: 400 | image_tag }}</div>
-            {% endif %}
-            {% if section.settings.thumb_3 != blank %}
-              <div class="uwb-thumb">{{ section.settings.thumb_3 | image_url: width: 400 | image_tag }}</div>
-            {% endif %}
-          </div>
-
-        </div>
-
       </div>
     </div>
   </div>
 </section>
+
+<script>
+(() => {
+  const root = document.querySelector('#shopify-section-{{ section.id }} [data-uwb-media-root]');
+  if (!root) return;
+
+  const items = Array.from(root.querySelectorAll('[data-uwb-media-item]'));
+  const thumbs = Array.from(root.querySelectorAll('[data-uwb-thumb-target]'));
+  const video = root.querySelector('video');
+  const playToggle = root.querySelector('[data-uwb-play-toggle]');
+  const muteToggle = root.querySelector('[data-uwb-mute-toggle]');
+  const controls = root.querySelector('.uwb-controls');
+
+  const setActiveMedia = (targetId) => {
+    items.forEach((item) => {
+      const isActive = item.dataset.mediaId === targetId;
+      item.classList.toggle('is-active', isActive);
+    });
+
+    thumbs.forEach((thumb) => {
+      thumb.classList.toggle('is-active', thumb.dataset.uwbThumbTarget === targetId);
+    });
+
+    const activeItem = items.find((item) => item.classList.contains('is-active'));
+    const activeIsVideo = activeItem && activeItem.dataset.mediaType === 'video';
+
+    if (controls) {
+      controls.hidden = !activeIsVideo;
+    }
+
+    if (!video) return;
+
+    if (activeIsVideo) {
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {});
+      }
+      if (playToggle) {
+        playToggle.classList.add('is-playing');
+        playToggle.setAttribute('aria-label', 'Pause video');
+      }
+    } else {
+      video.pause();
+      if (playToggle) {
+        playToggle.classList.remove('is-playing');
+        playToggle.setAttribute('aria-label', 'Play video');
+      }
+    }
+  };
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      setActiveMedia(thumb.dataset.uwbThumbTarget);
+    });
+  });
+
+  if (video && muteToggle) {
+    video.muted = true;
+    muteToggle.classList.add('is-muted');
+    muteToggle.setAttribute('aria-label', 'Unmute video');
+
+    muteToggle.addEventListener('click', () => {
+      video.muted = !video.muted;
+      muteToggle.classList.toggle('is-muted', video.muted);
+      muteToggle.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+    });
+  }
+
+  if (video && playToggle) {
+    playToggle.addEventListener('click', () => {
+      if (video.paused) {
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+        playToggle.classList.add('is-playing');
+        playToggle.setAttribute('aria-label', 'Pause video');
+      } else {
+        video.pause();
+        playToggle.classList.remove('is-playing');
+        playToggle.setAttribute('aria-label', 'Play video');
+      }
+    });
+  }
+})();
+</script>
 
 {% schema %}
 {
   "name": "Upgrade water bottle",
   "tag": "section",
   "class": "shopify-section--upgrade-water-bottle",
+  "max_blocks": 4,
   "settings": [
-    {"type":"text","id":"heading","label":"Heading","default":"Reasons to upgrade"},
-    {"type":"text","id":"heading_accent","label":"Heading accent","default":"your water bottle"},
+    {"type":"text","id":"heading","label":"Heading line 1","default":"Reasons to upgrade"},
+    {"type":"text","id":"heading_accent","label":"Heading line 2 accent","default":"your water bottle"},
     {"type":"richtext","id":"quote","label":"Quote text","default":"<p>\"I bring this bottle everywhere I go. It contains 910 ml, stays cold forever and is so easy to carry around. Perfect for my active lifestyle.\"</p>"},
     {"type":"image_picker","id":"avatar","label":"Avatar image"},
     {"type":"text","id":"button_label","label":"Button label","default":"Learn More"},
@@ -219,28 +643,41 @@
 
     {"type":"header","content":"Media"},
     {"type":"video","id":"video","label":"Main video"},
-    {"type":"image_picker","id":"main_image","label":"Fallback main image"},
+    {"type":"image_picker","id":"main_image","label":"Main still image"},
     {"type":"image_picker","id":"thumb_1","label":"Thumbnail 1"},
     {"type":"image_picker","id":"thumb_2","label":"Thumbnail 2"},
     {"type":"image_picker","id":"thumb_3","label":"Thumbnail 3"},
 
-    {"type":"header","content":"Colors"},
-    {"type":"color","id":"background","label":"Background","default":"#F5F5F5"},
-    {"type":"color","id":"heading_color","label":"Heading color","default":"#1A1A1A"},
-    {"type":"color","id":"accent_color","label":"Accent color","default":"#8B2C2C"},
-    {"type":"color","id":"text_color","label":"Text color","default":"#5C5C5C"},
-    {"type":"color","id":"button_background","label":"Button background","default":"#111111"},
-    {"type":"color","id":"button_text_color","label":"Button text color","default":"#FFFFFF"},
-
     {"type":"header","content":"Layout"},
-    {"type":"range","id":"section_spacing","label":"Section spacing","min":0,"max":80,"step":4,"default":48}
+    {"type":"range","id":"section_spacing","label":"Section spacing","min":0,"max":120,"step":4,"default":64},
+    {"type":"range","id":"section_max_width","label":"Section max width","min":900,"max":1600,"step":20,"default":1440},
+    {"type":"range","id":"media_radius","label":"Main media radius","min":0,"max":40,"step":2,"default":24},
+    {"type":"range","id":"thumb_radius","label":"Thumbnail radius","min":0,"max":32,"step":2,"default":20},
+
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background","label":"Background","default":"#F3F3F1"},
+    {"type":"color","id":"heading_color","label":"Heading color","default":"#120D10"},
+    {"type":"color","id":"accent_color","label":"Accent color","default":"#9E3F3E"},
+    {"type":"color","id":"text_color","label":"Body text color","default":"#2D2528"},
+    {"type":"color","id":"muted_color","label":"Muted text color","default":"#8A8787"},
+    {"type":"color","id":"feature_color","label":"Feature text color","default":"#9E3F3E"},
+    {"type":"color","id":"divider_color","label":"Divider color","default":"#DDD7D3"},
+    {"type":"color","id":"button_background","label":"Button background","default":"#151013"},
+    {"type":"color","id":"button_text_color","label":"Button text color","default":"#FFFFFF"},
+    {"type":"color","id":"control_background","label":"Control background","default":"#FFFFFF"},
+    {"type":"color","id":"control_icon_color","label":"Control icon color","default":"#120D10"}
   ],
   "blocks": [
     {
       "type": "feature",
       "name": "Feature",
       "settings": [
-        {"type":"image_picker","id":"icon","label":"Icon"},
+        {"type":"image_picker","id":"icon","label":"Custom icon"},
+        {"type":"select","id":"icon_style","label":"Fallback icon","default":"bottle","options":[
+          {"value":"bottle","label":"Bottle"},
+          {"value":"pen","label":"Pen"},
+          {"value":"sparkle","label":"Sparkle"}
+        ]},
         {"type":"text","id":"text","label":"Feature text","default":"Holds cold for 24 hours"}
       ]
     }
@@ -249,10 +686,10 @@
     {
       "name": "Upgrade water bottle",
       "blocks": [
-        {"type":"feature"},
-        {"type":"feature"},
-        {"type":"feature"},
-        {"type":"feature"}
+        {"type":"feature","settings":{"icon_style":"bottle","text":"Holds cold for 24 hours"}},
+        {"type":"feature","settings":{"icon_style":"bottle","text":"Stays hot for 12 hours"}},
+        {"type":"feature","settings":{"icon_style":"pen","text":"Double wall-isolated"}},
+        {"type":"feature","settings":{"icon_style":"sparkle","text":"Made to last"}}
       ]
     }
   ]
