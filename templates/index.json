@@ -1107,7 +1107,7 @@
       "name": "Live your dreams",
       "settings": {
         "image": "shopify://shop_images/model-laughs-barefoot.jpg",
-        "video_url": "",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/186e443ab9aa4111aa182471dcb2248a.mp4",
         "video_button_label": "Bekijk video",
         "heading": "Live your",
         "heading_italic": "dreams",
@@ -1118,12 +1118,12 @@
         "section_spacing": 48,
         "content_max_width": 840,
         "image_radius": 20,
-        "background": "#F2F0EB",
-        "heading_color": "#1A1A1A",
-        "button_background": "#E07430",
-        "button_text_color": "#FFFFFF",
-        "video_button_background": "#1A1A1A",
-        "video_button_text_color": "#FFFFFF"
+        "background": "#f2f0eb",
+        "heading_color": "#1a1a1a",
+        "button_background": "#e07430",
+        "button_text_color": "#ffffff",
+        "video_button_background": "#1a1a1a",
+        "video_button_text_color": "#ffffff"
       }
     }
   },
