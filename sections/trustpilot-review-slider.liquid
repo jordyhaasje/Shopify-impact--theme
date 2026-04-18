@@ -1,5 +1,25 @@
 {%- render 'section-spacing-collapsing' -%}
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const section = document.getElementById('shopify-section-{{ section.id }}');
+  if (!section) return;
+  const track = section.querySelector('.tp-slider__track');
+  const prev = section.querySelector('[data-prev]');
+  const next = section.querySelector('[data-next]');
+
+  const scrollAmount = () => track.querySelector('.tp-card')?.offsetWidth + 16 || 300;
+
+  prev?.addEventListener('click', () => {
+    track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+  });
+
+  next?.addEventListener('click', () => {
+    track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+  });
+});
+</script>
+
 <style>
 #shopify-section-{{ section.id }} {
   --tp-green: 0,182,122;
