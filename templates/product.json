@@ -231,7 +231,7 @@
         "feature_CAnjzx": {
           "type": "feature",
           "settings": {
-            "icon_style": "bottle",
+            "icon_style": "sparkle",
             "text": "Holds cold for 24 hours"
           }
         },
