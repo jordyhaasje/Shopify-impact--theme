@@ -1,0 +1,87 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --tp-green: 0,182,122;
+  --tp-bg: {{ section.settings.background.rgb }};
+  --tp-card: {{ section.settings.card_background.rgb }};
+  --tp-text: {{ section.settings.text_color.rgb }};
+  --tp-gap: {{ section.settings.card_gap }}px;
+  --tp-radius: {{ section.settings.card_radius }}px;
+  --tp-mobile-width: {{ section.settings.mobile_card_width }}px;
+  --tp-desktop-width: {{ section.settings.desktop_card_width }}px;
+}
+
+#shopify-section-{{ section.id }} .tp-slider__track {
+  display:flex;
+  gap:var(--tp-gap);
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+
+#shopify-section-{{ section.id }} .tp-card {
+  flex:0 0 var(--tp-mobile-width);
+  scroll-snap-align:start;
+  background:rgb(var(--tp-card));
+  border-radius:var(--tp-radius);
+  padding:20px;
+}
+
+#shopify-section-{{ section.id }} .tp-stars {
+  color:rgb(var(--tp-green));
+  margin-bottom:12px;
+}
+
+@media(min-width:700px){
+  #shopify-section-{{ section.id }} .tp-card{
+    flex:0 0 var(--tp-desktop-width);
+  }
+}
+</style>
+
+<section class="tp-slider">
+  <div {% render 'section-properties', background: section.settings.background, text_color: section.settings.text_color %}>
+    <div class="container">
+      <div class="tp-slider__header">
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+
+      <div class="tp-slider__track">
+        {% for block in section.blocks %}
+          <div class="tp-card" {{ block.shopify_attributes }}>
+            <div class="tp-stars">★★★★★</div>
+            <div class="rte">{{ block.settings.text }}</div>
+            <strong>{{ block.settings.author }}</strong>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trustpilot slider",
+  "settings":[
+    {"type":"text","id":"heading","label":"Heading","default":"Excellent"},
+    {"type":"color","id":"background","label":"Background","default":"#ffffff"},
+    {"type":"color","id":"card_background","label":"Card background","default":"#ffffff"},
+    {"type":"color","id":"text_color","label":"Text color","default":"#111111"},
+    {"type":"range","id":"card_gap","label":"Card gap","min":8,"max":32,"step":2,"default":16},
+    {"type":"range","id":"card_radius","label":"Card radius","min":0,"max":32,"step":2,"default":16},
+    {"type":"range","id":"mobile_card_width","label":"Mobile card width","min":220,"max":320,"step":4,"default":260},
+    {"type":"range","id":"desktop_card_width","label":"Desktop card width","min":260,"max":360,"step":4,"default":300}
+  ],
+  "blocks":[
+    {
+      "type":"review",
+      "name":"Review",
+      "settings":[
+        {"type":"textarea","id":"text","label":"Review text"},
+        {"type":"text","id":"author","label":"Author name"}
+      ]
+    }
+  ],
+  "presets":[{"name":"Trustpilot slider"}]
+}
+{% endschema %}
