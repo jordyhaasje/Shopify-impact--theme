@@ -1444,15 +1444,27 @@ quick buy information in a template, that will be extracted in JS, but ensure it
       "settings": [
         {
           "type": "text",
+          "id": "eyebrow",
+          "label": "Badge",
+          "default": "Summer sale"
+        },
+        {
+          "type": "text",
           "id": "title",
           "label": "Titel",
-          "default": "Summer Sale ☀️"
+          "default": "Bespaar vandaag extra op je bestelling"
         },
         {
           "type": "richtext",
           "id": "content",
           "label": "Tekst",
-          "default": "<p>Vandaag 20% korting op alle producten.</p>"
+          "default": "<p>Profiteer tijdelijk van onze summer sale met een exclusieve korting op geselecteerde items.</p>"
+        },
+        {
+          "type": "text",
+          "id": "meta_text",
+          "label": "Subregel",
+          "default": "Tijdelijke actie • zolang de voorraad strekt"
         },
         {
           "type": "select",
@@ -1482,6 +1494,10 @@ quick buy information in a template, that will be extracted in JS, but ensure it
             {
               "value": "picto-like",
               "label": "Like"
+            },
+            {
+              "value": "picto-award-gift",
+              "label": "Award gift"
             }
           ],
           "default": "picto-percent"
@@ -1489,14 +1505,14 @@ quick buy information in a template, that will be extracted in JS, but ensure it
         {
           "type": "checkbox",
           "id": "highlight_border",
-          "label": "Highlight border",
+          "label": "Accent border benadrukken",
           "default": true
         },
         {
           "type": "color",
           "id": "background",
           "label": "Background",
-          "default": "#FFF7ED"
+          "default": "#FFF8F1"
         },
         {
           "type": "color",
@@ -1508,25 +1524,73 @@ quick buy information in a template, that will be extracted in JS, but ensure it
           "type": "color",
           "id": "border_color",
           "label": "Border color",
+          "default": "#F3C998"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent color",
           "default": "#F97316"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Badge text color",
+          "default": "#FFFFFF"
         },
         {
           "type": "range",
           "id": "border_radius",
-          "label": "Border radius",
-          "min": 0,
-          "max": 30,
+          "label": "Border radius desktop",
+          "min": 8,
+          "max": 32,
+          "step": 2,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "border_radius_mobile",
+          "label": "Border radius mobiel",
+          "min": 8,
+          "max": 28,
+          "step": 2,
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "padding_horizontal",
+          "label": "Padding horizontaal desktop",
+          "min": 12,
+          "max": 36,
+          "step": 2,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "padding_vertical",
+          "label": "Padding verticaal desktop",
+          "min": 12,
+          "max": 32,
+          "step": 2,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "padding_horizontal_mobile",
+          "label": "Padding horizontaal mobiel",
+          "min": 10,
+          "max": 28,
           "step": 2,
           "default": 14
         },
         {
           "type": "range",
-          "id": "padding",
-          "label": "Padding",
-          "min": 8,
-          "max": 32,
+          "id": "padding_vertical_mobile",
+          "label": "Padding verticaal mobiel",
+          "min": 10,
+          "max": 24,
           "step": 2,
-          "default": 16
+          "default": 14
         }
       ]
     },
