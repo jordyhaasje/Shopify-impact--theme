@@ -1101,6 +1101,30 @@
         "background_gradient": "",
         "text_color": ""
       }
+    },
+    "live_your_dreams_hNBD9A": {
+      "type": "live-your-dreams",
+      "name": "Live your dreams",
+      "settings": {
+        "image": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "video_url": "",
+        "video_button_label": "Bekijk video",
+        "heading": "Live your",
+        "heading_italic": "dreams",
+        "heading_suffix": ".",
+        "body_text": "<p>Je leeft maar één keer, dus haal alles eruit! Doe waar jij écht gelukkig van wordt. En als de dag erop zit, leg je hoofd dan op een Cloudpillo om op te laden voor het leven.</p>",
+        "button_label": "Ons verhaal",
+        "button_link": "",
+        "section_spacing": 48,
+        "content_max_width": 840,
+        "image_radius": 20,
+        "background": "#F2F0EB",
+        "heading_color": "#1A1A1A",
+        "button_background": "#E07430",
+        "button_text_color": "#FFFFFF",
+        "video_button_background": "#1A1A1A",
+        "video_button_text_color": "#FFFFFF"
+      }
     }
   },
   "order": [
@@ -1121,6 +1145,7 @@
     "faq",
     "video_social_results_AMyFmP",
     "reviews_showcase_cnrNRm",
-    "text_with_icons_qpRaQ8"
+    "text_with_icons_qpRaQ8",
+    "live_your_dreams_hNBD9A"
   ]
 }
