@@ -584,7 +584,8 @@
                     <div class="review-avatars-{{ block.id }}__item">
                       <div class="review-avatars-{{ block.id }}__avatar">
                         {%- if review_image != blank -%}
-                          {{- review_image | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,80', class: 'review-avatars-{{ block.id }}__avatar-image', alt: review_name -}}
+                          {%- assign review_avatar_class = 'review-avatars-' | append: block.id | append: '__avatar-image' -%}
+                          {{- review_image | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,80', class: review_avatar_class, alt: review_name -}}
                         {%- elsif review_name != blank -%}
                           {{- review_name | slice: 0, 1 | upcase -}}
                         {%- else -%}
