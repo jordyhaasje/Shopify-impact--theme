@@ -10,10 +10,10 @@
     --hero-rounded-overlay: {{ section.settings.overlay_color.red }}, {{ section.settings.overlay_color.green }}, {{ section.settings.overlay_color.blue }};
     --hero-rounded-radius: {{ section.settings.border_radius }}px;
     --hero-rounded-section-spacing: {{ section.settings.section_spacing }}px;
-    --hero-rounded-card-min-height: {{ section.settings.desktop_height }}px;
+    --hero-rounded-card-min-height: {{ section.settings.desktop_height | times: 0.88 }}px;
     --hero-rounded-mobile-min-height: {{ section.settings.mobile_height }}px;
     --hero-rounded-content-max: {{ section.settings.content_max_width }}px;
-    --hero-rounded-content-width: {{ section.settings.content_width }}px;
+    --hero-rounded-content-width: {{ section.settings.content_width | times: 1.25 }}px;
     --hero-rounded-horizontal-padding: {{ section.settings.desktop_padding_horizontal }}px;
     --hero-rounded-vertical-padding: {{ section.settings.desktop_padding_vertical }}px;
     --hero-rounded-mobile-horizontal-padding: {{ section.settings.mobile_padding_horizontal }}px;
@@ -297,7 +297,7 @@
 
 <section class="hero-rounded">
   <div {% render 'section-properties', background: section.settings.background, text_color: section.settings.text_color, full_width: true %}>
-    <div class="container">
+    <div class="container" style="max-width: 100%; padding-left: 0; padding-right: 0;">
       <div class="hero-rounded__card">
         {%- assign desktop_image = section.settings.desktop_image -%}
         {%- assign mobile_image = section.settings.mobile_image | default: section.settings.desktop_image -%}
