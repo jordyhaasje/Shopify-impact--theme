@@ -1,0 +1,107 @@
+{% comment %}
+Trustpilot Clone Section (Clean + Schema Fixed)
+{% endcomment %}
+
+<section id="tp-{{ section.id }}" class="tp">
+  <div class="tp__inner" style="max-width: {{ section.settings.content_max_width }}px; margin:0 auto;">
+
+    <div class="tp__header">
+      <h2 class="tp__title">{{ section.settings.rating_title }}</h2>
+
+      <div class="tp__stars">
+        {% assign full = section.settings.score | floor %}
+        {% for i in (1..5) %}
+          <span class="tp__star {% if i <= full %}is-full{% else %}is-empty{% endif %}">
+            <svg viewBox="0 0 24 24"><path d="M12 2.2l2.4 7.3H22l-6.2 4.5 2.4 7.3L12 16.8 5.8 21.3l2.4-7.3L2 9.5h7.6L12 2.2z"/></svg>
+          </span>
+        {% endfor %}
+      </div>
+
+      <p class="tp__caption">{{ section.settings.rating_caption }}</p>
+    </div>
+
+    {% if section.settings.show_breakdown %}
+      <div class="tp__breakdown">
+        {% for block in section.blocks %}
+          {% if block.type == 'rating_bar' %}
+            <div class="tp__row" {{ block.shopify_attributes }}>
+              <span>{{ block.settings.label }}</span>
+              <div class="tp__bar">
+                <div style="width:{{ block.settings.percentage }}%; background:{{ block.settings.bar_color }}"></div>
+              </div>
+              <span>{{ block.settings.count }}</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_reviews %}
+      <div class="tp__carousel">
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <div class="tp__card" {{ block.shopify_attributes }}>
+              <div class="tp__card-stars">
+                {% for i in (1..block.settings.stars) %}★{% endfor %}
+              </div>
+              <p>{{ block.settings.text }}</p>
+              <strong>{{ block.settings.author }}</strong>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+#tp-{{ section.id }} {padding:40px 0; background:#f5f5f7}
+.tp__title{font-size:36px;font-weight:700}
+.tp__stars{display:flex;gap:4px;margin:10px 0}
+.tp__star{width:32px;height:32px;background:#00b67a;color:#fff;display:flex;align-items:center;justify-content:center;border-radius:2px}
+.tp__star.is-empty{background:#ddd}
+.tp__breakdown{margin-top:20px}
+.tp__row{display:grid;grid-template-columns:80px 1fr 40px;gap:10px;margin-bottom:8px}
+.tp__bar{background:#eee;height:6px;border-radius:999px;overflow:hidden}
+.tp__carousel{display:flex;gap:16px;overflow-x:auto;margin-top:20px}
+.tp__card{min-width:260px;background:#fff;padding:16px;border-radius:10px;border:1px solid #eee}
+</style>
+
+{% schema %}
+{
+  "name": "Trustpilot Clone",
+  "settings": [
+    {"type":"text","id":"rating_title","label":"Title","default":"Rated 4.6 / 5"},
+    {"type":"text","id":"rating_caption","label":"Caption","default":"Based on 147 reviews"},
+    {"type":"range","id":"score","label":"Score","min":0,"max":5,"step":0.1,"default":4.6},
+    {"type":"checkbox","id":"show_breakdown","label":"Show breakdown","default":true},
+    {"type":"checkbox","id":"show_reviews","label":"Show reviews","default":true},
+    {"type":"range","id":"content_max_width","label":"Content width","min":600,"max":1400,"step":20,"default":1200}
+  ],
+  "blocks": [
+    {
+      "type":"rating_bar",
+      "name":"Rating bar",
+      "settings":[
+        {"type":"text","id":"label","label":"Label","default":"5 stars"},
+        {"type":"range","id":"percentage","label":"Percentage","min":0,"max":100,"step":5,"default":80},
+        {"type":"number","id":"count","label":"Count","default":200},
+        {"type":"color","id":"bar_color","label":"Color","default":"#00b67a"}
+      ]
+    },
+    {
+      "type":"review",
+      "name":"Review",
+      "settings":[
+        {"type":"range","id":"stars","label":"Stars","min":1,"max":5,"step":1,"default":5},
+        {"type":"textarea","id":"text","label":"Text","default":"Great!"},
+        {"type":"text","id":"author","label":"Author","default":"John"}
+      ]
+    }
+  ],
+  "presets": [
+    {"name":"Trustpilot Clone"}
+  ]
+}
+{% endschema %}
