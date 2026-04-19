@@ -26,23 +26,43 @@
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
+    background: #000;
   }
 
-  #shopify-section-{{ section.id }} .lyd-media img {
+  #shopify-section-{{ section.id }} .lyd-media__thumbnail {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: opacity 0.3s ease;
+  }
+
+  #shopify-section-{{ section.id }} .lyd-media__thumbnail.is-hidden {
+    opacity: 0;
+    pointer-events: none;
   }
 
   #shopify-section-{{ section.id }} .lyd-media__placeholder {
+    position: absolute;
+    inset: 0;
+    background: #1a1a1a;
+  }
+
+  #shopify-section-{{ section.id }} .lyd-media__video {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 240px;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #shopify-section-{{ section.id }} .lyd-media__video.is-playing {
+    opacity: 1;
   }
 
   #shopify-section-{{ section.id }} .lyd-media__play-btn {
@@ -63,6 +83,13 @@
     letter-spacing: 0;
     line-height: 1;
     text-decoration: none;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+
+  #shopify-section-{{ section.id }} .lyd-media__play-btn.is-hidden {
+    opacity: 0;
+    pointer-events: none;
   }
 
   #shopify-section-{{ section.id }} .lyd-media__play-btn svg {
@@ -145,26 +172,47 @@
     <div class="container">
       <div class="lyd-inner">
 
-        {%- if section.settings.image != blank or section.settings.video_url != blank -%}
-          {%- if section.settings.video_url != blank -%}
-            <a href="{{ section.settings.video_url }}" class="lyd-media" target="_blank" rel="noopener">
-              {%- if section.settings.image != blank -%}
-                {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600,900,1200', alt: section.settings.image.alt }}
-              {%- else -%}
-                <div class="lyd-media__placeholder"></div>
-              {%- endif -%}
-              <span class="lyd-media__play-btn">
+        {%- assign has_video = false -%}
+        {%- if section.settings.video != blank -%}
+          {%- assign has_video = true -%}
+        {%- endif -%}
+
+        {%- if has_video or section.settings.image != blank -%}
+          <div class="lyd-media" data-lyd-media>
+
+            {%- if has_video -%}
+              {%- for source in section.settings.video.sources -%}
+                {%- if source.format == 'mp4' -%}
+                  <video
+                    class="lyd-media__video"
+                    data-lyd-video
+                    src="{{ source.url }}"
+                    playsinline
+                    muted
+                    loop
+                    preload="metadata"
+                  ></video>
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+
+            {%- if section.settings.image != blank -%}
+              {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600,900,1200', class: 'lyd-media__thumbnail', alt: section.settings.image.alt, data-lyd-thumbnail: '' }}
+            {%- elsif has_video -%}
+              <div class="lyd-media__placeholder"></div>
+            {%- endif -%}
+
+            {%- if has_video -%}
+              <button type="button" class="lyd-media__play-btn" data-lyd-play-btn aria-label="{{ section.settings.video_button_label | default: 'Bekijk video' | escape }}">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M3.5 2.5L13.5 8L3.5 13.5V2.5Z" fill="currentColor"/>
                 </svg>
                 {{ section.settings.video_button_label | default: 'Bekijk video' | escape }}
-              </span>
-            </a>
-          {%- else -%}
-            <div class="lyd-media">
-              {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600,900,1200', alt: section.settings.image.alt }}
-            </div>
-          {%- endif -%}
+              </button>
+            {%- endif -%}
+
+          </div>
         {%- endif -%}
 
         <div class="lyd-content">
@@ -198,6 +246,26 @@
   </div>
 </section>
 
+<script>
+(function () {
+  var sectionEl = document.getElementById('shopify-section-{{ section.id }}');
+  if (!sectionEl) return;
+
+  var playBtn = sectionEl.querySelector('[data-lyd-play-btn]');
+  var video = sectionEl.querySelector('[data-lyd-video]');
+  var thumbnail = sectionEl.querySelector('[data-lyd-thumbnail]');
+
+  if (!playBtn || !video) return;
+
+  playBtn.addEventListener('click', function () {
+    video.play();
+    video.classList.add('is-playing');
+    playBtn.classList.add('is-hidden');
+    if (thumbnail) thumbnail.classList.add('is-hidden');
+  });
+})();
+</script>
+
 {% schema %}
 {
   "name": "Live your dreams",
@@ -209,15 +277,16 @@
       "content": "Media"
     },
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Afbeelding / video thumbnail"
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Upload een video direct vanuit Shopify."
     },
     {
-      "type": "url",
-      "id": "video_url",
-      "label": "Video URL (YouTube / Vimeo)",
-      "info": "Laat leeg als je alleen een afbeelding wilt tonen."
+      "type": "image_picker",
+      "id": "image",
+      "label": "Thumbnail afbeelding",
+      "info": "Wordt getoond voor het afspelen. Laat leeg om de eerste frame te tonen."
     },
     {
       "type": "text",
