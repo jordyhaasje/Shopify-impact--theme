@@ -1118,7 +1118,7 @@
         "section_spacing": 48,
         "content_max_width": 840,
         "image_radius": 20,
-        "background": "#f2f0eb",
+        "background": "#ffffff",
         "heading_color": "#1a1a1a",
         "button_background": "#e07430",
         "button_text_color": "#ffffff",
