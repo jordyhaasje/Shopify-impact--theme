@@ -1125,6 +1125,67 @@
         "video_button_background": "#1a1a1a",
         "video_button_text_color": "#ffffff"
       }
+    },
+    "collections_slider_XLQ9JD": {
+      "type": "collections-slider",
+      "blocks": {
+        "collection_card_R6axKx": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "frontpage",
+            "image": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
+            "label": "Easter sale",
+            "custom_link": ""
+          }
+        },
+        "collection_card_JW4npg": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+            "label": "Toppers",
+            "custom_link": ""
+          }
+        },
+        "collection_card_bHKfYx": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/2_dd19edbb-9b84-42c4-b3c5-38590d4a213a.jpg",
+            "label": "Hoofdkussens",
+            "custom_link": ""
+          }
+        },
+        "collection_card_W8KMFn": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
+            "label": "Matrassen",
+            "custom_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_R6axKx",
+        "collection_card_JW4npg",
+        "collection_card_bHKfYx",
+        "collection_card_W8KMFn"
+      ],
+      "name": "Collections slider",
+      "settings": {
+        "heading": "Ontdek onze",
+        "heading_accent": "collecties",
+        "section_spacing": 48,
+        "cards_visible": 4,
+        "cards_visible_mobile": 2,
+        "card_gap": 12,
+        "card_radius": 16,
+        "card_min_height": 290,
+        "background": "#ffffff",
+        "heading_color": "#1A1A1A",
+        "label_color": "#FFFFFF"
+      }
     }
   },
   "order": [
@@ -1146,6 +1207,7 @@
     "video_social_results_AMyFmP",
     "reviews_showcase_cnrNRm",
     "text_with_icons_qpRaQ8",
-    "live_your_dreams_hNBD9A"
+    "live_your_dreams_hNBD9A",
+    "collections_slider_XLQ9JD"
   ]
 }
