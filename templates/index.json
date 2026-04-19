@@ -1106,8 +1106,8 @@
       "type": "live-your-dreams",
       "name": "Live your dreams",
       "settings": {
-        "image": "shopify://shop_images/cloudpillo-main-image-amsterdam.jpg",
-        "video_url": "https://cdn.shopify.com/videos/c/o/v/186e443ab9aa4111aa182471dcb2248a.mp4",
+        "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
+        "image": "shopify://shop_images/model-laughs-barefoot.jpg",
         "video_button_label": "Bekijk video",
         "heading": "Live your",
         "heading_italic": "dreams",
