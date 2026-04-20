@@ -1,56 +1,390 @@
 {% render 'section-spacing-collapsing' %}
 
-<section class="ig-strip">
-  <div {% render 'section-properties', tight: true %}>
-    <div class="container">
+{%- assign item_count = section.blocks.size -%}
 
-      {% if section.settings.heading != blank %}
-        <h2 class="ig-strip__heading">{{ section.settings.heading }}</h2>
-      {% endif %}
+<style>
+  #ig-strip-{{ section.id }} {
+    --ig-bg: {{ section.settings.background }};
+    --ig-text: {{ section.settings.text_color }};
+    --ig-gap-desktop: {{ section.settings.desktop_gap }}px;
+    --ig-gap-mobile: {{ section.settings.mobile_gap }}px;
+    --ig-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    background: var(--ig-bg);
+    color: var(--ig-text);
+    overflow: hidden;
+  }
 
-      <div class="ig-strip__grid">
-        {% for block in section.blocks %}
-          <a href="{{ block.settings.link }}" class="ig-strip__item" {{ block.shopify_attributes }}>
-            {% if block.settings.image != blank %}
-              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy' }}
-            {% endif %}
-            <div class="ig-strip__overlay">
-              <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10z" fill="white"/></svg>
-            </div>
-          </a>
-        {% endfor %}
+  #ig-strip-{{ section.id }} .ig-strip__wrap {
+    width: 100%;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__heading-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__heading {
+    margin: 0 0 {{ section.settings.heading_spacing }}px;
+    text-align: center;
+    font-size: {{ section.settings.heading_size }}px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__desktop {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    gap: var(--ig-gap-desktop);
+    width: 100%;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__tile,
+  #ig-strip-{{ section.id }} .ig-strip__slide {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: {{ section.settings.desktop_ratio }};
+    background: #f0f0f0;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__tile img,
+  #ig-strip-{{ section.id }} .ig-strip__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .42s ease, filter .42s ease;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f2f2f2, #dedede);
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,var(--ig-overlay-opacity));
+    opacity: 0;
+    transition: opacity .24s ease;
+    z-index: 2;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__icon {
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
+    transform: translateY(4px) scale(.94);
+    transition: transform .24s ease;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__caption {
+    position: absolute;
+    z-index: 3;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .24s ease, transform .24s ease;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__tile:hover img,
+  #ig-strip-{{ section.id }} .ig-strip__slide:hover img {
+    transform: scale(1.045);
+    filter: brightness(.72);
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__tile:hover .ig-strip__overlay,
+  #ig-strip-{{ section.id }} .ig-strip__slide:hover .ig-strip__overlay,
+  #ig-strip-{{ section.id }} .ig-strip__tile:focus-visible .ig-strip__overlay,
+  #ig-strip-{{ section.id }} .ig-strip__slide:focus-visible .ig-strip__overlay {
+    opacity: 1;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__tile:hover .ig-strip__icon,
+  #ig-strip-{{ section.id }} .ig-strip__slide:hover .ig-strip__icon {
+    transform: translateY(0) scale(1);
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__tile:hover .ig-strip__caption,
+  #ig-strip-{{ section.id }} .ig-strip__slide:hover .ig-strip__caption {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__mobile {
+    display: none;
+    position: relative;
+    padding-inline: {{ section.settings.mobile_side_padding }}px;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__track {
+    display: flex;
+    gap: var(--ig-gap-mobile);
+    transition: transform .32s ease;
+    will-change: transform;
+    touch-action: pan-y;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__slide {
+    flex: 0 0 calc((100% - var(--ig-gap-mobile)) / 2);
+    min-width: calc((100% - var(--ig-gap-mobile)) / 2);
+    aspect-ratio: {{ section.settings.mobile_ratio }};
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__nav {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    transform: translateY(-50%);
+    width: {{ section.settings.arrow_size }}px;
+    height: {{ section.settings.arrow_size }}px;
+    border-radius: 999px;
+    border: 0;
+    background: rgba(255,255,255,.82);
+    color: #7b7b7b;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__nav svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.8;
+  }
+
+  #ig-strip-{{ section.id }} .ig-strip__prev { left: {{ section.settings.arrow_inset }}px; }
+  #ig-strip-{{ section.id }} .ig-strip__next { right: {{ section.settings.arrow_inset }}px; }
+
+  @media screen and (max-width: 749px) {
+    #ig-strip-{{ section.id }} .ig-strip__wrap {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+
+    #ig-strip-{{ section.id }} .ig-strip__heading {
+      margin-bottom: {{ section.settings.heading_spacing_mobile }}px;
+      font-size: {{ section.settings.heading_size_mobile }}px;
+      letter-spacing: .12em;
+    }
+
+    #ig-strip-{{ section.id }} .ig-strip__desktop { display: none; }
+    #ig-strip-{{ section.id }} .ig-strip__mobile { display: block; }
+  }
+</style>
+
+<section id="ig-strip-{{ section.id }}" data-ig-strip-root>
+  <div class="ig-strip__wrap">
+    {%- if section.settings.heading != blank -%}
+      {%- if section.settings.profile_link != blank -%}
+        <a class="ig-strip__heading-link" href="{{ section.settings.profile_link }}" target="_blank" rel="noopener noreferrer">
+          <h2 class="ig-strip__heading">{{ section.settings.heading | escape }}</h2>
+        </a>
+      {%- else -%}
+        <h2 class="ig-strip__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+    {%- endif -%}
+
+    <div class="ig-strip__desktop" aria-label="Instagram feed desktop">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign tile_link = block.settings.link
+          if tile_link == blank
+            assign tile_link = section.settings.profile_link
+          endif
+        -%}
+        <a class="ig-strip__tile" {% if tile_link != blank %}href="{{ tile_link }}" target="_blank" rel="noopener noreferrer"{% else %}role="link" aria-disabled="true"{% endif %} {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320,480,640,800,900,1200', sizes: '(min-width: 750px) 17vw, 50vw', alt: block.settings.alt }}
+          {%- else -%}
+            <div class="ig-strip__placeholder">{{ 'collection-1' | placeholder_svg_tag }}</div>
+          {%- endif -%}
+          {%- if section.settings.show_overlay -%}
+            <span class="ig-strip__overlay" aria-hidden="true">
+              <svg class="ig-strip__icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.3" fill="currentColor"/></svg>
+            </span>
+          {%- endif -%}
+          {%- if block.settings.caption != blank -%}<span class="ig-strip__caption">{{ block.settings.caption | escape }}</span>{%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+
+    <div class="ig-strip__mobile" aria-label="Instagram feed mobile">
+      {%- if section.settings.show_arrows and item_count > 2 -%}
+        <button class="ig-strip__nav ig-strip__prev" type="button" aria-label="Vorige afbeelding" data-ig-prev>
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      {%- endif -%}
+
+      <div class="ig-strip__viewport">
+        <div class="ig-strip__track" data-ig-track>
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign slide_link = block.settings.link
+              if slide_link == blank
+                assign slide_link = section.settings.profile_link
+              endif
+            -%}
+            <a class="ig-strip__slide" {% if slide_link != blank %}href="{{ slide_link }}" target="_blank" rel="noopener noreferrer"{% else %}role="link" aria-disabled="true"{% endif %} {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '320,480,640,800', sizes: '50vw', alt: block.settings.alt }}
+              {%- else -%}
+                <div class="ig-strip__placeholder">{{ 'collection-1' | placeholder_svg_tag }}</div>
+              {%- endif -%}
+              {%- if section.settings.show_overlay -%}
+                <span class="ig-strip__overlay" aria-hidden="true">
+                  <svg class="ig-strip__icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.3" fill="currentColor"/></svg>
+                </span>
+              {%- endif -%}
+              {%- if block.settings.caption != blank -%}<span class="ig-strip__caption">{{ block.settings.caption | escape }}</span>{%- endif -%}
+            </a>
+          {%- endfor -%}
+        </div>
       </div>
 
+      {%- if section.settings.show_arrows and item_count > 2 -%}
+        <button class="ig-strip__nav ig-strip__next" type="button" aria-label="Volgende afbeelding" data-ig-next>
+          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      {%- endif -%}
     </div>
   </div>
 </section>
 
-<style>
-.ig-strip__heading{text-align:center;font-size:32px;font-weight:700;margin-bottom:24px}
-.ig-strip__grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.ig-strip__item{position:relative;display:block;overflow:hidden}
-.ig-strip__item img{width:100%;height:100%;object-fit:cover}
-.ig-strip__overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);opacity:0;display:flex;align-items:center;justify-content:center;transition:.3s}
-.ig-strip__item:hover .ig-strip__overlay{opacity:1}
-@media(max-width:749px){.ig-strip__grid{grid-template-columns:repeat(2,1fr)}}
-</style>
+<script>
+(function() {
+  function initInstagramStrip(root) {
+    if (!root || root.dataset.igStripReady === 'true') return;
+    root.dataset.igStripReady = 'true';
+
+    const track = root.querySelector('[data-ig-track]');
+    const slides = Array.from(root.querySelectorAll('.ig-strip__slide'));
+    const prev = root.querySelector('[data-ig-prev]');
+    const next = root.querySelector('[data-ig-next]');
+    let index = 0;
+    let startX = 0;
+    let pointerDown = false;
+
+    function maxIndex() { return Math.max(0, slides.length - 2); }
+    function getStep() {
+      if (!slides[0] || !track) return 0;
+      const rect = slides[0].getBoundingClientRect();
+      const styles = window.getComputedStyle(track);
+      const gap = parseFloat(styles.gap || styles.columnGap || '0') || 0;
+      return rect.width + gap;
+    }
+    function goTo(nextIndex) {
+      if (!track || !slides.length) return;
+      index = Math.max(0, Math.min(nextIndex, maxIndex()));
+      track.style.transform = 'translateX(-' + (index * getStep()) + 'px)';
+    }
+
+    prev && prev.addEventListener('click', function() { goTo(index - 1); });
+    next && next.addEventListener('click', function() { goTo(index + 1); });
+    track && track.addEventListener('pointerdown', function(event) { pointerDown = true; startX = event.clientX; });
+    track && track.addEventListener('pointerup', function(event) {
+      if (!pointerDown) return;
+      pointerDown = false;
+      const delta = event.clientX - startX;
+      if (Math.abs(delta) > 36) goTo(index + (delta < 0 ? 1 : -1));
+    });
+    track && track.addEventListener('pointercancel', function() { pointerDown = false; });
+    window.addEventListener('resize', function() { goTo(index); });
+  }
+
+  function initAll(scope) {
+    (scope || document).querySelectorAll('[data-ig-strip-root]').forEach(initInstagramStrip);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { initAll(document); });
+  } else {
+    initAll(document);
+  }
+
+  document.addEventListener('shopify:section:load', function(event) { initAll(event.target); });
+})();
+</script>
 
 {% schema %}
 {
   "name": "Instagram strip",
+  "tag": "section",
+  "class": "section-instagram-strip",
   "settings": [
-    {"type":"text","id":"heading","label":"Heading","default":"FOLLOW US @ICON"}
+    { "type": "text", "id": "heading", "label": "Heading", "default": "FOLLOW US @ICON" },
+    { "type": "url", "id": "profile_link", "label": "Instagram profile link" },
+    { "type": "range", "id": "columns_desktop", "label": "Images desktop", "min": 4, "max": 8, "step": 1, "default": 6 },
+    { "type": "select", "id": "desktop_ratio", "label": "Desktop image ratio", "options": [ { "value": "1 / 1", "label": "Square" }, { "value": "4 / 5", "label": "Portrait" }, { "value": "3 / 2", "label": "Landscape" } ], "default": "1 / 1" },
+    { "type": "select", "id": "mobile_ratio", "label": "Mobile image ratio", "options": [ { "value": "1 / 1", "label": "Square" }, { "value": "4 / 5", "label": "Portrait" }, { "value": "3 / 2", "label": "Landscape" } ], "default": "1 / 1" },
+    { "type": "range", "id": "desktop_gap", "label": "Desktop gap", "min": 0, "max": 16, "step": 1, "unit": "px", "default": 4 },
+    { "type": "range", "id": "mobile_gap", "label": "Mobile gap", "min": 0, "max": 16, "step": 1, "unit": "px", "default": 2 },
+    { "type": "checkbox", "id": "show_overlay", "label": "Show Instagram hover overlay", "default": true },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 10, "max": 80, "step": 5, "unit": "%", "default": 45 },
+    { "type": "range", "id": "icon_size", "label": "Instagram icon size", "min": 20, "max": 64, "step": 2, "unit": "px", "default": 34 },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show mobile arrows", "default": true },
+    { "type": "range", "id": "arrow_size", "label": "Arrow size", "min": 32, "max": 60, "step": 2, "unit": "px", "default": 44 },
+    { "type": "range", "id": "arrow_inset", "label": "Arrow inset mobile", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 20 },
+    { "type": "range", "id": "heading_size", "label": "Heading size desktop", "min": 18, "max": 48, "step": 1, "unit": "px", "default": 30 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size mobile", "min": 16, "max": 34, "step": 1, "unit": "px", "default": 28 },
+    { "type": "range", "id": "heading_spacing", "label": "Heading spacing desktop", "min": 8, "max": 64, "step": 2, "unit": "px", "default": 54 },
+    { "type": "range", "id": "heading_spacing_mobile", "label": "Heading spacing mobile", "min": 8, "max": 48, "step": 2, "unit": "px", "default": 18 },
+    { "type": "range", "id": "padding_top", "label": "Padding top desktop", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 28 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom desktop", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top mobile", "min": 0, "max": 64, "step": 4, "unit": "px", "default": 28 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom mobile", "min": 0, "max": 64, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "mobile_side_padding", "label": "Mobile side padding", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 8 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#111111" }
   ],
   "blocks": [
     {
-      "type":"image",
-      "name":"Image",
-      "settings":[
-        {"type":"image_picker","id":"image","label":"Image"},
-        {"type":"url","id":"link","label":"Link"}
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Instagram post link" },
+        { "type": "text", "id": "alt", "label": "Alt text" },
+        { "type": "text", "id": "caption", "label": "Hover caption" }
       ]
     }
   ],
-  "presets": [{"name":"Instagram strip"}]
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Instagram strip",
+      "category": "Image",
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
 }
 {% endschema %}
