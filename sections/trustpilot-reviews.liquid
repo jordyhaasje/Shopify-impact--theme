@@ -1,97 +1,524 @@
-{% render 'section-spacing-collapsing' %}
+<style>
+  #tp-{{ section.id }} {
+    --tp-green: {{ section.settings.accent_color }};
+    --tp-text: {{ section.settings.text_color }};
+    --tp-muted: {{ section.settings.muted_color }};
+    --tp-card: {{ section.settings.card_background }};
+    --tp-section-bg: {{ section.settings.background }};
+    background: var(--tp-section-bg);
+    color: var(--tp-text);
+    padding-block: {{ section.settings.padding_vertical }}px;
+    padding-inline: 16px;
+  }
 
-<div id="tp-{{ section.id }}" class="tp-section">
-  <div class="tp-container">
+  #tp-{{ section.id }} .tp-shell {
+    max-width: {{ section.settings.max_width }}px;
+    margin-inline: auto;
+  }
 
-    <button class="tp-header" type="button" onclick="tpToggle{{ section.id }}()">
-      <span class="tp-heading">{{ section.settings.heading }}</span>
-      <span class="tp-chevron">⌃</span>
+  #tp-{{ section.id }} .tp-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 0 58px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  #tp-{{ section.id }} .tp-heading {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  #tp-{{ section.id }} .tp-chevron {
+    width: 18px;
+    height: 18px;
+    display: grid;
+    place-items: center;
+    transition: transform .2s ease;
+  }
+
+  #tp-{{ section.id }}[data-collapsed="true"] .tp-chevron {
+    transform: rotate(180deg);
+  }
+
+  #tp-{{ section.id }} .tp-body[hidden] {
+    display: none;
+  }
+
+  #tp-{{ section.id }} .tp-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 64px;
+    align-items: center;
+    gap: 16px;
+  }
+
+  #tp-{{ section.id }} .tp-viewport {
+    overflow: hidden;
+  }
+
+  #tp-{{ section.id }} .tp-track {
+    display: flex;
+    transition: transform .32s ease;
+    will-change: transform;
+  }
+
+  #tp-{{ section.id }} .tp-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+    padding-inline: 0;
+  }
+
+  #tp-{{ section.id }} .tp-card {
+    width: 100%;
+    min-height: 318px;
+    background: var(--tp-card);
+    border-radius: 2px;
+    padding: 30px 30px 28px;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.08);
+    display: flex;
+    flex-direction: column;
+  }
+
+  #tp-{{ section.id }} .tp-topline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  #tp-{{ section.id }} .tp-star-row {
+    display: flex;
+    gap: 4px;
+  }
+
+  #tp-{{ section.id }} .tp-star-box {
+    width: 36px;
+    height: 36px;
+    background: var(--tp-green);
+    display: grid;
+    place-items: center;
+  }
+
+  #tp-{{ section.id }} .tp-star-box svg {
+    width: 25px;
+    height: 25px;
+    fill: #fff;
+    display: block;
+  }
+
+  #tp-{{ section.id }} .tp-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #646464;
+    font-size: 24px;
+    line-height: 1;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  #tp-{{ section.id }} .tp-verified-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: #626262;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  #tp-{{ section.id }} .tp-review-title {
+    margin: 0 0 20px;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -.03em;
+  }
+
+  #tp-{{ section.id }} .tp-review-text {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.28;
+    font-weight: 400;
+    color: #191919;
+  }
+
+  #tp-{{ section.id }} .tp-author {
+    margin-top: auto;
+    color: #696969;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  #tp-{{ section.id }} .tp-author strong {
+    font-weight: 800;
+  }
+
+  #tp-{{ section.id }} .tp-nav {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    border: 2px solid #151515;
+    background: #fff;
+    color: #151515;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    justify-self: center;
+    transition: opacity .18s ease, transform .18s ease;
+  }
+
+  #tp-{{ section.id }} .tp-nav:hover {
+    transform: scale(1.04);
+  }
+
+  #tp-{{ section.id }} .tp-nav svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 4;
+  }
+
+  #tp-{{ section.id }} .tp-nav[disabled] {
+    opacity: .18;
+    cursor: default;
+    transform: none;
+  }
+
+  #tp-{{ section.id }} .tp-footer {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 24px;
+    line-height: 1.35;
+    color: #222;
+  }
+
+  #tp-{{ section.id }} .tp-footer strong,
+  #tp-{{ section.id }} .tp-footer a {
+    font-weight: 800;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  #tp-{{ section.id }} .tp-brand {
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  #tp-{{ section.id }} .tp-brand-star {
+    width: 34px;
+    height: 34px;
+    color: var(--tp-green);
+  }
+
+  #tp-{{ section.id }} .tp-dots {
+    display: none;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+  }
+
+  #tp-{{ section.id }} .tp-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #cfcfcf;
+    border: 0;
+    padding: 0;
+  }
+
+  #tp-{{ section.id }} .tp-dot.is-active {
+    background: var(--tp-green);
+  }
+
+  @media screen and (max-width: 749px) {
+    #tp-{{ section.id }} {
+      padding-block: {{ section.settings.padding_vertical_mobile }}px;
+      padding-inline: 14px;
+    }
+
+    #tp-{{ section.id }} .tp-header {
+      padding-bottom: 28px;
+    }
+
+    #tp-{{ section.id }} .tp-heading {
+      font-size: 18px;
+      letter-spacing: .04em;
+    }
+
+    #tp-{{ section.id }} .tp-stage {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    #tp-{{ section.id }} .tp-nav {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      width: 42px;
+      height: 42px;
+      background: rgba(255,255,255,.92);
+    }
+
+    #tp-{{ section.id }} .tp-prev {
+      left: 8px;
+    }
+
+    #tp-{{ section.id }} .tp-next {
+      right: 8px;
+    }
+
+    #tp-{{ section.id }} .tp-card {
+      min-height: 236px;
+      padding: 18px 18px 20px;
+    }
+
+    #tp-{{ section.id }} .tp-star-box {
+      width: 27px;
+      height: 27px;
+    }
+
+    #tp-{{ section.id }} .tp-star-box svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    #tp-{{ section.id }} .tp-verified {
+      font-size: 15px;
+      gap: 6px;
+    }
+
+    #tp-{{ section.id }} .tp-verified-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    #tp-{{ section.id }} .tp-review-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #tp-{{ section.id }} .tp-review-text {
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    #tp-{{ section.id }} .tp-author {
+      font-size: 14px;
+      padding-right: 46px;
+    }
+
+    #tp-{{ section.id }} .tp-footer {
+      font-size: 15px;
+      margin-top: 14px;
+    }
+
+    #tp-{{ section.id }} .tp-brand {
+      font-size: 18px;
+    }
+
+    #tp-{{ section.id }} .tp-brand-star {
+      width: 24px;
+      height: 24px;
+    }
+
+    #tp-{{ section.id }} .tp-dots {
+      display: flex;
+    }
+  }
+</style>
+
+{%- liquid
+  assign review_count = 0
+  for block in section.blocks
+    if block.type == 'review'
+      assign review_count = review_count | plus: 1
+    endif
+  endfor
+-%}
+
+<div id="tp-{{ section.id }}" data-tp-root data-collapsed="false">
+  <div class="tp-shell">
+    <button class="tp-header" type="button" aria-expanded="true" aria-controls="tp-body-{{ section.id }}" data-tp-toggle>
+      <h2 class="tp-heading">{{ section.settings.heading | escape }}</h2>
+      <span class="tp-chevron" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
     </button>
 
-    <div class="tp-body" id="tp-body-{{ section.id }}">
-      <div class="tp-slider" data-section-id="{{ section.id }}">
+    <div class="tp-body" id="tp-body-{{ section.id }}" data-tp-body>
+      <div class="tp-stage">
+        <button class="tp-nav tp-prev" type="button" aria-label="Vorige review" data-tp-prev>
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
 
-        {% for block in section.blocks %}
-          <div class="tp-slide {% if forloop.first %}active{% endif %}" {{ block.shopify_attributes }}>
-            <div class="tp-card">
+        <div class="tp-viewport" data-tp-viewport>
+          <div class="tp-track" data-tp-track>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'review' -%}
+                <article class="tp-slide" data-tp-slide {{ block.shopify_attributes }}>
+                  <div class="tp-card">
+                    <div class="tp-topline">
+                      <div class="tp-star-row" aria-label="{{ block.settings.rating }} van 5 sterren">
+                        {%- for i in (1..5) -%}
+                          <span class="tp-star-box" style="opacity:{% if i <= block.settings.rating %}1{% else %}.28{% endif %}">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l2.85 6.03 6.35.97-4.6 4.69 1.08 6.62L12 16.98 6.32 20.11l1.08-6.62-4.6-4.69 6.35-.97L12 1.8z"/></svg>
+                          </span>
+                        {%- endfor -%}
+                      </div>
 
-              <div class="tp-stars">
-                {% for i in (1..block.settings.rating) %}★{% endfor %}
-              </div>
+                      {%- if section.settings.show_verified -%}
+                        <span class="tp-verified">
+                          <span class="tp-verified-icon" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" width="13" height="13"><path d="M6.4 11.2L3.2 8l1.1-1.1 2.1 2.1 5.3-5.3L12.8 5z" fill="currentColor"/></svg>
+                          </span>
+                          {{ section.settings.verified_text | escape }}
+                        </span>
+                      {%- endif -%}
+                    </div>
 
-              <div class="tp-title">{{ block.settings.title }}</div>
-              <div class="tp-text">{{ block.settings.text }}</div>
-              <div class="tp-author">{{ block.settings.author }}</div>
+                    {%- if block.settings.title != blank -%}
+                      <h3 class="tp-review-title">{{ block.settings.title | escape }}</h3>
+                    {%- endif -%}
 
-            </div>
+                    {%- if block.settings.text != blank -%}
+                      <p class="tp-review-text">{{ block.settings.text | escape }}</p>
+                    {%- endif -%}
+
+                    <div class="tp-author">
+                      {%- if block.settings.author != blank -%}<strong>{{ block.settings.author | escape }}</strong>{%- endif -%}
+                      {%- if block.settings.time_ago != blank -%}, {{ block.settings.time_ago | escape }}{%- endif -%}
+                    </div>
+                  </div>
+                </article>
+              {%- endif -%}
+            {%- endfor -%}
           </div>
-        {% endfor %}
+        </div>
 
-        <button class="tp-nav tp-prev" type="button">‹</button>
-        <button class="tp-nav tp-next" type="button">›</button>
-
+        <button class="tp-nav tp-next" type="button" aria-label="Volgende review" data-tp-next>
+          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
+
+      {%- if review_count > 1 -%}
+        <div class="tp-dots" aria-hidden="true">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'review' -%}
+              <button class="tp-dot {% if forloop.first %}is-active{% endif %}" type="button" data-tp-dot="{{ forloop.index0 }}"></button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
 
       <div class="tp-footer">
-        <span>{{ section.settings.rating_text }}</span>
-        <strong class="tp-brand">Trustpilot</strong>
+        <div>{{ section.settings.rating_prefix | escape }} <strong>{{ section.settings.score | escape }}</strong> / 5 {{ section.settings.rating_middle | escape }} <a href="{{ section.settings.reviews_link }}">{{ section.settings.review_count | escape }} {{ section.settings.reviews_label | escape }}</a>. {{ section.settings.showing_text | escape }}</div>
+        <div class="tp-brand" aria-label="Trustpilot">
+          <svg class="tp-brand-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l2.85 6.03 6.35.97-4.6 4.69 1.08 6.62L12 16.98 6.32 20.11l1.08-6.62-4.6-4.69 6.35-.97L12 1.8z" fill="currentColor"/></svg>
+          <span>Trustpilot</span>
+        </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<style>
-#tp-{{ section.id }}{padding:16px}
-.tp-container{max-width:680px;margin:auto}
-.tp-header{display:flex;justify-content:space-between;width:100%;font-weight:700;font-size:14px;background:none;border:none;cursor:pointer}
-.tp-body{margin-top:12px}
-.tp-card{background:#f3f3f3;padding:16px;border-radius:12px}
-.tp-stars{color:#00b67a;font-size:14px}
-.tp-title{font-weight:700;margin-top:6px}
-.tp-text{font-size:14px;margin-top:4px}
-.tp-author{font-size:12px;color:#666;margin-top:8px}
-.tp-slider{position:relative}
-.tp-slide{display:none}
-.tp-slide.active{display:block}
-.tp-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer}
-.tp-prev{left:-12px}
-.tp-next{right:-12px}
-.tp-footer{margin-top:10px;font-size:13px;color:#444}
-
-@media(max-width:749px){
-.tp-prev{left:6px}
-.tp-next{right:6px}
-}
-</style>
-
 <script>
-(function(){
-  function init(section){
-    const root = document.querySelector('#tp-'+section);
-    if(!root) return;
-    const slides = root.querySelectorAll('.tp-slide');
+(function() {
+  function initTrustpilotReviews(root) {
+    if (!root || root.dataset.tpReady === 'true') return;
+    root.dataset.tpReady = 'true';
+
+    const body = root.querySelector('[data-tp-body]');
+    const toggle = root.querySelector('[data-tp-toggle]');
+    const track = root.querySelector('[data-tp-track]');
+    const slides = Array.from(root.querySelectorAll('[data-tp-slide]'));
+    const prev = root.querySelector('[data-tp-prev]');
+    const next = root.querySelector('[data-tp-next]');
+    const dots = Array.from(root.querySelectorAll('[data-tp-dot]'));
     let index = 0;
+    let startX = 0;
+    let pointerDown = false;
 
-    root.querySelector('.tp-next').onclick = ()=>{
-      slides[index].classList.remove('active');
-      index = (index+1)%slides.length;
-      slides[index].classList.add('active');
-    };
+    function goTo(nextIndex) {
+      if (!slides.length) return;
+      index = (nextIndex + slides.length) % slides.length;
+      track.style.transform = 'translateX(' + (-index * 100) + '%)';
+      dots.forEach(function(dot, dotIndex) {
+        dot.classList.toggle('is-active', dotIndex === index);
+      });
+    }
 
-    root.querySelector('.tp-prev').onclick = ()=>{
-      slides[index].classList.remove('active');
-      index = (index-1+slides.length)%slides.length;
-      slides[index].classList.add('active');
-    };
+    toggle && toggle.addEventListener('click', function() {
+      const collapsed = root.getAttribute('data-collapsed') === 'true';
+      root.setAttribute('data-collapsed', collapsed ? 'false' : 'true');
+      toggle.setAttribute('aria-expanded', collapsed ? 'true' : 'false');
+      if (body) body.hidden = !collapsed;
+    });
+
+    prev && prev.addEventListener('click', function() { goTo(index - 1); });
+    next && next.addEventListener('click', function() { goTo(index + 1); });
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() { goTo(parseInt(dot.dataset.tpDot, 10) || 0); });
+    });
+
+    track && track.addEventListener('pointerdown', function(event) {
+      pointerDown = true;
+      startX = event.clientX;
+    });
+
+    track && track.addEventListener('pointerup', function(event) {
+      if (!pointerDown) return;
+      pointerDown = false;
+      const delta = event.clientX - startX;
+      if (Math.abs(delta) > 42) goTo(index + (delta < 0 ? 1 : -1));
+    });
+
+    track && track.addEventListener('pointercancel', function() { pointerDown = false; });
+
+    {% if section.settings.autoplay %}
+      const interval = parseInt('{{ section.settings.autoplay_speed | times: 1000 }}', 10);
+      if (interval > 0 && slides.length > 1) {
+        setInterval(function() {
+          if (root.getAttribute('data-collapsed') !== 'true') goTo(index + 1);
+        }, interval);
+      }
+    {% endif %}
+
+    goTo(0);
   }
 
-  window.tpToggle{{ section.id }} = function(){
-    document.getElementById('tp-body-{{ section.id }}').classList.toggle('hidden');
+  function initAll() {
+    document.querySelectorAll('[data-tp-root]').forEach(initTrustpilotReviews);
   }
 
-  document.addEventListener('DOMContentLoaded', ()=>init('{{ section.id }}'));
-  document.addEventListener('shopify:section:load', e=>init(e.target.id.replace('shopify-section-','')));
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+
+  document.addEventListener('shopify:section:load', function(event) {
+    const root = event.target.querySelector('[data-tp-root]');
+    if (root) initTrustpilotReviews(root);
+  });
 })();
 </script>
 
@@ -99,23 +526,50 @@
 {
   "name": "Trustpilot reviews",
   "settings": [
-    {"type":"text","id":"heading","label":"Heading","default":"READ OUR REVIEWS"},
-    {"type":"text","id":"rating_text","label":"Rating text","default":"Rated 4.0 / 5 based on 38,382 reviews."}
+    { "type": "text", "id": "heading", "label": "Heading", "default": "READ OUR REVIEWS" },
+    { "type": "checkbox", "id": "show_verified", "label": "Show verified badge", "default": true },
+    { "type": "text", "id": "verified_text", "label": "Verified text", "default": "Verified" },
+    { "type": "text", "id": "rating_prefix", "label": "Rating prefix", "default": "Rated" },
+    { "type": "text", "id": "score", "label": "Score", "default": "4.0" },
+    { "type": "text", "id": "rating_middle", "label": "Rating middle text", "default": "based on" },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "38,382" },
+    { "type": "text", "id": "reviews_label", "label": "Reviews label", "default": "reviews" },
+    { "type": "url", "id": "reviews_link", "label": "Reviews link" },
+    { "type": "text", "id": "showing_text", "label": "Showing text", "default": "Showing our 5 star reviews." },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": false },
+    { "type": "range", "id": "autoplay_speed", "label": "Autoplay speed", "min": 3, "max": 9, "step": 1, "unit": "s", "default": 5 },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 520, "max": 1100, "step": 20, "unit": "px", "default": 920 },
+    { "type": "range", "id": "padding_vertical", "label": "Padding vertical desktop", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding_vertical_mobile", "label": "Padding vertical mobile", "min": 0, "max": 56, "step": 4, "unit": "px", "default": 24 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#f7f8fa" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#191919" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#666666" },
+    { "type": "color", "id": "accent_color", "label": "Trustpilot green", "default": "#00b67a" }
   ],
   "blocks": [
     {
-      "type":"review",
-      "name":"Review",
-      "settings":[
-        {"type":"text","id":"title","label":"Title"},
-        {"type":"textarea","id":"text","label":"Text"},
-        {"type":"text","id":"author","label":"Author"},
-        {"type":"range","id":"rating","label":"Stars","min":1,"max":5,"step":1,"default":5}
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Title", "default": "Decent brand" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Decent brand" },
+        { "type": "text", "id": "author", "label": "Author", "default": "Georgi" },
+        { "type": "text", "id": "time_ago", "label": "Time ago", "default": "21 hours ago" }
       ]
     }
   ],
   "presets": [
-    {"name":"Trustpilot reviews","category":"Product"}
+    {
+      "name": "Trustpilot reviews",
+      "category": "Product",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review", "settings": { "title": "Great service", "text": "Fast delivery and the product looks exactly as expected.", "author": "Sophie", "time_ago": "1 day ago" } },
+        { "type": "review", "settings": { "title": "Very happy", "text": "Clean website, easy checkout and solid quality.", "author": "Milan", "time_ago": "2 days ago" } }
+      ]
+    }
   ]
 }
 {% endschema %}
