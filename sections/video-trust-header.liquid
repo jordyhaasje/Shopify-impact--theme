@@ -1,0 +1,109 @@
+{% render 'section-spacing-collapsing' %}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+}
+.video-trust-header {
+  position: relative;
+  overflow: hidden;
+}
+.video-trust-header__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-trust-header__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,var(--overlay-opacity));
+}
+.video-trust-header__content {
+  position: relative;
+  z-index: 2;
+  padding: 60px 20px;
+  text-align: center;
+  color: #fff;
+}
+.video-trust-header__heading {
+  font-size: clamp(28px,4vw,48px);
+  margin-bottom: 16px;
+}
+.video-trust-header__sub {
+  font-size: 18px;
+  opacity: .9;
+}
+.video-trust-header__trust {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.video-trust-header__star {
+  background:#00B67A;
+  color:#fff;
+  padding:4px 6px;
+  border-radius:4px;
+  font-size:12px;
+}
+.video-trust-header__usps {
+  margin-top: 20px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  font-size:14px;
+}
+</style>
+
+<section class="video-trust-header">
+  {% if section.settings.video != blank %}
+    {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, class: 'video-trust-header__video' }}
+  {% endif %}
+  <div class="video-trust-header__overlay"></div>
+
+  <div class="video-trust-header__content container">
+    <h2 class="video-trust-header__heading">{{ section.settings.heading }}</h2>
+    <div class="video-trust-header__sub rte">{{ section.settings.subheading }}</div>
+
+    <div class="video-trust-header__trust">
+      {% for i in (1..5) %}
+        <span class="video-trust-header__star">★</span>
+      {% endfor %}
+      <span>{{ section.settings.review_text }}</span>
+    </div>
+
+    <div class="video-trust-header__usps">
+      <span>{{ section.settings.usp_1 }}</span>
+      <span>{{ section.settings.usp_2 }}</span>
+      <span>{{ section.settings.usp_3 }}</span>
+    </div>
+
+    {% if section.settings.button_label != blank %}
+      <div style="margin-top:20px;">
+        {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'lg' %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video Trust Header",
+  "settings": [
+    {"type":"video","id":"video","label":"Background video"},
+    {"type":"range","id":"overlay_opacity","min":0,"max":80,"step":5,"default":40,"label":"Overlay opacity"},
+    {"type":"text","id":"heading","default":"Vertrouwd door duizenden klanten","label":"Heading"},
+    {"type":"richtext","id":"subheading","default":"<p>Bekijk waarom iedereen ons aanbeveelt</p>","label":"Subheading"},
+    {"type":"text","id":"review_text","default":"4.8/5 gebaseerd op 2.000+ reviews","label":"Review text"},
+    {"type":"text","id":"usp_1","default":"Gratis verzending","label":"USP 1"},
+    {"type":"text","id":"usp_2","default":"30 dagen garantie","label":"USP 2"},
+    {"type":"text","id":"usp_3","default":"Snelle levering","label":"USP 3"},
+    {"type":"text","id":"button_label","default":"Shop nu","label":"Button label"},
+    {"type":"url","id":"button_link","label":"Button link"}
+  ],
+  "presets":[{"name":"Video Trust Header"}]
+}
+{% endschema %}
