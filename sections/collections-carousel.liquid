@@ -1,0 +1,158 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --card-gap: {{ section.settings.card_gap }}px;
+  --desktop-card-width: {{ section.settings.desktop_card_width }}px;
+  --mobile-card-width: {{ section.settings.mobile_card_width }}px;
+  --heading-max: {{ section.settings.heading_max_width }}px;
+  --section-spacing: {{ section.settings.section_spacing }}px;
+}
+
+#shopify-section-{{ section.id }} .collections {
+  padding-block: var(--section-spacing);
+}
+
+#shopify-section-{{ section.id }} .collections__header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+#shopify-section-{{ section.id }} .collections__title {
+  font-size: clamp(28px, 3.5vw, 44px);
+  max-width: var(--heading-max);
+  line-height:1.1;
+}
+
+#shopify-section-{{ section.id }} .collections__title em {
+  font-style: italic;
+  font-family: Georgia, serif;
+}
+
+#shopify-section-{{ section.id }} .collections__nav button {
+  width:40px;height:40px;border-radius:999px;border:none;background:#fff;cursor:pointer;
+}
+
+#shopify-section-{{ section.id }} .collections__track {
+  display:flex;
+  gap:var(--card-gap);
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+
+#shopify-section-{{ section.id }} .collections__track::-webkit-scrollbar {display:none;}
+
+#shopify-section-{{ section.id }} .card {
+  flex:0 0 var(--mobile-card-width);
+  border-radius:24px;
+  overflow:hidden;
+  position:relative;
+  scroll-snap-align:start;
+}
+
+#shopify-section-{{ section.id }} .card img {
+  width:100%;height:100%;object-fit:cover;
+}
+
+#shopify-section-{{ section.id }} .card__overlay {
+  position:absolute;inset:auto 0 0 0;height:45%;
+  background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+
+#shopify-section-{{ section.id }} .card__title {
+  position:absolute;bottom:18px;left:18px;color:#fff;font-size:18px;font-weight:500;
+}
+
+@media(min-width:700px){
+  #shopify-section-{{ section.id }} .card {
+    flex:0 0 var(--desktop-card-width);
+  }
+}
+</style>
+
+<section class="collections">
+  <div {% render 'section-properties' %}>
+    <div class="container">
+      <div class="collections__header">
+        <h2 class="collections__title">
+          {{ section.settings.heading }} <em>{{ section.settings.heading_italic }}</em>
+        </h2>
+        <div class="collections__nav">
+          <button data-prev>‹</button>
+          <button data-next>›</button>
+        </div>
+      </div>
+
+      <div class="collections__track" data-track>
+        {% for block in section.blocks %}
+          <a href="{{ block.settings.link }}" class="card" {{ block.shopify_attributes }}>
+            {{ block.settings.image | image_url: width: 900 | image_tag }}
+            <div class="card__overlay"></div>
+            <span class="card__title">{{ block.settings.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  function initSection(section){
+    const track = section.querySelector('[data-track]');
+    section.querySelector('[data-prev]').onclick = ()=> track.scrollBy({left:-300,behavior:'smooth'});
+    section.querySelector('[data-next]').onclick = ()=> track.scrollBy({left:300,behavior:'smooth'});
+  }
+
+  const sectionEl = document.querySelector('#shopify-section-{{ section.id }}');
+  if(sectionEl) initSection(sectionEl);
+
+  document.addEventListener('shopify:section:load', function(e){
+    if(e.target.id === 'shopify-section-{{ section.id }}'){
+      initSection(e.target);
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collections carousel",
+  "tag": "section",
+  "class": "shopify-section--collections-carousel",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"Ontdek onze"},
+    {"type":"text","id":"heading_italic","label":"Italic woord","default":"collecties"},
+    {"type":"range","id":"section_spacing","min":0,"max":80,"step":4,"default":48,"label":"Section spacing"},
+    {"type":"range","id":"heading_max_width","min":400,"max":1000,"step":20,"default":760,"label":"Heading max width"},
+    {"type":"range","id":"desktop_card_width","min":220,"max":360,"step":4,"default":284,"label":"Desktop card width"},
+    {"type":"range","id":"mobile_card_width","min":220,"max":320,"step":4,"default":252,"label":"Mobile card width"},
+    {"type":"range","id":"card_gap","min":8,"max":32,"step":2,"default":20,"label":"Card gap"}
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {"type":"image_picker","id":"image","label":"Image"},
+        {"type":"text","id":"title","label":"Titel","default":"Collectie"},
+        {"type":"url","id":"link","label":"Link"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collections carousel",
+      "blocks": [
+        {"type":"card","settings":{"title":"Easter sale"}},
+        {"type":"card","settings":{"title":"Toppers"}},
+        {"type":"card","settings":{"title":"Hoofdkussens"}},
+        {"type":"card","settings":{"title":"Matrassen"}}
+      ]
+    }
+  ]
+}
+{% endschema %}
