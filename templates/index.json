@@ -959,7 +959,7 @@
             "name": "Sofie Jensen",
             "role": "Driftschef hos...",
             "rating": 4,
-            "review_text": "Jeg var skeptisk i starten, men efter den 14-dages prøveperiode kunne jeg slet ikke forestille mig at gå tilbage til regneark. Brugerfladen er utrolig intuitiv, og integrationen med Slack gør kommunikationen helt problemfri. De avancerede funktioner har virkelig revolutioneret min arbejdsdag, sparet mig værdifuld tid og reduceret fejl.",
+            "review_text": "Jeg var skeptisk i starten, men efter den 14-dages pr\u00f8veperiode kunne jeg slet ikke forestille mig at g\u00e5 tilbage til regneark. Brugerfladen er utrolig intuitiv, og integrationen med Slack g\u00f8r kommunikationen helt problemfri. De avancerede funktioner har virkelig revolutioneret min arbejdsdag, sparet mig v\u00e6rdifuld tid og reduceret fejl.",
             "highlight_1": "utrolig intuitiv",
             "highlight_2": "",
             "highlight_3": ""
@@ -971,8 +971,8 @@
             "name": "Mikkel Thorne",
             "role": "Founder & CEO, Thorne...",
             "rating": 5,
-            "review_text": "Vi prøvede omkring fem forskellige platforme, før vi landede på denne. Den rammer den perfekte balance mellem avancerede funktioner og at være så enkel, at nye medarbejdere kan lære den på én dag.",
-            "highlight_1": "perfekte balance mellem avancerede funktioner og at være så enkel",
+            "review_text": "Vi pr\u00f8vede omkring fem forskellige platforme, f\u00f8r vi landede p\u00e5 denne. Den rammer den perfekte balance mellem avancerede funktioner og at v\u00e6re s\u00e5 enkel, at nye medarbejdere kan l\u00e6re den p\u00e5 \u00e9n dag.",
+            "highlight_1": "perfekte balance mellem avancerede funktioner og at v\u00e6re s\u00e5 enkel",
             "highlight_2": "",
             "highlight_3": ""
           }
@@ -983,7 +983,7 @@
             "name": "David Chen",
             "role": "Freelance webudvikler",
             "rating": 5,
-            "review_text": "Jeg skriver sjældent anmeldelser, men jeg var nødt til at rose supportteamet. Jeg havde et synkroniseringsproblem en søndag, og Mark løste det inden for 20 minutter. Fantastisk produkt, endnu bedre mennesker.",
+            "review_text": "Jeg skriver sj\u00e6ldent anmeldelser, men jeg var n\u00f8dt til at rose supportteamet. Jeg havde et synkroniseringsproblem en s\u00f8ndag, og Mark l\u00f8ste det inden for 20 minutter. Fantastisk produkt, endnu bedre mennesker.",
             "highlight_1": "Fantastisk produkt, endnu bedre mennesker",
             "highlight_2": "",
             "highlight_3": ""
@@ -995,7 +995,7 @@
             "name": "Jessica Park",
             "role": "Kreativ leder",
             "rating": 5,
-            "review_text": "Jeg var virkelig nervøs for at flytte vores data fra det gamle system. Onboarding-teamet klarede det hele, og vi var oppe at køre uden nogen nedetid. Fantastisk service.",
+            "review_text": "Jeg var virkelig nerv\u00f8s for at flytte vores data fra det gamle system. Onboarding-teamet klarede det hele, og vi var oppe at k\u00f8re uden nogen nedetid. Fantastisk service.",
             "highlight_1": "uden nogen nedetid",
             "highlight_2": "",
             "highlight_3": ""
@@ -1112,7 +1112,7 @@
         "heading": "Live your",
         "heading_italic": "dreams",
         "heading_suffix": ".",
-        "body_text": "<p>Je leeft maar één keer, dus haal alles eruit! Doe waar jij écht gelukkig van wordt. En als de dag erop zit, leg je hoofd dan op een Cloudpillo om op te laden voor het leven.</p>",
+        "body_text": "<p>Je leeft maar \u00e9\u00e9n keer, dus haal alles eruit! Doe waar jij \u00e9cht gelukkig van wordt. En als de dag erop zit, leg je hoofd dan op een Cloudpillo om op te laden voor het leven.</p>",
         "button_label": "Ons verhaal",
         "button_link": "",
         "section_spacing": 48,
@@ -1127,70 +1127,76 @@
       }
     },
     "collections_carousel_DWrzrP": {
-      "type": "collections-carousel",
+      "type": "hazify-test-collections-slider",
       "blocks": {
-        "card_jjDFNN": {
-          "type": "card",
+        "card_spring": {
+          "type": "collection_card",
           "settings": {
-            "image": "shopify://shop_images/model-laughs-barefoot.jpg",
-            "title": "Collectie",
+            "title": "Spring deals",
+            "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/winter-deals-collection-card-shadow.webp?v=1770303665&width=668",
             "link": ""
           }
         },
-        "card_bMxLr4": {
-          "type": "card",
-          "settings": {
-            "title": "Collectie",
-            "link": ""
-          }
-        },
-        "card_V6whtn": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
-            "title": "Easter sale",
-            "link": ""
-          }
-        },
-        "card_yFUzCR": {
-          "type": "card",
+        "card_toppers": {
+          "type": "collection_card",
           "settings": {
             "title": "Toppers",
+            "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/toppers-collection-card-shadow.webp?v=1770303689&width=668",
             "link": ""
           }
         },
-        "card_kABXBU": {
-          "type": "card",
+        "card_pillows": {
+          "type": "collection_card",
           "settings": {
             "title": "Hoofdkussens",
+            "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/pillows-deals-collection-card-shadow.webp?v=1770303670&width=668",
             "link": ""
           }
         },
-        "card_KnTdTY": {
-          "type": "card",
+        "card_mattresses": {
+          "type": "collection_card",
           "settings": {
             "title": "Matrassen",
+            "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/flex-mattress-collection-card-shadow.webp?v=1770303680&width=668",
+            "link": ""
+          }
+        },
+        "card_bedding": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Beddengoed",
+            "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/bedding-collection-card-shadow.webp?v=1770303684&width=668",
+            "link": ""
+          }
+        },
+        "card_duvets": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Dekbedden",
+            "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/duvet-collection-card-shadow.webp?v=1770303698&width=668",
             "link": ""
           }
         }
       },
       "block_order": [
-        "card_jjDFNN",
-        "card_bMxLr4",
-        "card_V6whtn",
-        "card_yFUzCR",
-        "card_kABXBU",
-        "card_KnTdTY"
+        "card_spring",
+        "card_toppers",
+        "card_pillows",
+        "card_mattresses",
+        "card_bedding",
+        "card_duvets"
       ],
-      "name": "Collections carousel",
+      "name": "Hazify test collections",
       "settings": {
         "heading": "Ontdek onze",
-        "heading_italic": "collecties",
+        "heading_emphasis": "collecties",
         "section_spacing": 48,
-        "heading_max_width": 760,
-        "desktop_card_width": 284,
-        "mobile_card_width": 252,
-        "card_gap": 20
+        "heading_max_width": 520,
+        "desktop_card_width": 300,
+        "card_gap": 8,
+        "card_radius": 18,
+        "background": "#ecebe4",
+        "heading_color": "#191d23"
       }
     }
   },
