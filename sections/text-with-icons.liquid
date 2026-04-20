@@ -23,6 +23,42 @@
       }
     }
 
+    #shopify-section-{{ section.id }} .text-with-icons__item [class*="icon-block"],
+    #shopify-section-{{ section.id }} .text-with-icons__item .image-icon,
+    #shopify-section-{{ section.id }} .text-with-icons__item svg {
+      animation: text-with-icons-soft-float 3s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    #shopify-section-{{ section.id }} .text-with-icons__item:nth-child(2) [class*="icon-block"],
+    #shopify-section-{{ section.id }} .text-with-icons__item:nth-child(2) .image-icon,
+    #shopify-section-{{ section.id }} .text-with-icons__item:nth-child(2) svg {
+      animation-delay: .25s;
+    }
+
+    #shopify-section-{{ section.id }} .text-with-icons__item:nth-child(3) [class*="icon-block"],
+    #shopify-section-{{ section.id }} .text-with-icons__item:nth-child(3) .image-icon,
+    #shopify-section-{{ section.id }} .text-with-icons__item:nth-child(3) svg {
+      animation-delay: .5s;
+    }
+
+    @keyframes text-with-icons-soft-float {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-4px) scale(1.04);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #shopify-section-{{ section.id }} .text-with-icons__item [class*="icon-block"],
+      #shopify-section-{{ section.id }} .text-with-icons__item .image-icon,
+      #shopify-section-{{ section.id }} .text-with-icons__item svg {
+        animation: none;
+      }
+    }
+
     {%- if section.blocks.size <= 3 -%}
       @media screen and (min-width: 1000px) {
         #shopify-section-{{ section.id }} {
@@ -92,7 +128,7 @@
           {%- endfor -%}
         </scroll-carousel>
 
-        {%- if section.blocks.size > 1 -%}
+        {%- if section.blocks.size > 1 and section.settings.stack_on_mobile == false -%}
           <page-dots aria-controls="carousel-{{ section.id }}" class="page-dots peer-not-scrollable:hidden">
             {%- for index in (1..section.blocks.size) -%}
               <button type="button" class="tap-area" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
