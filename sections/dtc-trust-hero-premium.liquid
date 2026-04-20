@@ -1,0 +1,65 @@
+{% render 'section-spacing-collapsing' %}
+
+<style>
+#shopify-section-{{ section.id }} { --overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }}; }
+.dtc-hero { position:relative; min-height:80vh; overflow:hidden; color:#fff; }
+.dtc-hero video,.dtc-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dtc-hero__overlay{position:absolute;inset:0;background:rgba(0,0,0,var(--overlay))}
+.dtc-hero__content{position:relative;z-index:2;padding:80px 20px;max-width:900px}
+.dtc-hero__heading{font-size:clamp(36px,6vw,64px);font-weight:800}
+.dtc-hero__badges{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.dtc-hero__badge{background:rgba(255,255,255,0.15);padding:8px 12px;border-radius:20px;font-weight:700}
+.dtc-hero__badge.hot{background:rgba(255,80,50,0.3)}
+.dtc-hero__trust{display:flex;align-items:center;gap:6px;margin-top:16px}
+.dtc-hero__star{background:#00B67A;width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#fff}
+.dtc-hero__cta{margin-top:24px}
+.dtc-hero__usp{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+.dtc-hero__usp span{background:rgba(255,255,255,0.15);padding:8px 12px;border-radius:20px}
+</style>
+
+<section class="dtc-hero">
+{% if section.settings.video != blank %}
+{{ section.settings.video | video_tag: autoplay:true, loop:true, muted:true, playsinline:true }}
+{% elsif section.settings.image != blank %}
+{{ section.settings.image | image_url: width:2000 | image_tag }}
+{% endif %}
+<div class="dtc-hero__overlay"></div>
+<div class="dtc-hero__content container">
+<div class="dtc-hero__badges">
+<span class="dtc-hero__badge hot">🔥 {{ section.settings.urgency }}</span>
+<span class="dtc-hero__badge">🚚 {{ section.settings.shipping }}</span>
+</div>
+<h1 class="dtc-hero__heading">{{ section.settings.heading }}</h1>
+<div class="dtc-hero__trust">
+{% for i in (1..5) %}<div class="dtc-hero__star">★</div>{% endfor %}
+<span>{{ section.settings.trust }}</span>
+</div>
+<div class="dtc-hero__cta">{% render 'button', content: section.settings.button, href: section.settings.link, size: 'xl' %}</div>
+<div class="dtc-hero__usp">
+<span>{{ section.settings.usp1 }}</span>
+<span>{{ section.settings.usp2 }}</span>
+<span>{{ section.settings.usp3 }}</span>
+</div>
+</div>
+</section>
+
+{% schema %}
+{
+"name":"DTC Premium Hero",
+"settings":[
+{"type":"video","id":"video","label":"Video"},
+{"type":"image_picker","id":"image","label":"Fallback"},
+{"type":"range","id":"overlay_opacity","min":0,"max":80,"step":5,"default":50,"label":"Overlay"},
+{"type":"text","id":"urgency","label":"Urgency","default":"Bijna uitverkocht"},
+{"type":"text","id":"shipping","label":"Shipping","default":"Vandaag besteld = morgen in huis"},
+{"type":"text","id":"heading","label":"Heading","default":"Dit product verandert alles"},
+{"type":"text","id":"trust","label":"Trust","default":"4.8/5 op basis van 2000+ reviews"},
+{"type":"text","id":"button","label":"Button","default":"Shop nu"},
+{"type":"url","id":"link","label":"Link"},
+{"type":"text","id":"usp1","label":"USP 1","default":"Gratis verzending"},
+{"type":"text","id":"usp2","label":"USP 2","default":"30 dagen garantie"},
+{"type":"text","id":"usp3","label":"USP 3","default":"Snelle levering"}
+],
+"presets":[{"name":"DTC Premium Hero"}]
+}
+{% endschema %}
