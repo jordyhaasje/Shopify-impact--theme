@@ -4,6 +4,7 @@
   #shopify-section-{{ section.id }} {
     --hero-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
     --hero-card-bg: {{ section.settings.card_background.red }}, {{ section.settings.card_background.green }}, {{ section.settings.card_background.blue }};
+    --hero-rating-bg: {{ section.settings.rating_background.red }}, {{ section.settings.rating_background.green }}, {{ section.settings.rating_background.blue }};
     --hero-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
     --hero-muted: {{ section.settings.muted_color.red }}, {{ section.settings.muted_color.green }}, {{ section.settings.muted_color.blue }};
     --hero-accent: {{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }};
@@ -11,56 +12,46 @@
     --hero-border: {{ section.settings.border_color.red }}, {{ section.settings.border_color.green }}, {{ section.settings.border_color.blue }};
     --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
   }
-
-  #shopify-section-{{ section.id }} .hero-v1 { background: rgb(var(--hero-bg)); }
-
+  #shopify-section-{{ section.id }} .hero-v1 { background: rgb(var(--hero-bg)); overflow: hidden; }
   #shopify-section-{{ section.id }} .hero-v1__grid { display: grid; gap: 36px; align-items: center; }
-  #shopify-section-{{ section.id }} .hero-v1__grid--center { max-width: 940px; margin-inline: auto; text-align: center; }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center { max-width: 960px; margin-inline: auto; text-align: center; }
   #shopify-section-{{ section.id }} .hero-v1__content { display: grid; gap: 18px; }
-
-  #shopify-section-{{ section.id }} .hero-v1__eyebrow { display: inline-flex; width: fit-content; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: rgba(var(--hero-stars), 0.1); color: rgb(var(--hero-accent)); font-size: 13px; font-weight: 700; }
+  #shopify-section-{{ section.id }} .hero-v1__eyebrow { display: inline-flex; width: fit-content; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: rgba(var(--hero-stars), .1); color: rgb(var(--hero-accent)); font-size: 13px; font-weight: 700; }
   #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__eyebrow { margin-inline: auto; }
-
-  #shopify-section-{{ section.id }} .hero-v1__heading { margin: 0; max-width: 760px; color: rgb(var(--hero-text)); font-size: clamp(34px, 5.4vw, 68px); line-height: 1; letter-spacing: -0.045em; font-weight: 750; }
+  #shopify-section-{{ section.id }} .hero-v1__heading { margin: 0; max-width: 780px; color: rgb(var(--hero-text)); font-size: clamp(34px, 5.4vw, 70px); line-height: .98; letter-spacing: -.05em; font-weight: 760; }
   #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__heading { margin-inline: auto; }
-
-  #shopify-section-{{ section.id }} .hero-v1__subheading { max-width: 620px; color: rgb(var(--hero-muted)); font-size: 18px; line-height: 1.55; }
+  #shopify-section-{{ section.id }} .hero-v1__subheading { max-width: 640px; color: rgb(var(--hero-muted)); font-size: 18px; line-height: 1.55; }
   #shopify-section-{{ section.id }} .hero-v1__subheading p { margin: 0; }
   #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__subheading { margin-inline: auto; }
-
-  #shopify-section-{{ section.id }} .hero-v1__trust-card { display: inline-flex; width: fit-content; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid rgba(var(--hero-border), 0.9); border-radius: 16px; background: rgb(var(--hero-card-bg)); box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06); color: rgb(var(--hero-text)); }
-  #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__trust-card { margin-inline: auto; }
+  #shopify-section-{{ section.id }} .hero-v1__rating-wrap { display: flex; }
+  #shopify-section-{{ section.id }} .hero-v1__rating-wrap--left { justify-content: flex-start; }
+  #shopify-section-{{ section.id }} .hero-v1__rating-wrap--center { justify-content: center; }
+  #shopify-section-{{ section.id }} .hero-v1__rating-wrap--right { justify-content: flex-end; }
+  #shopify-section-{{ section.id }} .hero-v1__rating-card { display: inline-flex; align-items: center; gap: 14px; padding: {{ section.settings.rating_padding }}px; border: 1px solid rgba(var(--hero-border), .9); border-radius: {{ section.settings.rating_radius }}px; background: rgb(var(--hero-rating-bg)); box-shadow: 0 {{ section.settings.rating_shadow_y }}px 46px rgba(0,0,0,.08); color: rgb(var(--hero-text)); animation: heroV1Float 4.5s ease-in-out infinite; }
   #shopify-section-{{ section.id }} .hero-v1__stars { display: inline-flex; gap: 3px; }
-  #shopify-section-{{ section.id }} .hero-v1__star { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border-radius: 3px; background: rgb(var(--hero-stars)); color: #fff; font-size: 14px; line-height: 1; }
-  #shopify-section-{{ section.id }} .hero-v1__trust-copy { display: grid; gap: 1px; text-align: left; font-size: 13px; line-height: 1.25; }
-  #shopify-section-{{ section.id }} .hero-v1__trust-title { font-weight: 800; }
-  #shopify-section-{{ section.id }} .hero-v1__trust-meta { color: rgb(var(--hero-muted)); }
-
+  #shopify-section-{{ section.id }} .hero-v1__star { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border-radius: 3px; background: rgb(var(--hero-stars)); color: #fff; font-size: 14px; line-height: 1; animation: heroV1Pop .55s ease both; }
+  #shopify-section-{{ section.id }} .hero-v1__star:nth-child(2){animation-delay:.08s} #shopify-section-{{ section.id }} .hero-v1__star:nth-child(3){animation-delay:.16s} #shopify-section-{{ section.id }} .hero-v1__star:nth-child(4){animation-delay:.24s} #shopify-section-{{ section.id }} .hero-v1__star:nth-child(5){animation-delay:.32s}
+  #shopify-section-{{ section.id }} .hero-v1__rating-copy { display: grid; gap: 1px; text-align: left; font-size: 13px; line-height: 1.25; }
+  #shopify-section-{{ section.id }} .hero-v1__rating-title { font-weight: 850; }
+  #shopify-section-{{ section.id }} .hero-v1__rating-meta { color: rgb(var(--hero-muted)); }
   #shopify-section-{{ section.id }} .hero-v1__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__actions { justify-content: center; }
-
   #shopify-section-{{ section.id }} .hero-v1__blocks { display: flex; flex-wrap: wrap; gap: 10px; color: rgb(var(--hero-muted)); font-size: 13px; }
   #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__blocks { justify-content: center; }
-  #shopify-section-{{ section.id }} .hero-v1__block { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid rgba(var(--hero-border), 0.75); border-radius: 999px; background: rgba(var(--hero-card-bg), 0.72); }
+  #shopify-section-{{ section.id }} .hero-v1__block { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid rgba(var(--hero-border), .75); border-radius: 999px; background: rgba(var(--hero-card-bg), .72); animation: heroV1FadeUp .7s ease both; }
   #shopify-section-{{ section.id }} .hero-v1__check { color: rgb(var(--hero-stars)); font-weight: 800; }
-
-  #shopify-section-{{ section.id }} .hero-v1__media { position: relative; border-radius: {{ section.settings.image_radius }}px; overflow: hidden; background: rgba(var(--hero-stars), 0.08); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.1); }
-  #shopify-section-{{ section.id }} .hero-v1__image { display: block; width: 100%; height: auto; object-fit: cover; }
+  #shopify-section-{{ section.id }} .hero-v1__media { position: relative; border-radius: {{ section.settings.image_radius }}px; overflow: hidden; background: rgba(var(--hero-stars), .08); box-shadow: 0 24px 70px rgba(0,0,0,.1); animation: heroV1FadeUp .75s ease both; }
+  #shopify-section-{{ section.id }} .hero-v1__image { display: block; width: 100%; height: auto; object-fit: cover; transform: scale(1.015); animation: heroV1SlowZoom 9s ease-in-out infinite alternate; }
   #shopify-section-{{ section.id }} .hero-v1__image-placeholder { min-height: 420px; display: grid; place-items: center; color: rgb(var(--hero-muted)); text-align: center; padding: 32px; }
-
-  @media screen and (min-width: 900px) {
-    #shopify-section-{{ section.id }} .hero-v1__grid--split { grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr); text-align: left; }
-    #shopify-section-{{ section.id }} .hero-v1__grid--image_left { grid-template-columns: minmax(360px, 0.9fr) minmax(0, 1fr); }
-    #shopify-section-{{ section.id }} .hero-v1__grid--image_left .hero-v1__media { order: -1; }
-  }
-
-  @media screen and (max-width: 699px) {
-    #shopify-section-{{ section.id }} .hero-v1__grid { gap: 28px; text-align: center; }
-    #shopify-section-{{ section.id }} .hero-v1__eyebrow, #shopify-section-{{ section.id }} .hero-v1__trust-card { margin-inline: auto; }
-    #shopify-section-{{ section.id }} .hero-v1__actions, #shopify-section-{{ section.id }} .hero-v1__blocks { justify-content: center; }
-    #shopify-section-{{ section.id }} .hero-v1__trust-card { flex-direction: column; text-align: center; }
-    #shopify-section-{{ section.id }} .hero-v1__trust-copy { text-align: center; }
-  }
+  #shopify-section-{{ section.id }} .hero-v1__shine { position: absolute; inset: 0; background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.28) 45%, transparent 62%); transform: translateX(-120%); animation: heroV1Shine 5.5s ease-in-out infinite; pointer-events: none; }
+  @keyframes heroV1FadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes heroV1Float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes heroV1Pop { from { opacity: 0; transform: scale(.65) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+  @keyframes heroV1SlowZoom { from { transform: scale(1.015); } to { transform: scale(1.055); } }
+  @keyframes heroV1Shine { 0%,55% { transform: translateX(-120%); } 75%,100% { transform: translateX(120%); } }
+  @media screen and (min-width: 900px) { #shopify-section-{{ section.id }} .hero-v1__grid--split { grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr); text-align: left; } #shopify-section-{{ section.id }} .hero-v1__grid--image_left { grid-template-columns: minmax(360px, .9fr) minmax(0, 1fr); } #shopify-section-{{ section.id }} .hero-v1__grid--image_left .hero-v1__media { order: -1; } }
+  @media screen and (max-width: 699px) { #shopify-section-{{ section.id }} .hero-v1__grid { gap: 28px; text-align: center; } #shopify-section-{{ section.id }} .hero-v1__eyebrow { margin-inline: auto; } #shopify-section-{{ section.id }} .hero-v1__rating-wrap { justify-content: center; } #shopify-section-{{ section.id }} .hero-v1__actions, #shopify-section-{{ section.id }} .hero-v1__blocks { justify-content: center; } #shopify-section-{{ section.id }} .hero-v1__rating-card { flex-direction: column; text-align: center; } #shopify-section-{{ section.id }} .hero-v1__rating-copy { text-align: center; } }
+  @media (prefers-reduced-motion: reduce) { #shopify-section-{{ section.id }} * { animation: none !important; transition: none !important; } }
 </style>
 
 <section class="hero-v1">
@@ -71,79 +62,16 @@
           {%- if section.settings.eyebrow != blank -%}<div class="hero-v1__eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
           {%- if section.settings.heading != blank -%}<h1 class="hero-v1__heading">{{ section.settings.heading }}</h1>{%- endif -%}
           {%- if section.settings.subheading != blank -%}<div class="hero-v1__subheading rte">{{ section.settings.subheading }}</div>{%- endif -%}
-
-          {%- if section.settings.show_trust -%}
-            <div class="hero-v1__trust-card" aria-label="{{ section.settings.trust_title | escape }} {{ section.settings.trust_meta | escape }}">
-              <div class="hero-v1__stars" aria-hidden="true">{%- for i in (1..5) -%}<span class="hero-v1__star">★</span>{%- endfor -%}</div>
-              <div class="hero-v1__trust-copy"><span class="hero-v1__trust-title">{{ section.settings.trust_title | escape }}</span><span class="hero-v1__trust-meta">{{ section.settings.trust_meta | escape }}</span></div>
-            </div>
-          {%- endif -%}
-
-          <div class="hero-v1__actions">
-            {%- if section.settings.button_1_label != blank -%}{% render 'button', content: section.settings.button_1_label, href: section.settings.button_1_link, size: 'lg', style: 'fill', background: section.settings.primary_button_background, text_color: section.settings.primary_button_text %}{%- endif -%}
-            {%- if section.settings.button_2_label != blank -%}{% render 'button', content: section.settings.button_2_label, href: section.settings.button_2_link, size: 'lg', style: 'outline', text_color: section.settings.text_color %}{%- endif -%}
-          </div>
-
-          {%- if section.blocks.size > 0 -%}
-            <div class="hero-v1__blocks">
-              {%- for block in section.blocks -%}
-                <div class="hero-v1__block" {{ block.shopify_attributes }}><span class="hero-v1__check">✓</span><span>{{ block.settings.text | escape }}</span></div>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
+          {%- if section.settings.show_rating -%}<div class="hero-v1__rating-wrap hero-v1__rating-wrap--{{ section.settings.rating_position }}"><div class="hero-v1__rating-card" aria-label="{{ section.settings.rating_title | escape }} {{ section.settings.rating_meta | escape }}"><div class="hero-v1__stars" aria-hidden="true">{%- for i in (1..5) -%}<span class="hero-v1__star">★</span>{%- endfor -%}</div><div class="hero-v1__rating-copy"><span class="hero-v1__rating-title">{{ section.settings.rating_title | escape }}</span><span class="hero-v1__rating-meta">{{ section.settings.rating_meta | escape }}</span></div></div></div>{%- endif -%}
+          <div class="hero-v1__actions">{%- if section.settings.button_1_label != blank -%}{% render 'button', content: section.settings.button_1_label, href: section.settings.button_1_link, size: 'lg', style: 'fill', background: section.settings.primary_button_background, text_color: section.settings.primary_button_text %}{%- endif -%}{%- if section.settings.button_2_label != blank -%}{% render 'button', content: section.settings.button_2_label, href: section.settings.button_2_link, size: 'lg', style: 'outline', text_color: section.settings.text_color %}{%- endif -%}</div>
+          {%- if section.blocks.size > 0 -%}<div class="hero-v1__blocks">{%- for block in section.blocks -%}<div class="hero-v1__block" {{ block.shopify_attributes }}><span class="hero-v1__check">✓</span><span>{{ block.settings.text | escape }}</span></div>{%- endfor -%}</div>{%- endif -%}
         </div>
-
-        {%- unless section.settings.layout == 'center' -%}
-          <div class="hero-v1__media">
-            {%- if section.settings.image != blank -%}
-              {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400,600,800,1000,1200', class: 'hero-v1__image', alt: section.settings.image.alt | default: section.settings.heading }}
-            {%- else -%}
-              <div class="hero-v1__image-placeholder">Voeg een hero afbeelding toe in de Shopify customizer</div>
-            {%- endif -%}
-          </div>
-        {%- endunless -%}
+        {%- unless section.settings.layout == 'center' -%}<div class="hero-v1__media">{%- if section.settings.image != blank -%}{{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400,600,800,1000,1200', class: 'hero-v1__image', alt: section.settings.image.alt | default: section.settings.heading }}{%- else -%}<div class="hero-v1__image-placeholder">Voeg een hero afbeelding toe in de Shopify customizer</div>{%- endif -%}{%- if section.settings.show_image_shine -%}<span class="hero-v1__shine"></span>{%- endif -%}</div>{%- endunless -%}
       </div>
     </div>
   </div>
 </section>
 
 {% schema %}
-{
-  "name": "Hero v2 (Trustpilot)",
-  "settings": [
-    {"type":"select","id":"layout","label":"Layout","default":"split","options":[{"value":"split","label":"Text left, image right"},{"value":"image_left","label":"Image left, text right"},{"value":"center","label":"Centered without image"}]},
-    {"type":"text","id":"eyebrow","label":"Small label","default":"Excellent op Trustpilot"},
-    {"type":"inline_richtext","id":"heading","label":"Heading","default":"Meer dan 10.000 klanten beoordelen ons met 4.8/5"},
-    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Ontdek waarom zoveel klanten kiezen voor onze producten. Snel geleverd, betrouwbaar en beoordeeld met uitstekende reviews.</p>"},
-    {"type":"image_picker","id":"image","label":"Hero image"},
-    {"type":"range","id":"image_radius","label":"Image corner radius","min":0,"max":40,"step":2,"default":24},
-    {"type":"header","content":"Trustpilot style"},
-    {"type":"checkbox","id":"show_trust","label":"Show trust block","default":true},
-    {"type":"text","id":"trust_title","label":"Trust title","default":"Excellent 4.8/5"},
-    {"type":"text","id":"trust_meta","label":"Trust meta","default":"Gebaseerd op 1.200+ reviews"},
-    {"type":"header","content":"Buttons"},
-    {"type":"text","id":"button_1_label","label":"Primary button","default":"Shop nu"},
-    {"type":"url","id":"button_1_link","label":"Primary link"},
-    {"type":"text","id":"button_2_label","label":"Secondary button","default":"Bekijk reviews"},
-    {"type":"url","id":"button_2_link","label":"Secondary link"},
-    {"type":"header","content":"Layout"},
-    {"type":"range","id":"section_spacing","min":0,"max":100,"step":4,"default":64,"label":"Section spacing"},
-    {"type":"header","content":"Colors"},
-    {"type":"color","id":"background","default":"#F7FBF8","label":"Background"},
-    {"type":"color","id":"card_background","default":"#FFFFFF","label":"Card background"},
-    {"type":"color","id":"text_color","default":"#101828","label":"Text color"},
-    {"type":"color","id":"muted_color","default":"#667085","label":"Muted text"},
-    {"type":"color","id":"accent_color","default":"#00B67A","label":"Accent"},
-    {"type":"color","id":"stars_color","default":"#00B67A","label":"Stars color"},
-    {"type":"color","id":"border_color","default":"#DDE7E1","label":"Border color"},
-    {"type":"color","id":"primary_button_background","default":"#00B67A","label":"Primary button background"},
-    {"type":"color","id":"primary_button_text","default":"#FFFFFF","label":"Primary button text"}
-  ],
-  "blocks": [
-    {"type":"benefit","name":"Trust badge","settings":[{"type":"text","id":"text","label":"Text","default":"Gratis verzending"}]}
-  ],
-  "presets": [
-    {"name":"Hero v2 Trustpilot","category":"Hero","blocks":[{"type":"benefit","settings":{"text":"Gratis verzending"}},{"type":"benefit","settings":{"text":"30 dagen retour"}},{"type":"benefit","settings":{"text":"Veilig betalen"}}]}
-  ]
-}
+{"name":"Hero v3 (Trustpilot)","settings":[{"type":"select","id":"layout","label":"Layout","default":"split","options":[{"value":"split","label":"Text left, image right"},{"value":"image_left","label":"Image left, text right"},{"value":"center","label":"Centered without image"}]},{"type":"text","id":"eyebrow","label":"Small label","default":"Excellent op Trustpilot"},{"type":"inline_richtext","id":"heading","label":"Heading","default":"Meer dan 10.000 klanten beoordelen ons met 4.8/5"},{"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Ontdek waarom zoveel klanten kiezen voor onze producten. Snel geleverd, betrouwbaar en beoordeeld met uitstekende reviews.</p>"},{"type":"image_picker","id":"image","label":"Hero image"},{"type":"range","id":"image_radius","label":"Image corner radius","min":0,"max":40,"step":2,"default":24},{"type":"checkbox","id":"show_image_shine","label":"Animate shine over image","default":true},{"type":"header","content":"Rating block"},{"type":"checkbox","id":"show_rating","label":"Show rating block","default":true},{"type":"select","id":"rating_position","label":"Rating position","default":"left","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"},{"value":"right","label":"Right"}]},{"type":"text","id":"rating_title","label":"Rating title","default":"Excellent 4.8/5"},{"type":"text","id":"rating_meta","label":"Rating meta","default":"Gebaseerd op 1.200+ reviews"},{"type":"color","id":"rating_background","default":"#FFFFFF","label":"Rating background"},{"type":"range","id":"rating_padding","label":"Rating padding","min":8,"max":28,"step":2,"default":14},{"type":"range","id":"rating_radius","label":"Rating corner radius","min":0,"max":32,"step":2,"default":16},{"type":"range","id":"rating_shadow_y","label":"Rating shadow height","min":0,"max":32,"step":2,"default":14},{"type":"header","content":"Buttons"},{"type":"text","id":"button_1_label","label":"Primary button","default":"Shop nu"},{"type":"url","id":"button_1_link","label":"Primary link"},{"type":"text","id":"button_2_label","label":"Secondary button","default":"Bekijk reviews"},{"type":"url","id":"button_2_link","label":"Secondary link"},{"type":"header","content":"Layout"},{"type":"range","id":"section_spacing","min":0,"max":100,"step":4,"default":64,"label":"Section spacing"},{"type":"header","content":"Colors"},{"type":"color","id":"background","default":"#F7FBF8","label":"Background"},{"type":"color","id":"card_background","default":"#FFFFFF","label":"Badge background"},{"type":"color","id":"text_color","default":"#101828","label":"Text color"},{"type":"color","id":"muted_color","default":"#667085","label":"Muted text"},{"type":"color","id":"accent_color","default":"#00B67A","label":"Accent"},{"type":"color","id":"stars_color","default":"#00B67A","label":"Stars color"},{"type":"color","id":"border_color","default":"#DDE7E1","label":"Border color"},{"type":"color","id":"primary_button_background","default":"#00B67A","label":"Primary button background"},{"type":"color","id":"primary_button_text","default":"#FFFFFF","label":"Primary button text"}],"blocks":[{"type":"benefit","name":"Trust badge","settings":[{"type":"text","id":"text","label":"Text","default":"Gratis verzending"}]}],"presets":[{"name":"Hero v3 Trustpilot","category":"Hero","blocks":[{"type":"benefit","settings":{"text":"Gratis verzending"}},{"type":"benefit","settings":{"text":"30 dagen retour"}},{"type":"benefit","settings":{"text":"Veilig betalen"}}]}]}
 {% endschema %}
