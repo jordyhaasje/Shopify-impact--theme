@@ -1126,65 +1126,73 @@
         "video_button_text_color": "#ffffff"
       }
     },
-    "collections_slider_XLQ9JD": {
-      "type": "collections-slider",
+    "collections_carousel_3nC4XA": {
+      "type": "collections-carousel",
       "blocks": {
-        "collection_card_R6axKx": {
+        "collection_card_xcidfP": {
           "type": "collection_card",
           "settings": {
-            "collection": "frontpage",
-            "image": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
+            "collection": "",
+            "label": "",
+            "custom_url": ""
+          }
+        },
+        "collection_card_f9Mrzb": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
             "label": "Easter sale",
-            "custom_link": ""
+            "custom_url": ""
           }
         },
-        "collection_card_JW4npg": {
+        "collection_card_yw8gWn": {
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "image": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
             "label": "Toppers",
-            "custom_link": ""
+            "custom_url": ""
           }
         },
-        "collection_card_bHKfYx": {
+        "collection_card_489WJU": {
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "image": "shopify://shop_images/2_dd19edbb-9b84-42c4-b3c5-38590d4a213a.jpg",
             "label": "Hoofdkussens",
-            "custom_link": ""
+            "custom_url": ""
           }
         },
-        "collection_card_W8KMFn": {
+        "collection_card_9d7RAH": {
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "image": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
             "label": "Matrassen",
-            "custom_link": ""
+            "custom_url": ""
           }
         }
       },
       "block_order": [
-        "collection_card_R6axKx",
-        "collection_card_JW4npg",
-        "collection_card_bHKfYx",
-        "collection_card_W8KMFn"
+        "collection_card_xcidfP",
+        "collection_card_f9Mrzb",
+        "collection_card_yw8gWn",
+        "collection_card_489WJU",
+        "collection_card_9d7RAH"
       ],
-      "name": "Collections slider",
+      "name": "Collecties carousel",
       "settings": {
         "heading": "Ontdek onze",
         "heading_accent": "collecties",
         "section_spacing": 48,
-        "cards_visible": 4,
-        "cards_visible_mobile": 2,
+        "desktop_card_width": 304,
+        "mobile_card_width": 260,
+        "card_height": 300,
         "card_gap": 12,
-        "card_radius": 16,
-        "card_min_height": 290,
+        "card_radius": 12,
         "background": "#ffffff",
         "heading_color": "#1A1A1A",
-        "label_color": "#FFFFFF"
+        "accent_color": "#1A1A1A",
+        "label_text_color": "#FFFFFF",
+        "nav_background": "#FFFFFF",
+        "nav_color": "#1A1A1A"
       }
     }
   },
@@ -1208,6 +1216,6 @@
     "reviews_showcase_cnrNRm",
     "text_with_icons_qpRaQ8",
     "live_your_dreams_hNBD9A",
-    "collections_slider_XLQ9JD"
+    "collections_carousel_3nC4XA"
   ]
 }
