@@ -1,0 +1,144 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --hero-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --hero-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --hero-muted: {{ section.settings.muted_color.red }}, {{ section.settings.muted_color.green }}, {{ section.settings.muted_color.blue }};
+    --hero-accent: {{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }};
+    --hero-stars: {{ section.settings.stars_color.red }}, {{ section.settings.stars_color.green }}, {{ section.settings.stars_color.blue }};
+    --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1 {
+    background: rgb(var(--hero-bg));
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1__inner {
+    text-align: center;
+    max-width: 840px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1__heading {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 700;
+    color: rgb(var(--hero-text));
+    line-height: 1.05;
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1__subheading {
+    font-size: 18px;
+    color: rgb(var(--hero-muted));
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1__trust {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: rgb(var(--hero-text));
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1__stars {
+    display: inline-flex;
+    gap: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1__star {
+    width: 18px;
+    height: 18px;
+    background: rgb(var(--hero-stars));
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-v1__actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+</style>
+
+<section class="hero-v1">
+  <div {% render 'section-properties', background: section.settings.background, text_color: section.settings.text_color %}>
+    <div class="container">
+      <div class="hero-v1__inner">
+
+        {%- if section.settings.heading != blank -%}
+          <h1 class="hero-v1__heading">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <div class="hero-v1__subheading rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.show_trust -%}
+          <div class="hero-v1__trust">
+            <div class="hero-v1__stars">
+              {%- for i in (1..5) -%}
+                <span class="hero-v1__star">★</span>
+              {%- endfor -%}
+            </div>
+            <span>{{ section.settings.trust_text }}</span>
+          </div>
+        {%- endif -%}
+
+        <div class="hero-v1__actions">
+          {%- if section.settings.button_1_label != blank -%}
+            {% render 'button', content: section.settings.button_1_label, href: section.settings.button_1_link, size: 'lg' %}
+          {%- endif -%}
+
+          {%- if section.settings.button_2_label != blank -%}
+            {% render 'button', content: section.settings.button_2_label, href: section.settings.button_2_link, size: 'lg', style: 'outline' %}
+          {%- endif -%}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero v1 (Trustpilot)",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"Rated 4.8/5 by thousands of happy customers"},
+    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Join the growing number of customers who trust our product.</p>"},
+
+    {"type":"checkbox","id":"show_trust","label":"Show trust row","default":true},
+    {"type":"text","id":"trust_text","label":"Trust text","default":"TrustScore 4.8 | 1,200+ reviews"},
+
+    {"type":"text","id":"button_1_label","label":"Primary button","default":"Shop now"},
+    {"type":"url","id":"button_1_link","label":"Primary link"},
+
+    {"type":"text","id":"button_2_label","label":"Secondary button","default":"Learn more"},
+    {"type":"url","id":"button_2_link","label":"Secondary link"},
+
+    {"type":"header","content":"Layout"},
+    {"type":"range","id":"section_spacing","min":0,"max":80,"step":4,"default":48,"label":"Section spacing"},
+
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background","default":"#ffffff","label":"Background"},
+    {"type":"color","id":"text_color","default":"#111111","label":"Text color"},
+    {"type":"color","id":"muted_color","default":"#666666","label":"Muted text"},
+    {"type":"color","id":"accent_color","default":"#00B67A","label":"Accent"},
+    {"type":"color","id":"stars_color","default":"#00B67A","label":"Stars color"}
+  ],
+  "presets": [
+    {
+      "name": "Hero v1",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}
