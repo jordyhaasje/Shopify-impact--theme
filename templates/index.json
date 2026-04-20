@@ -856,100 +856,6 @@
         "accordion_text_color": ""
       }
     },
-    "video_social_results_AMyFmP": {
-      "type": "video-social-results",
-      "blocks": {
-        "video_card_4DDjEY": {
-          "type": "video_card",
-          "settings": {
-            "alt_text": "",
-            "autoplay": true,
-            "loop_video": true
-          }
-        },
-        "video_card_tHzfGf": {
-          "type": "video_card",
-          "settings": {
-            "alt_text": "",
-            "autoplay": true,
-            "loop_video": true
-          }
-        },
-        "video_card_jn6e7x": {
-          "type": "video_card",
-          "settings": {
-            "alt_text": "",
-            "autoplay": true,
-            "loop_video": true
-          }
-        },
-        "stat_nPe3wg": {
-          "type": "stat",
-          "settings": {
-            "percentage": 95,
-            "text": "of participants reported their skin felt firmer"
-          }
-        },
-        "stat_cqgmeW": {
-          "type": "stat",
-          "settings": {
-            "percentage": 93,
-            "text": "of participants reported their acne appeared less visible"
-          }
-        },
-        "stat_qCtiLK": {
-          "type": "stat",
-          "settings": {
-            "percentage": 87,
-            "text": "of participants reported that their skin was brighter and plumper"
-          }
-        }
-      },
-      "block_order": [
-        "video_card_4DDjEY",
-        "video_card_tHzfGf",
-        "video_card_jn6e7x",
-        "stat_nPe3wg",
-        "stat_cqgmeW",
-        "stat_qCtiLK"
-      ],
-      "name": "Video social results",
-      "settings": {
-        "heading": "Real Results",
-        "footnote": "* Observed in a 3-week clinical study of 96 participants ages 18-29",
-        "button_label": "Shop now",
-        "button_link": "",
-        "section_max_width": 1680,
-        "panel_gap": 72,
-        "card_width": 262,
-        "card_height": 472,
-        "cards_gap": 22,
-        "visible_cards": 3,
-        "mobile_card_width": 216,
-        "mobile_card_height": 360,
-        "visible_cards_mobile": "1",
-        "mobile_cards_gap": 14,
-        "card_radius": 12,
-        "stat_circle_size": 118,
-        "stat_stroke": 8,
-        "video_progress_width": 24,
-        "enable_autoplay": false,
-        "autoplay_speed": 5,
-        "slide_duration": 600,
-        "background": "#f3f3f3",
-        "heading_color": "#202020",
-        "text_color": "#5a5a5a",
-        "accent_color": "#f36c83",
-        "progress_track": "#f5d9de",
-        "divider_color": "#dfd7dd",
-        "button_background": "#f36c83",
-        "button_text_color": "#ffffff",
-        "padding_top": 84,
-        "padding_bottom": 84,
-        "mobile_padding_top": 48,
-        "mobile_padding_bottom": 48
-      }
-    },
     "reviews_showcase_cnrNRm": {
       "type": "reviews-showcase",
       "blocks": {
@@ -959,7 +865,7 @@
             "name": "Sofie Jensen",
             "role": "Driftschef hos...",
             "rating": 4,
-            "review_text": "Jeg var skeptisk i starten, men efter den 14-dages pr\u00f8veperiode kunne jeg slet ikke forestille mig at g\u00e5 tilbage til regneark. Brugerfladen er utrolig intuitiv, og integrationen med Slack g\u00f8r kommunikationen helt problemfri. De avancerede funktioner har virkelig revolutioneret min arbejdsdag, sparet mig v\u00e6rdifuld tid og reduceret fejl.",
+            "review_text": "Jeg var skeptisk i starten, men efter den 14-dages prøveperiode kunne jeg slet ikke forestille mig at gå tilbage til regneark. Brugerfladen er utrolig intuitiv, og integrationen med Slack gør kommunikationen helt problemfri. De avancerede funktioner har virkelig revolutioneret min arbejdsdag, sparet mig værdifuld tid og reduceret fejl.",
             "highlight_1": "utrolig intuitiv",
             "highlight_2": "",
             "highlight_3": ""
@@ -971,8 +877,8 @@
             "name": "Mikkel Thorne",
             "role": "Founder & CEO, Thorne...",
             "rating": 5,
-            "review_text": "Vi pr\u00f8vede omkring fem forskellige platforme, f\u00f8r vi landede p\u00e5 denne. Den rammer den perfekte balance mellem avancerede funktioner og at v\u00e6re s\u00e5 enkel, at nye medarbejdere kan l\u00e6re den p\u00e5 \u00e9n dag.",
-            "highlight_1": "perfekte balance mellem avancerede funktioner og at v\u00e6re s\u00e5 enkel",
+            "review_text": "Vi prøvede omkring fem forskellige platforme, før vi landede på denne. Den rammer den perfekte balance mellem avancerede funktioner og at være så enkel, at nye medarbejdere kan lære den på én dag.",
+            "highlight_1": "perfekte balance mellem avancerede funktioner og at være så enkel",
             "highlight_2": "",
             "highlight_3": ""
           }
@@ -983,7 +889,7 @@
             "name": "David Chen",
             "role": "Freelance webudvikler",
             "rating": 5,
-            "review_text": "Jeg skriver sj\u00e6ldent anmeldelser, men jeg var n\u00f8dt til at rose supportteamet. Jeg havde et synkroniseringsproblem en s\u00f8ndag, og Mark l\u00f8ste det inden for 20 minutter. Fantastisk produkt, endnu bedre mennesker.",
+            "review_text": "Jeg skriver sjældent anmeldelser, men jeg var nødt til at rose supportteamet. Jeg havde et synkroniseringsproblem en søndag, og Mark løste det inden for 20 minutter. Fantastisk produkt, endnu bedre mennesker.",
             "highlight_1": "Fantastisk produkt, endnu bedre mennesker",
             "highlight_2": "",
             "highlight_3": ""
@@ -995,7 +901,7 @@
             "name": "Jessica Park",
             "role": "Kreativ leder",
             "rating": 5,
-            "review_text": "Jeg var virkelig nerv\u00f8s for at flytte vores data fra det gamle system. Onboarding-teamet klarede det hele, og vi var oppe at k\u00f8re uden nogen nedetid. Fantastisk service.",
+            "review_text": "Jeg var virkelig nervøs for at flytte vores data fra det gamle system. Onboarding-teamet klarede det hele, og vi var oppe at køre uden nogen nedetid. Fantastisk service.",
             "highlight_1": "uden nogen nedetid",
             "highlight_2": "",
             "highlight_3": ""
@@ -1041,67 +947,6 @@
         "stars_empty_color": "#d9dde3"
       }
     },
-    "text_with_icons_qpRaQ8": {
-      "type": "text-with-icons",
-      "blocks": {
-        "item_Pkb88L": {
-          "type": "item",
-          "settings": {
-            "icon": "picto-coupon",
-            "mobile_icon_width": 24,
-            "icon_width": 32,
-            "icon_background_type": "circle",
-            "icon_background": "",
-            "icon_color": "",
-            "title": "Free shipping",
-            "content": "<p>Free worldwide shipping and returns - customs and duties taxes included</p>"
-          }
-        },
-        "item_myCzEE": {
-          "type": "item",
-          "settings": {
-            "icon": "picto-coupon",
-            "mobile_icon_width": 24,
-            "icon_width": 32,
-            "icon_background_type": "circle",
-            "icon_background": "",
-            "icon_color": "",
-            "title": "Customer service",
-            "content": "<p>We are available from monday to friday to answer your questions.</p>"
-          }
-        },
-        "item_UEbchh": {
-          "type": "item",
-          "settings": {
-            "icon": "picto-coupon",
-            "mobile_icon_width": 24,
-            "icon_width": 32,
-            "icon_background_type": "circle",
-            "icon_background": "",
-            "icon_color": "",
-            "title": "Secure payment",
-            "content": "<p>Your payment information is processed securely.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "item_Pkb88L",
-        "item_myCzEE",
-        "item_UEbchh"
-      ],
-      "name": "Text with icons",
-      "settings": {
-        "full_width": true,
-        "stack_on_mobile": false,
-        "title": "",
-        "heading_tag": "h5",
-        "text_alignment": "center",
-        "icon_spacing": "medium",
-        "background": "",
-        "background_gradient": "",
-        "text_color": ""
-      }
-    },
     "live_your_dreams_hNBD9A": {
       "type": "live-your-dreams",
       "name": "Live your dreams",
@@ -1112,7 +957,7 @@
         "heading": "Live your",
         "heading_italic": "dreams",
         "heading_suffix": ".",
-        "body_text": "<p>Je leeft maar \u00e9\u00e9n keer, dus haal alles eruit! Doe waar jij \u00e9cht gelukkig van wordt. En als de dag erop zit, leg je hoofd dan op een Cloudpillo om op te laden voor het leven.</p>",
+        "body_text": "<p>Je leeft maar één keer, dus haal alles eruit! Doe waar jij écht gelukkig van wordt. En als de dag erop zit, leg je hoofd dan op een Cloudpillo om op te laden voor het leven.</p>",
         "button_label": "Ons verhaal",
         "button_link": "",
         "section_spacing": 48,
@@ -1126,65 +971,65 @@
         "video_button_text_color": "#ffffff"
       }
     },
-    "collections_carousel_DWrzrP": {
+    "hazify_test_collections_slider_gVrXUB": {
       "type": "hazify-test-collections-slider",
       "blocks": {
-        "card_spring": {
+        "collection_card_QPATYM": {
           "type": "collection_card",
           "settings": {
-            "title": "Spring deals",
             "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/winter-deals-collection-card-shadow.webp?v=1770303665&width=668",
+            "title": "Spring deals",
             "link": ""
           }
         },
-        "card_toppers": {
+        "collection_card_9AUztz": {
           "type": "collection_card",
           "settings": {
-            "title": "Toppers",
             "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/toppers-collection-card-shadow.webp?v=1770303689&width=668",
+            "title": "Toppers",
             "link": ""
           }
         },
-        "card_pillows": {
+        "collection_card_kEPEYB": {
           "type": "collection_card",
           "settings": {
-            "title": "Hoofdkussens",
             "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/pillows-deals-collection-card-shadow.webp?v=1770303670&width=668",
+            "title": "Hoofdkussens",
             "link": ""
           }
         },
-        "card_mattresses": {
+        "collection_card_g8Np9H": {
           "type": "collection_card",
           "settings": {
-            "title": "Matrassen",
             "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/flex-mattress-collection-card-shadow.webp?v=1770303680&width=668",
+            "title": "Matrassen",
             "link": ""
           }
         },
-        "card_bedding": {
+        "collection_card_ntVQEA": {
           "type": "collection_card",
           "settings": {
-            "title": "Beddengoed",
             "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/bedding-collection-card-shadow.webp?v=1770303684&width=668",
+            "title": "Beddengoed",
             "link": ""
           }
         },
-        "card_duvets": {
+        "collection_card_rc9Qwd": {
           "type": "collection_card",
           "settings": {
-            "title": "Dekbedden",
             "fallback_image_url": "https://cloudpillo.com/cdn/shop/files/duvet-collection-card-shadow.webp?v=1770303698&width=668",
+            "title": "Dekbedden",
             "link": ""
           }
         }
       },
       "block_order": [
-        "card_spring",
-        "card_toppers",
-        "card_pillows",
-        "card_mattresses",
-        "card_bedding",
-        "card_duvets"
+        "collection_card_QPATYM",
+        "collection_card_9AUztz",
+        "collection_card_kEPEYB",
+        "collection_card_g8Np9H",
+        "collection_card_ntVQEA",
+        "collection_card_rc9Qwd"
       ],
       "name": "Hazify test collections",
       "settings": {
@@ -1195,7 +1040,7 @@
         "desktop_card_width": 300,
         "card_gap": 8,
         "card_radius": 18,
-        "background": "#ecebe4",
+        "background": "#ffffff",
         "heading_color": "#191d23"
       }
     }
@@ -1216,10 +1061,8 @@
     "featured-product",
     "feature-chart",
     "faq",
-    "video_social_results_AMyFmP",
     "reviews_showcase_cnrNRm",
-    "text_with_icons_qpRaQ8",
     "live_your_dreams_hNBD9A",
-    "collections_carousel_DWrzrP"
+    "hazify_test_collections_slider_gVrXUB"
   ]
 }
