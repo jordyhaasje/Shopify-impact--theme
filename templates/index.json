@@ -1172,7 +1172,7 @@
         "rating_position": "left",
         "rating_title": "Excellent 4.8/5",
         "rating_meta": "Gebaseerd op 1.200+ reviews",
-        "rating_background": "#FFFFFF",
+        "rating_background": "#ffffff",
         "rating_padding": 8,
         "rating_radius": 0,
         "rating_shadow_y": 0,
@@ -1182,14 +1182,47 @@
         "button_2_link": "",
         "section_spacing": 100,
         "background": "#ffffff",
-        "card_background": "#FFFFFF",
+        "card_background": "#ffffff",
         "text_color": "#101828",
         "muted_color": "#667085",
-        "accent_color": "#00B67A",
-        "stars_color": "#00B67A",
+        "accent_color": "#00b67a",
+        "stars_color": "#00b67a",
         "border_color": "#ffffff",
-        "primary_button_background": "#00B67A",
-        "primary_button_text": "#FFFFFF"
+        "primary_button_background": "#00b67a",
+        "primary_button_text": "#ffffff"
+      }
+    },
+    "video_trust_header_9Dpg7U": {
+      "type": "video-trust-header",
+      "name": "Video Trust Header",
+      "settings": {
+        "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
+        "overlay_opacity": 40,
+        "heading": "Vertrouwd door duizenden klanten",
+        "subheading": "<p>Bekijk waarom iedereen ons aanbeveelt</p>",
+        "review_text": "4.8/5 gebaseerd op 2.000+ reviews",
+        "usp_1": "Gratis verzending",
+        "usp_2": "30 dagen garantie",
+        "usp_3": "Snelle levering",
+        "button_label": "Shop nu",
+        "button_link": ""
+      }
+    },
+    "dtc_trust_hero_premium_NgkXPB": {
+      "type": "dtc-trust-hero-premium",
+      "name": "DTC Premium Hero",
+      "settings": {
+        "image": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "overlay_opacity": 50,
+        "urgency": "Bijna uitverkocht",
+        "shipping": "Vandaag besteld = morgen in huis",
+        "heading": "Dit product verandert alles",
+        "trust": "4.8/5 op basis van 2000+ reviews",
+        "button": "Shop nu",
+        "link": "",
+        "usp1": "Gratis verzending",
+        "usp2": "30 dagen garantie",
+        "usp3": "Snelle levering"
       }
     }
   },
@@ -1213,6 +1246,8 @@
     "live_your_dreams_hNBD9A",
     "hazify_test_collections_slider_gVrXUB",
     "trustpilot_reviews_RHAF3G",
-    "hero_v1_CMidUq"
+    "hero_v1_CMidUq",
+    "video_trust_header_9Dpg7U",
+    "dtc_trust_hero_premium_NgkXPB"
   ]
 }
