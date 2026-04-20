@@ -1043,6 +1043,96 @@
         "background": "#ffffff",
         "heading_color": "#191d23"
       }
+    },
+    "trustpilot_reviews_RHAF3G": {
+      "type": "trustpilot-reviews",
+      "blocks": {
+        "review_jVgtLr": {
+          "type": "review",
+          "settings": {
+            "review_title": "Een heerlijk kussen",
+            "review_text": "Een heerlijk kussen, wat goed aan te passen is naar gewenste behoefte en steun. Top",
+            "author": "Joke Boekhout",
+            "date": "vandaag",
+            "rating": 5
+          }
+        },
+        "review_DV8G9B": {
+          "type": "review",
+          "settings": {
+            "review_title": "Cloudpillo kussen",
+            "review_text": "Slaap is een belangrijk onderdeel tijdens mijn training. Daarin gekozen voor het cloudpillo kussen. Het bevordert mn herstel door een betere slaap.",
+            "author": "Mark Stable",
+            "date": "vandaag",
+            "rating": 5
+          }
+        },
+        "review_83mGD7": {
+          "type": "review",
+          "settings": {
+            "review_title": "heerlijk dekbedovertrwek en topper",
+            "review_text": "heerlijk dekbedovertrwek en topper",
+            "author": "Sil",
+            "date": "vandaag",
+            "rating": 5
+          }
+        },
+        "review_E8iaEL": {
+          "type": "review",
+          "settings": {
+            "review_title": "Delivery service perfect!",
+            "review_text": "Delivery service perfect! Product good and comfortabel",
+            "author": "Pia Hoek",
+            "date": "vandaag",
+            "rating": 5
+          }
+        },
+        "review_eQaWey": {
+          "type": "review",
+          "settings": {
+            "review_title": "Het ideale dekbedovertrek",
+            "review_text": "Ik ken het dekbedovertrek al, ze zijn door de rits zo makkelijk te vervangen en deze nieuwe kleuren zijn top!",
+            "author": "Lenie",
+            "date": "vandaag",
+            "rating": 5
+          }
+        },
+        "review_cndXHM": {
+          "type": "review",
+          "settings": {
+            "review_title": "9.5 prima",
+            "review_text": "Goede kwaliteit, snelle levering en prima service.",
+            "author": "Klant",
+            "date": "vandaag",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "review_jVgtLr",
+        "review_DV8G9B",
+        "review_83mGD7",
+        "review_E8iaEL",
+        "review_eQaWey",
+        "review_cndXHM"
+      ],
+      "name": "Trustpilot reviews",
+      "settings": {
+        "heading": "Wat zeggen onze klanten?",
+        "subheading": "Lees wat anderen over hun ervaringen met ons zeggen.",
+        "review_count": "32583",
+        "section_spacing": 48,
+        "desktop_card_width": 340,
+        "mobile_card_width": 280,
+        "card_gap": 20,
+        "card_radius": 16,
+        "background": "#ffffff",
+        "card_background": "#f0f0f0",
+        "heading_color": "#1A1A1A",
+        "text_color": "#2E2E2E",
+        "muted_color": "#555555",
+        "stars_color": "#00a341"
+      }
     }
   },
   "order": [
@@ -1063,6 +1153,7 @@
     "faq",
     "reviews_showcase_cnrNRm",
     "live_your_dreams_hNBD9A",
-    "hazify_test_collections_slider_gVrXUB"
+    "hazify_test_collections_slider_gVrXUB",
+    "trustpilot_reviews_RHAF3G"
   ]
 }
