@@ -1,0 +1,121 @@
+{% render 'section-spacing-collapsing' %}
+
+<div id="tp-{{ section.id }}" class="tp-section">
+  <div class="tp-container">
+
+    <button class="tp-header" type="button" onclick="tpToggle{{ section.id }}()">
+      <span class="tp-heading">{{ section.settings.heading }}</span>
+      <span class="tp-chevron">⌃</span>
+    </button>
+
+    <div class="tp-body" id="tp-body-{{ section.id }}">
+      <div class="tp-slider" data-section-id="{{ section.id }}">
+
+        {% for block in section.blocks %}
+          <div class="tp-slide {% if forloop.first %}active{% endif %}" {{ block.shopify_attributes }}>
+            <div class="tp-card">
+
+              <div class="tp-stars">
+                {% for i in (1..block.settings.rating) %}★{% endfor %}
+              </div>
+
+              <div class="tp-title">{{ block.settings.title }}</div>
+              <div class="tp-text">{{ block.settings.text }}</div>
+              <div class="tp-author">{{ block.settings.author }}</div>
+
+            </div>
+          </div>
+        {% endfor %}
+
+        <button class="tp-nav tp-prev" type="button">‹</button>
+        <button class="tp-nav tp-next" type="button">›</button>
+
+      </div>
+
+      <div class="tp-footer">
+        <span>{{ section.settings.rating_text }}</span>
+        <strong class="tp-brand">Trustpilot</strong>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+#tp-{{ section.id }}{padding:16px}
+.tp-container{max-width:680px;margin:auto}
+.tp-header{display:flex;justify-content:space-between;width:100%;font-weight:700;font-size:14px;background:none;border:none;cursor:pointer}
+.tp-body{margin-top:12px}
+.tp-card{background:#f3f3f3;padding:16px;border-radius:12px}
+.tp-stars{color:#00b67a;font-size:14px}
+.tp-title{font-weight:700;margin-top:6px}
+.tp-text{font-size:14px;margin-top:4px}
+.tp-author{font-size:12px;color:#666;margin-top:8px}
+.tp-slider{position:relative}
+.tp-slide{display:none}
+.tp-slide.active{display:block}
+.tp-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer}
+.tp-prev{left:-12px}
+.tp-next{right:-12px}
+.tp-footer{margin-top:10px;font-size:13px;color:#444}
+
+@media(max-width:749px){
+.tp-prev{left:6px}
+.tp-next{right:6px}
+}
+</style>
+
+<script>
+(function(){
+  function init(section){
+    const root = document.querySelector('#tp-'+section);
+    if(!root) return;
+    const slides = root.querySelectorAll('.tp-slide');
+    let index = 0;
+
+    root.querySelector('.tp-next').onclick = ()=>{
+      slides[index].classList.remove('active');
+      index = (index+1)%slides.length;
+      slides[index].classList.add('active');
+    };
+
+    root.querySelector('.tp-prev').onclick = ()=>{
+      slides[index].classList.remove('active');
+      index = (index-1+slides.length)%slides.length;
+      slides[index].classList.add('active');
+    };
+  }
+
+  window.tpToggle{{ section.id }} = function(){
+    document.getElementById('tp-body-{{ section.id }}').classList.toggle('hidden');
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>init('{{ section.id }}'));
+  document.addEventListener('shopify:section:load', e=>init(e.target.id.replace('shopify-section-','')));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Trustpilot reviews",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"READ OUR REVIEWS"},
+    {"type":"text","id":"rating_text","label":"Rating text","default":"Rated 4.0 / 5 based on 38,382 reviews."}
+  ],
+  "blocks": [
+    {
+      "type":"review",
+      "name":"Review",
+      "settings":[
+        {"type":"text","id":"title","label":"Title"},
+        {"type":"textarea","id":"text","label":"Text"},
+        {"type":"text","id":"author","label":"Author"},
+        {"type":"range","id":"rating","label":"Stars","min":1,"max":5,"step":1,"default":5}
+      ]
+    }
+  ],
+  "presets": [
+    {"name":"Trustpilot reviews","category":"Product"}
+  ]
+}
+{% endschema %}
