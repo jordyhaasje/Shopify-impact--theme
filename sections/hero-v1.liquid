@@ -3,106 +3,105 @@
 <style>
   #shopify-section-{{ section.id }} {
     --hero-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --hero-card-bg: {{ section.settings.card_background.red }}, {{ section.settings.card_background.green }}, {{ section.settings.card_background.blue }};
     --hero-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
     --hero-muted: {{ section.settings.muted_color.red }}, {{ section.settings.muted_color.green }}, {{ section.settings.muted_color.blue }};
     --hero-accent: {{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }};
     --hero-stars: {{ section.settings.stars_color.red }}, {{ section.settings.stars_color.green }}, {{ section.settings.stars_color.blue }};
+    --hero-border: {{ section.settings.border_color.red }}, {{ section.settings.border_color.green }}, {{ section.settings.border_color.blue }};
     --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
   }
 
-  #shopify-section-{{ section.id }} .hero-v1 {
-    background: rgb(var(--hero-bg));
+  #shopify-section-{{ section.id }} .hero-v1 { background: rgb(var(--hero-bg)); }
+
+  #shopify-section-{{ section.id }} .hero-v1__grid { display: grid; gap: 36px; align-items: center; }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center { max-width: 940px; margin-inline: auto; text-align: center; }
+  #shopify-section-{{ section.id }} .hero-v1__content { display: grid; gap: 18px; }
+
+  #shopify-section-{{ section.id }} .hero-v1__eyebrow { display: inline-flex; width: fit-content; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: rgba(var(--hero-stars), 0.1); color: rgb(var(--hero-accent)); font-size: 13px; font-weight: 700; }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__eyebrow { margin-inline: auto; }
+
+  #shopify-section-{{ section.id }} .hero-v1__heading { margin: 0; max-width: 760px; color: rgb(var(--hero-text)); font-size: clamp(34px, 5.4vw, 68px); line-height: 1; letter-spacing: -0.045em; font-weight: 750; }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__heading { margin-inline: auto; }
+
+  #shopify-section-{{ section.id }} .hero-v1__subheading { max-width: 620px; color: rgb(var(--hero-muted)); font-size: 18px; line-height: 1.55; }
+  #shopify-section-{{ section.id }} .hero-v1__subheading p { margin: 0; }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__subheading { margin-inline: auto; }
+
+  #shopify-section-{{ section.id }} .hero-v1__trust-card { display: inline-flex; width: fit-content; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid rgba(var(--hero-border), 0.9); border-radius: 16px; background: rgb(var(--hero-card-bg)); box-shadow: 0 14px 40px rgba(0, 0, 0, 0.06); color: rgb(var(--hero-text)); }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__trust-card { margin-inline: auto; }
+  #shopify-section-{{ section.id }} .hero-v1__stars { display: inline-flex; gap: 3px; }
+  #shopify-section-{{ section.id }} .hero-v1__star { width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border-radius: 3px; background: rgb(var(--hero-stars)); color: #fff; font-size: 14px; line-height: 1; }
+  #shopify-section-{{ section.id }} .hero-v1__trust-copy { display: grid; gap: 1px; text-align: left; font-size: 13px; line-height: 1.25; }
+  #shopify-section-{{ section.id }} .hero-v1__trust-title { font-weight: 800; }
+  #shopify-section-{{ section.id }} .hero-v1__trust-meta { color: rgb(var(--hero-muted)); }
+
+  #shopify-section-{{ section.id }} .hero-v1__actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__actions { justify-content: center; }
+
+  #shopify-section-{{ section.id }} .hero-v1__blocks { display: flex; flex-wrap: wrap; gap: 10px; color: rgb(var(--hero-muted)); font-size: 13px; }
+  #shopify-section-{{ section.id }} .hero-v1__grid--center .hero-v1__blocks { justify-content: center; }
+  #shopify-section-{{ section.id }} .hero-v1__block { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid rgba(var(--hero-border), 0.75); border-radius: 999px; background: rgba(var(--hero-card-bg), 0.72); }
+  #shopify-section-{{ section.id }} .hero-v1__check { color: rgb(var(--hero-stars)); font-weight: 800; }
+
+  #shopify-section-{{ section.id }} .hero-v1__media { position: relative; border-radius: {{ section.settings.image_radius }}px; overflow: hidden; background: rgba(var(--hero-stars), 0.08); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.1); }
+  #shopify-section-{{ section.id }} .hero-v1__image { display: block; width: 100%; height: auto; object-fit: cover; }
+  #shopify-section-{{ section.id }} .hero-v1__image-placeholder { min-height: 420px; display: grid; place-items: center; color: rgb(var(--hero-muted)); text-align: center; padding: 32px; }
+
+  @media screen and (min-width: 900px) {
+    #shopify-section-{{ section.id }} .hero-v1__grid--split { grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr); text-align: left; }
+    #shopify-section-{{ section.id }} .hero-v1__grid--image_left { grid-template-columns: minmax(360px, 0.9fr) minmax(0, 1fr); }
+    #shopify-section-{{ section.id }} .hero-v1__grid--image_left .hero-v1__media { order: -1; }
   }
 
-  #shopify-section-{{ section.id }} .hero-v1__inner {
-    text-align: center;
-    max-width: 840px;
-    margin: 0 auto;
-    display: grid;
-    gap: 20px;
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} .hero-v1__grid { gap: 28px; text-align: center; }
+    #shopify-section-{{ section.id }} .hero-v1__eyebrow, #shopify-section-{{ section.id }} .hero-v1__trust-card { margin-inline: auto; }
+    #shopify-section-{{ section.id }} .hero-v1__actions, #shopify-section-{{ section.id }} .hero-v1__blocks { justify-content: center; }
+    #shopify-section-{{ section.id }} .hero-v1__trust-card { flex-direction: column; text-align: center; }
+    #shopify-section-{{ section.id }} .hero-v1__trust-copy { text-align: center; }
   }
-
-  #shopify-section-{{ section.id }} .hero-v1__heading {
-    font-size: clamp(32px, 5vw, 64px);
-    font-weight: 700;
-    color: rgb(var(--hero-text));
-    line-height: 1.05;
-  }
-
-  #shopify-section-{{ section.id }} .hero-v1__subheading {
-    font-size: 18px;
-    color: rgb(var(--hero-muted));
-  }
-
-  #shopify-section-{{ section.id }} .hero-v1__trust {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: rgb(var(--hero-text));
-  }
-
-  #shopify-section-{{ section.id }} .hero-v1__stars {
-    display: inline-flex;
-    gap: 4px;
-  }
-
-  #shopify-section-{{ section.id }} .hero-v1__star {
-    width: 18px;
-    height: 18px;
-    background: rgb(var(--hero-stars));
-    color: #fff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 2px;
-  }
-
-  #shopify-section-{{ section.id }} .hero-v1__actions {
-    margin-top: 10px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
 </style>
 
 <section class="hero-v1">
   <div {% render 'section-properties', background: section.settings.background, text_color: section.settings.text_color %}>
     <div class="container">
-      <div class="hero-v1__inner">
+      <div class="hero-v1__grid hero-v1__grid--{{ section.settings.layout }}">
+        <div class="hero-v1__content">
+          {%- if section.settings.eyebrow != blank -%}<div class="hero-v1__eyebrow">{{ section.settings.eyebrow | escape }}</div>{%- endif -%}
+          {%- if section.settings.heading != blank -%}<h1 class="hero-v1__heading">{{ section.settings.heading }}</h1>{%- endif -%}
+          {%- if section.settings.subheading != blank -%}<div class="hero-v1__subheading rte">{{ section.settings.subheading }}</div>{%- endif -%}
 
-        {%- if section.settings.heading != blank -%}
-          <h1 class="hero-v1__heading">{{ section.settings.heading }}</h1>
-        {%- endif -%}
-
-        {%- if section.settings.subheading != blank -%}
-          <div class="hero-v1__subheading rte">{{ section.settings.subheading }}</div>
-        {%- endif -%}
-
-        {%- if section.settings.show_trust -%}
-          <div class="hero-v1__trust">
-            <div class="hero-v1__stars">
-              {%- for i in (1..5) -%}
-                <span class="hero-v1__star">★</span>
-              {%- endfor -%}
+          {%- if section.settings.show_trust -%}
+            <div class="hero-v1__trust-card" aria-label="{{ section.settings.trust_title | escape }} {{ section.settings.trust_meta | escape }}">
+              <div class="hero-v1__stars" aria-hidden="true">{%- for i in (1..5) -%}<span class="hero-v1__star">★</span>{%- endfor -%}</div>
+              <div class="hero-v1__trust-copy"><span class="hero-v1__trust-title">{{ section.settings.trust_title | escape }}</span><span class="hero-v1__trust-meta">{{ section.settings.trust_meta | escape }}</span></div>
             </div>
-            <span>{{ section.settings.trust_text }}</span>
-          </div>
-        {%- endif -%}
-
-        <div class="hero-v1__actions">
-          {%- if section.settings.button_1_label != blank -%}
-            {% render 'button', content: section.settings.button_1_label, href: section.settings.button_1_link, size: 'lg' %}
           {%- endif -%}
 
-          {%- if section.settings.button_2_label != blank -%}
-            {% render 'button', content: section.settings.button_2_label, href: section.settings.button_2_link, size: 'lg', style: 'outline' %}
+          <div class="hero-v1__actions">
+            {%- if section.settings.button_1_label != blank -%}{% render 'button', content: section.settings.button_1_label, href: section.settings.button_1_link, size: 'lg', style: 'fill', background: section.settings.primary_button_background, text_color: section.settings.primary_button_text %}{%- endif -%}
+            {%- if section.settings.button_2_label != blank -%}{% render 'button', content: section.settings.button_2_label, href: section.settings.button_2_link, size: 'lg', style: 'outline', text_color: section.settings.text_color %}{%- endif -%}
+          </div>
+
+          {%- if section.blocks.size > 0 -%}
+            <div class="hero-v1__blocks">
+              {%- for block in section.blocks -%}
+                <div class="hero-v1__block" {{ block.shopify_attributes }}><span class="hero-v1__check">✓</span><span>{{ block.settings.text | escape }}</span></div>
+              {%- endfor -%}
+            </div>
           {%- endif -%}
         </div>
 
+        {%- unless section.settings.layout == 'center' -%}
+          <div class="hero-v1__media">
+            {%- if section.settings.image != blank -%}
+              {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400,600,800,1000,1200', class: 'hero-v1__image', alt: section.settings.image.alt | default: section.settings.heading }}
+            {%- else -%}
+              <div class="hero-v1__image-placeholder">Voeg een hero afbeelding toe in de Shopify customizer</div>
+            {%- endif -%}
+          </div>
+        {%- endunless -%}
       </div>
     </div>
   </div>
@@ -110,35 +109,41 @@
 
 {% schema %}
 {
-  "name": "Hero v1 (Trustpilot)",
+  "name": "Hero v2 (Trustpilot)",
   "settings": [
-    {"type":"text","id":"heading","label":"Heading","default":"Rated 4.8/5 by thousands of happy customers"},
-    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Join the growing number of customers who trust our product.</p>"},
-
-    {"type":"checkbox","id":"show_trust","label":"Show trust row","default":true},
-    {"type":"text","id":"trust_text","label":"Trust text","default":"TrustScore 4.8 | 1,200+ reviews"},
-
-    {"type":"text","id":"button_1_label","label":"Primary button","default":"Shop now"},
+    {"type":"select","id":"layout","label":"Layout","default":"split","options":[{"value":"split","label":"Text left, image right"},{"value":"image_left","label":"Image left, text right"},{"value":"center","label":"Centered without image"}]},
+    {"type":"text","id":"eyebrow","label":"Small label","default":"Excellent op Trustpilot"},
+    {"type":"inline_richtext","id":"heading","label":"Heading","default":"Meer dan 10.000 klanten beoordelen ons met 4.8/5"},
+    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Ontdek waarom zoveel klanten kiezen voor onze producten. Snel geleverd, betrouwbaar en beoordeeld met uitstekende reviews.</p>"},
+    {"type":"image_picker","id":"image","label":"Hero image"},
+    {"type":"range","id":"image_radius","label":"Image corner radius","min":0,"max":40,"step":2,"default":24},
+    {"type":"header","content":"Trustpilot style"},
+    {"type":"checkbox","id":"show_trust","label":"Show trust block","default":true},
+    {"type":"text","id":"trust_title","label":"Trust title","default":"Excellent 4.8/5"},
+    {"type":"text","id":"trust_meta","label":"Trust meta","default":"Gebaseerd op 1.200+ reviews"},
+    {"type":"header","content":"Buttons"},
+    {"type":"text","id":"button_1_label","label":"Primary button","default":"Shop nu"},
     {"type":"url","id":"button_1_link","label":"Primary link"},
-
-    {"type":"text","id":"button_2_label","label":"Secondary button","default":"Learn more"},
+    {"type":"text","id":"button_2_label","label":"Secondary button","default":"Bekijk reviews"},
     {"type":"url","id":"button_2_link","label":"Secondary link"},
-
     {"type":"header","content":"Layout"},
-    {"type":"range","id":"section_spacing","min":0,"max":80,"step":4,"default":48,"label":"Section spacing"},
-
+    {"type":"range","id":"section_spacing","min":0,"max":100,"step":4,"default":64,"label":"Section spacing"},
     {"type":"header","content":"Colors"},
-    {"type":"color","id":"background","default":"#ffffff","label":"Background"},
-    {"type":"color","id":"text_color","default":"#111111","label":"Text color"},
-    {"type":"color","id":"muted_color","default":"#666666","label":"Muted text"},
+    {"type":"color","id":"background","default":"#F7FBF8","label":"Background"},
+    {"type":"color","id":"card_background","default":"#FFFFFF","label":"Card background"},
+    {"type":"color","id":"text_color","default":"#101828","label":"Text color"},
+    {"type":"color","id":"muted_color","default":"#667085","label":"Muted text"},
     {"type":"color","id":"accent_color","default":"#00B67A","label":"Accent"},
-    {"type":"color","id":"stars_color","default":"#00B67A","label":"Stars color"}
+    {"type":"color","id":"stars_color","default":"#00B67A","label":"Stars color"},
+    {"type":"color","id":"border_color","default":"#DDE7E1","label":"Border color"},
+    {"type":"color","id":"primary_button_background","default":"#00B67A","label":"Primary button background"},
+    {"type":"color","id":"primary_button_text","default":"#FFFFFF","label":"Primary button text"}
+  ],
+  "blocks": [
+    {"type":"benefit","name":"Trust badge","settings":[{"type":"text","id":"text","label":"Text","default":"Gratis verzending"}]}
   ],
   "presets": [
-    {
-      "name": "Hero v1",
-      "category": "Hero"
-    }
+    {"name":"Hero v2 Trustpilot","category":"Hero","blocks":[{"type":"benefit","settings":{"text":"Gratis verzending"}},{"type":"benefit","settings":{"text":"30 dagen retour"}},{"type":"benefit","settings":{"text":"Veilig betalen"}}]}
   ]
 }
 {% endschema %}
