@@ -2,14 +2,13 @@
 
 <style>
 #shopify-section-{{ section.id }} {
-  --tp-green: 0, 182, 122;
-  --tp-dark: 25, 25, 25;
-  --tp-muted: 110, 110, 110;
+  --tp-green: 0,182,122;
+  --tp-dark: 20,20,20;
+  --tp-muted: 120,120,120;
   --tp-bg: 255,255,255;
-  --tp-card: 255,255,255;
-  --tp-border: 230,230,230;
+  --tp-border: 235,235,235;
   --tp-gap: {{ section.settings.card_gap }}px;
-  --tp-radius: 16px;
+  --tp-radius: 18px;
   --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
 }
 
@@ -19,57 +18,72 @@
 
 #shopify-section-{{ section.id }} .trust-slider__inner {
   display: grid;
-  gap: 32px;
+  gap: 36px;
 }
 
 #shopify-section-{{ section.id }} .trust-slider__header {
   text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+#shopify-section-{{ section.id }} .trustpilot-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: rgb(var(--tp-muted));
+}
+
+#shopify-section-{{ section.id }} .trustpilot-brand {
+  font-weight: 700;
+  color: rgb(var(--tp-dark));
 }
 
 #shopify-section-{{ section.id }} .trust-slider__rating {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
-#shopify-section-{{ section.id }} .trust-slider__stars {
+#shopify-section-{{ section.id }} .tp-stars {
   display: flex;
   gap: 4px;
 }
 
 #shopify-section-{{ section.id }} .tp-star {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   background: rgb(var(--tp-green));
-  display: inline-flex;
+  border-radius: 3px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
 }
 
 #shopify-section-{{ section.id }} .tp-star svg {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   fill: #fff;
 }
 
 #shopify-section-{{ section.id }} .trust-slider__score {
+  font-size: 18px;
   font-weight: 600;
-  font-size: 16px;
-  color: rgb(var(--tp-dark));
 }
 
 #shopify-section-{{ section.id }} .trust-slider__heading {
-  font-size: clamp(28px,4vw,48px);
+  font-size: clamp(32px,4vw,52px);
   font-weight: 600;
   color: rgb(var(--tp-dark));
 }
 
 #shopify-section-{{ section.id }} .trust-slider__sub {
-  margin-top: 8px;
+  margin-top: 10px;
   color: rgb(var(--tp-muted));
-  font-size: 16px;
 }
 
 #shopify-section-{{ section.id }} .trust-slider__cards {
@@ -77,37 +91,41 @@
   gap: var(--tp-gap);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
 }
 
 #shopify-section-{{ section.id }} .trust-slider__card {
   flex: 0 0 {{ section.settings.mobile_card_width }}px;
-  background: rgb(var(--tp-card));
+  background: #fff;
   border-radius: var(--tp-radius);
   border: 1px solid rgb(var(--tp-border));
-  padding: 20px;
+  padding: 22px;
   scroll-snap-align: start;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__card:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 #shopify-section-{{ section.id }} .trust-slider__card-stars {
   display: flex;
   gap: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 #shopify-section-{{ section.id }} .trust-slider__text {
   font-size: 14px;
-  color: rgb(var(--tp-dark));
   line-height: 1.6;
+  color: rgb(var(--tp-dark));
 }
 
-#shopify-section-{{ section.id }} .trust-slider__author {
+#shopify-section-{{ section.id }} .trust-slider__meta {
   margin-top: 14px;
-  font-size: 13px;
+  font-size: 12px;
   color: rgb(var(--tp-muted));
 }
 
-@media(min-width: 700px){
+@media(min-width:700px){
   #shopify-section-{{ section.id }} .trust-slider__card {
     flex: 0 0 {{ section.settings.desktop_card_width }}px;
   }
@@ -120,19 +138,26 @@
       <div class="trust-slider__inner">
 
         <div class="trust-slider__header">
+
+          <div class="trustpilot-row">
+            <span class="trustpilot-brand">Trustpilot</span>
+            <span>• {{ section.settings.review_count }} reviews</span>
+          </div>
+
           <div class="trust-slider__rating">
-            <div class="trust-slider__stars">
+            <div class="tp-stars">
               {% for i in (1..5) %}
                 <span class="tp-star">
                   <svg viewBox="0 0 20 20"><path d="M10 1l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
                 </span>
               {% endfor %}
             </div>
-            <span class="trust-slider__score">{{ section.settings.score }}</span>
+            <span class="trust-slider__score">{{ section.settings.score }}/5</span>
           </div>
 
           <h2 class="trust-slider__heading">{{ section.settings.heading }}</h2>
           <p class="trust-slider__sub">{{ section.settings.subheading }}</p>
+
         </div>
 
         <div class="trust-slider__cards">
@@ -148,7 +173,10 @@
               </div>
 
               <div class="trust-slider__text">{{ block.settings.text }}</div>
-              <div class="trust-slider__author">{{ block.settings.author }}</div>
+
+              <div class="trust-slider__meta">
+                ✓ Verified • {{ block.settings.author }}
+              </div>
 
             </div>
           {% endfor %}
@@ -163,21 +191,22 @@
 {
   "name": "Trust slider",
   "settings": [
-    {"type":"text","id":"heading","label":"Heading","default":"Excellent gebaseerd op 2.000+ reviews"},
-    {"type":"text","id":"subheading","label":"Subheading","default":"Beoordeeld met 4.8/5 op Trustpilot"},
+    {"type":"text","id":"heading","label":"Heading","default":"Uitstekend beoordeeld door duizenden klanten"},
+    {"type":"text","id":"subheading","label":"Subheading","default":"Gebaseerd op echte Trustpilot reviews"},
     {"type":"text","id":"score","label":"Score","default":"4.8"},
-    {"type":"range","id":"section_spacing","min":0,"max":80,"step":4,"default":48,"label":"Section spacing"},
-    {"type":"range","id":"desktop_card_width","min":220,"max":360,"step":4,"default":280,"label":"Desktop card width"},
-    {"type":"range","id":"mobile_card_width","min":220,"max":320,"step":4,"default":252,"label":"Mobile card width"},
-    {"type":"range","id":"card_gap","min":8,"max":32,"step":2,"default":16,"label":"Card gap"}
+    {"type":"text","id":"review_count","label":"Review count","default":"2.000+"},
+    {"type":"range","id":"section_spacing","label":"Section spacing","min":0,"max":80,"step":4,"default":48},
+    {"type":"range","id":"desktop_card_width","label":"Desktop card width","min":220,"max":360,"step":4,"default":284},
+    {"type":"range","id":"mobile_card_width","label":"Mobile card width","min":220,"max":320,"step":4,"default":252},
+    {"type":"range","id":"card_gap","label":"Card gap","min":8,"max":32,"step":2,"default":20}
   ],
   "blocks": [
     {
       "type":"review",
       "name":"Review",
       "settings":[
-        {"type":"textarea","id":"text","label":"Review text","default":"Top service, snelle levering en goede kwaliteit."},
-        {"type":"text","id":"author","label":"Author","default":"Verified customer"}
+        {"type":"textarea","id":"text","label":"Review text","default":"Snelle levering en echt top kwaliteit. Zeker aan te raden!"},
+        {"type":"text","id":"author","label":"Author","default":"Geverifieerde klant"}
       ]
     }
   ],
