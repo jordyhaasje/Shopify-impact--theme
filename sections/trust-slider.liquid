@@ -1,0 +1,195 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --tp-green: 0, 182, 122;
+  --tp-dark: 25, 25, 25;
+  --tp-muted: 110, 110, 110;
+  --tp-bg: 255,255,255;
+  --tp-card: 255,255,255;
+  --tp-border: 230,230,230;
+  --tp-gap: {{ section.settings.card_gap }}px;
+  --tp-radius: 16px;
+  --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
+}
+
+#shopify-section-{{ section.id }} .trust-slider {
+  background: rgb(var(--tp-bg));
+}
+
+#shopify-section-{{ section.id }} .trust-slider__inner {
+  display: grid;
+  gap: 32px;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__header {
+  text-align: center;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__stars {
+  display: flex;
+  gap: 4px;
+}
+
+#shopify-section-{{ section.id }} .tp-star {
+  width: 22px;
+  height: 22px;
+  background: rgb(var(--tp-green));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+
+#shopify-section-{{ section.id }} .tp-star svg {
+  width: 12px;
+  height: 12px;
+  fill: #fff;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__score {
+  font-weight: 600;
+  font-size: 16px;
+  color: rgb(var(--tp-dark));
+}
+
+#shopify-section-{{ section.id }} .trust-slider__heading {
+  font-size: clamp(28px,4vw,48px);
+  font-weight: 600;
+  color: rgb(var(--tp-dark));
+}
+
+#shopify-section-{{ section.id }} .trust-slider__sub {
+  margin-top: 8px;
+  color: rgb(var(--tp-muted));
+  font-size: 16px;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__cards {
+  display: flex;
+  gap: var(--tp-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__card {
+  flex: 0 0 {{ section.settings.mobile_card_width }}px;
+  background: rgb(var(--tp-card));
+  border-radius: var(--tp-radius);
+  border: 1px solid rgb(var(--tp-border));
+  padding: 20px;
+  scroll-snap-align: start;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__card-stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__text {
+  font-size: 14px;
+  color: rgb(var(--tp-dark));
+  line-height: 1.6;
+}
+
+#shopify-section-{{ section.id }} .trust-slider__author {
+  margin-top: 14px;
+  font-size: 13px;
+  color: rgb(var(--tp-muted));
+}
+
+@media(min-width: 700px){
+  #shopify-section-{{ section.id }} .trust-slider__card {
+    flex: 0 0 {{ section.settings.desktop_card_width }}px;
+  }
+}
+</style>
+
+<section class="trust-slider">
+  <div {% render 'section-properties' %}>
+    <div class="container">
+      <div class="trust-slider__inner">
+
+        <div class="trust-slider__header">
+          <div class="trust-slider__rating">
+            <div class="trust-slider__stars">
+              {% for i in (1..5) %}
+                <span class="tp-star">
+                  <svg viewBox="0 0 20 20"><path d="M10 1l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+                </span>
+              {% endfor %}
+            </div>
+            <span class="trust-slider__score">{{ section.settings.score }}</span>
+          </div>
+
+          <h2 class="trust-slider__heading">{{ section.settings.heading }}</h2>
+          <p class="trust-slider__sub">{{ section.settings.subheading }}</p>
+        </div>
+
+        <div class="trust-slider__cards">
+          {% for block in section.blocks %}
+            <div class="trust-slider__card" {{ block.shopify_attributes }}>
+
+              <div class="trust-slider__card-stars">
+                {% for i in (1..5) %}
+                  <span class="tp-star">
+                    <svg viewBox="0 0 20 20"><path d="M10 1l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+                  </span>
+                {% endfor %}
+              </div>
+
+              <div class="trust-slider__text">{{ block.settings.text }}</div>
+              <div class="trust-slider__author">{{ block.settings.author }}</div>
+
+            </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust slider",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"Excellent gebaseerd op 2.000+ reviews"},
+    {"type":"text","id":"subheading","label":"Subheading","default":"Beoordeeld met 4.8/5 op Trustpilot"},
+    {"type":"text","id":"score","label":"Score","default":"4.8"},
+    {"type":"range","id":"section_spacing","min":0,"max":80,"step":4,"default":48,"label":"Section spacing"},
+    {"type":"range","id":"desktop_card_width","min":220,"max":360,"step":4,"default":280,"label":"Desktop card width"},
+    {"type":"range","id":"mobile_card_width","min":220,"max":320,"step":4,"default":252,"label":"Mobile card width"},
+    {"type":"range","id":"card_gap","min":8,"max":32,"step":2,"default":16,"label":"Card gap"}
+  ],
+  "blocks": [
+    {
+      "type":"review",
+      "name":"Review",
+      "settings":[
+        {"type":"textarea","id":"text","label":"Review text","default":"Top service, snelle levering en goede kwaliteit."},
+        {"type":"text","id":"author","label":"Author","default":"Verified customer"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust slider",
+      "blocks": [
+        {"type":"review"},
+        {"type":"review"},
+        {"type":"review"}
+      ]
+    }
+  ]
+}
+{% endschema %}
