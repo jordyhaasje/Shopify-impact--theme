@@ -35,6 +35,12 @@ CSS
       --slideshow-slide-controls-color: {{ controls_color.rgb }};
     }
   {%- endfor -%}
+  #shopify-section-{{ section.id }} .slideshow__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 </style>
 
 {%- comment -%}
@@ -67,7 +73,9 @@ LIQUID
           {%- comment -%}---------------- MEDIA ----------------{%- endcomment -%}
           {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}min({{ settings.page_width }}px, 100vw){% endif %}{%- endcapture -%}
 
-          {%- if block.settings.image != blank -%}
+          {%- if block.settings.use_video and block.settings.video != blank -%}
+            {{- block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '1600x', class: 'slideshow__video' -}}
+          {%- elsif block.settings.image != blank -%}
             {%- capture loading_strategy -%}{% if forloop.first %}eager{% else %}lazy{% endif %}{%- endcapture -%}
             {%- capture fetch_priority -%}{% if forloop.first %}high{% else %}low{% endif %}{%- endcapture -%}
 
@@ -302,6 +310,17 @@ LIQUID
       "type": "image",
       "name": "Image",
       "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_video",
+          "label": "Use video instead of image",
+          "default": false
+        },
         {
           "type": "image_picker",
           "id": "image",
