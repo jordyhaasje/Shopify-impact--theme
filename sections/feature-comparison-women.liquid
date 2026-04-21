@@ -1,0 +1,190 @@
+{% render 'section-spacing-collapsing' %}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --bg: #E7DDB7;
+  --card: #F5F1E8;
+  --text-dark: #3B2B25;
+  --text-muted: #5E5A55;
+  --accent: #F05A28;
+  padding: 60px 0;
+}
+
+#shopify-section-{{ section.id }} .fc-wrapper {
+  background: var(--bg);
+  border-radius: 24px;
+  padding: 60px;
+}
+
+#shopify-section-{{ section.id }} .fc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+#shopify-section-{{ section.id }} h2 {
+  font-size: 56px;
+  line-height: 1;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+#shopify-section-{{ section.id }} .fc-text {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 420px;
+}
+
+#shopify-section-{{ section.id }} .fc-rating {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#shopify-section-{{ section.id }} .fc-stars span {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: #00B67A;
+  margin-right: 4px;
+}
+
+#shopify-section-{{ section.id }} .fc-card {
+  background: white;
+  border-radius: 24px;
+  padding: 30px 0;
+  position: relative;
+}
+
+#shopify-section-{{ section.id }} .fc-table {
+  width: 100%;
+}
+
+#shopify-section-{{ section.id }} .fc-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px;
+  padding: 18px 30px;
+  border-top: 1px solid #ddd;
+  align-items: center;
+}
+
+#shopify-section-{{ section.id }} .fc-head {
+  font-weight: 700;
+  border-top: none;
+}
+
+#shopify-section-{{ section.id }} .fc-check {
+  width: 28px;
+  height: 28px;
+  background: #3B2B25;
+  border-radius: 50%;
+  margin: auto;
+}
+
+#shopify-section-{{ section.id }} .fc-cross {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #aaa;
+  margin: auto;
+}
+
+#shopify-section-{{ section.id }} .fc-badge {
+  position: absolute;
+  left: -60px;
+  bottom: -40px;
+  width: 120px;
+  height: 120px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+#shopify-section-{{ section.id }} .fc-sachet {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 120px;
+  background: orange;
+  border-radius: 8px;
+}
+
+@media(max-width: 768px) {
+  #shopify-section-{{ section.id }} .fc-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #shopify-section-{{ section.id }} h2 {
+    font-size: 40px;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .fc-text {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .fc-card {
+    margin-top: 30px;
+  }
+}
+</style>
+
+<section>
+  <div {% render 'section-properties' %}>
+    <div class="container">
+      <div class="fc-wrapper">
+        <div class="fc-grid">
+
+          <div>
+            <h2>This is what<br>sets us apart.</h2>
+            <p class="fc-text">Few supplements cater to women. Ours provides clean, effective electrolyte replenishment that truly works.</p>
+
+            <div class="fc-rating">
+              <div class="fc-stars">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div>Join 1,000,000+ Happy Women</div>
+            </div>
+          </div>
+
+          <div class="fc-card">
+            <div class="fc-sachet"></div>
+
+            <div class="fc-table">
+              <div class="fc-row fc-head">
+                <div></div>
+                <div>Our Brand</div>
+                <div>Others</div>
+              </div>
+
+              {% assign rows = "Formulated for Women|No Artificial Flavorings|600mg of Sodium|Refreshing Orange Flavor|Easy to Use on the Go" | split: "|" %}
+
+              {% for item in rows %}
+              <div class="fc-row">
+                <div>{{ item }}</div>
+                <div><div class="fc-check"></div></div>
+                <div><div class="fc-cross"></div></div>
+              </div>
+              {% endfor %}
+
+            </div>
+
+            <div class="fc-badge"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature comparison women",
+  "settings": [],
+  "presets": [{"name": "Feature comparison women"}]
+}
+{% endschema %}
