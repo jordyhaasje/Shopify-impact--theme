@@ -1287,10 +1287,74 @@
         "text_color": ""
       }
     },
-    "feature_comparison_women_wYfCKE": {
-      "type": "feature-comparison-women",
-      "name": "Feature comparison women",
-      "settings": {}
+    "comparison_feature_WGzM9i": {
+      "type": "comparison-feature",
+      "blocks": {
+        "item_bYCiTE": {
+          "type": "item",
+          "settings": {
+            "label": "Formulated for Women"
+          }
+        },
+        "item_dkU8rn": {
+          "type": "item",
+          "settings": {
+            "label": "No Artificial Flavorings"
+          }
+        },
+        "item_D66T8d": {
+          "type": "item",
+          "settings": {
+            "label": "600mg of Sodium"
+          }
+        },
+        "item_TebCnq": {
+          "type": "item",
+          "settings": {
+            "label": "Refreshing Orange Flavor"
+          }
+        },
+        "item_HpcjDC": {
+          "type": "item",
+          "settings": {
+            "label": "Easy to Use on the Go"
+          }
+        }
+      },
+      "block_order": [
+        "item_bYCiTE",
+        "item_dkU8rn",
+        "item_D66T8d",
+        "item_TebCnq",
+        "item_HpcjDC"
+      ],
+      "name": "Comparison feature",
+      "settings": {
+        "heading": "This is what sets us apart.",
+        "text": "<p>Few supplements cater to women. Ours provides clean, effective electrolyte replenishment that truly works.</p>",
+        "rating_label": "4.5 out of 5 stars",
+        "rating_text": "Join 1,000,000+ Happy Women",
+        "brand_heading": "Our Brand",
+        "others_heading": "Others",
+        "sachet_title": "Sachet Packaging",
+        "sachet_subtitle": "Mock-up",
+        "badge_top": "GLUTEN FREE",
+        "badge_bottom": "GLUTEN FREE",
+        "section_spacing": 32,
+        "section_spacing_mobile": 20,
+        "corner_radius": 28,
+        "background": "#E8DEB8",
+        "panel_background": "#EFE7C9",
+        "panel_soft_background": "#F5F1E8",
+        "heading_color": "#3B251F",
+        "text_color": "#5F5A52",
+        "line_color": "#CFC3B5",
+        "icon_color": "#3B251F",
+        "other_icon_color": "#8B877F",
+        "rating_green": "#00B67A",
+        "badge_color": "#F45A15",
+        "badge_text_color": "#FFFFFF"
+      }
     }
   },
   "order": [
@@ -1317,6 +1381,6 @@
     "video_trust_header_9Dpg7U",
     "dtc_trust_hero_premium_NgkXPB",
     "text_with_icons_R6ytCh",
-    "feature_comparison_women_wYfCKE"
+    "comparison_feature_WGzM9i"
   ]
 }
