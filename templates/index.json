@@ -1286,6 +1286,11 @@
         "background_gradient": "",
         "text_color": ""
       }
+    },
+    "feature_comparison_women_wYfCKE": {
+      "type": "feature-comparison-women",
+      "name": "Feature comparison women",
+      "settings": {}
     }
   },
   "order": [
@@ -1311,6 +1316,7 @@
     "hero_v1_CMidUq",
     "video_trust_header_9Dpg7U",
     "dtc_trust_hero_premium_NgkXPB",
-    "text_with_icons_R6ytCh"
+    "text_with_icons_R6ytCh",
+    "feature_comparison_women_wYfCKE"
   ]
 }
