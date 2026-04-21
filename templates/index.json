@@ -15,6 +15,7 @@
         "slide-2": {
           "type": "image",
           "settings": {
+            "use_video": false,
             "content_max_width": 780,
             "mobile_text_position": "place-self-center text-center",
             "desktop_text_position": "sm:place-self-center sm:text-center",
@@ -1285,6 +1286,60 @@
         "background_gradient": "",
         "text_color": ""
       }
+    },
+    "comparison_why_us_PE9ULK": {
+      "type": "comparison-why-us",
+      "blocks": {
+        "row_frxJnV": {
+          "type": "row",
+          "settings": {
+            "label": "Formulated for Women"
+          }
+        },
+        "row_XUJAz6": {
+          "type": "row",
+          "settings": {
+            "label": "No Artificial Flavorings"
+          }
+        },
+        "row_LNcaAg": {
+          "type": "row",
+          "settings": {
+            "label": "600mg of Sodium"
+          }
+        },
+        "row_dbfVNT": {
+          "type": "row",
+          "settings": {
+            "label": "Refreshing Orange Flavor"
+          }
+        },
+        "row_ge8CpV": {
+          "type": "row",
+          "settings": {
+            "label": "Easy to Use on the Go"
+          }
+        }
+      },
+      "block_order": [
+        "row_frxJnV",
+        "row_XUJAz6",
+        "row_LNcaAg",
+        "row_dbfVNT",
+        "row_ge8CpV"
+      ],
+      "name": "Why us comparison",
+      "settings": {
+        "heading": "This is what sets us apart.",
+        "text": "<p>Few supplements cater to women. Ours provides clean, effective electrolyte replenishment that truly works.</p>",
+        "rating_text": "Join 1,000,000+ Happy Women",
+        "col_1": "Our Brand",
+        "col_2": "Others",
+        "background": "#E6D8AA",
+        "card_background": "#FFFFFF",
+        "heading_color": "#2B1E18",
+        "text_color": "#333333"
+      }
     }
   },
   "order": [
@@ -1310,6 +1365,7 @@
     "hero_v1_CMidUq",
     "video_trust_header_9Dpg7U",
     "dtc_trust_hero_premium_NgkXPB",
-    "text_with_icons_R6ytCh"
+    "text_with_icons_R6ytCh",
+    "comparison_why_us_PE9ULK"
   ]
 }
