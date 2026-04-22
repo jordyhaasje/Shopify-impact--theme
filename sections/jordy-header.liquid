@@ -3,6 +3,8 @@
 {%- assign heading_pre = section.settings.heading_pre | strip -%}
 {%- assign heading_highlight = section.settings.heading_highlight | strip -%}
 {%- assign heading_post = section.settings.heading_post | strip -%}
+{%- assign selected_media_image = section.settings.image -%}
+{%- assign media_help_text = section.settings.media_help_text | strip -%}
 
 <style>
   #shopify-section-{{ section.id }} {
@@ -10,7 +12,7 @@
     --jordy-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
     --jordy-muted: {{ section.settings.muted_text_color.red }}, {{ section.settings.muted_text_color.green }}, {{ section.settings.muted_text_color.blue }};
     --jordy-highlight: {{ section.settings.highlight_color.red }}, {{ section.settings.highlight_color.green }}, {{ section.settings.highlight_color.blue }};
-    --jordy-pill-bg: {{ section.settings.pill_background.red }}, {{ section.settings.pill_background.green }}, {{ section.settings.pill_background.blue }};
+    --jordy-pill-bg: {{ section.settings.pill_background.red }}, {{ section.settings.pill_background.green }}, {{ section.settings.pill_border_color.blue }};
     --jordy-pill-border: {{ section.settings.pill_border_color.red }}, {{ section.settings.pill_border_color.green }}, {{ section.settings.pill_border_color.blue }};
     --jordy-pill-text: {{ section.settings.pill_text_color.red }}, {{ section.settings.pill_text_color.green }}, {{ section.settings.pill_text_color.blue }};
     --jordy-button-bg: {{ section.settings.button_background.red }}, {{ section.settings.button_background.green }}, {{ section.settings.button_background.blue }};
@@ -338,6 +340,22 @@
     object-position: {{ section.settings.image_position_desktop }};
   }
 
+  #shopify-section-{{ section.id }} .jordy-header__media-help {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    z-index: 2;
+    max-width: 260px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(16, 24, 37, 0.58);
+    color: rgba(255,255,255,0.82);
+    font-size: 12px;
+    line-height: 1.45;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
   #shopify-section-{{ section.id }} .jordy-header__placeholder {
     position: relative;
     width: 100%;
@@ -429,7 +447,8 @@
       transform-origin: bottom center;
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__image {
+    #shopify-section-{{ section.id }} .jordy-header__image,
+    #shopify-section-{{ section.id }} .jordy-header__placeholder {
       object-position: {{ section.settings.image_position_mobile }};
     }
 
@@ -452,6 +471,12 @@
       right: 24px;
       bottom: 24px;
       transform: none;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__media-help {
+      left: 20px;
+      bottom: 94px;
+      max-width: 220px;
     }
   }
 
@@ -574,6 +599,14 @@
       width: 52px;
       height: 52px;
     }
+
+    #shopify-section-{{ section.id }} .jordy-header__media-help {
+      left: 14px;
+      right: 14px;
+      bottom: 78px;
+      max-width: none;
+      font-size: 11px;
+    }
   }
 </style>
 
@@ -667,12 +700,16 @@
             {%- endif -%}
 
             <div class="jordy-header__image-wrap">
-              {%- if section.settings.image != blank -%}
-                {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'jordy-header__image', widths: '500,700,900,1200,1600', loading: 'lazy', alt: section.settings.image.alt | escape }}
+              {%- if selected_media_image != blank -%}
+                {{ selected_media_image | image_url: width: 1600 | image_tag: class: 'jordy-header__image', widths: '500,700,900,1200,1600', loading: 'lazy', alt: selected_media_image.alt | escape }}
               {%- else -%}
                 <div class="jordy-header__placeholder" aria-hidden="true"></div>
               {%- endif -%}
             </div>
+
+            {%- if selected_media_image == blank and media_help_text != blank -%}
+              <div class="jordy-header__media-help">{{ media_help_text | escape }}</div>
+            {%- endif -%}
           </div>
 
           {%- if section.settings.show_nav_arrows -%}
@@ -717,7 +754,9 @@
     { "type": "checkbox", "id": "show_steam", "label": "Show steam effect", "default": true },
 
     { "type": "header", "content": "Media" },
+    { "type": "paragraph", "content": "Gebruik 'Main image' om direct een foto te uploaden of een bestaande afbeelding uit Shopify Files/Media te kiezen." },
     { "type": "image_picker", "id": "image", "label": "Main image" },
+    { "type": "text", "id": "media_help_text", "label": "Placeholder help text", "default": "Voeg een afbeelding toe via Main image in de theme editor. Je kunt daar direct uploaden of een bestaande afbeelding uit Shopify kiezen." },
     { "type": "range", "id": "placeholder_opacity", "label": "Placeholder opacity", "min": 30, "max": 100, "step": 1, "default": 92 },
     { "type": "range", "id": "image_width", "label": "Image width (%)", "min": 30, "max": 70, "step": 1, "default": 48 },
     { "type": "range", "id": "image_max_width", "label": "Image max width", "min": 360, "max": 1000, "step": 20, "default": 760 },
