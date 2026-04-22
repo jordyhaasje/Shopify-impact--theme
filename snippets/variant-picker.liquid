@@ -55,12 +55,13 @@ Supported variables
     {%- for option in product.options_with_values -%}
       {%- assign option_downcase = option.name | downcase -%}
       {%- assign selector_type = block.settings.selector_mode -%}
+      {%- assign option_index = option.position | minus: 1 -%}
 
       {% if color_label_list contains option_downcase %}
         {%- assign selector_type = 'variant' -%}
 
         {%- for variant in product.variants -%}
-          {%- assign option_value = variant.options[option.position | minus: 1] -%}
+          {%- assign option_value = variant.options[option_index] -%}
 
           {%- if option.values contains option_value and variant.featured_media == blank -%}
             {%- assign selector_type = block.settings.color_mode | default: 'color' -%}
@@ -135,7 +136,9 @@ Supported variables
                     {%- assign variant_for_value = blank -%}
 
                     {%- for variant in product.variants -%}
-                      {%- if variant.options[option.position | minus: 1] == value and variant.featured_media != blank -%}
+                      {%- assign variant_option_value = variant.options[option_index] -%}
+
+                      {%- if variant_option_value == value and variant.featured_media != blank -%}
                         {%- assign variant_for_value = variant -%}
                         {%- break -%}
                       {%- endif -%}
