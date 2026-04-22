@@ -3,7 +3,8 @@
 {%- assign heading_pre = section.settings.heading_pre | strip -%}
 {%- assign heading_highlight = section.settings.heading_highlight | strip -%}
 {%- assign heading_post = section.settings.heading_post | strip -%}
-{%- assign selected_media_image = section.settings.image -%}
+{%- assign desktop_scene_image = section.settings.desktop_scene_image | default: section.settings.image -%}
+{%- assign mobile_scene_image = section.settings.mobile_scene_image | default: desktop_scene_image -%}
 {%- assign media_help_text = section.settings.media_help_text | strip -%}
 
 <style>
@@ -12,11 +13,9 @@
     --jordy-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
     --jordy-muted: {{ section.settings.muted_text_color.red }}, {{ section.settings.muted_text_color.green }}, {{ section.settings.muted_text_color.blue }};
     --jordy-highlight: {{ section.settings.highlight_color.red }}, {{ section.settings.highlight_color.green }}, {{ section.settings.highlight_color.blue }};
-    --jordy-pill-bg: {{ section.settings.pill_background.red }}, {{ section.settings.pill_background.green }}, {{ section.settings.pill_border_color.blue }};
+    --jordy-pill-bg: {{ section.settings.pill_background.red }}, {{ section.settings.pill_background.green }}, {{ section.settings.pill_background.blue }};
     --jordy-pill-border: {{ section.settings.pill_border_color.red }}, {{ section.settings.pill_border_color.green }}, {{ section.settings.pill_border_color.blue }};
     --jordy-pill-text: {{ section.settings.pill_text_color.red }}, {{ section.settings.pill_text_color.green }}, {{ section.settings.pill_text_color.blue }};
-    --jordy-button-bg: {{ section.settings.button_background.red }}, {{ section.settings.button_background.green }}, {{ section.settings.button_background.blue }};
-    --jordy-button-text: {{ section.settings.button_text_color.red }}, {{ section.settings.button_text_color.green }}, {{ section.settings.button_text_color.blue }};
     --jordy-badge-bg: {{ section.settings.badge_background.red }}, {{ section.settings.badge_background.green }}, {{ section.settings.badge_background.blue }};
     --jordy-badge-border: {{ section.settings.badge_border_color.red }}, {{ section.settings.badge_border_color.green }}, {{ section.settings.badge_border_color.blue }};
     --jordy-badge-text: {{ section.settings.badge_text_color.red }}, {{ section.settings.badge_text_color.green }}, {{ section.settings.badge_text_color.blue }};
@@ -28,12 +27,6 @@
     --jordy-progress-fill: {{ section.settings.progress_fill.red }}, {{ section.settings.progress_fill.green }}, {{ section.settings.progress_fill.blue }};
     --jordy-shell-radius: {{ section.settings.corner_radius }}px;
     --jordy-shell-min-height: {{ section.settings.section_height }}px;
-    --jordy-image-width: {{ section.settings.image_width }}%;
-    --jordy-image-max: {{ section.settings.image_max_width }}px;
-    --jordy-image-right: {{ section.settings.image_right_offset }}px;
-    --jordy-image-bottom: {{ section.settings.image_bottom_offset }}px;
-    --jordy-image-opacity: {{ section.settings.image_opacity | divided_by: 100.0 }};
-    --jordy-image-scale: {{ section.settings.image_scale | divided_by: 100.0 }};
     --jordy-arrow-size: {{ section.settings.arrow_size }}px;
     --jordy-progress-width: {{ section.settings.progress_width }}%;
     --jordy-progress-fill-width: {{ section.settings.progress_fill_width }}%;
@@ -48,6 +41,13 @@
     --jordy-badge-radius: {{ section.settings.badge_radius }}px;
     --jordy-button-radius: {{ section.settings.button_radius }}px;
     --jordy-placeholder-opacity: {{ section.settings.placeholder_opacity | divided_by: 100.0 }};
+    --jordy-scene-overlay-opacity: {{ section.settings.scene_overlay_opacity | divided_by: 100.0 }};
+    --jordy-scene-darkness-left: {{ section.settings.scene_darkness_left | divided_by: 100.0 }};
+    --jordy-scene-darkness-right: {{ section.settings.scene_darkness_right | divided_by: 100.0 }};
+    --jordy-scene-image-opacity: {{ section.settings.scene_image_opacity | divided_by: 100.0 }};
+    --jordy-scene-image-scale: {{ section.settings.scene_image_scale | divided_by: 100.0 }};
+    --jordy-desktop-scene-position: {{ section.settings.desktop_scene_position }};
+    --jordy-mobile-scene-position: {{ section.settings.mobile_scene_position }};
   }
 
   #shopify-section-{{ section.id }} .jordy-header-shell {
@@ -63,21 +63,74 @@
     color: rgb(var(--jordy-text));
     background-color: rgb(var(--jordy-bg));
     background-image:
-      radial-gradient(circle at 68% 74%, rgba(248, 201, 136, 0.56) 0%, rgba(248, 201, 136, 0.16) 18%, rgba(248, 201, 136, 0) 40%),
-      radial-gradient(circle at 78% 60%, rgba(255, 234, 191, 0.18) 0%, rgba(255, 234, 191, 0) 18%),
-      linear-gradient(93deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_middle }} 54%, {{ section.settings.gradient_end }} 100%);
+      radial-gradient(circle at 66% 74%, rgba(248, 201, 136, 0.58) 0%, rgba(248, 201, 136, 0.18) 18%, rgba(248, 201, 136, 0) 38%),
+      radial-gradient(circle at 74% 56%, rgba(255, 236, 198, 0.14) 0%, rgba(255, 236, 198, 0) 15%),
+      linear-gradient(93deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_middle }} 52%, {{ section.settings.gradient_end }} 100%);
     isolation: isolate;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__scene,
+  #shopify-section-{{ section.id }} .jordy-header__scene::before,
+  #shopify-section-{{ section.id }} .jordy-header__scene::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    display: block;
+    pointer-events: none;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__scene {
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__scene::before {
+    z-index: 2;
+    background:
+      linear-gradient(90deg, rgba(8, 24, 56, var(--jordy-scene-darkness-left)) 0%, rgba(15, 34, 70, calc(var(--jordy-scene-darkness-left) * 0.9)) 24%, rgba(17, 30, 58, 0.24) 44%, rgba(17, 27, 47, 0.08) 58%, rgba(24, 17, 21, var(--jordy-scene-darkness-right)) 100%),
+      radial-gradient(circle at 63% 76%, rgba(255, 206, 124, calc(var(--jordy-scene-overlay-opacity) * 0.75)) 0%, rgba(255, 206, 124, calc(var(--jordy-scene-overlay-opacity) * 0.28)) 20%, rgba(255, 206, 124, 0) 43%),
+      radial-gradient(circle at 76% 42%, rgba(255, 255, 255, calc(var(--jordy-scene-overlay-opacity) * 0.14)) 0%, rgba(255, 255, 255, 0) 13%);
+    mix-blend-mode: normal;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__scene::after {
+    z-index: 3;
+    background: linear-gradient(180deg, rgba(9, 16, 29, 0) 0%, rgba(10, 15, 28, 0.02) 32%, rgba(10, 15, 28, 0.22) 100%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__scene-image,
+  #shopify-section-{{ section.id }} .jordy-header__placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__scene-image {
+    z-index: 1;
+    object-fit: cover;
+    object-position: var(--jordy-desktop-scene-position);
+    opacity: var(--jordy-scene-image-opacity);
+    transform: scale(var(--jordy-scene-image-scale));
+    transform-origin: center center;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__scene-image--mobile {
+    display: none;
   }
 
   #shopify-section-{{ section.id }} .jordy-header__inner {
     position: relative;
     display: flex;
+    align-items: stretch;
     min-height: var(--jordy-shell-min-height);
+    z-index: 2;
   }
 
   #shopify-section-{{ section.id }} .jordy-header__content {
     position: relative;
-    z-index: 3;
+    z-index: 4;
     width: min(100%, var(--jordy-content-width));
     max-width: var(--jordy-heading-max);
     padding: var(--jordy-content-padding-y) var(--jordy-content-padding-x);
@@ -257,95 +310,12 @@
     background: rgb(var(--jordy-progress-fill));
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__media {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__floor {
-    position: absolute;
-    inset-inline: 0;
-    bottom: 0;
-    height: 160px;
-    background: linear-gradient(180deg, rgba(15, 21, 35, 0) 0%, rgba(15, 21, 35, 0.08) 36%, rgba(15, 21, 35, 0.30) 100%);
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__lamp {
-    position: absolute;
-    left: 46%;
-    bottom: 70px;
-    width: 280px;
-    height: 280px;
-    border-radius: 999px;
-    background: radial-gradient(circle, rgba(255, 220, 166, 0.96) 0%, rgba(255, 208, 121, 0.42) 28%, rgba(255, 208, 121, 0.08) 52%, rgba(255, 208, 121, 0) 76%);
-    filter: blur(8px);
-    opacity: 0.92;
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__lamp::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 112px;
-    height: 112px;
-    border-radius: 999px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(255, 248, 224, 1) 0%, rgba(255, 237, 182, 0.92) 48%, rgba(255, 204, 113, 0.88) 100%);
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__lamp::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -20px;
-    width: 150px;
-    height: 34px;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.24);
-    filter: blur(14px);
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__steam {
-    position: absolute;
-    right: 265px;
-    top: 128px;
-    width: 114px;
-    height: 114px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.12) 24%, rgba(255,255,255,0.03) 44%, rgba(255,255,255,0) 72%);
-    filter: blur(16px);
-    opacity: 0.8;
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__image-wrap {
-    position: absolute;
-    right: var(--jordy-image-right);
-    bottom: var(--jordy-image-bottom);
-    width: min(var(--jordy-image-width), var(--jordy-image-max));
-    max-width: 100%;
-    transform: scale(var(--jordy-image-scale));
-    transform-origin: bottom right;
-    opacity: var(--jordy-image-opacity);
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__image {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: {{ section.settings.image_position_desktop }};
-  }
-
   #shopify-section-{{ section.id }} .jordy-header__media-help {
     position: absolute;
     left: 18px;
     bottom: 18px;
-    z-index: 2;
-    max-width: 260px;
+    z-index: 4;
+    max-width: 280px;
     padding: 10px 12px;
     border-radius: 14px;
     background: rgba(16, 24, 37, 0.58);
@@ -357,49 +327,44 @@
   }
 
   #shopify-section-{{ section.id }} .jordy-header__placeholder {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 0.84;
-    border-radius: 0;
+    z-index: 1;
     opacity: var(--jordy-placeholder-opacity);
     background:
-      radial-gradient(circle at 44% 22%, rgba(246, 230, 224, 0.18) 0%, rgba(246, 230, 224, 0) 20%),
-      radial-gradient(circle at 38% 24%, rgba(35, 29, 26, 0.34) 0%, rgba(35, 29, 26, 0) 12%),
-      linear-gradient(180deg, rgba(62, 73, 87, 0) 0%, rgba(62, 73, 87, 0) 34%, rgba(58, 61, 73, 0.85) 35%, rgba(39, 42, 55, 1) 100%);
+      radial-gradient(circle at 74% 68%, rgba(255, 206, 126, 0.58) 0%, rgba(255, 206, 126, 0.18) 16%, rgba(255, 206, 126, 0) 36%),
+      linear-gradient(90deg, rgba(14, 33, 67, 1) 0%, rgba(34, 58, 99, 0.96) 46%, rgba(72, 66, 84, 0.9) 100%);
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__placeholder::before {
-    content: '';
-    position: absolute;
-    right: 8%;
-    bottom: 0;
-    width: 68%;
-    height: 82%;
-    border-radius: 38% 38% 8% 10% / 28% 28% 14% 14%;
-    background:
-      radial-gradient(circle at 55% 14%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 16%),
-      linear-gradient(180deg, #5f6e63 0%, #425046 52%, #334036 100%);
-    box-shadow: -18px 16px 0 rgba(21, 30, 46, 0.28);
-    clip-path: polygon(19% 0%, 68% 2%, 79% 13%, 83% 36%, 92% 53%, 100% 100%, 0% 100%, 8% 58%, 15% 36%, 17% 14%);
-  }
-
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::before,
   #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
     content: '';
     position: absolute;
-    left: 4%;
     bottom: 0;
-    width: 61%;
-    height: 36%;
-    border-radius: 24% 20% 0 0;
-    background: linear-gradient(180deg, rgba(83, 92, 110, 0.95) 0%, rgba(54, 62, 79, 0.98) 100%);
-    box-shadow: 0 -36px 0 0 rgba(71, 78, 96, 0.55) inset;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::before {
+    right: 0;
+    width: 52%;
+    height: 46%;
+    background: linear-gradient(180deg, rgba(87, 92, 108, 0.24) 0%, rgba(63, 68, 84, 0.76) 18%, rgba(44, 49, 63, 0.98) 100%);
+    clip-path: polygon(12% 16%, 100% 0, 100% 100%, 0 100%, 0 56%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
+    right: 6%;
+    width: 24%;
+    height: 42%;
+    border-radius: 38% 38% 10% 10% / 22% 22% 14% 14%;
+    background: linear-gradient(180deg, #677062 0%, #495448 48%, #364136 100%);
+    box-shadow: -30px -16px 80px rgba(255, 212, 140, 0.16);
+    clip-path: polygon(18% 0%, 74% 3%, 88% 14%, 96% 44%, 100% 100%, 0 100%, 7% 56%, 11% 18%);
   }
 
   #shopify-section-{{ section.id }} .jordy-header__arrows {
     position: absolute;
     right: 28px;
     top: 50%;
-    z-index: 4;
+    z-index: 5;
     display: flex;
     gap: 16px;
     transform: translateY(-50%);
@@ -424,46 +389,43 @@
   }
 
   @media screen and (max-width: 999px) {
+    #shopify-section-{{ section.id }} .jordy-header {
+      min-height: auto;
+    }
+
     #shopify-section-{{ section.id }} .jordy-header__inner {
       min-height: auto;
-      padding-bottom: 360px;
+      padding-bottom: 0;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__content {
       width: 100%;
-      max-width: 100%;
-      padding: 52px 28px 0;
+      max-width: min(100%, 640px);
+      padding: 52px 28px 360px;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__heading {
       font-size: clamp(38px, 7.8vw, 58px);
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__image-wrap {
-      right: 50%;
-      bottom: 0;
-      width: min(72%, 540px);
-      transform: translateX(50%) scale(0.98);
-      transform-origin: bottom center;
+    #shopify-section-{{ section.id }} .jordy-header__scene-image--desktop {
+      display: none;
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__image,
-    #shopify-section-{{ section.id }} .jordy-header__placeholder {
-      object-position: {{ section.settings.image_position_mobile }};
+    #shopify-section-{{ section.id }} .jordy-header__scene-image--mobile {
+      display: block;
+      object-position: var(--jordy-mobile-scene-position);
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__lamp {
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 28px;
-      width: 240px;
-      height: 240px;
+    #shopify-section-{{ section.id }} .jordy-header__placeholder::before {
+      width: 72%;
+      height: 34%;
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__steam {
-      right: calc(50% - 48px);
-      top: auto;
-      bottom: 346px;
+    #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
+      right: 17%;
+      width: 34%;
+      height: 36%;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__arrows {
@@ -475,7 +437,7 @@
 
     #shopify-section-{{ section.id }} .jordy-header__media-help {
       left: 20px;
-      bottom: 94px;
+      bottom: 96px;
       max-width: 220px;
     }
   }
@@ -490,12 +452,8 @@
       border-radius: 22px;
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__inner {
-      padding-bottom: 286px;
-    }
-
     #shopify-section-{{ section.id }} .jordy-header__content {
-      padding: 34px 18px 0;
+      padding: 34px 18px 286px;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__eyebrow {
@@ -568,27 +526,6 @@
       width: min(230px, var(--jordy-progress-width));
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__image-wrap {
-      width: min(85%, 420px);
-    }
-
-    #shopify-section-{{ section.id }} .jordy-header__lamp {
-      width: 192px;
-      height: 192px;
-      bottom: 34px;
-    }
-
-    #shopify-section-{{ section.id }} .jordy-header__lamp::before {
-      width: 84px;
-      height: 84px;
-    }
-
-    #shopify-section-{{ section.id }} .jordy-header__steam {
-      width: 84px;
-      height: 84px;
-      bottom: 290px;
-    }
-
     #shopify-section-{{ section.id }} .jordy-header__arrows {
       right: 16px;
       bottom: 14px;
@@ -614,6 +551,15 @@
   <div {% render 'section-properties', background_gradient: section.settings.background_gradient, background: section.settings.background, text_color: section.settings.text_color, full_width: true %}>
     <div class="container">
       <div class="jordy-header">
+        <div class="jordy-header__scene">
+          {%- if desktop_scene_image != blank -%}
+            {{ desktop_scene_image | image_url: width: 2200 | image_tag: class: 'jordy-header__scene-image jordy-header__scene-image--desktop', widths: '900,1200,1600,2200', loading: 'lazy', alt: desktop_scene_image.alt | escape }}
+            {{ mobile_scene_image | image_url: width: 1200 | image_tag: class: 'jordy-header__scene-image jordy-header__scene-image--mobile', widths: '500,700,900,1200', loading: 'lazy', alt: mobile_scene_image.alt | escape }}
+          {%- else -%}
+            <div class="jordy-header__placeholder" aria-hidden="true"></div>
+          {%- endif -%}
+        </div>
+
         <div class="jordy-header__inner">
           <div class="jordy-header__content">
             {%- if section.settings.eyebrow != blank -%}
@@ -692,25 +638,9 @@
             {%- endif -%}
           </div>
 
-          <div class="jordy-header__media">
-            <div class="jordy-header__floor"></div>
-            <div class="jordy-header__lamp"></div>
-            {%- if section.settings.show_steam -%}
-              <div class="jordy-header__steam"></div>
-            {%- endif -%}
-
-            <div class="jordy-header__image-wrap">
-              {%- if selected_media_image != blank -%}
-                {{ selected_media_image | image_url: width: 1600 | image_tag: class: 'jordy-header__image', widths: '500,700,900,1200,1600', loading: 'lazy', alt: selected_media_image.alt | escape }}
-              {%- else -%}
-                <div class="jordy-header__placeholder" aria-hidden="true"></div>
-              {%- endif -%}
-            </div>
-
-            {%- if selected_media_image == blank and media_help_text != blank -%}
-              <div class="jordy-header__media-help">{{ media_help_text | escape }}</div>
-            {%- endif -%}
-          </div>
+          {%- if desktop_scene_image == blank and media_help_text != blank -%}
+            <div class="jordy-header__media-help">{{ media_help_text | escape }}</div>
+          {%- endif -%}
 
           {%- if section.settings.show_nav_arrows -%}
             <div class="jordy-header__arrows" aria-hidden="true">
@@ -751,21 +681,22 @@
     { "type": "range", "id": "progress_width", "label": "Progress track width (%)", "min": 20, "max": 100, "step": 2, "default": 52 },
     { "type": "range", "id": "progress_fill_width", "label": "Progress fill width (%)", "min": 10, "max": 100, "step": 2, "default": 46 },
     { "type": "checkbox", "id": "show_nav_arrows", "label": "Show arrows", "default": true },
-    { "type": "checkbox", "id": "show_steam", "label": "Show steam effect", "default": true },
 
-    { "type": "header", "content": "Media" },
-    { "type": "paragraph", "content": "Gebruik 'Main image' om direct een foto te uploaden of een bestaande afbeelding uit Shopify Files/Media te kiezen." },
-    { "type": "image_picker", "id": "image", "label": "Main image" },
-    { "type": "text", "id": "media_help_text", "label": "Placeholder help text", "default": "Voeg een afbeelding toe via Main image in de theme editor. Je kunt daar direct uploaden of een bestaande afbeelding uit Shopify kiezen." },
+    { "type": "header", "content": "Scene images" },
+    { "type": "paragraph", "content": "Upload hier bij voorkeur een complete lifestyle hero-scene. Deze afbeelding vormt de volledige visuele compositie van de section." },
+    { "type": "image_picker", "id": "desktop_scene_image", "label": "Desktop scene image" },
+    { "type": "image_picker", "id": "mobile_scene_image", "label": "Mobile scene image" },
+    { "type": "paragraph", "content": "Legacy setting voor debuggen: 'Main image' blijft beschikbaar als fallback wanneer Desktop scene image leeg is." },
+    { "type": "image_picker", "id": "image", "label": "Main image (legacy fallback)" },
+    { "type": "text", "id": "media_help_text", "label": "Placeholder help text", "default": "Voeg een afbeelding toe via Desktop scene image. Gebruik bij voorkeur een complete hero-scene met bed, persoon en sfeerlicht voor het mooiste resultaat." },
     { "type": "range", "id": "placeholder_opacity", "label": "Placeholder opacity", "min": 30, "max": 100, "step": 1, "default": 92 },
-    { "type": "range", "id": "image_width", "label": "Image width (%)", "min": 30, "max": 70, "step": 1, "default": 48 },
-    { "type": "range", "id": "image_max_width", "label": "Image max width", "min": 360, "max": 1000, "step": 20, "default": 760 },
-    { "type": "range", "id": "image_opacity", "label": "Image opacity", "min": 30, "max": 100, "step": 1, "default": 100 },
-    { "type": "range", "id": "image_scale", "label": "Image scale", "min": 70, "max": 130, "step": 1, "default": 100 },
-    { "type": "range", "id": "image_right_offset", "label": "Image right offset", "min": -120, "max": 120, "step": 3, "default": 0 },
-    { "type": "range", "id": "image_bottom_offset", "label": "Image bottom offset", "min": -120, "max": 120, "step": 3, "default": 0 },
-    { "type": "text", "id": "image_position_desktop", "label": "Image position desktop", "default": "center bottom" },
-    { "type": "text", "id": "image_position_mobile", "label": "Image position mobile", "default": "center bottom" },
+    { "type": "range", "id": "scene_overlay_opacity", "label": "Scene glow overlay opacity", "min": 0, "max": 100, "step": 1, "default": 70 },
+    { "type": "range", "id": "scene_darkness_left", "label": "Scene darkness left", "min": 0, "max": 100, "step": 1, "default": 66 },
+    { "type": "range", "id": "scene_darkness_right", "label": "Scene darkness right", "min": 0, "max": 100, "step": 1, "default": 30 },
+    { "type": "range", "id": "scene_image_opacity", "label": "Scene image opacity", "min": 30, "max": 100, "step": 1, "default": 100 },
+    { "type": "range", "id": "scene_image_scale", "label": "Scene image scale", "min": 90, "max": 130, "step": 1, "default": 100 },
+    { "type": "text", "id": "desktop_scene_position", "label": "Desktop scene position", "default": "center center" },
+    { "type": "text", "id": "mobile_scene_position", "label": "Mobile scene position", "default": "center center" },
 
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "section_height", "label": "Section min height", "min": 520, "max": 980, "step": 20, "default": 760 },
