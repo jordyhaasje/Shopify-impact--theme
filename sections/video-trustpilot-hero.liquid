@@ -4,60 +4,67 @@
 #shopify-section-{{ section.id }} {
   --tp-green: 0,182,122;
   --tp-dark: 18,18,18;
-  --tp-gray: 102,102,102;
+  --tp-gray: 120,120,120;
   --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
 }
 
-.video-hero { position: relative; overflow: hidden; }
-.video-hero__media,
-.video-hero__overlay { position:absolute; inset:0; }
-.video-hero__media video { width:100%; height:100%; object-fit:cover; }
-.video-hero__overlay { background: rgba(0,0,0,var(--overlay-opacity)); z-index:2; }
+.video-hero{position:relative;overflow:hidden}
+.video-hero__media,.video-hero__overlay{position:absolute;inset:0}
+.video-hero__media video{width:100%;height:100%;object-fit:cover}
+.video-hero__overlay{background:rgba(0,0,0,var(--overlay-opacity));z-index:2}
 
-.video-hero__content {
+.video-hero__content{
   position:relative;
   z-index:3;
-  padding:90px 20px;
+  padding:100px 20px;
   text-align:center;
   color:#fff;
 }
 
-.tp-strip {
+/* Premium Trustpilot widget */
+.tp-strip{
   display:inline-flex;
   align-items:center;
-  gap:10px;
-  padding:8px 14px;
-  border-radius:6px;
+  gap:12px;
+  padding:10px 16px;
+  border-radius:8px;
   font-size:14px;
   font-weight:600;
+  backdrop-filter: blur(6px);
 }
 
-.tp-strip.bg-white { background:#fff; color:rgb(var(--tp-dark)); }
-.tp-strip.bg-transparent { background:transparent; color:#fff; }
-.tp-strip.bg-custom { background: {{ section.settings.widget_bg_color }}; color: {{ section.settings.widget_text_color }}; }
+.tp-strip.bg-white{background:#fff;color:rgb(var(--tp-dark));box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.tp-strip.bg-transparent{background:rgba(255,255,255,0.08);color:#fff}
+.tp-strip.bg-custom{background:{{ section.settings.widget_bg_color }};color:{{ section.settings.widget_text_color }}}
 
-.tp-stars { display:flex; gap:2px; }
-.tp-star {
-  width:18px;
-  height:18px;
-  background:rgb(var(--tp-green));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:2px;
-}
-.tp-star svg { width:10px; height:10px; fill:#fff; }
+.tp-stars{display:flex;gap:2px}
+.tp-star{width:18px;height:18px;background:rgb(var(--tp-green));display:flex;align-items:center;justify-content:center;border-radius:2px}
+.tp-star svg{width:10px;height:10px;fill:#fff}
 
-.tp-meta { font-weight:500; color:rgb(var(--tp-gray)); }
+.tp-meta{font-weight:500;color:rgb(var(--tp-gray));opacity:.9}
 
-.video-hero__heading {
-  font-size:clamp(34px,5vw,56px);
-  margin-top:22px;
+.video-hero__heading{
+  font-size:clamp(36px,5vw,58px);
+  margin-top:26px;
   font-weight:600;
+  letter-spacing:-0.02em;
 }
 
-.video-hero__sub { margin-top:14px; font-size:18px; opacity:.92; }
-.video-hero__actions { margin-top:28px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.video-hero__sub{
+  margin-top:16px;
+  font-size:18px;
+  opacity:.92;
+  max-width:640px;
+  margin-inline:auto;
+}
+
+.video-hero__actions{
+  margin-top:30px;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
 
 @media(max-width:699px){
   .video-hero__content{padding:70px 16px}
@@ -65,7 +72,7 @@
 }
 </style>
 
-<section class="video-hero">
+<section class="video-hero" id="tp-hero-{{ section.id }}">
   <div {% render 'section-properties' %}>
 
     <div class="video-hero__media">
@@ -80,6 +87,7 @@
 
       {%- assign bg_mode = section.settings.widget_bg_mode -%}
       <div class="tp-strip bg-{{ bg_mode }}" data-count="{{ section.settings.review_count }}">
+
         <div class="tp-stars">
           {% for i in (1..5) %}
             <span class="tp-star">
@@ -87,8 +95,13 @@
             </span>
           {% endfor %}
         </div>
+
         <span><strong>{{ section.settings.rating_score }}</strong> / 5</span>
-        <span class="tp-meta"><span class="tp-counter">0</span>+ reviews</span>
+
+        <span class="tp-meta">
+          <span class="tp-counter">{{ section.settings.review_count }}</span> reviews
+        </span>
+
       </div>
 
       <h2 class="video-hero__heading">{{ section.settings.heading }}</h2>
@@ -108,22 +121,32 @@
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-  const el = document.querySelector('#shopify-section-{{ section.id }} .tp-counter');
-  if(!el) return;
-  const target = parseInt(document.querySelector('#shopify-section-{{ section.id }} .tp-strip').dataset.count);
-  let count = 0;
-  const step = Math.ceil(target / 60);
+(function(){
+  const root = document.getElementById('tp-hero-{{ section.id }}');
+  if(!root) return;
 
-  const interval = setInterval(()=>{
-    count += step;
-    if(count >= target){
-      count = target;
-      clearInterval(interval);
+  const counter = root.querySelector('.tp-counter');
+  const strip = root.querySelector('.tp-strip');
+  if(!counter || !strip) return;
+
+  const target = parseInt(strip.dataset.count || 0);
+  let current = 0;
+  const duration = 1200;
+  const start = performance.now();
+
+  function animate(now){
+    const progress = Math.min((now - start)/duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    current = Math.floor(eased * target);
+    counter.textContent = current.toLocaleString();
+
+    if(progress < 1){
+      requestAnimationFrame(animate);
     }
-    el.textContent = count;
-  },20);
-});
+  }
+
+  requestAnimationFrame(animate);
+})();
 </script>
 
 {% schema %}
