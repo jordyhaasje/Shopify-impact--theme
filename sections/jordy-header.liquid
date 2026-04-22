@@ -1,0 +1,802 @@
+{%- render 'section-spacing-collapsing', background_gradient: section.settings.background_gradient, background: section.settings.background -%}
+
+{%- assign heading_pre = section.settings.heading_pre | strip -%}
+{%- assign heading_highlight = section.settings.heading_highlight | strip -%}
+{%- assign heading_post = section.settings.heading_post | strip -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --jordy-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --jordy-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --jordy-muted: {{ section.settings.muted_text_color.red }}, {{ section.settings.muted_text_color.green }}, {{ section.settings.muted_text_color.blue }};
+    --jordy-highlight: {{ section.settings.highlight_color.red }}, {{ section.settings.highlight_color.green }}, {{ section.settings.highlight_color.blue }};
+    --jordy-pill-bg: {{ section.settings.pill_background.red }}, {{ section.settings.pill_background.green }}, {{ section.settings.pill_background.blue }};
+    --jordy-pill-border: {{ section.settings.pill_border_color.red }}, {{ section.settings.pill_border_color.green }}, {{ section.settings.pill_border_color.blue }};
+    --jordy-pill-text: {{ section.settings.pill_text_color.red }}, {{ section.settings.pill_text_color.green }}, {{ section.settings.pill_text_color.blue }};
+    --jordy-button-bg: {{ section.settings.button_background.red }}, {{ section.settings.button_background.green }}, {{ section.settings.button_background.blue }};
+    --jordy-button-text: {{ section.settings.button_text_color.red }}, {{ section.settings.button_text_color.green }}, {{ section.settings.button_text_color.blue }};
+    --jordy-badge-bg: {{ section.settings.badge_background.red }}, {{ section.settings.badge_background.green }}, {{ section.settings.badge_background.blue }};
+    --jordy-badge-border: {{ section.settings.badge_border_color.red }}, {{ section.settings.badge_border_color.green }}, {{ section.settings.badge_border_color.blue }};
+    --jordy-badge-text: {{ section.settings.badge_text_color.red }}, {{ section.settings.badge_text_color.green }}, {{ section.settings.badge_text_color.blue }};
+    --jordy-star-bg: {{ section.settings.star_background.red }}, {{ section.settings.star_background.green }}, {{ section.settings.star_background.blue }};
+    --jordy-star-color: {{ section.settings.star_icon_color.red }}, {{ section.settings.star_icon_color.green }}, {{ section.settings.star_icon_color.blue }};
+    --jordy-arrow-bg: {{ section.settings.arrow_background.red }}, {{ section.settings.arrow_background.green }}, {{ section.settings.arrow_background.blue }};
+    --jordy-arrow-color: {{ section.settings.arrow_icon_color.red }}, {{ section.settings.arrow_icon_color.green }}, {{ section.settings.arrow_icon_color.blue }};
+    --jordy-progress-bg: {{ section.settings.progress_background.red }}, {{ section.settings.progress_background.green }}, {{ section.settings.progress_background.blue }};
+    --jordy-progress-fill: {{ section.settings.progress_fill.red }}, {{ section.settings.progress_fill.green }}, {{ section.settings.progress_fill.blue }};
+    --jordy-shell-radius: {{ section.settings.corner_radius }}px;
+    --jordy-shell-min-height: {{ section.settings.section_height }}px;
+    --jordy-image-width: {{ section.settings.image_width }}%;
+    --jordy-image-max: {{ section.settings.image_max_width }}px;
+    --jordy-image-right: {{ section.settings.image_right_offset }}px;
+    --jordy-image-bottom: {{ section.settings.image_bottom_offset }}px;
+    --jordy-image-opacity: {{ section.settings.image_opacity | divided_by: 100.0 }};
+    --jordy-image-scale: {{ section.settings.image_scale | divided_by: 100.0 }};
+    --jordy-arrow-size: {{ section.settings.arrow_size }}px;
+    --jordy-progress-width: {{ section.settings.progress_width }}%;
+    --jordy-progress-fill-width: {{ section.settings.progress_fill_width }}%;
+    --jordy-padding-top: {{ section.settings.padding_top }}px;
+    --jordy-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --jordy-content-padding-x: {{ section.settings.content_padding_x }}px;
+    --jordy-content-padding-y: {{ section.settings.content_padding_y }}px;
+    --jordy-content-width: {{ section.settings.text_column_width }}%;
+    --jordy-heading-max: {{ section.settings.heading_max_width }}px;
+    --jordy-pill-gap: {{ section.settings.pill_gap }}px;
+    --jordy-pill-radius: {{ section.settings.pill_radius }}px;
+    --jordy-badge-radius: {{ section.settings.badge_radius }}px;
+    --jordy-button-radius: {{ section.settings.button_radius }}px;
+    --jordy-placeholder-opacity: {{ section.settings.placeholder_opacity | divided_by: 100.0 }};
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header-shell {
+    padding-top: var(--jordy-padding-top);
+    padding-bottom: var(--jordy-padding-bottom);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header {
+    position: relative;
+    overflow: hidden;
+    min-height: var(--jordy-shell-min-height);
+    border-radius: var(--jordy-shell-radius);
+    color: rgb(var(--jordy-text));
+    background-color: rgb(var(--jordy-bg));
+    background-image:
+      radial-gradient(circle at 68% 74%, rgba(248, 201, 136, 0.56) 0%, rgba(248, 201, 136, 0.16) 18%, rgba(248, 201, 136, 0) 40%),
+      radial-gradient(circle at 78% 60%, rgba(255, 234, 191, 0.18) 0%, rgba(255, 234, 191, 0) 18%),
+      linear-gradient(93deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_middle }} 54%, {{ section.settings.gradient_end }} 100%);
+    isolation: isolate;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__inner {
+    position: relative;
+    display: flex;
+    min-height: var(--jordy-shell-min-height);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__content {
+    position: relative;
+    z-index: 3;
+    width: min(100%, var(--jordy-content-width));
+    max-width: var(--jordy-heading-max);
+    padding: var(--jordy-content-padding-y) var(--jordy-content-padding-x);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 10px 18px;
+    margin-bottom: 26px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(var(--jordy-text), 0.95);
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__heading {
+    margin: 0;
+    max-width: var(--jordy-heading-max);
+    font-size: clamp(42px, 5.4vw, 74px);
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+    font-weight: 600;
+    color: rgb(var(--jordy-text));
+    text-wrap: balance;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__heading-highlight {
+    color: rgb(var(--jordy-highlight));
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+    padding: 7px 12px;
+    border-radius: var(--jordy-badge-radius);
+    border: 1px solid rgba(var(--jordy-badge-border), 0.7);
+    background: rgba(var(--jordy-badge-bg), 0.38);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    background: rgb(var(--jordy-star-bg));
+    color: rgb(var(--jordy-star-color));
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__star svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__rating-text {
+    font-size: 14px;
+    line-height: 1.2;
+    color: rgba(var(--jordy-text), 0.94);
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__description {
+    max-width: 720px;
+    margin-top: 26px;
+    color: rgba(var(--jordy-text), 0.84);
+    font-size: 18px;
+    line-height: 1.58;
+    letter-spacing: -0.01em;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__description p {
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--jordy-pill-gap);
+    margin-top: 30px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 46px;
+    padding: 9px 17px;
+    border-radius: var(--jordy-pill-radius);
+    border: 1px solid rgba(var(--jordy-pill-border), 0.8);
+    background: rgba(var(--jordy-pill-bg), 0.34);
+    color: rgb(var(--jordy-pill-text));
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__pill svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__cta {
+    margin-top: 30px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__cta .button {
+    min-width: 264px;
+    min-height: 62px;
+    padding-inline: 34px;
+    border-radius: var(--jordy-button-radius);
+    box-shadow: 0 16px 30px rgba(17, 19, 25, 0.22);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__trust {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    color: rgba(var(--jordy-text), 0.88);
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__trust svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__progress {
+    width: min(340px, var(--jordy-progress-width));
+    height: 3px;
+    margin-top: 54px;
+    border-radius: 999px;
+    background: rgba(var(--jordy-progress-bg), 0.28);
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__progress-bar {
+    display: block;
+    width: var(--jordy-progress-fill-width);
+    height: 100%;
+    border-radius: inherit;
+    background: rgb(var(--jordy-progress-fill));
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__floor {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 160px;
+    background: linear-gradient(180deg, rgba(15, 21, 35, 0) 0%, rgba(15, 21, 35, 0.08) 36%, rgba(15, 21, 35, 0.30) 100%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__lamp {
+    position: absolute;
+    left: 46%;
+    bottom: 70px;
+    width: 280px;
+    height: 280px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(255, 220, 166, 0.96) 0%, rgba(255, 208, 121, 0.42) 28%, rgba(255, 208, 121, 0.08) 52%, rgba(255, 208, 121, 0) 76%);
+    filter: blur(8px);
+    opacity: 0.92;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__lamp::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 112px;
+    height: 112px;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 248, 224, 1) 0%, rgba(255, 237, 182, 0.92) 48%, rgba(255, 204, 113, 0.88) 100%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__lamp::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    width: 150px;
+    height: 34px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.24);
+    filter: blur(14px);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__steam {
+    position: absolute;
+    right: 265px;
+    top: 128px;
+    width: 114px;
+    height: 114px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.12) 24%, rgba(255,255,255,0.03) 44%, rgba(255,255,255,0) 72%);
+    filter: blur(16px);
+    opacity: 0.8;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__image-wrap {
+    position: absolute;
+    right: var(--jordy-image-right);
+    bottom: var(--jordy-image-bottom);
+    width: min(var(--jordy-image-width), var(--jordy-image-max));
+    max-width: 100%;
+    transform: scale(var(--jordy-image-scale));
+    transform-origin: bottom right;
+    opacity: var(--jordy-image-opacity);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: {{ section.settings.image_position_desktop }};
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 0.84;
+    border-radius: 0;
+    opacity: var(--jordy-placeholder-opacity);
+    background:
+      radial-gradient(circle at 44% 22%, rgba(246, 230, 224, 0.18) 0%, rgba(246, 230, 224, 0) 20%),
+      radial-gradient(circle at 38% 24%, rgba(35, 29, 26, 0.34) 0%, rgba(35, 29, 26, 0) 12%),
+      linear-gradient(180deg, rgba(62, 73, 87, 0) 0%, rgba(62, 73, 87, 0) 34%, rgba(58, 61, 73, 0.85) 35%, rgba(39, 42, 55, 1) 100%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::before {
+    content: '';
+    position: absolute;
+    right: 8%;
+    bottom: 0;
+    width: 68%;
+    height: 82%;
+    border-radius: 38% 38% 8% 10% / 28% 28% 14% 14%;
+    background:
+      radial-gradient(circle at 55% 14%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 16%),
+      linear-gradient(180deg, #5f6e63 0%, #425046 52%, #334036 100%);
+    box-shadow: -18px 16px 0 rgba(21, 30, 46, 0.28);
+    clip-path: polygon(19% 0%, 68% 2%, 79% 13%, 83% 36%, 92% 53%, 100% 100%, 0% 100%, 8% 58%, 15% 36%, 17% 14%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
+    content: '';
+    position: absolute;
+    left: 4%;
+    bottom: 0;
+    width: 61%;
+    height: 36%;
+    border-radius: 24% 20% 0 0;
+    background: linear-gradient(180deg, rgba(83, 92, 110, 0.95) 0%, rgba(54, 62, 79, 0.98) 100%);
+    box-shadow: 0 -36px 0 0 rgba(71, 78, 96, 0.55) inset;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__arrows {
+    position: absolute;
+    right: 28px;
+    top: 50%;
+    z-index: 4;
+    display: flex;
+    gap: 16px;
+    transform: translateY(-50%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__arrow {
+    width: var(--jordy-arrow-size);
+    height: var(--jordy-arrow-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 999px;
+    background: rgb(var(--jordy-arrow-bg));
+    color: rgb(var(--jordy-arrow-color));
+    box-shadow: 0 10px 30px rgba(17, 21, 31, 0.18);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__arrow svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  @media screen and (max-width: 999px) {
+    #shopify-section-{{ section.id }} .jordy-header__inner {
+      min-height: auto;
+      padding-bottom: 360px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__content {
+      width: 100%;
+      max-width: 100%;
+      padding: 52px 28px 0;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__heading {
+      font-size: clamp(38px, 7.8vw, 58px);
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__image-wrap {
+      right: 50%;
+      bottom: 0;
+      width: min(72%, 540px);
+      transform: translateX(50%) scale(0.98);
+      transform-origin: bottom center;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__image {
+      object-position: {{ section.settings.image_position_mobile }};
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__lamp {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 28px;
+      width: 240px;
+      height: 240px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__steam {
+      right: calc(50% - 48px);
+      top: auto;
+      bottom: 346px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__arrows {
+      top: auto;
+      right: 24px;
+      bottom: 24px;
+      transform: none;
+    }
+  }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} .jordy-header-shell {
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header {
+      border-radius: 22px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__inner {
+      padding-bottom: 286px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__content {
+      padding: 34px 18px 0;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__eyebrow {
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      min-height: 38px;
+      font-size: 13px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__heading {
+      font-size: clamp(34px, 11vw, 46px);
+      line-height: 1.04;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__rating {
+      margin-top: 18px;
+      gap: 10px;
+      padding: 8px 10px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__star {
+      width: 18px;
+      height: 18px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__star svg {
+      width: 9px;
+      height: 9px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__rating-text {
+      font-size: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__description {
+      margin-top: 18px;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__pills {
+      margin-top: 22px;
+      gap: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__pill {
+      min-height: 42px;
+      padding: 9px 14px;
+      font-size: 13px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__cta {
+      width: 100%;
+      margin-top: 24px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__cta .button {
+      width: 100%;
+      min-width: 0;
+      min-height: 56px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__trust {
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__progress {
+      margin-top: 30px;
+      width: min(230px, var(--jordy-progress-width));
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__image-wrap {
+      width: min(85%, 420px);
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__lamp {
+      width: 192px;
+      height: 192px;
+      bottom: 34px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__lamp::before {
+      width: 84px;
+      height: 84px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__steam {
+      width: 84px;
+      height: 84px;
+      bottom: 290px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__arrows {
+      right: 16px;
+      bottom: 14px;
+      gap: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .jordy-header__arrow {
+      width: 52px;
+      height: 52px;
+    }
+  }
+</style>
+
+<section class="jordy-header-shell">
+  <div {% render 'section-properties', background_gradient: section.settings.background_gradient, background: section.settings.background, text_color: section.settings.text_color, full_width: true %}>
+    <div class="container">
+      <div class="jordy-header">
+        <div class="jordy-header__inner">
+          <div class="jordy-header__content">
+            {%- if section.settings.eyebrow != blank -%}
+              <div class="jordy-header__eyebrow">{{ section.settings.eyebrow | escape }}</div>
+            {%- endif -%}
+
+            {%- if heading_pre != blank or heading_highlight != blank or heading_post != blank -%}
+              <h2 class="jordy-header__heading">
+                {{ heading_pre | escape }}{% if heading_highlight != blank %} <span class="jordy-header__heading-highlight">{{ heading_highlight | escape }}</span>{% endif %}{% if heading_post != blank %}<br>{{ heading_post | escape }}{% endif %}
+              </h2>
+            {%- endif -%}
+
+            {%- if section.settings.show_rating_badge -%}
+              <div class="jordy-header__rating">
+                {%- if section.settings.show_stars -%}
+                  <div class="jordy-header__stars" aria-hidden="true">
+                    {%- for i in (1..5) -%}
+                      <span class="jordy-header__star">
+                        <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+                          <path d="M9.999 1.667l2.575 5.217 5.758.837-4.166 4.061.983 5.734-5.15-2.707-5.149 2.707.983-5.734-4.166-4.061 5.758-.837L9.999 1.667z" fill="currentColor"></path>
+                        </svg>
+                      </span>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if section.settings.rating_text != blank -%}
+                  <span class="jordy-header__rating-text">{{ section.settings.rating_text | escape }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.description != blank -%}
+              <div class="jordy-header__description rte">
+                {{ section.settings.description }}
+              </div>
+            {%- endif -%}
+
+            <div class="jordy-header__pills">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'feature' and block.settings.text != blank -%}
+                  <div class="jordy-header__pill" {{ block.shopify_attributes }}>
+                    {%- case block.settings.icon -%}
+                      {%- when 'brain' -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 4.5a3.5 3.5 0 0 0-3.5 3.5v.5a3 3 0 0 0-2 2.83V12a3 3 0 0 0 1.5 2.6A3.5 3.5 0 0 0 9 20h1v-6H9a2 2 0 0 1-2-2v-.5a2.5 2.5 0 0 1 2.5-2.5h.5V8A3.5 3.5 0 0 0 9.5 4.5Z"></path><path d="M14.5 4.5A3.5 3.5 0 0 1 18 8v.5a3 3 0 0 1 2 2.83V12a3 3 0 0 1-1.5 2.6A3.5 3.5 0 0 1 15 20h-1v-6h1a2 2 0 0 0 2-2v-.5A2.5 2.5 0 0 0 14.5 9H14V8a3.5 3.5 0 0 1 .5-3.5Z"></path><path d="M12 8v12"></path></svg>
+                      {%- when 'snowflake' -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"></path><path d="m4.93 6 14.14 12"></path><path d="M19.07 6 4.93 18"></path><path d="m8.5 4 3.5 2 3.5-2"></path><path d="m8.5 20 3.5-2 3.5 2"></path><path d="m3 9 2 3-2 3"></path><path d="m21 9-2 3 2 3"></path></svg>
+                      {%- when 'spark' -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4"></path><path d="M12 17v4"></path><path d="m4.93 4.93 2.83 2.83"></path><path d="m16.24 16.24 2.83 2.83"></path><path d="M3 12h4"></path><path d="M17 12h4"></path><path d="m4.93 19.07 2.83-2.83"></path><path d="m16.24 7.76 2.83-2.83"></path><circle cx="12" cy="12" r="3.5"></circle></svg>
+                      {%- else -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="8"></rect><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+                    {%- endcase -%}
+                    <span>{{ block.settings.text | escape }}</span>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if section.settings.button_label != blank -%}
+              <div class="jordy-header__cta">
+                {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'xl', style: 'fill', background: section.settings.button_background, text_color: section.settings.button_text_color %}
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.trust_text != blank -%}
+              <div class="jordy-header__trust">
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.2 16.2 4v5.35c0 3.8-2.33 6.95-6.2 8.45C6.13 16.3 3.8 13.15 3.8 9.35V4L10 2.2Z" fill="currentColor" opacity="0.2"></path><path d="M10 2.2 16.2 4v5.35c0 3.8-2.33 6.95-6.2 8.45C6.13 16.3 3.8 13.15 3.8 9.35V4L10 2.2Z" stroke="currentColor" stroke-width="1.4"></path><path d="m7.6 10.2 1.7 1.7 3.4-3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span>{{ section.settings.trust_text | escape }}</span>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.show_progress_bar -%}
+              <div class="jordy-header__progress" aria-hidden="true">
+                <span class="jordy-header__progress-bar"></span>
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="jordy-header__media">
+            <div class="jordy-header__floor"></div>
+            <div class="jordy-header__lamp"></div>
+            {%- if section.settings.show_steam -%}
+              <div class="jordy-header__steam"></div>
+            {%- endif -%}
+
+            <div class="jordy-header__image-wrap">
+              {%- if section.settings.image != blank -%}
+                {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'jordy-header__image', widths: '500,700,900,1200,1600', loading: 'lazy', alt: section.settings.image.alt | escape }}
+              {%- else -%}
+                <div class="jordy-header__placeholder" aria-hidden="true"></div>
+              {%- endif -%}
+            </div>
+          </div>
+
+          {%- if section.settings.show_nav_arrows -%}
+            <div class="jordy-header__arrows" aria-hidden="true">
+              <button type="button" class="jordy-header__arrow" aria-label="Previous slide">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="jordy-header__arrow" aria-label="Next slide">
+                <svg viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Jordy header",
+  "tag": "section",
+  "class": "shopify-section--jordy-header",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Rest & Recover" },
+    { "type": "text", "id": "heading_pre", "label": "Heading before highlight", "default": "Master your" },
+    { "type": "text", "id": "heading_highlight", "label": "Highlighted word", "default": "circadian" },
+    { "type": "text", "id": "heading_post", "label": "Heading after highlight", "default": "rhythm" },
+    { "type": "checkbox", "id": "show_rating_badge", "label": "Show review badge", "default": true },
+    { "type": "checkbox", "id": "show_stars", "label": "Show stars", "default": true },
+    { "type": "text", "id": "rating_text", "label": "Review badge text", "default": "The science of superior sleep" },
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Enhance your nightly rest with the use of intelligent lighting and fabrics that promote deeper REM cycles.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Sleep Tech" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "trust_text", "label": "Trust text", "default": "Clinically tested sleep results" },
+    { "type": "checkbox", "id": "show_progress_bar", "label": "Show progress bar", "default": true },
+    { "type": "range", "id": "progress_width", "label": "Progress track width (%)", "min": 20, "max": 100, "step": 2, "default": 52 },
+    { "type": "range", "id": "progress_fill_width", "label": "Progress fill width (%)", "min": 10, "max": 100, "step": 2, "default": 46 },
+    { "type": "checkbox", "id": "show_nav_arrows", "label": "Show arrows", "default": true },
+    { "type": "checkbox", "id": "show_steam", "label": "Show steam effect", "default": true },
+
+    { "type": "header", "content": "Media" },
+    { "type": "image_picker", "id": "image", "label": "Main image" },
+    { "type": "range", "id": "placeholder_opacity", "label": "Placeholder opacity", "min": 30, "max": 100, "step": 1, "default": 92 },
+    { "type": "range", "id": "image_width", "label": "Image width (%)", "min": 30, "max": 70, "step": 1, "default": 48 },
+    { "type": "range", "id": "image_max_width", "label": "Image max width", "min": 360, "max": 1000, "step": 20, "default": 760 },
+    { "type": "range", "id": "image_opacity", "label": "Image opacity", "min": 30, "max": 100, "step": 1, "default": 100 },
+    { "type": "range", "id": "image_scale", "label": "Image scale", "min": 70, "max": 130, "step": 1, "default": 100 },
+    { "type": "range", "id": "image_right_offset", "label": "Image right offset", "min": -120, "max": 120, "step": 3, "default": 0 },
+    { "type": "range", "id": "image_bottom_offset", "label": "Image bottom offset", "min": -120, "max": 120, "step": 3, "default": 0 },
+    { "type": "text", "id": "image_position_desktop", "label": "Image position desktop", "default": "center bottom" },
+    { "type": "text", "id": "image_position_mobile", "label": "Image position mobile", "default": "center bottom" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "section_height", "label": "Section min height", "min": 520, "max": 980, "step": 20, "default": 760 },
+    { "type": "range", "id": "heading_max_width", "label": "Heading max width", "min": 360, "max": 900, "step": 20, "default": 640 },
+    { "type": "range", "id": "text_column_width", "label": "Text column width (%)", "min": 35, "max": 70, "step": 1, "default": 52 },
+    { "type": "range", "id": "padding_top", "label": "Section top padding", "min": 0, "max": 120, "step": 4, "default": 28 },
+    { "type": "range", "id": "padding_bottom", "label": "Section bottom padding", "min": 0, "max": 120, "step": 4, "default": 28 },
+    { "type": "range", "id": "content_padding_x", "label": "Inner side padding", "min": 20, "max": 100, "step": 2, "default": 34 },
+    { "type": "range", "id": "content_padding_y", "label": "Inner vertical padding", "min": 30, "max": 160, "step": 2, "default": 52 },
+    { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 48, "step": 2, "default": 0 },
+    { "type": "range", "id": "pill_gap", "label": "Feature pill gap", "min": 6, "max": 24, "step": 2, "default": 14 },
+    { "type": "range", "id": "pill_radius", "label": "Feature pill radius", "min": 8, "max": 28, "step": 2, "default": 16 },
+    { "type": "range", "id": "badge_radius", "label": "Badge radius", "min": 8, "max": 28, "step": 2, "default": 14 },
+    { "type": "range", "id": "button_radius", "label": "Button radius", "min": 16, "max": 40, "step": 2, "default": 28 },
+    { "type": "range", "id": "arrow_size", "label": "Arrow size", "min": 42, "max": 88, "step": 2, "default": 62 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background color", "default": "#15284A" },
+    { "type": "text", "id": "background_gradient", "label": "Background gradient token", "default": "linear-gradient(93deg, rgba(21,40,74,1) 0%, rgba(35,56,92,1) 54%, rgba(73,67,82,1) 100%)" },
+    { "type": "text", "id": "gradient_start", "label": "Gradient start", "default": "rgba(21,40,74,1)" },
+    { "type": "text", "id": "gradient_middle", "label": "Gradient middle", "default": "rgba(35,56,92,1)" },
+    { "type": "text", "id": "gradient_end", "label": "Gradient end", "default": "rgba(73,67,82,1)" },
+    { "type": "color", "id": "text_color", "label": "Main text color", "default": "#F7F4ED" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#D6D8E0" },
+    { "type": "color", "id": "highlight_color", "label": "Highlighted word color", "default": "#D1C786" },
+    { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#606A80" },
+    { "type": "color", "id": "badge_border_color", "label": "Badge border", "default": "#8C94A8" },
+    { "type": "color", "id": "badge_text_color", "label": "Badge text", "default": "#F7F8FB" },
+    { "type": "color", "id": "star_background", "label": "Star background", "default": "#16C47E" },
+    { "type": "color", "id": "star_icon_color", "label": "Star icon color", "default": "#FFFFFF" },
+    { "type": "color", "id": "pill_background", "label": "Pill background", "default": "#4A5366" },
+    { "type": "color", "id": "pill_border_color", "label": "Pill border", "default": "#8C94A8" },
+    { "type": "color", "id": "pill_text_color", "label": "Pill text", "default": "#F4F5F8" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#F3D207" },
+    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#111111" },
+    { "type": "color", "id": "arrow_background", "label": "Arrow background", "default": "#F4F4F2" },
+    { "type": "color", "id": "arrow_icon_color", "label": "Arrow icon color", "default": "#1A1E2A" },
+    { "type": "color", "id": "progress_background", "label": "Progress track color", "default": "#98A0B4" },
+    { "type": "color", "id": "progress_fill", "label": "Progress fill color", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature pill",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "brain",
+          "options": [
+            { "value": "brain", "label": "Brain" },
+            { "value": "snowflake", "label": "Snowflake" },
+            { "value": "spark", "label": "Spark" },
+            { "value": "plus", "label": "Plus" }
+          ]
+        },
+        { "type": "text", "id": "text", "label": "Text", "default": "REM+ Optimization" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jordy header",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "brain", "text": "REM+ Optimization" } },
+        { "type": "feature", "settings": { "icon": "snowflake", "text": "Active Cooling" } },
+        { "type": "feature", "settings": { "icon": "spark", "text": "Smart-Sync Light" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
