@@ -3,15 +3,14 @@
 {%- assign heading_pre = section.settings.heading_pre | strip -%}
 {%- assign heading_highlight = section.settings.heading_highlight | strip -%}
 {%- assign heading_post = section.settings.heading_post | strip -%}
-{%- assign desktop_scene_image = section.settings.desktop_scene_image | default: section.settings.image -%}
-{%- assign mobile_scene_image = section.settings.mobile_scene_image | default: desktop_scene_image -%}
+{%- assign desktop_hero_image = section.settings.desktop_hero_image | default: section.settings.image -%}
+{%- assign mobile_hero_image = section.settings.mobile_hero_image | default: desktop_hero_image -%}
 {%- assign media_help_text = section.settings.media_help_text | strip -%}
 
 <style>
   #shopify-section-{{ section.id }} {
     --jordy-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
     --jordy-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
-    --jordy-muted: {{ section.settings.muted_text_color.red }}, {{ section.settings.muted_text_color.green }}, {{ section.settings.muted_text_color.blue }};
     --jordy-highlight: {{ section.settings.highlight_color.red }}, {{ section.settings.highlight_color.green }}, {{ section.settings.highlight_color.blue }};
     --jordy-pill-bg: {{ section.settings.pill_background.red }}, {{ section.settings.pill_background.green }}, {{ section.settings.pill_background.blue }};
     --jordy-pill-border: {{ section.settings.pill_border_color.red }}, {{ section.settings.pill_border_color.green }}, {{ section.settings.pill_border_color.blue }};
@@ -41,13 +40,12 @@
     --jordy-badge-radius: {{ section.settings.badge_radius }}px;
     --jordy-button-radius: {{ section.settings.button_radius }}px;
     --jordy-placeholder-opacity: {{ section.settings.placeholder_opacity | divided_by: 100.0 }};
-    --jordy-scene-overlay-opacity: {{ section.settings.scene_overlay_opacity | divided_by: 100.0 }};
-    --jordy-scene-darkness-left: {{ section.settings.scene_darkness_left | divided_by: 100.0 }};
-    --jordy-scene-darkness-right: {{ section.settings.scene_darkness_right | divided_by: 100.0 }};
-    --jordy-scene-image-opacity: {{ section.settings.scene_image_opacity | divided_by: 100.0 }};
-    --jordy-scene-image-scale: {{ section.settings.scene_image_scale | divided_by: 100.0 }};
-    --jordy-desktop-scene-position: {{ section.settings.desktop_scene_position }};
-    --jordy-mobile-scene-position: {{ section.settings.mobile_scene_position }};
+    --jordy-hero-opacity: {{ section.settings.hero_image_opacity | divided_by: 100.0 }};
+    --jordy-hero-scale: {{ section.settings.hero_image_scale | divided_by: 100.0 }};
+    --jordy-hero-position-desktop: {{ section.settings.hero_image_position_desktop }};
+    --jordy-hero-position-mobile: {{ section.settings.hero_image_position_mobile }};
+    --jordy-overlay-main: {{ section.settings.overlay_main_opacity | divided_by: 100.0 }};
+    --jordy-overlay-glow: {{ section.settings.overlay_glow_opacity | divided_by: 100.0 }};
   }
 
   #shopify-section-{{ section.id }} .jordy-header-shell {
@@ -63,42 +61,41 @@
     color: rgb(var(--jordy-text));
     background-color: rgb(var(--jordy-bg));
     background-image:
-      radial-gradient(circle at 66% 74%, rgba(248, 201, 136, 0.58) 0%, rgba(248, 201, 136, 0.18) 18%, rgba(248, 201, 136, 0) 38%),
-      radial-gradient(circle at 74% 56%, rgba(255, 236, 198, 0.14) 0%, rgba(255, 236, 198, 0) 15%),
-      linear-gradient(93deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_middle }} 52%, {{ section.settings.gradient_end }} 100%);
+      radial-gradient(circle at 68% 74%, rgba(248, 201, 136, 0.56) 0%, rgba(248, 201, 136, 0.16) 18%, rgba(248, 201, 136, 0) 40%),
+      radial-gradient(circle at 78% 60%, rgba(255, 234, 191, 0.18) 0%, rgba(255, 234, 191, 0) 18%),
+      linear-gradient(93deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_middle }} 54%, {{ section.settings.gradient_end }} 100%);
     isolation: isolate;
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__scene,
-  #shopify-section-{{ section.id }} .jordy-header__scene::before,
-  #shopify-section-{{ section.id }} .jordy-header__scene::after {
+  #shopify-section-{{ section.id }} .jordy-header__media,
+  #shopify-section-{{ section.id }} .jordy-header__media::before,
+  #shopify-section-{{ section.id }} .jordy-header__media::after {
     position: absolute;
     inset: 0;
-    content: '';
     display: block;
+    content: '';
     pointer-events: none;
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__scene {
+  #shopify-section-{{ section.id }} .jordy-header__media {
     z-index: 1;
     overflow: hidden;
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__scene::before {
+  #shopify-section-{{ section.id }} .jordy-header__media::before {
     z-index: 2;
     background:
-      linear-gradient(90deg, rgba(8, 24, 56, var(--jordy-scene-darkness-left)) 0%, rgba(15, 34, 70, calc(var(--jordy-scene-darkness-left) * 0.9)) 24%, rgba(17, 30, 58, 0.24) 44%, rgba(17, 27, 47, 0.08) 58%, rgba(24, 17, 21, var(--jordy-scene-darkness-right)) 100%),
-      radial-gradient(circle at 63% 76%, rgba(255, 206, 124, calc(var(--jordy-scene-overlay-opacity) * 0.75)) 0%, rgba(255, 206, 124, calc(var(--jordy-scene-overlay-opacity) * 0.28)) 20%, rgba(255, 206, 124, 0) 43%),
-      radial-gradient(circle at 76% 42%, rgba(255, 255, 255, calc(var(--jordy-scene-overlay-opacity) * 0.14)) 0%, rgba(255, 255, 255, 0) 13%);
-    mix-blend-mode: normal;
+      linear-gradient(90deg, rgba(8, 20, 46, var(--jordy-overlay-main)) 0%, rgba(10, 22, 48, calc(var(--jordy-overlay-main) * 0.94)) 26%, rgba(11, 21, 40, 0.22) 44%, rgba(14, 15, 24, 0.12) 58%, rgba(25, 18, 22, calc(var(--jordy-overlay-main) * 0.52)) 100%),
+      radial-gradient(circle at 66% 72%, rgba(248, 181, 103, calc(var(--jordy-overlay-glow) * 0.86)) 0%, rgba(248, 181, 103, calc(var(--jordy-overlay-glow) * 0.26)) 18%, rgba(248, 181, 103, 0) 42%),
+      radial-gradient(circle at 76% 44%, rgba(255, 241, 212, calc(var(--jordy-overlay-glow) * 0.18)) 0%, rgba(255, 241, 212, 0) 12%);
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__scene::after {
+  #shopify-section-{{ section.id }} .jordy-header__media::after {
     z-index: 3;
-    background: linear-gradient(180deg, rgba(9, 16, 29, 0) 0%, rgba(10, 15, 28, 0.02) 32%, rgba(10, 15, 28, 0.22) 100%);
+    background: linear-gradient(180deg, rgba(11, 16, 26, 0) 0%, rgba(11, 16, 26, 0.02) 38%, rgba(11, 16, 26, 0.22) 100%);
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__scene-image,
+  #shopify-section-{{ section.id }} .jordy-header__hero-image,
   #shopify-section-{{ section.id }} .jordy-header__placeholder {
     position: absolute;
     inset: 0;
@@ -107,23 +104,56 @@
     display: block;
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__scene-image {
+  #shopify-section-{{ section.id }} .jordy-header__hero-image {
     z-index: 1;
     object-fit: cover;
-    object-position: var(--jordy-desktop-scene-position);
-    opacity: var(--jordy-scene-image-opacity);
-    transform: scale(var(--jordy-scene-image-scale));
+    object-position: var(--jordy-hero-position-desktop);
+    opacity: var(--jordy-hero-opacity);
+    transform: scale(var(--jordy-hero-scale));
     transform-origin: center center;
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__scene-image--mobile {
+  #shopify-section-{{ section.id }} .jordy-header__hero-image--mobile {
     display: none;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder {
+    z-index: 1;
+    opacity: var(--jordy-placeholder-opacity);
+    background:
+      radial-gradient(circle at 74% 68%, rgba(255, 206, 126, 0.58) 0%, rgba(255, 206, 126, 0.18) 16%, rgba(255, 206, 126, 0) 36%),
+      linear-gradient(90deg, rgba(14, 33, 67, 1) 0%, rgba(34, 58, 99, 0.96) 46%, rgba(72, 66, 84, 0.9) 100%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::before,
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::before {
+    right: 0;
+    width: 52%;
+    height: 46%;
+    background: linear-gradient(180deg, rgba(87, 92, 108, 0.24) 0%, rgba(63, 68, 84, 0.76) 18%, rgba(44, 49, 63, 0.98) 100%);
+    clip-path: polygon(12% 16%, 100% 0, 100% 100%, 0 100%, 0 56%);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
+    right: 6%;
+    width: 24%;
+    height: 42%;
+    border-radius: 38% 38% 10% 10% / 22% 22% 14% 14%;
+    background: linear-gradient(180deg, #677062 0%, #495448 48%, #364136 100%);
+    box-shadow: -30px -16px 80px rgba(255, 212, 140, 0.16);
+    clip-path: polygon(18% 0%, 74% 3%, 88% 14%, 96% 44%, 100% 100%, 0 100%, 7% 56%, 11% 18%);
   }
 
   #shopify-section-{{ section.id }} .jordy-header__inner {
     position: relative;
     display: flex;
-    align-items: stretch;
     min-height: var(--jordy-shell-min-height);
     z-index: 2;
   }
@@ -326,40 +356,6 @@
     -webkit-backdrop-filter: blur(8px);
   }
 
-  #shopify-section-{{ section.id }} .jordy-header__placeholder {
-    z-index: 1;
-    opacity: var(--jordy-placeholder-opacity);
-    background:
-      radial-gradient(circle at 74% 68%, rgba(255, 206, 126, 0.58) 0%, rgba(255, 206, 126, 0.18) 16%, rgba(255, 206, 126, 0) 36%),
-      linear-gradient(90deg, rgba(14, 33, 67, 1) 0%, rgba(34, 58, 99, 0.96) 46%, rgba(72, 66, 84, 0.9) 100%);
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__placeholder::before,
-  #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    display: block;
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__placeholder::before {
-    right: 0;
-    width: 52%;
-    height: 46%;
-    background: linear-gradient(180deg, rgba(87, 92, 108, 0.24) 0%, rgba(63, 68, 84, 0.76) 18%, rgba(44, 49, 63, 0.98) 100%);
-    clip-path: polygon(12% 16%, 100% 0, 100% 100%, 0 100%, 0 56%);
-  }
-
-  #shopify-section-{{ section.id }} .jordy-header__placeholder::after {
-    right: 6%;
-    width: 24%;
-    height: 42%;
-    border-radius: 38% 38% 10% 10% / 22% 22% 14% 14%;
-    background: linear-gradient(180deg, #677062 0%, #495448 48%, #364136 100%);
-    box-shadow: -30px -16px 80px rgba(255, 212, 140, 0.16);
-    clip-path: polygon(18% 0%, 74% 3%, 88% 14%, 96% 44%, 100% 100%, 0 100%, 7% 56%, 11% 18%);
-  }
-
   #shopify-section-{{ section.id }} .jordy-header__arrows {
     position: absolute;
     right: 28px;
@@ -395,7 +391,6 @@
 
     #shopify-section-{{ section.id }} .jordy-header__inner {
       min-height: auto;
-      padding-bottom: 0;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__content {
@@ -408,13 +403,13 @@
       font-size: clamp(38px, 7.8vw, 58px);
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__scene-image--desktop {
+    #shopify-section-{{ section.id }} .jordy-header__hero-image--desktop {
       display: none;
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__scene-image--mobile {
+    #shopify-section-{{ section.id }} .jordy-header__hero-image--mobile {
       display: block;
-      object-position: var(--jordy-mobile-scene-position);
+      object-position: var(--jordy-hero-position-mobile);
     }
 
     #shopify-section-{{ section.id }} .jordy-header__placeholder::before {
@@ -551,10 +546,10 @@
   <div {% render 'section-properties', background_gradient: section.settings.background_gradient, background: section.settings.background, text_color: section.settings.text_color, full_width: true %}>
     <div class="container">
       <div class="jordy-header">
-        <div class="jordy-header__scene">
-          {%- if desktop_scene_image != blank -%}
-            {{ desktop_scene_image | image_url: width: 2200 | image_tag: class: 'jordy-header__scene-image jordy-header__scene-image--desktop', widths: '900,1200,1600,2200', loading: 'lazy', alt: desktop_scene_image.alt | escape }}
-            {{ mobile_scene_image | image_url: width: 1200 | image_tag: class: 'jordy-header__scene-image jordy-header__scene-image--mobile', widths: '500,700,900,1200', loading: 'lazy', alt: mobile_scene_image.alt | escape }}
+        <div class="jordy-header__media">
+          {%- if desktop_hero_image != blank -%}
+            {{ desktop_hero_image | image_url: width: 2200 | image_tag: class: 'jordy-header__hero-image jordy-header__hero-image--desktop', widths: '900,1200,1600,2200', loading: 'lazy', alt: desktop_hero_image.alt | escape }}
+            {{ mobile_hero_image | image_url: width: 1200 | image_tag: class: 'jordy-header__hero-image jordy-header__hero-image--mobile', widths: '500,700,900,1200', loading: 'lazy', alt: mobile_hero_image.alt | escape }}
           {%- else -%}
             <div class="jordy-header__placeholder" aria-hidden="true"></div>
           {%- endif -%}
@@ -638,7 +633,7 @@
             {%- endif -%}
           </div>
 
-          {%- if desktop_scene_image == blank and media_help_text != blank -%}
+          {%- if desktop_hero_image == blank and media_help_text != blank -%}
             <div class="jordy-header__media-help">{{ media_help_text | escape }}</div>
           {%- endif -%}
 
@@ -682,21 +677,20 @@
     { "type": "range", "id": "progress_fill_width", "label": "Progress fill width (%)", "min": 10, "max": 100, "step": 2, "default": 46 },
     { "type": "checkbox", "id": "show_nav_arrows", "label": "Show arrows", "default": true },
 
-    { "type": "header", "content": "Scene images" },
-    { "type": "paragraph", "content": "Upload hier bij voorkeur een complete lifestyle hero-scene. Deze afbeelding vormt de volledige visuele compositie van de section." },
-    { "type": "image_picker", "id": "desktop_scene_image", "label": "Desktop scene image" },
-    { "type": "image_picker", "id": "mobile_scene_image", "label": "Mobile scene image" },
-    { "type": "paragraph", "content": "Legacy setting voor debuggen: 'Main image' blijft beschikbaar als fallback wanneer Desktop scene image leeg is." },
+    { "type": "header", "content": "Hero media" },
+    { "type": "paragraph", "content": "Dit werkt nu zoals slideshow-pro: de section houdt zijn standaard design en je kunt een hero-afbeelding voor de hele section uploaden." },
+    { "type": "image_picker", "id": "desktop_hero_image", "label": "Desktop hero image" },
+    { "type": "image_picker", "id": "mobile_hero_image", "label": "Mobile hero image" },
+    { "type": "paragraph", "content": "Legacy fallback voor debuggen: Main image blijft beschikbaar als Desktop hero image leeg is." },
     { "type": "image_picker", "id": "image", "label": "Main image (legacy fallback)" },
-    { "type": "text", "id": "media_help_text", "label": "Placeholder help text", "default": "Voeg een afbeelding toe via Desktop scene image. Gebruik bij voorkeur een complete hero-scene met bed, persoon en sfeerlicht voor het mooiste resultaat." },
+    { "type": "text", "id": "media_help_text", "label": "Placeholder help text", "default": "Voeg een afbeelding toe via Desktop hero image. De standaard section-look blijft bestaan en de hero-afbeelding wordt daaroverheen toegepast." },
     { "type": "range", "id": "placeholder_opacity", "label": "Placeholder opacity", "min": 30, "max": 100, "step": 1, "default": 92 },
-    { "type": "range", "id": "scene_overlay_opacity", "label": "Scene glow overlay opacity", "min": 0, "max": 100, "step": 1, "default": 70 },
-    { "type": "range", "id": "scene_darkness_left", "label": "Scene darkness left", "min": 0, "max": 100, "step": 1, "default": 66 },
-    { "type": "range", "id": "scene_darkness_right", "label": "Scene darkness right", "min": 0, "max": 100, "step": 1, "default": 30 },
-    { "type": "range", "id": "scene_image_opacity", "label": "Scene image opacity", "min": 30, "max": 100, "step": 1, "default": 100 },
-    { "type": "range", "id": "scene_image_scale", "label": "Scene image scale", "min": 90, "max": 130, "step": 1, "default": 100 },
-    { "type": "text", "id": "desktop_scene_position", "label": "Desktop scene position", "default": "center center" },
-    { "type": "text", "id": "mobile_scene_position", "label": "Mobile scene position", "default": "center center" },
+    { "type": "range", "id": "hero_image_opacity", "label": "Hero image opacity", "min": 30, "max": 100, "step": 1, "default": 100 },
+    { "type": "range", "id": "hero_image_scale", "label": "Hero image scale", "min": 90, "max": 130, "step": 1, "default": 100 },
+    { "type": "text", "id": "hero_image_position_desktop", "label": "Hero image position desktop", "default": "center center" },
+    { "type": "text", "id": "hero_image_position_mobile", "label": "Hero image position mobile", "default": "center center" },
+    { "type": "range", "id": "overlay_main_opacity", "label": "Overlay base opacity", "min": 0, "max": 95, "step": 5, "default": 70 },
+    { "type": "range", "id": "overlay_glow_opacity", "label": "Overlay glow opacity", "min": 0, "max": 95, "step": 5, "default": 40 },
 
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "section_height", "label": "Section min height", "min": 520, "max": 980, "step": 20, "default": 760 },
@@ -720,7 +714,6 @@
     { "type": "text", "id": "gradient_middle", "label": "Gradient middle", "default": "rgba(35,56,92,1)" },
     { "type": "text", "id": "gradient_end", "label": "Gradient end", "default": "rgba(73,67,82,1)" },
     { "type": "color", "id": "text_color", "label": "Main text color", "default": "#F7F4ED" },
-    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#D6D8E0" },
     { "type": "color", "id": "highlight_color", "label": "Highlighted word color", "default": "#D1C786" },
     { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#606A80" },
     { "type": "color", "id": "badge_border_color", "label": "Badge border", "default": "#8C94A8" },
