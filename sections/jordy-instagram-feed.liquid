@@ -1,0 +1,585 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --ig-section-background: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --ig-card-background: {{ section.settings.card_background.red }}, {{ section.settings.card_background.green }}, {{ section.settings.card_background.blue }};
+    --ig-heading-color: {{ section.settings.heading_color.red }}, {{ section.settings.heading_color.green }}, {{ section.settings.heading_color.blue }};
+    --ig-text-color: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --ig-muted-color: {{ section.settings.muted_color.red }}, {{ section.settings.muted_color.green }}, {{ section.settings.muted_color.blue }};
+    --ig-accent-color: {{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }};
+    --ig-border-color: {{ section.settings.border_color.red }}, {{ section.settings.border_color.green }}, {{ section.settings.border_color.blue }};
+    --ig-overlay-color: {{ section.settings.overlay_color.red }}, {{ section.settings.overlay_color.green }}, {{ section.settings.overlay_color.blue }};
+    --ig-icon-color: {{ section.settings.icon_color.red }}, {{ section.settings.icon_color.green }}, {{ section.settings.icon_color.blue }};
+    --ig-radius: {{ section.settings.card_radius }}px;
+    --ig-gap: {{ section.settings.card_gap }}px;
+    --ig-card-shadow-y: {{ section.settings.card_shadow_y }}px;
+    --ig-card-shadow-blur: {{ section.settings.card_shadow_blur }}px;
+    --ig-card-shadow-opacity: {{ section.settings.card_shadow_opacity | divided_by: 100.0 }};
+    --ig-media-ratio: {{ section.settings.image_ratio }};
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig {
+    background: rgb(var(--ig-section-background));
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__inner {
+    display: grid;
+    gap: 32px;
+    padding-block: {{ section.settings.section_spacing }}px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__header {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__eyebrow {
+    margin: 0 0 12px;
+    color: rgb(var(--ig-accent-color));
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__heading {
+    margin: 0;
+    color: rgb(var(--ig-heading-color));
+    font-size: clamp(28px, 3.8vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__subheading {
+    margin-top: 14px;
+    color: rgb(var(--ig-muted-color));
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__subheading p {
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__actions {
+    margin-top: 20px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--ig-gap);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__card {
+    position: relative;
+    display: grid;
+    background: rgb(var(--ig-card-background));
+    border: 1px solid rgba(var(--ig-border-color), 1);
+    border-radius: var(--ig-radius);
+    overflow: hidden;
+    box-shadow: 0 var(--ig-card-shadow-y) var(--ig-card-shadow-blur) rgba(0, 0, 0, var(--ig-card-shadow-opacity));
+    opacity: 0;
+    transform: translateY(18px);
+    animation: jordyIgReveal 0.7s ease forwards;
+    transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__card:nth-child(2) { animation-delay: 0.08s; }
+  #shopify-section-{{ section.id }} .jordy-ig__card:nth-child(3) { animation-delay: 0.16s; }
+  #shopify-section-{{ section.id }} .jordy-ig__card:nth-child(4) { animation-delay: 0.24s; }
+  #shopify-section-{{ section.id }} .jordy-ig__card:nth-child(5) { animation-delay: 0.32s; }
+  #shopify-section-{{ section.id }} .jordy-ig__card:nth-child(6) { animation-delay: 0.40s; }
+
+  #shopify-section-{{ section.id }} .jordy-ig__card:hover,
+  #shopify-section-{{ section.id }} .jordy-ig__card:focus-within {
+    transform: translateY(-6px);
+    border-color: rgba(var(--ig-heading-color), 0.2);
+    box-shadow: 0 calc(var(--ig-card-shadow-y) + 8px) calc(var(--ig-card-shadow-blur) + 10px) rgba(0, 0, 0, calc(var(--ig-card-shadow-opacity) + 0.05));
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__post-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__avatar,
+  #shopify-section-{{ section.id }} .jordy-ig__avatar-placeholder {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #111;
+    color: #fff;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__avatar {
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__avatar-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__profile-text {
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__handle,
+  #shopify-section-{{ section.id }} .jordy-ig__location {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__handle {
+    color: rgb(var(--ig-heading-color));
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__location {
+    margin-top: 2px;
+    color: rgb(var(--ig-muted-color));
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: rgb(var(--ig-icon-color));
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__menu span {
+    width: 3px;
+    height: 3px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__media {
+    position: relative;
+    aspect-ratio: var(--ig-media-ratio);
+    overflow: hidden;
+    background: #ddd;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1) contrast(1.02);
+    transition: transform 0.45s ease, filter 0.45s ease;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__media-placeholder {
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.65), rgba(0,0,0,0.08)),
+      radial-gradient(circle at top left, rgba(255,255,255,0.9), rgba(0,0,0,0.15));
+    display: flex;
+    align-items: end;
+    justify-content: start;
+    padding: 18px;
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: end;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(var(--ig-overlay-color), 0.02) 15%, rgba(var(--ig-overlay-color), 0.62) 100%);
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__overlay-content {
+    transform: translateY(10px);
+    transition: transform 0.35s ease;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__overlay-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 999px;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    backdrop-filter: blur(6px);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__overlay-title {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.15;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__overlay-text {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.88);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__card:hover .jordy-ig__overlay,
+  #shopify-section-{{ section.id }} .jordy-ig__card:focus-within .jordy-ig__overlay {
+    opacity: 1;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__card:hover .jordy-ig__overlay-content,
+  #shopify-section-{{ section.id }} .jordy-ig__card:focus-within .jordy-ig__overlay-content {
+    transform: translateY(0);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__card:hover .jordy-ig__media img,
+  #shopify-section-{{ section.id }} .jordy-ig__card:focus-within .jordy-ig__media img {
+    transform: scale(1.04);
+    filter: grayscale(1) contrast(1.1);
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px 0;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__left-icons,
+  #shopify-section-{{ section.id }} .jordy-ig__right-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgb(var(--ig-icon-color));
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__icon {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__meta {
+    padding: 12px 16px 16px;
+    display: grid;
+    gap: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__likes {
+    color: rgb(var(--ig-heading-color));
+    font-size: 13px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__caption {
+    color: rgb(var(--ig-text-color));
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__caption strong {
+    color: rgb(var(--ig-heading-color));
+    margin-right: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-ig__timestamp {
+    color: rgb(var(--ig-muted-color));
+    font-size: 11px;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @keyframes jordyIgReveal {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media screen and (min-width: 700px) {
+    #shopify-section-{{ section.id }} .jordy-ig__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    #shopify-section-{{ section.id }} .jordy-ig__grid {
+      grid-template-columns: repeat({{ section.settings.desktop_columns }}, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .jordy-ig__card,
+    #shopify-section-{{ section.id }} .jordy-ig__media img,
+    #shopify-section-{{ section.id }} .jordy-ig__overlay,
+    #shopify-section-{{ section.id }} .jordy-ig__overlay-content {
+      animation: none;
+      transition: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<section class="jordy-ig">
+  <div {% render 'section-properties', background: section.settings.background, text_color: section.settings.heading_color %}>
+    <div class="container">
+      <div class="jordy-ig__inner">
+        <div class="jordy-ig__header">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="jordy-ig__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="jordy-ig__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.subheading != blank -%}
+            <div class="jordy-ig__subheading rte">
+              {{ section.settings.subheading }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <div class="jordy-ig__actions">
+              {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'lg', style: section.settings.button_style, background: section.settings.button_background, text_color: section.settings.button_text_color %}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="jordy-ig__grid" role="list">
+          {%- for block in section.blocks -%}
+            <article class="jordy-ig__card" role="listitem" {{ block.shopify_attributes }}>
+              <div class="jordy-ig__post-top">
+                <div class="jordy-ig__profile">
+                  {%- if block.settings.avatar != blank -%}
+                    {{ block.settings.avatar | image_url: width: 68 | image_tag: loading: 'lazy', widths: '34,68', class: 'jordy-ig__avatar', alt: block.settings.handle }}
+                  {%- else -%}
+                    <span class="jordy-ig__avatar-placeholder">{{ block.settings.handle | strip | remove: '@' | slice: 0, 2 | upcase }}</span>
+                  {%- endif -%}
+                  <div class="jordy-ig__profile-text">
+                    <span class="jordy-ig__handle">{{ block.settings.handle | escape }}</span>
+                    {%- if block.settings.location != blank -%}
+                      <span class="jordy-ig__location">{{ block.settings.location | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+                <span class="jordy-ig__menu" aria-hidden="true"><span></span><span></span><span></span></span>
+              </div>
+
+              <div class="jordy-ig__media">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400,600,800,1000,1200', class: 'jordy-ig__image', alt: block.settings.overlay_title | default: block.settings.handle }}
+                {%- else -%}
+                  <div class="jordy-ig__media-placeholder">Monochrome story</div>
+                {%- endif -%}
+
+                <div class="jordy-ig__overlay">
+                  <div class="jordy-ig__overlay-content">
+                    {%- if block.settings.overlay_tag != blank -%}
+                      <span class="jordy-ig__overlay-tag">{{ block.settings.overlay_tag | escape }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.overlay_title != blank -%}
+                      <h3 class="jordy-ig__overlay-title">{{ block.settings.overlay_title | escape }}</h3>
+                    {%- endif -%}
+                    {%- if block.settings.overlay_text != blank -%}
+                      <div class="jordy-ig__overlay-text">{{ block.settings.overlay_text }}</div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+
+              <div class="jordy-ig__post-actions" aria-hidden="true">
+                <div class="jordy-ig__left-icons">
+                  <span class="jordy-ig__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.2-8.36C1.2 9.8 2.26 6.5 5.6 5.5c2.02-.6 4.15.2 5.4 1.95 1.25-1.75 3.38-2.55 5.4-1.95 3.34 1 4.4 4.3 2.8 7.14C19 16.65 12 21 12 21z"></path></svg>
+                  </span>
+                  <span class="jordy-ig__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5c0 4.7-4.03 8.5-9 8.5a9.7 9.7 0 0 1-3.56-.66L3 21l1.81-4.82A8.16 8.16 0 0 1 3 11.5C3 6.8 7.03 3 12 3s9 3.8 9 8.5z"></path></svg>
+                  </span>
+                  <span class="jordy-ig__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+                  </span>
+                </div>
+                <div class="jordy-ig__right-icons">
+                  <span class="jordy-ig__icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h12a1 1 0 0 1 1 1V21l-7-4-7 4V4.5a1 1 0 0 1 1-1z"></path></svg>
+                  </span>
+                </div>
+              </div>
+
+              <div class="jordy-ig__meta">
+                {%- if block.settings.likes_label != blank -%}
+                  <div class="jordy-ig__likes">{{ block.settings.likes_label | escape }}</div>
+                {%- endif -%}
+
+                {%- if block.settings.caption != blank -%}
+                  <div class="jordy-ig__caption"><strong>{{ block.settings.handle | escape }}</strong>{{ block.settings.caption }}</div>
+                {%- endif -%}
+
+                {%- if block.settings.timestamp != blank -%}
+                  <div class="jordy-ig__timestamp">{{ block.settings.timestamp | escape }}</div>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Jordy Instagram feed",
+  "tag": "section",
+  "class": "shopify-section--jordy-instagram-feed",
+  "max_blocks": 8,
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Social proof in stijl"},
+    {"type":"text","id":"heading","label":"Heading","default":"Een strakke zwart-witte feed met Instagram-look"},
+    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Vul handmatig je mooiste beelden, captions en merkverhaal in. De styling voelt als een premium social feed, zonder live koppeling.</p>"},
+    {"type":"text","id":"button_label","label":"Button label","default":"Bekijk meer inspiratie"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"select","id":"button_style","label":"Button style","default":"outline","options":[{"value":"fill","label":"Fill"},{"value":"outline","label":"Outline"}]},
+    {"type":"header","content":"Layout"},
+    {"type":"range","id":"section_spacing","label":"Section spacing","min":0,"max":80,"step":4,"default":48},
+    {"type":"range","id":"card_gap","label":"Card gap","min":8,"max":32,"step":2,"default":20},
+    {"type":"range","id":"card_radius","label":"Card radius","min":0,"max":32,"step":2,"default":22},
+    {"type":"select","id":"desktop_columns","label":"Desktop columns","default":"3","options":[{"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}]},
+    {"type":"select","id":"image_ratio","label":"Image ratio","default":"1 / 1","options":[{"value":"1 / 1","label":"Square"},{"value":"4 / 5","label":"Portrait"},{"value":"3 / 4","label":"Classic portrait"}]},
+    {"type":"range","id":"card_shadow_y","label":"Card shadow Y offset","min":0,"max":32,"step":1,"default":12},
+    {"type":"range","id":"card_shadow_blur","label":"Card shadow blur","min":0,"max":80,"step":2,"default":34},
+    {"type":"range","id":"card_shadow_opacity","label":"Card shadow opacity","min":0,"max":20,"step":1,"default":8},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background","label":"Section background","default":"#F6F6F4"},
+    {"type":"color","id":"card_background","label":"Card background","default":"#FFFFFF"},
+    {"type":"color","id":"heading_color","label":"Heading color","default":"#111111"},
+    {"type":"color","id":"text_color","label":"Text color","default":"#2B2B2B"},
+    {"type":"color","id":"muted_color","label":"Muted text color","default":"#6F6F6F"},
+    {"type":"color","id":"accent_color","label":"Accent color","default":"#111111"},
+    {"type":"color","id":"border_color","label":"Border color","default":"#E6E6E6"},
+    {"type":"color","id":"overlay_color","label":"Overlay color","default":"#000000"},
+    {"type":"color","id":"icon_color","label":"Icon color","default":"#111111"},
+    {"type":"color","id":"button_background","label":"Button background","default":"#111111"},
+    {"type":"color","id":"button_text_color","label":"Button text color","default":"#FFFFFF"}
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "Feed card",
+      "settings": [
+        {"type":"image_picker","id":"avatar","label":"Avatar"},
+        {"type":"image_picker","id":"image","label":"Post image"},
+        {"type":"text","id":"handle","label":"Handle","default":"@atelier.noir"},
+        {"type":"text","id":"location","label":"Location","default":"Amsterdam"},
+        {"type":"text","id":"likes_label","label":"Likes label","default":"Liked by studio.black and 428 others"},
+        {"type":"richtext","id":"caption","label":"Caption","default":"<p>Minimal tones, clean lines and a timeless monochrome story.</p>"},
+        {"type":"text","id":"timestamp","label":"Timestamp","default":"2 days ago"},
+        {"type":"text","id":"overlay_tag","label":"Overlay tag","default":"Featured post"},
+        {"type":"text","id":"overlay_title","label":"Overlay title","default":"Monochrome mood"},
+        {"type":"richtext","id":"overlay_text","label":"Overlay text","default":"<p>Gebruik overlays om sfeer, collectie of campagneboodschap zichtbaar te maken.</p>"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jordy Instagram feed",
+      "blocks": [
+        {
+          "type": "post",
+          "settings": {
+            "handle": "@atelier.noir",
+            "location": "Amsterdam",
+            "likes_label": "Liked by studio.black and 428 others",
+            "caption": "<p>Minimal tones, clean lines and a timeless monochrome story.</p>",
+            "timestamp": "2 days ago",
+            "overlay_tag": "Featured post",
+            "overlay_title": "Monochrome mood",
+            "overlay_text": "<p>Een premium zwart-witte look met zachte hover reveal.</p>"
+          }
+        },
+        {
+          "type": "post",
+          "settings": {
+            "handle": "@house.of.lines",
+            "location": "Rotterdam",
+            "likes_label": "Liked by linen.daily and 312 others",
+            "caption": "<p>Editorial contrast and calm composition for a luxury feed.</p>",
+            "timestamp": "4 days ago",
+            "overlay_tag": "Editorial",
+            "overlay_title": "Clean contrast",
+            "overlay_text": "<p>Perfect voor productbeelden, campagnefoto’s of sfeercontent.</p>"
+          }
+        },
+        {
+          "type": "post",
+          "settings": {
+            "handle": "@north.studio",
+            "location": "Utrecht",
+            "likes_label": "Liked by form.journal and 517 others",
+            "caption": "<p>A feed layout that feels social-first while staying fully manual and on-brand.</p>",
+            "timestamp": "1 week ago",
+            "overlay_tag": "Campaign",
+            "overlay_title": "Styled manually",
+            "overlay_text": "<p>Geen live koppeling nodig, maar wel alle visuele cues van een moderne social post.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
