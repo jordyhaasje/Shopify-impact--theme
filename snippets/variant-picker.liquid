@@ -28,22 +28,23 @@ Supported variables
     gap: 0.5rem;
   }
 
-  .variant-picker__option-values--variant-image .swatch--media {
+  .variant-picker__option-values--variant-image .media-swatch {
     width: 3rem;
     min-width: 3rem;
+    aspect-ratio: 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
 
-  .variant-picker__option-values--variant-image .swatch--media img,
-  .variant-picker__option-values--variant-image .swatch--media svg,
-  .variant-picker__option-values--variant-image .swatch--media .swatch__media,
-  .variant-picker__option-values--variant-image .swatch--media .media {
-    aspect-ratio: 1;
+  .variant-picker__option-values--variant-image .media-swatch img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 0.5rem;
+    display: block;
   }
 
   @media screen and (max-width: 699px) {
-    .variant-picker__option-values--variant-image .swatch--media {
+    .variant-picker__option-values--variant-image .media-swatch {
       width: 2.75rem;
       min-width: 2.75rem;
     }
