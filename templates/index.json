@@ -1060,6 +1060,98 @@
         "button_label": "Shop nu",
         "button_link": ""
       }
+    },
+    "jordy_header_tMBpFY": {
+      "type": "jordy-header",
+      "blocks": {
+        "feature_GphhpP": {
+          "type": "feature",
+          "settings": {
+            "icon": "brain",
+            "text": "REM+ Optimization"
+          }
+        },
+        "feature_T9LPDK": {
+          "type": "feature",
+          "settings": {
+            "icon": "snowflake",
+            "text": "Active Cooling"
+          }
+        },
+        "feature_WQY3nb": {
+          "type": "feature",
+          "settings": {
+            "icon": "spark",
+            "text": "Smart-Sync Light"
+          }
+        }
+      },
+      "block_order": [
+        "feature_GphhpP",
+        "feature_T9LPDK",
+        "feature_WQY3nb"
+      ],
+      "name": "Jordy header",
+      "settings": {
+        "eyebrow": "Rest & Recover",
+        "heading_pre": "Master your",
+        "heading_highlight": "circadian",
+        "heading_post": "rhythm",
+        "show_rating_badge": true,
+        "show_stars": true,
+        "rating_text": "The science of superior sleep",
+        "description": "<p>Enhance your nightly rest with the use of intelligent lighting and fabrics that promote deeper REM cycles.</p>",
+        "button_label": "Explore Sleep Tech",
+        "button_link": "",
+        "trust_text": "Clinically tested sleep results",
+        "show_progress_bar": true,
+        "progress_width": 52,
+        "progress_fill_width": 46,
+        "show_nav_arrows": true,
+        "desktop_hero_image": "shopify://shop_images/person-fishing-on-the-beach-is-silhouetted-at-sunset.jpg",
+        "media_help_text": "Voeg een afbeelding toe via Desktop hero image. De standaard section-look blijft bestaan en de hero-afbeelding wordt daaroverheen toegepast.",
+        "placeholder_opacity": 92,
+        "hero_image_opacity": 100,
+        "hero_image_scale": 100,
+        "hero_image_position_desktop": "center center",
+        "hero_image_position_mobile": "center center",
+        "overlay_main_opacity": 70,
+        "overlay_glow_opacity": 40,
+        "section_height": 760,
+        "heading_max_width": 560,
+        "text_column_width": 52,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "content_padding_x": 34,
+        "content_padding_y": 30,
+        "corner_radius": 0,
+        "pill_gap": 14,
+        "pill_radius": 16,
+        "badge_radius": 14,
+        "button_radius": 28,
+        "arrow_size": 62,
+        "background": "#ffffff",
+        "background_gradient": "",
+        "gradient_start": "",
+        "gradient_middle": "",
+        "gradient_end": "",
+        "text_color": "#F7F4ED",
+        "highlight_color": "#D1C786",
+        "badge_background": "#606A80",
+        "badge_border_color": "#8C94A8",
+        "badge_text_color": "#F7F8FB",
+        "star_background": "#16C47E",
+        "star_icon_color": "#FFFFFF",
+        "pill_background": "#4A5366",
+        "pill_border_color": "#8C94A8",
+        "pill_text_color": "#F4F5F8",
+        "button_background": "#F3D207",
+        "button_text_color": "#111111",
+        "arrow_background": "#F4F4F2",
+        "arrow_icon_color": "#1A1E2A",
+        "progress_background": "#98A0B4",
+        "progress_fill": "#FFFFFF"
+      }
     }
   },
   "order": [
@@ -1081,6 +1173,7 @@
     "reviews_showcase_cnrNRm",
     "live_your_dreams_hNBD9A",
     "hazify_test_collections_slider_gVrXUB",
-    "video_trust_header_9Dpg7U"
+    "video_trust_header_9Dpg7U",
+    "jordy_header_tMBpFY"
   ]
 }
