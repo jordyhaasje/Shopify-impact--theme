@@ -1200,11 +1200,11 @@
         "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
         "overlay_opacity": 40,
         "heading": "Vertrouwd door duizenden klanten",
-        "subheading": "<p>Bekijk waarom iedereen ons aanbeveelt</p>",
-        "review_text": "4.8/5 gebaseerd op 2.000+ reviews",
-        "usp_1": "Gratis verzending",
-        "usp_2": "30 dagen garantie",
-        "usp_3": "Snelle levering",
+        "rating": 4.8,
+        "review_count": "2,000+",
+        "rating_label": "Excellent",
+        "trust_color": "#00b67a",
+        "text_color": "#ffffff",
         "button_label": "Shop nu",
         "button_link": ""
       }
@@ -1287,73 +1287,99 @@
         "text_color": ""
       }
     },
-    "comparison_feature_WGzM9i": {
-      "type": "comparison-feature",
+    "jordy_header_iBAYaP": {
+      "type": "jordy-header",
       "blocks": {
-        "item_bYCiTE": {
-          "type": "item",
+        "feature_7LfQDr": {
+          "type": "feature",
           "settings": {
-            "label": "Formulated for Women"
+            "icon": "brain",
+            "text": "REM+ Optimization"
           }
         },
-        "item_dkU8rn": {
-          "type": "item",
+        "feature_PcV3wp": {
+          "type": "feature",
           "settings": {
-            "label": "No Artificial Flavorings"
+            "icon": "snowflake",
+            "text": "Active Cooling"
           }
         },
-        "item_D66T8d": {
-          "type": "item",
+        "feature_4raqaC": {
+          "type": "feature",
           "settings": {
-            "label": "600mg of Sodium"
-          }
-        },
-        "item_TebCnq": {
-          "type": "item",
-          "settings": {
-            "label": "Refreshing Orange Flavor"
-          }
-        },
-        "item_HpcjDC": {
-          "type": "item",
-          "settings": {
-            "label": "Easy to Use on the Go"
+            "icon": "spark",
+            "text": "Smart-Sync Light"
           }
         }
       },
       "block_order": [
-        "item_bYCiTE",
-        "item_dkU8rn",
-        "item_D66T8d",
-        "item_TebCnq",
-        "item_HpcjDC"
+        "feature_7LfQDr",
+        "feature_PcV3wp",
+        "feature_4raqaC"
       ],
-      "name": "Comparison feature",
+      "name": "Jordy header",
       "settings": {
-        "heading": "This is what sets us apart.",
-        "text": "<p>Few supplements cater to women. Ours provides clean, effective electrolyte replenishment that truly works.</p>",
-        "rating_label": "4.5 out of 5 stars",
-        "rating_text": "Join 1,000,000+ Happy Women",
-        "brand_heading": "Our Brand",
-        "others_heading": "Others",
-        "sachet_title": "Sachet Packaging",
-        "sachet_subtitle": "Mock-up",
-        "badge_top": "GLUTEN FREE",
-        "badge_bottom": "GLUTEN FREE",
-        "section_spacing": 32,
-        "section_spacing_mobile": 20,
-        "corner_radius": 28,
-        "background": "#E8DEB8",
-        "panel_background": "#EFE7C9",
-        "panel_soft_background": "#F5F1E8",
-        "heading_color": "#3B251F",
-        "text_color": "#5F5A52",
-        "line_color": "#CFC3B5",
-        "icon_color": "#3B251F",
-        "other_icon_color": "#8B877F",
-        "rating_green": "#00B67A",
-        "badge_color": "#F45A15",
-        "badge_text_color": "#FFFFFF"
+        "eyebrow": "Rest & Recover",
+        "heading_pre": "Master your",
+        "heading_highlight": "circadian",
+        "heading_post": "rhythm",
+        "show_rating_badge": true,
+        "show_stars": true,
+        "rating_text": "The science of superior sleep",
+        "description": "<p>Enhance your nightly rest with the use of intelligent lighting and fabrics that promote deeper REM cycles.</p>",
+        "button_label": "Explore Sleep Tech",
+        "button_link": "",
+        "trust_text": "Clinically tested sleep results",
+        "show_progress_bar": true,
+        "progress_width": 52,
+        "progress_fill_width": 46,
+        "show_nav_arrows": true,
+        "show_steam": true,
+        "media_help_text": "Voeg een afbeelding toe via Main image in de theme editor. Je kunt daar direct uploaden of een bestaande afbeelding uit Shopify kiezen.",
+        "placeholder_opacity": 92,
+        "image_width": 48,
+        "image_max_width": 760,
+        "image_opacity": 100,
+        "image_scale": 100,
+        "image_right_offset": 0,
+        "image_bottom_offset": 0,
+        "image_position_desktop": "center bottom",
+        "image_position_mobile": "center bottom",
+        "section_height": 760,
+        "heading_max_width": 640,
+        "text_column_width": 52,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "content_padding_x": 34,
+        "content_padding_y": 52,
+        "corner_radius": 0,
+        "pill_gap": 14,
+        "pill_radius": 16,
+        "badge_radius": 14,
+        "button_radius": 28,
+        "arrow_size": 62,
+        "background": "#15284A",
+        "background_gradient": "linear-gradient(93deg, rgba(21,40,74,1) 0%, rgba(35,56,92,1) 54%, rgba(73,67,82,1) 100%)",
+        "gradient_start": "rgba(21,40,74,1)",
+        "gradient_middle": "rgba(35,56,92,1)",
+        "gradient_end": "rgba(73,67,82,1)",
+        "text_color": "#F7F4ED",
+        "muted_text_color": "#D6D8E0",
+        "highlight_color": "#D1C786",
+        "badge_background": "#606A80",
+        "badge_border_color": "#8C94A8",
+        "badge_text_color": "#F7F8FB",
+        "star_background": "#16C47E",
+        "star_icon_color": "#FFFFFF",
+        "pill_background": "#4A5366",
+        "pill_border_color": "#8C94A8",
+        "pill_text_color": "#F4F5F8",
+        "button_background": "#F3D207",
+        "button_text_color": "#111111",
+        "arrow_background": "#F4F4F2",
+        "arrow_icon_color": "#1A1E2A",
+        "progress_background": "#98A0B4",
+        "progress_fill": "#FFFFFF"
       }
     }
   },
@@ -1381,6 +1407,6 @@
     "video_trust_header_9Dpg7U",
     "dtc_trust_hero_premium_NgkXPB",
     "text_with_icons_R6ytCh",
-    "comparison_feature_WGzM9i"
+    "jordy_header_iBAYaP"
   ]
 }
