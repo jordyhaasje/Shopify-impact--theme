@@ -3,10 +3,14 @@
 <style>
 #shopify-section-{{ section.id }} {
   --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  --trust-color: {{ section.settings.trust_color }};
+  --text-color: {{ section.settings.text_color }};
 }
+
 .video-trust-header {
   position: relative;
   overflow: hidden;
+  color: var(--text-color);
 }
 .video-trust-header__video {
   position: absolute;
@@ -25,76 +29,30 @@
   z-index: 2;
   padding: 60px 20px;
   text-align: center;
-  color: #fff;
-}
-.video-trust-header__heading {
-  font-size: clamp(28px,4vw,48px);
-  margin-bottom: 16px;
-}
-.video-trust-header__sub {
-  font-size: 18px;
-  opacity: .9;
 }
 
-/* TRUSTPILOT STYLE */
-.video-trust-header__trust {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
 .video-trust-header__stars {
-  display: flex;
-  gap: 4px;
+  display:flex;
+  gap:4px;
+  justify-content:center;
 }
 .video-trust-header__star {
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #00b67a;
-  border-radius: 3px;
+  width:22px;height:22px;
+  background: var(--trust-color);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:3px;
 }
-.video-trust-header__star svg {
-  width: 14px;
-  height: 14px;
-  fill: #fff;
+.video-trust-header__star svg {fill:#fff;width:14px;height:14px;}
+
+.video-trust-header__rating {
+  margin-top:10px;
+  font-size:16px;
 }
-.video-trust-header__rating-text {
-  font-size: 14px;
-  opacity: .9;
-}
-.video-trust-header__trustpilot {
-  font-size: 12px;
-  opacity: .7;
-  letter-spacing: .3px;
+.video-trust-header__label {
+  font-size:12px;
+  opacity:.7;
 }
 
-.video-trust-header__usps {
-  margin-top: 20px;
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
-  font-size:14px;
-  opacity:.95;
-}
-.video-trust-header__usps span::before {
-  content: '✔';
-  margin-right:6px;
-  color:#00b67a;
-}
-
-@media (max-width: 768px) {
-  .video-trust-header__content {
-    padding: 40px 16px;
-  }
-  .video-trust-header__heading {
-    font-size: 26px;
-  }
-}
 </style>
 
 <section class="video-trust-header">
@@ -104,56 +62,53 @@
   <div class="video-trust-header__overlay"></div>
 
   <div class="video-trust-header__content container">
-    <h2 class="video-trust-header__heading">{{ section.settings.heading }}</h2>
-    <div class="video-trust-header__sub rte">{{ section.settings.subheading }}</div>
 
-    <div class="video-trust-header__trust">
-      <div class="video-trust-header__stars">
-        {% for i in (1..5) %}
-          <div class="video-trust-header__star">
-            <svg viewBox="0 0 20 20" aria-hidden="true">
-              <path d="M10 15l-5.878 3.09L5.3 11.545.6 7.41l6.1-.885L10 1l3.3 5.525 6.1.885-4.7 4.136 1.178 6.545z"/>
-            </svg>
-          </div>
-        {% endfor %}
-      </div>
-      <div class="video-trust-header__rating-text">
-        {{ section.settings.review_text }}
-      </div>
-      <div class="video-trust-header__trustpilot">
-        ★ Trustpilot
-      </div>
+    <h2>{{ section.settings.heading }}</h2>
+
+    {% assign rating = section.settings.rating | plus: 0 %}
+    {% assign full = rating | floor %}
+
+    <div class="video-trust-header__stars">
+      {% for i in (1..5) %}
+        <div class="video-trust-header__star">
+          <svg viewBox="0 0 20 20">
+            <path d="M10 15l-5.878 3.09L5.3 11.545.6 7.41l6.1-.885L10 1l3.3 5.525 6.1.885-4.7 4.136 1.178 6.545z"/>
+          </svg>
+        </div>
+      {% endfor %}
     </div>
 
-    <div class="video-trust-header__usps">
-      <span>{{ section.settings.usp_1 }}</span>
-      <span>{{ section.settings.usp_2 }}</span>
-      <span>{{ section.settings.usp_3 }}</span>
+    <div class="video-trust-header__rating">
+      {{ section.settings.rating }} / 5 – {{ section.settings.review_count }} reviews
     </div>
 
-    {% if section.settings.button_label != blank %}
-      <div style="margin-top:20px;">
-        {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'lg' %}
-      </div>
-    {% endif %}
+    <div class="video-trust-header__label">
+      ★ Trustpilot – {{ section.settings.rating_label }}
+    </div>
+
+    {% render 'button', content: section.settings.button_label, href: section.settings.button_link %}
+
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Video Trust Premium",
+  "name": "Video Trust Advanced",
   "settings": [
-    {"type":"video","id":"video","label":"Background video"},
+    {"type":"video","id":"video","label":"Video"},
     {"type":"range","id":"overlay_opacity","min":0,"max":80,"step":5,"default":40,"label":"Overlay opacity"},
-    {"type":"text","id":"heading","default":"Vertrouwd door duizenden klanten","label":"Heading"},
-    {"type":"richtext","id":"subheading","default":"<p>Bekijk waarom iedereen ons aanbeveelt</p>","label":"Subheading"},
-    {"type":"text","id":"review_text","default":"4.8/5 gebaseerd op 2.000+ reviews","label":"Review text"},
-    {"type":"text","id":"usp_1","default":"Gratis verzending","label":"USP 1"},
-    {"type":"text","id":"usp_2","default":"30 dagen garantie","label":"USP 2"},
-    {"type":"text","id":"usp_3","default":"Snelle levering","label":"USP 3"},
-    {"type":"text","id":"button_label","default":"Shop nu","label":"Button label"},
+
+    {"type":"text","id":"heading","default":"Trusted by thousands","label":"Heading"},
+
+    {"type":"range","id":"rating","min":0,"max":5,"step":0.1,"default":4.8,"label":"Rating"},
+    {"type":"text","id":"review_count","default":"2,000+","label":"Review count"},
+    {"type":"text","id":"rating_label","default":"Excellent","label":"Rating label"},
+
+    {"type":"color","id":"trust_color","default":"#00b67a","label":"Star color"},
+    {"type":"color","id":"text_color","default":"#ffffff","label":"Text color"},
+
+    {"type":"text","id":"button_label","default":"Shop now","label":"Button label"},
     {"type":"url","id":"button_link","label":"Button link"}
-  ],
-  "presets":[{"name":"Video Trust Header"}]
+  ]
 }
 {% endschema %}
