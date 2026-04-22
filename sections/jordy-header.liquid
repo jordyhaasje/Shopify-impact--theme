@@ -9,7 +9,6 @@
 
 <style>
   #shopify-section-{{ section.id }} {
-    --jordy-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
     --jordy-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
     --jordy-highlight: {{ section.settings.highlight_color.red }}, {{ section.settings.highlight_color.green }}, {{ section.settings.highlight_color.blue }};
     --jordy-pill-bg: {{ section.settings.pill_background.red }}, {{ section.settings.pill_background.green }}, {{ section.settings.pill_background.blue }};
@@ -24,17 +23,15 @@
     --jordy-arrow-color: {{ section.settings.arrow_icon_color.red }}, {{ section.settings.arrow_icon_color.green }}, {{ section.settings.arrow_icon_color.blue }};
     --jordy-progress-bg: {{ section.settings.progress_background.red }}, {{ section.settings.progress_background.green }}, {{ section.settings.progress_background.blue }};
     --jordy-progress-fill: {{ section.settings.progress_fill.red }}, {{ section.settings.progress_fill.green }}, {{ section.settings.progress_fill.blue }};
-    --jordy-shell-radius: {{ section.settings.corner_radius }}px;
     --jordy-shell-min-height: {{ section.settings.section_height }}px;
     --jordy-arrow-size: {{ section.settings.arrow_size }}px;
     --jordy-progress-width: {{ section.settings.progress_width }}%;
     --jordy-progress-fill-width: {{ section.settings.progress_fill_width }}%;
-    --jordy-padding-top: {{ section.settings.padding_top }}px;
-    --jordy-padding-bottom: {{ section.settings.padding_bottom }}px;
-    --jordy-content-padding-x: {{ section.settings.content_padding_x }}px;
-    --jordy-content-padding-y: {{ section.settings.content_padding_y }}px;
-    --jordy-content-width: {{ section.settings.text_column_width }}%;
-    --jordy-heading-max: {{ section.settings.heading_max_width }}px;
+    --jordy-content-max: {{ section.settings.content_max_width }}px;
+    --jordy-content-offset-x: {{ section.settings.content_offset_x_desktop }}px;
+    --jordy-content-offset-y: {{ section.settings.content_offset_y_desktop }}px;
+    --jordy-content-offset-y-mobile: {{ section.settings.content_offset_y_mobile }}px;
+    --jordy-side-padding-mobile: {{ section.settings.side_padding_mobile }}px;
     --jordy-pill-gap: {{ section.settings.pill_gap }}px;
     --jordy-pill-radius: {{ section.settings.pill_radius }}px;
     --jordy-badge-radius: {{ section.settings.badge_radius }}px;
@@ -46,11 +43,14 @@
     --jordy-hero-position-mobile: {{ section.settings.hero_image_position_mobile }};
     --jordy-overlay-main: {{ section.settings.overlay_main_opacity | divided_by: 100.0 }};
     --jordy-overlay-glow: {{ section.settings.overlay_glow_opacity | divided_by: 100.0 }};
+    --jordy-shell-radius: {{ section.settings.corner_radius }}px;
   }
 
   #shopify-section-{{ section.id }} .jordy-header-shell {
-    padding-top: var(--jordy-padding-top);
-    padding-bottom: var(--jordy-padding-bottom);
+    position: relative;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   #shopify-section-{{ section.id }} .jordy-header {
@@ -59,11 +59,6 @@
     min-height: var(--jordy-shell-min-height);
     border-radius: var(--jordy-shell-radius);
     color: rgb(var(--jordy-text));
-    background-color: rgb(var(--jordy-bg));
-    background-image:
-      radial-gradient(circle at 68% 74%, rgba(248, 201, 136, 0.56) 0%, rgba(248, 201, 136, 0.16) 18%, rgba(248, 201, 136, 0) 40%),
-      radial-gradient(circle at 78% 60%, rgba(255, 234, 191, 0.18) 0%, rgba(255, 234, 191, 0) 18%),
-      linear-gradient(93deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_middle }} 54%, {{ section.settings.gradient_end }} 100%);
     isolation: isolate;
   }
 
@@ -80,6 +75,10 @@
   #shopify-section-{{ section.id }} .jordy-header__media {
     z-index: 1;
     overflow: hidden;
+    background:
+      radial-gradient(circle at 68% 74%, rgba(248, 201, 136, 0.56) 0%, rgba(248, 201, 136, 0.16) 18%, rgba(248, 201, 136, 0) 40%),
+      radial-gradient(circle at 78% 60%, rgba(255, 234, 191, 0.18) 0%, rgba(255, 234, 191, 0) 18%),
+      linear-gradient(93deg, {{ section.settings.gradient_start }} 0%, {{ section.settings.gradient_middle }} 54%, {{ section.settings.gradient_end }} 100%);
   }
 
   #shopify-section-{{ section.id }} .jordy-header__media::before {
@@ -120,9 +119,6 @@
   #shopify-section-{{ section.id }} .jordy-header__placeholder {
     z-index: 1;
     opacity: var(--jordy-placeholder-opacity);
-    background:
-      radial-gradient(circle at 74% 68%, rgba(255, 206, 126, 0.58) 0%, rgba(255, 206, 126, 0.18) 16%, rgba(255, 206, 126, 0) 36%),
-      linear-gradient(90deg, rgba(14, 33, 67, 1) 0%, rgba(34, 58, 99, 0.96) 46%, rgba(72, 66, 84, 0.9) 100%);
   }
 
   #shopify-section-{{ section.id }} .jordy-header__placeholder::before,
@@ -153,21 +149,29 @@
 
   #shopify-section-{{ section.id }} .jordy-header__inner {
     position: relative;
-    display: flex;
-    min-height: var(--jordy-shell-min-height);
     z-index: 2;
+    min-height: var(--jordy-shell-min-height);
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .jordy-header__content-wrap {
+    position: relative;
+    width: 100%;
+    min-height: var(--jordy-shell-min-height);
   }
 
   #shopify-section-{{ section.id }} .jordy-header__content {
     position: relative;
     z-index: 4;
-    width: min(100%, var(--jordy-content-width));
-    max-width: var(--jordy-heading-max);
-    padding: var(--jordy-content-padding-y) var(--jordy-content-padding-x);
+    width: min(100%, var(--jordy-content-max));
+    max-width: var(--jordy-content-max);
+    margin-left: var(--jordy-content-offset-x);
+    padding-top: var(--jordy-content-offset-y);
+    padding-bottom: 52px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   #shopify-section-{{ section.id }} .jordy-header__eyebrow {
@@ -190,7 +194,7 @@
 
   #shopify-section-{{ section.id }} .jordy-header__heading {
     margin: 0;
-    max-width: var(--jordy-heading-max);
+    max-width: {{ section.settings.heading_max_width }}px;
     font-size: clamp(42px, 5.4vw, 74px);
     line-height: 1.04;
     letter-spacing: -0.055em;
@@ -389,14 +393,17 @@
       min-height: auto;
     }
 
-    #shopify-section-{{ section.id }} .jordy-header__inner {
+    #shopify-section-{{ section.id }} .jordy-header__inner,
+    #shopify-section-{{ section.id }} .jordy-header__content-wrap {
       min-height: auto;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__content {
-      width: 100%;
-      max-width: min(100%, 640px);
-      padding: 52px 28px 360px;
+      width: calc(100% - (var(--jordy-side-padding-mobile) * 2));
+      max-width: 640px;
+      margin-left: var(--jordy-side-padding-mobile);
+      padding-top: var(--jordy-content-offset-y-mobile);
+      padding-bottom: 360px;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__heading {
@@ -438,17 +445,10 @@
   }
 
   @media screen and (max-width: 699px) {
-    #shopify-section-{{ section.id }} .jordy-header-shell {
-      padding-top: 18px;
-      padding-bottom: 18px;
-    }
-
-    #shopify-section-{{ section.id }} .jordy-header {
-      border-radius: 22px;
-    }
-
     #shopify-section-{{ section.id }} .jordy-header__content {
-      padding: 34px 18px 286px;
+      width: calc(100% - (var(--jordy-side-padding-mobile) * 2));
+      margin-left: var(--jordy-side-padding-mobile);
+      padding-bottom: 286px;
     }
 
     #shopify-section-{{ section.id }} .jordy-header__eyebrow {
@@ -543,111 +543,109 @@
 </style>
 
 <section class="jordy-header-shell">
-  <div {% render 'section-properties', background_gradient: section.settings.background_gradient, background: section.settings.background, text_color: section.settings.text_color, full_width: true %}>
-    <div class="container">
-      <div class="jordy-header">
-        <div class="jordy-header__media">
-          {%- if desktop_hero_image != blank -%}
-            {{ desktop_hero_image | image_url: width: 2200 | image_tag: class: 'jordy-header__hero-image jordy-header__hero-image--desktop', widths: '900,1200,1600,2200', loading: 'lazy', alt: desktop_hero_image.alt | escape }}
-            {{ mobile_hero_image | image_url: width: 1200 | image_tag: class: 'jordy-header__hero-image jordy-header__hero-image--mobile', widths: '500,700,900,1200', loading: 'lazy', alt: mobile_hero_image.alt | escape }}
-          {%- else -%}
-            <div class="jordy-header__placeholder" aria-hidden="true"></div>
+  <div class="jordy-header" {{ section.shopify_attributes }}>
+    <div class="jordy-header__media">
+      {%- if desktop_hero_image != blank -%}
+        {{ desktop_hero_image | image_url: width: 2200 | image_tag: class: 'jordy-header__hero-image jordy-header__hero-image--desktop', widths: '900,1200,1600,2200', loading: 'lazy', alt: desktop_hero_image.alt | escape }}
+        {{ mobile_hero_image | image_url: width: 1200 | image_tag: class: 'jordy-header__hero-image jordy-header__hero-image--mobile', widths: '500,700,900,1200', loading: 'lazy', alt: mobile_hero_image.alt | escape }}
+      {%- else -%}
+        <div class="jordy-header__placeholder" aria-hidden="true"></div>
+      {%- endif -%}
+    </div>
+
+    <div class="jordy-header__inner">
+      <div class="jordy-header__content-wrap">
+        <div class="jordy-header__content">
+          {%- if section.settings.eyebrow != blank -%}
+            <div class="jordy-header__eyebrow">{{ section.settings.eyebrow | escape }}</div>
           {%- endif -%}
-        </div>
 
-        <div class="jordy-header__inner">
-          <div class="jordy-header__content">
-            {%- if section.settings.eyebrow != blank -%}
-              <div class="jordy-header__eyebrow">{{ section.settings.eyebrow | escape }}</div>
-            {%- endif -%}
+          {%- if heading_pre != blank or heading_highlight != blank or heading_post != blank -%}
+            <h2 class="jordy-header__heading">
+              {{ heading_pre | escape }}{% if heading_highlight != blank %} <span class="jordy-header__heading-highlight">{{ heading_highlight | escape }}</span>{% endif %}{% if heading_post != blank %}<br>{{ heading_post | escape }}{% endif %}
+            </h2>
+          {%- endif -%}
 
-            {%- if heading_pre != blank or heading_highlight != blank or heading_post != blank -%}
-              <h2 class="jordy-header__heading">
-                {{ heading_pre | escape }}{% if heading_highlight != blank %} <span class="jordy-header__heading-highlight">{{ heading_highlight | escape }}</span>{% endif %}{% if heading_post != blank %}<br>{{ heading_post | escape }}{% endif %}
-              </h2>
-            {%- endif -%}
+          {%- if section.settings.show_rating_badge -%}
+            <div class="jordy-header__rating">
+              {%- if section.settings.show_stars -%}
+                <div class="jordy-header__stars" aria-hidden="true">
+                  {%- for i in (1..5) -%}
+                    <span class="jordy-header__star">
+                      <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
+                        <path d="M9.999 1.667l2.575 5.217 5.758.837-4.166 4.061.983 5.734-5.15-2.707-5.149 2.707.983-5.734-4.166-4.061 5.758-.837L9.999 1.667z" fill="currentColor"></path>
+                      </svg>
+                    </span>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
 
-            {%- if section.settings.show_rating_badge -%}
-              <div class="jordy-header__rating">
-                {%- if section.settings.show_stars -%}
-                  <div class="jordy-header__stars" aria-hidden="true">
-                    {%- for i in (1..5) -%}
-                      <span class="jordy-header__star">
-                        <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
-                          <path d="M9.999 1.667l2.575 5.217 5.758.837-4.166 4.061.983 5.734-5.15-2.707-5.149 2.707.983-5.734-4.166-4.061 5.758-.837L9.999 1.667z" fill="currentColor"></path>
-                        </svg>
-                      </span>
-                    {%- endfor -%}
-                  </div>
-                {%- endif -%}
-
-                {%- if section.settings.rating_text != blank -%}
-                  <span class="jordy-header__rating-text">{{ section.settings.rating_text | escape }}</span>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-
-            {%- if section.settings.description != blank -%}
-              <div class="jordy-header__description rte">
-                {{ section.settings.description }}
-              </div>
-            {%- endif -%}
-
-            <div class="jordy-header__pills">
-              {%- for block in section.blocks -%}
-                {%- if block.type == 'feature' and block.settings.text != blank -%}
-                  <div class="jordy-header__pill" {{ block.shopify_attributes }}>
-                    {%- case block.settings.icon -%}
-                      {%- when 'brain' -%}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 4.5a3.5 3.5 0 0 0-3.5 3.5v.5a3 3 0 0 0-2 2.83V12a3 3 0 0 0 1.5 2.6A3.5 3.5 0 0 0 9 20h1v-6H9a2 2 0 0 1-2-2v-.5a2.5 2.5 0 0 1 2.5-2.5h.5V8A3.5 3.5 0 0 0 9.5 4.5Z"></path><path d="M14.5 4.5A3.5 3.5 0 0 1 18 8v.5a3 3 0 0 1 2 2.83V12a3 3 0 0 1-1.5 2.6A3.5 3.5 0 0 1 15 20h-1v-6h1a2 2 0 0 0 2-2v-.5A2.5 2.5 0 0 0 14.5 9H14V8a3.5 3.5 0 0 1 .5-3.5Z"></path><path d="M12 8v12"></path></svg>
-                      {%- when 'snowflake' -%}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"></path><path d="m4.93 6 14.14 12"></path><path d="M19.07 6 4.93 18"></path><path d="m8.5 4 3.5 2 3.5-2"></path><path d="m8.5 20 3.5-2 3.5 2"></path><path d="m3 9 2 3-2 3"></path><path d="m21 9-2 3 2 3"></path></svg>
-                      {%- when 'spark' -%}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4"></path><path d="M12 17v4"></path><path d="m4.93 4.93 2.83 2.83"></path><path d="m16.24 16.24 2.83 2.83"></path><path d="M3 12h4"></path><path d="M17 12h4"></path><path d="m4.93 19.07 2.83-2.83"></path><path d="m16.24 7.76 2.83-2.83"></path><circle cx="12" cy="12" r="3.5"></circle></svg>
-                      {%- else -%}
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="8"></rect><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
-                    {%- endcase -%}
-                    <span>{{ block.settings.text | escape }}</span>
-                  </div>
-                {%- endif -%}
-              {%- endfor -%}
+              {%- if section.settings.rating_text != blank -%}
+                <span class="jordy-header__rating-text">{{ section.settings.rating_text | escape }}</span>
+              {%- endif -%}
             </div>
+          {%- endif -%}
 
-            {%- if section.settings.button_label != blank -%}
-              <div class="jordy-header__cta">
-                {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'xl', style: 'fill', background: section.settings.button_background, text_color: section.settings.button_text_color %}
-              </div>
-            {%- endif -%}
+          {%- if section.settings.description != blank -%}
+            <div class="jordy-header__description rte">
+              {{ section.settings.description }}
+            </div>
+          {%- endif -%}
 
-            {%- if section.settings.trust_text != blank -%}
-              <div class="jordy-header__trust">
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.2 16.2 4v5.35c0 3.8-2.33 6.95-6.2 8.45C6.13 16.3 3.8 13.15 3.8 9.35V4L10 2.2Z" fill="currentColor" opacity="0.2"></path><path d="M10 2.2 16.2 4v5.35c0 3.8-2.33 6.95-6.2 8.45C6.13 16.3 3.8 13.15 3.8 9.35V4L10 2.2Z" stroke="currentColor" stroke-width="1.4"></path><path d="m7.6 10.2 1.7 1.7 3.4-3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                <span>{{ section.settings.trust_text | escape }}</span>
-              </div>
-            {%- endif -%}
-
-            {%- if section.settings.show_progress_bar -%}
-              <div class="jordy-header__progress" aria-hidden="true">
-                <span class="jordy-header__progress-bar"></span>
-              </div>
-            {%- endif -%}
+          <div class="jordy-header__pills">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'feature' and block.settings.text != blank -%}
+                <div class="jordy-header__pill" {{ block.shopify_attributes }}>
+                  {%- case block.settings.icon -%}
+                    {%- when 'brain' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 4.5a3.5 3.5 0 0 0-3.5 3.5v.5a3 3 0 0 0-2 2.83V12a3 3 0 0 0 1.5 2.6A3.5 3.5 0 0 0 9 20h1v-6H9a2 2 0 0 1-2-2v-.5a2.5 2.5 0 0 1 2.5-2.5h.5V8A3.5 3.5 0 0 0 9.5 4.5Z"></path><path d="M14.5 4.5A3.5 3.5 0 0 1 18 8v.5a3 3 0 0 1 2 2.83V12a3 3 0 0 1-1.5 2.6A3.5 3.5 0 0 1 15 20h-1v-6h1a2 2 0 0 0 2-2v-.5A2.5 2.5 0 0 0 14.5 9H14V8a3.5 3.5 0 0 1 .5-3.5Z"></path><path d="M12 8v12"></path></svg>
+                    {%- when 'snowflake' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"></path><path d="m4.93 6 14.14 12"></path><path d="M19.07 6 4.93 18"></path><path d="m8.5 4 3.5 2 3.5-2"></path><path d="m8.5 20 3.5-2 3.5 2"></path><path d="m3 9 2 3-2 3"></path><path d="m21 9-2 3 2 3"></path></svg>
+                    {%- when 'spark' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4"></path><path d="M12 17v4"></path><path d="m4.93 4.93 2.83 2.83"></path><path d="m16.24 16.24 2.83 2.83"></path><path d="M3 12h4"></path><path d="M17 12h4"></path><path d="m4.93 19.07 2.83-2.83"></path><path d="m16.24 7.76 2.83-2.83"></path><circle cx="12" cy="12" r="3.5"></circle></svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="8"></rect><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+                  {%- endcase -%}
+                  <span>{{ block.settings.text | escape }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
           </div>
 
-          {%- if desktop_hero_image == blank and media_help_text != blank -%}
-            <div class="jordy-header__media-help">{{ media_help_text | escape }}</div>
+          {%- if section.settings.button_label != blank -%}
+            <div class="jordy-header__cta">
+              {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'xl', style: 'fill', background: section.settings.button_background, text_color: section.settings.button_text_color %}
+            </div>
           {%- endif -%}
 
-          {%- if section.settings.show_nav_arrows -%}
-            <div class="jordy-header__arrows" aria-hidden="true">
-              <button type="button" class="jordy-header__arrow" aria-label="Previous slide">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button type="button" class="jordy-header__arrow" aria-label="Next slide">
-                <svg viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
+          {%- if section.settings.trust_text != blank -%}
+            <div class="jordy-header__trust">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.2 16.2 4v5.35c0 3.8-2.33 6.95-6.2 8.45C6.13 16.3 3.8 13.15 3.8 9.35V4L10 2.2Z" fill="currentColor" opacity="0.2"></path><path d="M10 2.2 16.2 4v5.35c0 3.8-2.33 6.95-6.2 8.45C6.13 16.3 3.8 13.15 3.8 9.35V4L10 2.2Z" stroke="currentColor" stroke-width="1.4"></path><path d="m7.6 10.2 1.7 1.7 3.4-3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span>{{ section.settings.trust_text | escape }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_progress_bar -%}
+            <div class="jordy-header__progress" aria-hidden="true">
+              <span class="jordy-header__progress-bar"></span>
             </div>
           {%- endif -%}
         </div>
+
+        {%- if desktop_hero_image == blank and media_help_text != blank -%}
+          <div class="jordy-header__media-help">{{ media_help_text | escape }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.show_nav_arrows -%}
+          <div class="jordy-header__arrows" aria-hidden="true">
+            <button type="button" class="jordy-header__arrow" aria-label="Previous slide">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M15 6 9 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="jordy-header__arrow" aria-label="Next slide">
+              <svg viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -678,12 +676,12 @@
     { "type": "checkbox", "id": "show_nav_arrows", "label": "Show arrows", "default": true },
 
     { "type": "header", "content": "Hero media" },
-    { "type": "paragraph", "content": "Dit werkt nu zoals slideshow-pro: de section houdt zijn standaard design en je kunt een hero-afbeelding voor de hele section uploaden." },
+    { "type": "paragraph", "content": "Dit volgt nu slideshow-pro: full-width media, overlay daarboven en content als aparte laag." },
     { "type": "image_picker", "id": "desktop_hero_image", "label": "Desktop hero image" },
     { "type": "image_picker", "id": "mobile_hero_image", "label": "Mobile hero image" },
     { "type": "paragraph", "content": "Legacy fallback voor debuggen: Main image blijft beschikbaar als Desktop hero image leeg is." },
     { "type": "image_picker", "id": "image", "label": "Main image (legacy fallback)" },
-    { "type": "text", "id": "media_help_text", "label": "Placeholder help text", "default": "Voeg een afbeelding toe via Desktop hero image. De standaard section-look blijft bestaan en de hero-afbeelding wordt daaroverheen toegepast." },
+    { "type": "text", "id": "media_help_text", "label": "Placeholder help text", "default": "Voeg een afbeelding toe via Desktop hero image. De standaard section-look blijft bestaan en de hero-afbeelding wordt als media-laag toegepast." },
     { "type": "range", "id": "placeholder_opacity", "label": "Placeholder opacity", "min": 30, "max": 100, "step": 1, "default": 92 },
     { "type": "range", "id": "hero_image_opacity", "label": "Hero image opacity", "min": 30, "max": 100, "step": 1, "default": 100 },
     { "type": "range", "id": "hero_image_scale", "label": "Hero image scale", "min": 90, "max": 130, "step": 1, "default": 100 },
@@ -694,12 +692,12 @@
 
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "section_height", "label": "Section min height", "min": 520, "max": 980, "step": 20, "default": 760 },
+    { "type": "range", "id": "content_max_width", "label": "Content max width", "min": 320, "max": 760, "step": 10, "default": 640 },
+    { "type": "range", "id": "content_offset_x_desktop", "label": "Desktop left offset", "min": 16, "max": 140, "step": 2, "default": 56 },
+    { "type": "range", "id": "content_offset_y_desktop", "label": "Desktop top offset", "min": 16, "max": 140, "step": 2, "default": 72 },
+    { "type": "range", "id": "content_offset_y_mobile", "label": "Mobile top offset", "min": 20, "max": 120, "step": 2, "default": 30 },
+    { "type": "range", "id": "side_padding_mobile", "label": "Mobile side padding", "min": 16, "max": 32, "step": 1, "default": 20 },
     { "type": "range", "id": "heading_max_width", "label": "Heading max width", "min": 360, "max": 900, "step": 20, "default": 640 },
-    { "type": "range", "id": "text_column_width", "label": "Text column width (%)", "min": 35, "max": 70, "step": 1, "default": 52 },
-    { "type": "range", "id": "padding_top", "label": "Section top padding", "min": 0, "max": 120, "step": 4, "default": 28 },
-    { "type": "range", "id": "padding_bottom", "label": "Section bottom padding", "min": 0, "max": 120, "step": 4, "default": 28 },
-    { "type": "range", "id": "content_padding_x", "label": "Inner side padding", "min": 20, "max": 100, "step": 2, "default": 34 },
-    { "type": "range", "id": "content_padding_y", "label": "Inner vertical padding", "min": 30, "max": 160, "step": 2, "default": 52 },
     { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 48, "step": 2, "default": 0 },
     { "type": "range", "id": "pill_gap", "label": "Feature pill gap", "min": 6, "max": 24, "step": 2, "default": 14 },
     { "type": "range", "id": "pill_radius", "label": "Feature pill radius", "min": 8, "max": 28, "step": 2, "default": 16 },
@@ -708,8 +706,6 @@
     { "type": "range", "id": "arrow_size", "label": "Arrow size", "min": 42, "max": 88, "step": 2, "default": 62 },
 
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "background", "label": "Background color", "default": "#15284A" },
-    { "type": "text", "id": "background_gradient", "label": "Background gradient token", "default": "linear-gradient(93deg, rgba(21,40,74,1) 0%, rgba(35,56,92,1) 54%, rgba(73,67,82,1) 100%)" },
     { "type": "text", "id": "gradient_start", "label": "Gradient start", "default": "rgba(21,40,74,1)" },
     { "type": "text", "id": "gradient_middle", "label": "Gradient middle", "default": "rgba(35,56,92,1)" },
     { "type": "text", "id": "gradient_end", "label": "Gradient end", "default": "rgba(73,67,82,1)" },
