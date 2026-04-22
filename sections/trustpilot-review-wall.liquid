@@ -453,77 +453,101 @@
 
   <script>
     (() => {
-      const root = document.querySelector('[data-review-wall="{{ section.id }}"]');
-      if (!root) return;
+      const sectionSelector = '[data-review-wall="{{ section.id }}"]';
 
-      const rail = root.querySelector('[data-review-rail]');
-      const cards = Array.from(root.querySelectorAll('[data-review-card]'));
-      const dots = Array.from(root.querySelectorAll('[data-review-dot]'));
-      if (!rail || cards.length === 0 || dots.length === 0) return;
+      const setupReviewWall = (root) => {
+        if (!root || root.dataset.reviewWallReady === 'true') return;
+        root.dataset.reviewWallReady = 'true';
 
-      const mobileQuery = window.matchMedia('(max-width: 989px)');
+        const rail = root.querySelector('[data-review-rail]');
+        const cards = Array.from(root.querySelectorAll('[data-review-card]'));
+        const dots = Array.from(root.querySelectorAll('[data-review-dot]'));
+        if (!rail || cards.length === 0 || dots.length === 0) return;
 
-      const setActiveDot = (activeIndex) => {
-        dots.forEach((dot, index) => {
-          const isActive = index === activeIndex;
-          dot.classList.toggle('is-active', isActive);
-          if (isActive) {
-            dot.setAttribute('aria-current', 'true');
-          } else {
-            dot.removeAttribute('aria-current');
-          }
-        });
-      };
+        const mobileQuery = window.matchMedia('(max-width: 989px)');
 
-      const syncActiveDot = () => {
-        if (!mobileQuery.matches) return;
-
-        const railLeft = rail.getBoundingClientRect().left;
-        let activeIndex = 0;
-        let smallestDelta = Number.POSITIVE_INFINITY;
-
-        cards.forEach((card, index) => {
-          const delta = Math.abs(card.getBoundingClientRect().left - railLeft - 20);
-          if (delta < smallestDelta) {
-            smallestDelta = delta;
-            activeIndex = index;
-          }
-        });
-
-        setActiveDot(activeIndex);
-      };
-
-      let ticking = false;
-      rail.addEventListener(
-        'scroll',
-        () => {
-          if (!mobileQuery.matches || ticking) return;
-          ticking = true;
-          window.requestAnimationFrame(() => {
-            syncActiveDot();
-            ticking = false;
+        const setActiveDot = (activeIndex) => {
+          dots.forEach((dot, index) => {
+            const isActive = index === activeIndex;
+            dot.classList.toggle('is-active', isActive);
+            if (isActive) {
+              dot.setAttribute('aria-current', 'true');
+            } else {
+              dot.removeAttribute('aria-current');
+            }
           });
-        },
-        { passive: true }
-      );
+        };
 
-      dots.forEach((dot) => {
-        dot.addEventListener('click', () => {
-          const index = Number(dot.getAttribute('data-review-dot'));
-          const card = cards[index];
-          if (!card) return;
+        const syncActiveDot = () => {
+          if (!mobileQuery.matches) return;
 
-          rail.scrollTo({
-            left: card.offsetLeft - 20,
-            behavior: 'smooth'
+          const railLeft = rail.getBoundingClientRect().left;
+          let activeIndex = 0;
+          let smallestDelta = Number.POSITIVE_INFINITY;
+
+          cards.forEach((card, index) => {
+            const delta = Math.abs(card.getBoundingClientRect().left - railLeft - 20);
+            if (delta < smallestDelta) {
+              smallestDelta = delta;
+              activeIndex = index;
+            }
           });
 
-          setActiveDot(index);
+          setActiveDot(activeIndex);
+        };
+
+        let ticking = false;
+        rail.addEventListener(
+          'scroll',
+          () => {
+            if (!mobileQuery.matches || ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(() => {
+              syncActiveDot();
+              ticking = false;
+            });
+          },
+          { passive: true }
+        );
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            const index = Number(dot.getAttribute('data-review-dot'));
+            const card = cards[index];
+            if (!card) return;
+
+            rail.scrollTo({
+              left: card.offsetLeft - 20,
+              behavior: 'smooth'
+            });
+
+            setActiveDot(index);
+          });
         });
+
+        syncActiveDot();
+        if (typeof mobileQuery.addEventListener === 'function') {
+          mobileQuery.addEventListener('change', syncActiveDot);
+        } else if (typeof mobileQuery.addListener === 'function') {
+          mobileQuery.addListener(syncActiveDot);
+        }
+      };
+
+      const initCurrentSection = () => {
+        setupReviewWall(document.querySelector(sectionSelector));
+      };
+
+      initCurrentSection();
+
+      document.addEventListener('shopify:section:load', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const root = target.matches(sectionSelector) ? target : target.querySelector(sectionSelector);
+        if (root) {
+          root.dataset.reviewWallReady = '';
+          setupReviewWall(root);
+        }
       });
-
-      syncActiveDot();
-      mobileQuery.addEventListener('change', syncActiveDot);
     })();
   </script>
 </section>
