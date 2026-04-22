@@ -35,19 +35,43 @@
   font-size: 18px;
   opacity: .9;
 }
+
+/* TRUSTPILOT STYLE */
 .video-trust-header__trust {
-  margin-top: 20px;
+  margin-top: 24px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
-.video-trust-header__star {
-  background:#00B67A;
-  color:#fff;
-  padding:4px 6px;
-  border-radius:4px;
-  font-size:12px;
+.video-trust-header__stars {
+  display: flex;
+  gap: 4px;
 }
+.video-trust-header__star {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00b67a;
+  border-radius: 3px;
+}
+.video-trust-header__star svg {
+  width: 14px;
+  height: 14px;
+  fill: #fff;
+}
+.video-trust-header__rating-text {
+  font-size: 14px;
+  opacity: .9;
+}
+.video-trust-header__trustpilot {
+  font-size: 12px;
+  opacity: .7;
+  letter-spacing: .3px;
+}
+
 .video-trust-header__usps {
   margin-top: 20px;
   display:flex;
@@ -55,6 +79,21 @@
   gap:20px;
   flex-wrap:wrap;
   font-size:14px;
+  opacity:.95;
+}
+.video-trust-header__usps span::before {
+  content: '✔';
+  margin-right:6px;
+  color:#00b67a;
+}
+
+@media (max-width: 768px) {
+  .video-trust-header__content {
+    padding: 40px 16px;
+  }
+  .video-trust-header__heading {
+    font-size: 26px;
+  }
 }
 </style>
 
@@ -69,10 +108,21 @@
     <div class="video-trust-header__sub rte">{{ section.settings.subheading }}</div>
 
     <div class="video-trust-header__trust">
-      {% for i in (1..5) %}
-        <span class="video-trust-header__star">★</span>
-      {% endfor %}
-      <span>{{ section.settings.review_text }}</span>
+      <div class="video-trust-header__stars">
+        {% for i in (1..5) %}
+          <div class="video-trust-header__star">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10 15l-5.878 3.09L5.3 11.545.6 7.41l6.1-.885L10 1l3.3 5.525 6.1.885-4.7 4.136 1.178 6.545z"/>
+            </svg>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="video-trust-header__rating-text">
+        {{ section.settings.review_text }}
+      </div>
+      <div class="video-trust-header__trustpilot">
+        ★ Trustpilot
+      </div>
     </div>
 
     <div class="video-trust-header__usps">
