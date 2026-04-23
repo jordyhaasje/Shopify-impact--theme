@@ -1251,7 +1251,7 @@
         "product_ziTP6J": {
           "type": "product",
           "settings": {
-            "product": ""
+            "product": "test"
           }
         }
       },
@@ -1265,7 +1265,7 @@
       "settings": {
         "title": "Uitgelichte producten",
         "button_label": "Bekijk product",
-        "columns": 3,
+        "columns": 4,
         "card_bg": "#ffffff",
         "button_bg": "#111111",
         "button_text": "#ffffff",
