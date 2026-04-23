@@ -1,0 +1,824 @@
+{%- render 'section-spacing-collapsing' -%}
+
+{%- assign sid = section.id -%}
+
+<style>
+  #shopify-section-{{ sid }} {
+    --hp-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --hp-subtext: {{ section.settings.subtext_color.red }}, {{ section.settings.subtext_color.green }}, {{ section.settings.subtext_color.blue }};
+    --hp-accent: {{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }};
+    --hp-btn-bg: {{ section.settings.button_bg.red }}, {{ section.settings.button_bg.green }}, {{ section.settings.button_bg.blue }};
+    --hp-btn-text: {{ section.settings.button_text_color.red }}, {{ section.settings.button_text_color.green }}, {{ section.settings.button_text_color.blue }};
+    --hp-btn2-bg: {{ section.settings.button2_bg.red }}, {{ section.settings.button2_bg.green }}, {{ section.settings.button2_bg.blue }};
+    --hp-btn2-text: {{ section.settings.button2_text_color.red }}, {{ section.settings.button2_text_color.green }}, {{ section.settings.button2_text_color.blue }};
+    --hp-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --hp-tp-bg: {{ section.settings.tp_card_bg.red }}, {{ section.settings.tp_card_bg.green }}, {{ section.settings.tp_card_bg.blue }};
+    --hp-tp-text: {{ section.settings.tp_card_text.red }}, {{ section.settings.tp_card_text.green }}, {{ section.settings.tp_card_text.blue }};
+    --hp-review-bg: {{ section.settings.review_card_bg.red }}, {{ section.settings.review_card_bg.green }}, {{ section.settings.review_card_bg.blue }};
+    --hp-review-text: {{ section.settings.review_card_text.red }}, {{ section.settings.review_card_text.green }}, {{ section.settings.review_card_text.blue }};
+    --hp-min-height: {{ section.settings.min_height }}px;
+    --hp-content-align: {{ section.settings.content_align }};
+  }
+
+  /* ── Hero shell ── */
+  #shopify-section-{{ sid }} .hp {
+    position: relative;
+    min-height: var(--hp-min-height);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* ── Background image ── */
+  #shopify-section-{{ sid }} .hp__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  #shopify-section-{{ sid }} .hp__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.bg_position }};
+    display: block;
+  }
+
+  #shopify-section-{{ sid }} .hp__bg-fallback {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgb(var(--hp-accent)) 0%, #1a1a2e 100%);
+  }
+
+  #shopify-section-{{ sid }} .hp__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--hp-overlay));
+    z-index: 1;
+  }
+
+  /* ── Content ── */
+  #shopify-section-{{ sid }} .hp__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 80px 24px;
+  }
+
+  #shopify-section-{{ sid }} .hp__content {
+    max-width: 640px;
+    text-align: var(--hp-content-align);
+    margin-inline: auto;
+  }
+
+  #shopify-section-{{ sid }} .hp__content--left  { margin-inline: 0 auto; }
+  #shopify-section-{{ sid }} .hp__content--right { margin-inline: auto 0; }
+  #shopify-section-{{ sid }} .hp__content--center { margin-inline: auto; }
+
+  /* ── Eyebrow ── */
+  #shopify-section-{{ sid }} .hp__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(rgb(var(--hp-accent)), 0.18);
+    background: rgba({{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }}, 0.18);
+    border: 1px solid rgba({{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }}, 0.35);
+    color: rgb(var(--hp-accent));
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hp-fadein .55s .1s ease forwards;
+  }
+
+  /* ── Heading ── */
+  #shopify-section-{{ sid }} .hp__heading {
+    color: rgb(var(--hp-text));
+    font-size: clamp(36px, 6vw, 72px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    margin: 0 0 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hp-fadein .6s .22s ease forwards;
+  }
+
+  #shopify-section-{{ sid }} .hp__heading .hp__accent {
+    color: rgb(var(--hp-accent));
+    font-style: italic;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 600;
+  }
+
+  /* ── Subheading ── */
+  #shopify-section-{{ sid }} .hp__sub {
+    color: rgba({{ section.settings.subtext_color.red }}, {{ section.settings.subtext_color.green }}, {{ section.settings.subtext_color.blue }}, 0.85);
+    font-size: clamp(16px, 1.8vw, 20px);
+    line-height: 1.55;
+    margin: 0 0 32px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hp-fadein .6s .34s ease forwards;
+  }
+
+  #shopify-section-{{ sid }} .hp__sub p { margin: 0; }
+
+  /* ── Buttons ── */
+  #shopify-section-{{ sid }} .hp__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: var(--hp-content-align);
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hp-fadein .6s .46s ease forwards;
+  }
+
+  #shopify-section-{{ sid }} .hp__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s;
+    cursor: pointer;
+    border: none;
+    line-height: 1;
+    letter-spacing: .01em;
+  }
+
+  #shopify-section-{{ sid }} .hp__btn--primary {
+    background: rgb(var(--hp-btn-bg));
+    color: rgb(var(--hp-btn-text));
+    box-shadow: 0 4px 20px rgba({{ section.settings.button_bg.red }}, {{ section.settings.button_bg.green }}, {{ section.settings.button_bg.blue }}, 0.4);
+  }
+
+  #shopify-section-{{ sid }} .hp__btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba({{ section.settings.button_bg.red }}, {{ section.settings.button_bg.green }}, {{ section.settings.button_bg.blue }}, 0.55);
+  }
+
+  #shopify-section-{{ sid }} .hp__btn--secondary {
+    background: rgba({{ section.settings.button2_bg.red }}, {{ section.settings.button2_bg.green }}, {{ section.settings.button2_bg.blue }}, 0.15);
+    color: rgb(var(--hp-btn2-text));
+    border: 1.5px solid rgba({{ section.settings.button2_bg.red }}, {{ section.settings.button2_bg.green }}, {{ section.settings.button2_bg.blue }}, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  #shopify-section-{{ sid }} .hp__btn--secondary:hover {
+    transform: translateY(-2px);
+    background: rgba({{ section.settings.button2_bg.red }}, {{ section.settings.button2_bg.green }}, {{ section.settings.button2_bg.blue }}, 0.25);
+  }
+
+  /* ── Trustpilot badge ── */
+  #shopify-section-{{ sid }} .hp__tp {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 18px;
+    border-radius: 14px;
+    background: rgba({{ section.settings.tp_card_bg.red }}, {{ section.settings.tp_card_bg.green }}, {{ section.settings.tp_card_bg.blue }}, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(0,0,0,.15);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hp-fadein .6s .58s ease forwards;
+    text-decoration: none;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-logo {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-logo-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #191919;
+    letter-spacing: -.01em;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-logo-star {
+    width: 22px;
+    height: 22px;
+    background: #00b67a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-logo-star svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(0,0,0,.12);
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-right {}
+
+  #shopify-section-{{ sid }} .hp__tp-stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 3px;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-star {
+    width: 18px;
+    height: 18px;
+    background: #00b67a;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-star svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(var(--hp-tp-text));
+    line-height: 1;
+  }
+
+  #shopify-section-{{ sid }} .hp__tp-label span {
+    opacity: .6;
+    font-weight: 400;
+  }
+
+  /* ── Floating review card ── */
+  #shopify-section-{{ sid }} .hp__review-float {
+    position: absolute;
+    z-index: 3;
+    bottom: 36px;
+    right: 36px;
+    max-width: 280px;
+    background: rgba({{ section.settings.review_card_bg.red }}, {{ section.settings.review_card_bg.green }}, {{ section.settings.review_card_bg.blue }}, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.22);
+    opacity: 0;
+    transform: translateY(24px) scale(.97);
+    animation: hp-fadein .65s .7s ease forwards;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-avatar,
+  #shopify-section-{{ sid }} .hp__review-avatar-placeholder {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-avatar-placeholder {
+    background: rgba({{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }}, 0.18);
+    color: rgb(var(--hp-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-verified {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    background: #00b67a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-verified svg {
+    width: 8px;
+    height: 8px;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(var(--hp-review-text));
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-role {
+    font-size: 11px;
+    color: rgba({{ section.settings.review_card_text.red }}, {{ section.settings.review_card_text.green }}, {{ section.settings.review_card_text.blue }}, 0.55);
+    line-height: 1.3;
+    margin-top: 1px;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-stars {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-star {
+    width: 15px;
+    height: 15px;
+    background: #00b67a;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-star svg {
+    width: 9px;
+    height: 9px;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-quote {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba({{ section.settings.review_card_text.red }}, {{ section.settings.review_card_text.green }}, {{ section.settings.review_card_text.blue }}, 0.8);
+    margin: 0;
+    font-style: italic;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-tp-line {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba({{ section.settings.review_card_text.red }}, {{ section.settings.review_card_text.green }}, {{ section.settings.review_card_text.blue }}, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-tp-chip {
+    background: #00b67a;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .02em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+
+  #shopify-section-{{ sid }} .hp__review-tp-foot {
+    font-size: 11px;
+    color: rgba({{ section.settings.review_card_text.red }}, {{ section.settings.review_card_text.green }}, {{ section.settings.review_card_text.blue }}, 0.5);
+    line-height: 1;
+  }
+
+  /* ── Animations ── */
+  @keyframes hp-fadein {
+    to { opacity: 1; transform: none; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 767px) {
+    #shopify-section-{{ sid }} .hp__review-float {
+      position: static;
+      margin: 24px 24px 0;
+      max-width: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: hp-fadein .6s .72s ease forwards;
+    }
+
+    #shopify-section-{{ sid }} .hp__inner {
+      padding: 60px 24px 28px;
+    }
+
+    #shopify-section-{{ sid }} .hp__content {
+      max-width: 100%;
+      text-align: left;
+    }
+
+    #shopify-section-{{ sid }} .hp__content--left,
+    #shopify-section-{{ sid }} .hp__content--center,
+    #shopify-section-{{ sid }} .hp__content--right {
+      margin-inline: 0;
+    }
+
+    #shopify-section-{{ sid }} .hp__actions {
+      justify-content: flex-start;
+    }
+  }
+</style>
+
+<section class="hp section-{{ sid }}">
+
+  {%- comment -%} Background {%- endcomment -%}
+  <div class="hp__bg">
+    {%- if section.settings.bg_image != blank -%}
+      {{ section.settings.bg_image | image_url: width: 2000 | image_tag: loading: 'eager', widths: '600,900,1200,1600,2000', class: '', alt: section.settings.heading | default: '' }}
+    {%- else -%}
+      <div class="hp__bg-fallback"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="hp__overlay"></div>
+
+  {%- comment -%} Main content {%- endcomment -%}
+  <div class="hp__inner">
+    <div class="container">
+      <div class="hp__content hp__content--{{ section.settings.content_align }}">
+
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="hp__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h1 class="hp__heading">
+            {{ section.settings.heading | escape }}
+            {%- if section.settings.heading_accent != blank -%}
+              <span class="hp__accent"> {{ section.settings.heading_accent | escape }}</span>
+            {%- endif -%}
+          </h1>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <div class="hp__sub rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.btn1_label != blank or section.settings.btn2_label != blank -%}
+          <div class="hp__actions">
+            {%- if section.settings.btn1_label != blank -%}
+              <a href="{{ section.settings.btn1_link | default: '#' }}" class="hp__btn hp__btn--primary">
+                {{ section.settings.btn1_label | escape }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.btn2_label != blank -%}
+              <a href="{{ section.settings.btn2_link | default: '#' }}" class="hp__btn hp__btn--secondary">
+                {{ section.settings.btn2_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.tp_show -%}
+          <div class="hp__tp">
+            <div class="hp__tp-logo">
+              <span class="hp__tp-logo-star">
+                <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </span>
+              <span class="hp__tp-logo-text">Trustpilot</span>
+            </div>
+
+            <div class="hp__tp-divider"></div>
+
+            <div class="hp__tp-right">
+              <div class="hp__tp-stars">
+                {%- for i in (1..5) -%}
+                  <span class="hp__tp-star">
+                    <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </span>
+                {%- endfor -%}
+              </div>
+              <div class="hp__tp-label">
+                {{ section.settings.tp_score }} <span>{{ section.settings.tp_label }}</span>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Floating review card {%- endcomment -%}
+  {%- if section.settings.review_show -%}
+    <div class="hp__review-float">
+      <div class="hp__review-top">
+        <div class="hp__review-avatar-wrap">
+          {%- if section.settings.review_avatar != blank -%}
+            {{ section.settings.review_avatar | image_url: width: 84 | image_tag: loading: 'lazy', widths: '42,84', class: 'hp__review-avatar', alt: section.settings.review_name | default: '' }}
+          {%- else -%}
+            <div class="hp__review-avatar-placeholder">{{ section.settings.review_name | strip | slice: 0, 1 }}</div>
+          {%- endif -%}
+          <span class="hp__review-verified">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+        </div>
+
+        <div class="hp__review-meta">
+          <div class="hp__review-name">{{ section.settings.review_name | escape }}</div>
+          <div class="hp__review-role">{{ section.settings.review_role | escape }}</div>
+        </div>
+
+        <div class="hp__review-stars">
+          {%- for i in (1..5) -%}
+            <span class="hp__review-star">
+              <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </span>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if section.settings.review_quote != blank -%}
+        <p class="hp__review-quote">&ldquo;{{ section.settings.review_quote | escape }}&rdquo;</p>
+      {%- endif -%}
+
+      <div class="hp__review-tp-line">
+        <span class="hp__review-tp-chip">Trustpilot</span>
+        <span class="hp__review-tp-foot">Verified review</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Hero Premium",
+  "tag": "section",
+  "class": "shopify-section--hero-premium",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Achtergrond"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Achtergrondafbeelding"
+    },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Afbeeldingspositie",
+      "options": [
+        {"value": "center center", "label": "Midden"},
+        {"value": "center top", "label": "Midden boven"},
+        {"value": "center bottom", "label": "Midden onder"},
+        {"value": "left center", "label": "Links"},
+        {"value": "right center", "label": "Rechts"}
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay donkerte",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 48,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimale hoogte",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "default": 600,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Inhoud"
+    },
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Tekst uitlijning",
+      "options": [
+        {"value": "left", "label": "Links"},
+        {"value": "center", "label": "Midden"},
+        {"value": "right", "label": "Rechts"}
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tekst",
+      "default": "Nieuw in 2025"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Koptekst",
+      "default": "Maak je leven"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Koptekst accent (cursief)",
+      "default": "eenvoudiger."
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subtekst",
+      "default": "<p>Ontdek onze collectie en vind precies wat je nodig hebt. Kwaliteit die je voelt, service die je vertrouwt.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Knoppen"
+    },
+    {
+      "type": "text",
+      "id": "btn1_label",
+      "label": "Knop 1 tekst",
+      "default": "Shop nu"
+    },
+    {
+      "type": "url",
+      "id": "btn1_link",
+      "label": "Knop 1 link"
+    },
+    {
+      "type": "text",
+      "id": "btn2_label",
+      "label": "Knop 2 tekst",
+      "default": "Meer informatie"
+    },
+    {
+      "type": "url",
+      "id": "btn2_link",
+      "label": "Knop 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Trustpilot badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "tp_show",
+      "label": "Toon Trustpilot badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tp_score",
+      "label": "Score tekst",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "tp_label",
+      "label": "Label tekst",
+      "default": "op basis van 2.400+ reviews"
+    },
+    {
+      "type": "header",
+      "content": "Review kaart"
+    },
+    {
+      "type": "checkbox",
+      "id": "review_show",
+      "label": "Toon review kaart",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "review_avatar",
+      "label": "Avatar afbeelding"
+    },
+    {
+      "type": "text",
+      "id": "review_name",
+      "label": "Naam reviewer",
+      "default": "Sophie van der Berg"
+    },
+    {
+      "type": "text",
+      "id": "review_role",
+      "label": "Functie / locatie reviewer",
+      "default": "Verified klant · Amsterdam"
+    },
+    {
+      "type": "textarea",
+      "id": "review_quote",
+      "label": "Review quote",
+      "default": "Echt verbaasd door de kwaliteit. Snel geleverd, perfect verpakt en precies zoals beschreven. Absoluut een aanrader!"
+    },
+    {
+      "type": "header",
+      "content": "Kleuren"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Koptekst kleur",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtekst kleur",
+      "default": "#E8E8E8"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accentkleur",
+      "default": "#FF642D"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Knop 1 achtergrond",
+      "default": "#FF642D"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Knop 1 tekstkleur",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button2_bg",
+      "label": "Knop 2 achtergrond",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button2_text_color",
+      "label": "Knop 2 tekstkleur",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "tp_card_bg",
+      "label": "Trustpilot badge achtergrond",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "tp_card_text",
+      "label": "Trustpilot badge tekstkleur",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "review_card_bg",
+      "label": "Review kaart achtergrond",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "review_card_text",
+      "label": "Review kaart tekstkleur",
+      "default": "#222222"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Premium"
+    }
+  ]
+}
+{% endschema %}
