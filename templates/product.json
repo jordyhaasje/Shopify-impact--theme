@@ -132,6 +132,7 @@
             "avatar_background": "#111111",
             "avatar_text_color": "#ffffff",
             "border_radius": 16,
+            "review_1_avatar": "shopify://shop_images/blik1.webp",
             "review_1_name": "Lisa",
             "review_1_rating": 5,
             "review_1_text": "Super product, snelle levering en precies zoals verwacht.",
