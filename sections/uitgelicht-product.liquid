@@ -1,0 +1,151 @@
+<section class="uitgelicht-product section-{{ section.id }}">
+  <div class="uitgelicht-product__inner">
+    {%- if section.settings.title != blank -%}
+      <h2 class="uitgelicht-product__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    <div class="uitgelicht-product__grid">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+
+        {%- if product != blank -%}
+          <div class="uitgelicht-product__card" {{ block.shopify_attributes }}>
+            <a href="{{ product.url }}" class="uitgelicht-product__media">
+              {%- if product.featured_image -%}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'uitgelicht-product__image' }}
+              {%- endif -%}
+            </a>
+
+            <div class="uitgelicht-product__content">
+              <h3 class="uitgelicht-product__name">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+              </h3>
+
+              <div class="uitgelicht-product__price">
+                {%- render 'price-list', product: product -%}
+              </div>
+
+              <a href="{{ product.url }}" class="uitgelicht-product__button">
+                {{ section.settings.button_label }}
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <style>
+    .uitgelicht-product__inner {
+      padding: {{ section.settings.padding_top }}px {{ section.settings.padding_horizontal }}px {{ section.settings.padding_bottom }}px;
+    }
+
+    .uitgelicht-product__title {
+      font-size: 28px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .uitgelicht-product__grid {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
+      gap: 16px;
+    }
+
+    .uitgelicht-product__card {
+      background: {{ section.settings.card_bg }};
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .uitgelicht-product__media {
+      display: block;
+      aspect-ratio: 1;
+      overflow: hidden;
+    }
+
+    .uitgelicht-product__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .uitgelicht-product__content {
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .uitgelicht-product__name {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .uitgelicht-product__name a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .uitgelicht-product__button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      border-radius: 999px;
+      background: {{ section.settings.button_bg }};
+      color: {{ section.settings.button_text }};
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    @media screen and (max-width: 749px) {
+      .uitgelicht-product__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+
+  {% schema %}
+  {
+    "name": "Uitgelicht product",
+    "settings": [
+      { "type": "text", "id": "title", "label": "Titel", "default": "Uitgelichte producten" },
+      { "type": "text", "id": "button_label", "label": "Button label", "default": "Bekijk product" },
+
+      { "type": "range", "id": "columns", "min": 2, "max": 4, "step": 1, "default": 3, "label": "Kolommen" },
+
+      { "type": "color", "id": "card_bg", "label": "Card achtergrond", "default": "#ffffff" },
+      { "type": "color", "id": "button_bg", "label": "Button achtergrond", "default": "#111111" },
+      { "type": "color", "id": "button_text", "label": "Button tekst", "default": "#ffffff" },
+
+      { "type": "range", "id": "padding_top", "min": 0, "max": 60, "step": 4, "default": 24, "label": "Padding top" },
+      { "type": "range", "id": "padding_bottom", "min": 0, "max": 60, "step": 4, "default": 24, "label": "Padding bottom" },
+      { "type": "range", "id": "padding_horizontal", "min": 0, "max": 40, "step": 4, "default": 16, "label": "Padding horizontaal" }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          { "type": "product", "id": "product", "label": "Selecteer product" }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Uitgelicht product",
+        "blocks": [
+          { "type": "product" },
+          { "type": "product" },
+          { "type": "product" }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+</section>
