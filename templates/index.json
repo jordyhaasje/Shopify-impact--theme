@@ -1226,6 +1226,53 @@
         "reviewer_meta": "Hele fijne broek",
         "review_text": "Dit is echt een hele fijne broek, hartstikke bedankt hiervoor!"
       }
+    },
+    "uitgelicht_product_gXwjzK": {
+      "type": "uitgelicht-product",
+      "blocks": {
+        "product_nWzkFY": {
+          "type": "product",
+          "settings": {
+            "product": "azaria-pak"
+          }
+        },
+        "product_4qLYWT": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_DFJLaC": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        },
+        "product_ziTP6J": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_nWzkFY",
+        "product_4qLYWT",
+        "product_DFJLaC",
+        "product_ziTP6J"
+      ],
+      "name": "Uitgelicht product",
+      "settings": {
+        "title": "Uitgelichte producten",
+        "button_label": "Bekijk product",
+        "columns": 3,
+        "card_bg": "#ffffff",
+        "button_bg": "#111111",
+        "button_text": "#ffffff",
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "padding_horizontal": 16
+      }
     }
   },
   "order": [
@@ -1250,6 +1297,7 @@
     "video_trust_header_9Dpg7U",
     "jordy_header_tMBpFY",
     "jordy_usp_PpbjYM",
-    "hero_v7_BxpJaq"
+    "hero_v7_BxpJaq",
+    "uitgelicht_product_gXwjzK"
   ]
 }
