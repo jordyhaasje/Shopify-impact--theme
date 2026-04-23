@@ -12,6 +12,28 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "review_avatars_RErYTE": {
+          "type": "review_avatars",
+          "settings": {
+            "title": "Wat klanten zeggen",
+            "background_color": "#f8f8f8",
+            "text_color": "#111111",
+            "star_color": "#f5a623",
+            "avatar_background": "#111111",
+            "avatar_text_color": "#ffffff",
+            "border_radius": 16,
+            "review_1_avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+            "review_1_name": "Lisa",
+            "review_1_rating": 5,
+            "review_1_text": "Super product, snelle levering en precies zoals verwacht.",
+            "review_2_name": "Mark",
+            "review_2_rating": 5,
+            "review_2_text": "Kwaliteit is top en het geeft meteen vertrouwen op de productpagina.",
+            "review_3_name": "Sophie",
+            "review_3_rating": 5,
+            "review_3_text": "Mooi verpakt, snel binnen en ik zou het direct opnieuw bestellen."
+          }
+        },
         "vendor": {
           "type": "vendor",
           "settings": {}
@@ -102,6 +124,7 @@
         }
       },
       "block_order": [
+        "review_avatars_RErYTE",
         "vendor",
         "title",
         "badges",
