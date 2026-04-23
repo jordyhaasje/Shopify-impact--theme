@@ -12,28 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "review_avatars_RErYTE": {
-          "type": "review_avatars",
-          "settings": {
-            "title": "Wat klanten zeggen",
-            "background_color": "#f8f8f8",
-            "text_color": "#111111",
-            "star_color": "#f5a623",
-            "avatar_background": "#111111",
-            "avatar_text_color": "#ffffff",
-            "border_radius": 16,
-            "review_1_avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
-            "review_1_name": "Lisa",
-            "review_1_rating": 5,
-            "review_1_text": "Super product, snelle levering en precies zoals verwacht.",
-            "review_2_name": "Mark",
-            "review_2_rating": 5,
-            "review_2_text": "Kwaliteit is top en het geeft meteen vertrouwen op de productpagina.",
-            "review_3_name": "Sophie",
-            "review_3_rating": 5,
-            "review_3_text": "Mooi verpakt, snel binnen en ik zou het direct opnieuw bestellen."
-          }
-        },
         "vendor": {
           "type": "vendor",
           "settings": {}
@@ -114,7 +92,7 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_payment_button": true,
+            "show_payment_button": false,
             "show_gift_card_recipient": true,
             "atc_button_background": "",
             "atc_button_text_color": "",
@@ -139,6 +117,7 @@
             "review_2_name": "Mark",
             "review_2_rating": 5,
             "review_2_text": "Kwaliteit is top en het geeft meteen vertrouwen op de productpagina.",
+            "review_3_avatar": "shopify://shop_images/model-laughs-barefoot.jpg",
             "review_3_name": "Sophie",
             "review_3_rating": 5,
             "review_3_text": "Mooi verpakt, snel binnen en ik zou het direct opnieuw bestellen."
@@ -146,7 +125,6 @@
         }
       },
       "block_order": [
-        "review_avatars_RErYTE",
         "vendor",
         "title",
         "badges",
@@ -200,68 +178,6 @@
         "heading_gradient": "",
         "product_card_background": "",
         "product_card_text_color": ""
-      }
-    },
-    "product_video_gallery_YE6EVi": {
-      "type": "product-video-gallery",
-      "blocks": {
-        "video_zmBUi8": {
-          "type": "video",
-          "settings": {
-            "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4"
-          }
-        },
-        "video_hYq8WP": {
-          "type": "video",
-          "settings": {
-            "video": "shopify://files/videos/Ontwerp zonder titel (1).mp4"
-          }
-        },
-        "video_GtnXym": {
-          "type": "video",
-          "settings": {
-            "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4"
-          }
-        }
-      },
-      "block_order": [
-        "video_zmBUi8",
-        "video_hYq8WP",
-        "video_GtnXym"
-      ],
-      "name": "Product Video Gallery",
-      "settings": {
-        "heading": "Loved by 200,000+ happy customers.",
-        "accent_color": "#e09f7d"
-      }
-    },
-    "product_social_proof_PRA8Yy": {
-      "type": "product-social-proof",
-      "name": "Product social proof",
-      "settings": {
-        "avatar_1": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
-        "avatar_2": "shopify://shop_images/2_dd19edbb-9b84-42c4-b3c5-38590d4a213a.jpg",
-        "avatar_3": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
-        "name_text": "Davie",
-        "show_verified_badge": true,
-        "text_before_bold": "and",
-        "bold_text": "1200+ others",
-        "text_after_bold": "love our products and purchased more than ones!",
-        "content_max_width": 940,
-        "padding_top": 8,
-        "padding_bottom": 8,
-        "padding_side_desktop": 20,
-        "padding_side_mobile": 16,
-        "border_radius": 18,
-        "avatar_size_desktop": 52,
-        "avatar_size_mobile": 30,
-        "avatar_overlap_desktop": 12,
-        "avatar_overlap_mobile": 10,
-        "text_size_desktop": 16,
-        "text_size_mobile": 12,
-        "background_color": "#f3f3f3",
-        "text_color": "#111111",
-        "avatar_border_color": "#ffffff"
       }
     },
     "upgrade_water_bottle_g3CacU": {
@@ -337,8 +253,6 @@
   "order": [
     "main",
     "related-products",
-    "product_video_gallery_YE6EVi",
-    "product_social_proof_PRA8Yy",
     "upgrade_water_bottle_g3CacU"
   ]
 }
