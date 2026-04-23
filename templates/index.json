@@ -1198,14 +1198,33 @@
         "card_shadow_blur": 36,
         "card_shadow_opacity": 6,
         "background": "#ffffff",
-        "card_background": "#FFFFFF",
-        "heading_color": "#1F2937",
-        "text_color": "#4B5563",
-        "muted_color": "#6B7280",
-        "accent_color": "#C58A37",
-        "icon_background": "#F3E9D7",
-        "icon_color": "#8B5E1A",
-        "border_color": "#E8E1D5"
+        "card_background": "#ffffff",
+        "heading_color": "#1f2937",
+        "text_color": "#4b5563",
+        "muted_color": "#6b7280",
+        "accent_color": "#c58a37",
+        "icon_background": "#f3e9d7",
+        "icon_color": "#8b5e1a",
+        "border_color": "#e8e1d5"
+      }
+    },
+    "hero_v7_BxpJaq": {
+      "type": "hero-v7",
+      "name": "Hero v7",
+      "settings": {
+        "bg_image": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "overlay_opacity": 30,
+        "heading": "Bekijk onze nieuwe collectie",
+        "subheading": "Bekijk nu onze nieuwe collectie",
+        "text": "<p>Hij staat vanaf vandaag online</p>",
+        "button_1_label": "SHOP NU",
+        "button_1_link": "",
+        "button_2_label": "",
+        "button_2_link": "",
+        "avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+        "reviewer_name": "Jake",
+        "reviewer_meta": "Hele fijne broek",
+        "review_text": "Dit is echt een hele fijne broek, hartstikke bedankt hiervoor!"
       }
     }
   },
@@ -1230,6 +1249,7 @@
     "hazify_test_collections_slider_gVrXUB",
     "video_trust_header_9Dpg7U",
     "jordy_header_tMBpFY",
-    "jordy_usp_PpbjYM"
+    "jordy_usp_PpbjYM",
+    "hero_v7_BxpJaq"
   ]
 }
