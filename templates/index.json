@@ -1253,25 +1253,28 @@
           "settings": {
             "product": "test"
           }
+        },
+        "product_qzejDW": {
+          "type": "product",
+          "settings": {
+            "product": "dames-v-hals-maxi-avondjurk"
+          }
         }
       },
       "block_order": [
         "product_nWzkFY",
         "product_4qLYWT",
         "product_DFJLaC",
-        "product_ziTP6J"
+        "product_ziTP6J",
+        "product_qzejDW"
       ],
       "name": "Uitgelicht product",
       "settings": {
+        "eyebrow": "Aanbevolen",
         "title": "Uitgelichte producten",
         "button_label": "Bekijk product",
-        "columns": 4,
-        "card_bg": "#ffffff",
-        "button_bg": "#111111",
-        "button_text": "#ffffff",
         "padding_top": 24,
-        "padding_bottom": 24,
-        "padding_horizontal": 16
+        "padding_bottom": 24
       }
     }
   },
