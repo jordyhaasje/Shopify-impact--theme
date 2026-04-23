@@ -1276,6 +1276,44 @@
         "padding_top": 24,
         "padding_bottom": 24
       }
+    },
+    "hero_premium_3hGmne": {
+      "type": "hero-premium",
+      "name": "Hero Premium",
+      "settings": {
+        "bg_image": "shopify://shop_images/person-fishing-on-the-beach-is-silhouetted-at-sunset.jpg",
+        "bg_position": "center center",
+        "overlay_opacity": 48,
+        "min_height": 600,
+        "content_align": "left",
+        "eyebrow": "",
+        "heading": "Maak je leven",
+        "heading_accent": "eenvoudiger.",
+        "subheading": "<p>Ontdek onze collectie en vind precies wat je nodig hebt. Kwaliteit die je voelt, service die je vertrouwt.</p>",
+        "btn1_label": "Shop nu",
+        "btn1_link": "",
+        "btn2_label": "Meer informatie",
+        "btn2_link": "",
+        "tp_show": true,
+        "tp_score": "4.9",
+        "tp_label": "op basis van 2.400+ reviews",
+        "review_show": true,
+        "review_avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
+        "review_name": "Sophie van der Berg",
+        "review_role": "Verified klant · Amsterdam",
+        "review_quote": "Echt verbaasd door de kwaliteit. Snel geleverd, perfect verpakt en precies zoals beschreven. Absoluut een aanrader!",
+        "text_color": "#FFFFFF",
+        "subtext_color": "#E8E8E8",
+        "accent_color": "#FF642D",
+        "button_bg": "#FF642D",
+        "button_text_color": "#FFFFFF",
+        "button2_bg": "#FFFFFF",
+        "button2_text_color": "#FFFFFF",
+        "tp_card_bg": "#FFFFFF",
+        "tp_card_text": "#222222",
+        "review_card_bg": "#FFFFFF",
+        "review_card_text": "#222222"
+      }
     }
   },
   "order": [
@@ -1301,6 +1339,7 @@
     "jordy_header_tMBpFY",
     "jordy_usp_PpbjYM",
     "hero_v7_BxpJaq",
-    "uitgelicht_product_gXwjzK"
+    "uitgelicht_product_gXwjzK",
+    "hero_premium_3hGmne"
   ]
 }
