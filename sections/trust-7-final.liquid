@@ -1,0 +1,158 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<section class="trust-7-final" data-section-id="{{ section.id }}">
+  <div {% render 'section-properties' %}>
+    <div class="container">
+      <div class="trust-7-final__header">
+        <p class="trust-7-final__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        <h2 class="trust-7-final__heading">{{ section.settings.heading | escape }}</h2>
+        <div class="trust-7-final__score-row">
+          <strong>{{ section.settings.rating_label | escape }}</strong>
+          <span>{{ section.settings.score | escape }}</span>
+        </div>
+        <div class="trust-7-final__stars" aria-label="5 star rating">
+          {%- for i in (1..5) -%}
+            <span class="trust-7-final__star" aria-hidden="true">★</span>
+          {%- endfor -%}
+        </div>
+        <p class="trust-7-final__microcopy">{{ section.settings.microcopy | escape }}</p>
+      </div>
+
+      <div class="trust-7-final__shell">
+        <button class="trust-7-final__arrow trust-7-final__arrow--prev" type="button" aria-label="Previous reviews" data-trust-prev>‹</button>
+        <div class="trust-7-final__track" data-trust-track role="list">
+          {%- for block in section.blocks -%}
+            <article class="trust-7-final__card" role="listitem" {{ block.shopify_attributes }}>
+              <div class="trust-7-final__card-stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                {%- for i in (1..5) -%}
+                  <span class="trust-7-final__small-star{% if i > block.settings.rating %} is-muted{% endif %}" aria-hidden="true">★</span>
+                {%- endfor -%}
+              </div>
+
+              <h3 class="trust-7-final__review-title">{{ block.settings.title | escape }}</h3>
+              <div class="trust-7-final__review-text">{{ block.settings.review | escape }}</div>
+
+              <div class="trust-7-final__person">
+                {%- if block.settings.avatar != blank -%}
+                  {{ block.settings.avatar | image_url: width: 96 | image_tag: loading: 'lazy', widths: '48,96', class: 'trust-7-final__avatar', alt: block.settings.name }}
+                {%- else -%}
+                  <span class="trust-7-final__avatar trust-7-final__avatar--fallback">{{ block.settings.name | strip | slice: 0, 1 }}</span>
+                {%- endif -%}
+                <div>
+                  <strong class="trust-7-final__name">{{ block.settings.name | escape }}</strong>
+                  <span class="trust-7-final__meta">{{ block.settings.meta | escape }}</span>
+                  {%- if block.settings.verified -%}
+                    <span class="trust-7-final__verified">✓ Verified review</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+        <button class="trust-7-final__arrow trust-7-final__arrow--next" type="button" aria-label="Next reviews" data-trust-next>›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+#shopify-section-{{ section.id }} {
+  --trust-bg: {{ section.settings.background.rgb }};
+  --trust-card: {{ section.settings.card_background.rgb }};
+  --trust-text: {{ section.settings.text_color.rgb }};
+  --trust-muted: {{ section.settings.muted_color.rgb }};
+  --trust-green: {{ section.settings.star_color.rgb }};
+  --trust-card-width: {{ section.settings.card_width }}px;
+  --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
+}
+#shopify-section-{{ section.id }} .trust-7-final { background: rgb(var(--trust-bg)); }
+#shopify-section-{{ section.id }} .trust-7-final__header { max-width: 760px; margin: 0 auto 34px; text-align: center; color: rgb(var(--trust-text)); }
+#shopify-section-{{ section.id }} .trust-7-final__eyebrow { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgb(var(--trust-green)); }
+#shopify-section-{{ section.id }} .trust-7-final__heading { margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1; letter-spacing: -.04em; }
+#shopify-section-{{ section.id }} .trust-7-final__score-row { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 17px; }
+#shopify-section-{{ section.id }} .trust-7-final__stars, #shopify-section-{{ section.id }} .trust-7-final__card-stars { display: flex; justify-content: center; gap: 5px; margin-top: 12px; }
+#shopify-section-{{ section.id }} .trust-7-final__star, #shopify-section-{{ section.id }} .trust-7-final__small-star { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 4px; background: rgb(var(--trust-green)); color: #fff; font-size: 15px; line-height: 1; }
+#shopify-section-{{ section.id }} .trust-7-final__small-star { width: 22px; height: 22px; font-size: 12px; }
+#shopify-section-{{ section.id }} .trust-7-final__small-star.is-muted { background: rgba(var(--trust-muted), .22); }
+#shopify-section-{{ section.id }} .trust-7-final__microcopy { margin: 12px 0 0; color: rgb(var(--trust-muted)); font-size: 14px; }
+#shopify-section-{{ section.id }} .trust-7-final__shell { position: relative; }
+#shopify-section-{{ section.id }} .trust-7-final__track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 2px 16px; scrollbar-width: none; }
+#shopify-section-{{ section.id }} .trust-7-final__track::-webkit-scrollbar { display: none; }
+#shopify-section-{{ section.id }} .trust-7-final__card { flex: 0 0 min(var(--trust-card-width), 86vw); scroll-snap-align: start; background: rgb(var(--trust-card)); border: 1px solid rgba(var(--trust-text), .08); border-radius: 22px; padding: 24px; box-shadow: 0 16px 45px rgba(0,0,0,.07); color: rgb(var(--trust-text)); transition: transform .22s ease, box-shadow .22s ease; }
+#shopify-section-{{ section.id }} .trust-7-final__card:hover { transform: translateY(-4px); box-shadow: 0 22px 60px rgba(0,0,0,.1); }
+#shopify-section-{{ section.id }} .trust-7-final__card-stars { justify-content: flex-start; margin: 0 0 18px; }
+#shopify-section-{{ section.id }} .trust-7-final__review-title { margin: 0 0 10px; font-size: 18px; line-height: 1.25; }
+#shopify-section-{{ section.id }} .trust-7-final__review-text { color: rgb(var(--trust-muted)); font-size: 14px; line-height: 1.65; }
+#shopify-section-{{ section.id }} .trust-7-final__person { display: flex; align-items: center; gap: 12px; margin-top: 22px; }
+#shopify-section-{{ section.id }} .trust-7-final__avatar { width: 48px; height: 48px; min-width: 48px; border-radius: 999px; object-fit: cover; }
+#shopify-section-{{ section.id }} .trust-7-final__avatar--fallback { display: inline-flex; align-items: center; justify-content: center; background: rgba(var(--trust-green), .12); color: rgb(var(--trust-green)); font-weight: 800; }
+#shopify-section-{{ section.id }} .trust-7-final__name, #shopify-section-{{ section.id }} .trust-7-final__meta, #shopify-section-{{ section.id }} .trust-7-final__verified { display: block; }
+#shopify-section-{{ section.id }} .trust-7-final__meta { color: rgb(var(--trust-muted)); font-size: 12px; margin-top: 2px; }
+#shopify-section-{{ section.id }} .trust-7-final__verified { color: rgb(var(--trust-green)); font-size: 12px; font-weight: 700; margin-top: 3px; }
+#shopify-section-{{ section.id }} .trust-7-final__arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: 0; border-radius: 999px; background: #fff; box-shadow: 0 12px 30px rgba(0,0,0,.14); cursor: pointer; font-size: 28px; line-height: 1; }
+#shopify-section-{{ section.id }} .trust-7-final__arrow--prev { left: -14px; }
+#shopify-section-{{ section.id }} .trust-7-final__arrow--next { right: -14px; }
+@media screen and (max-width: 699px) { #shopify-section-{{ section.id }} .trust-7-final__arrow { display: none; } #shopify-section-{{ section.id }} .trust-7-final__header { margin-bottom: 24px; } }
+</style>
+
+<script>
+(function() {
+  var root = document.getElementById('shopify-section-{{ section.id }}');
+  if (!root) return;
+  var track = root.querySelector('[data-trust-track]');
+  var prev = root.querySelector('[data-trust-prev]');
+  var next = root.querySelector('[data-trust-next]');
+  if (!track) return;
+  var step = {{ section.settings.card_width | plus: 20 }};
+  if (next) next.addEventListener('click', function() { track.scrollBy({ left: step, behavior: 'smooth' }); });
+  if (prev) prev.addEventListener('click', function() { track.scrollBy({ left: -step, behavior: 'smooth' }); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Trust 7 Final",
+  "tag": "section",
+  "class": "shopify-section--trust-7-final",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trusted by customers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Excellent customer reviews" },
+    { "type": "text", "id": "rating_label", "label": "Rating label", "default": "Excellent" },
+    { "type": "text", "id": "score", "label": "Score", "default": "4.8 / 5" },
+    { "type": "text", "id": "microcopy", "label": "Microcopy", "default": "Based on 1,200+ verified reviews" },
+    { "type": "range", "id": "section_spacing", "label": "Section spacing", "min": 0, "max": 80, "step": 4, "default": 48 },
+    { "type": "range", "id": "card_width", "label": "Card width", "min": 260, "max": 420, "step": 10, "default": 330 },
+    { "type": "color", "id": "background", "label": "Background", "default": "#F5F7FA" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#20252B" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#6C727A" },
+    { "type": "color", "id": "star_color", "label": "Star color", "default": "#00B67A" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sarah M." },
+        { "type": "text", "id": "meta", "label": "Date or location", "default": "Netherlands • 2 days ago" },
+        { "type": "checkbox", "id": "verified", "label": "Show verified badge", "default": true },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Review title", "default": "Fast delivery and great quality" },
+        { "type": "textarea", "id": "review", "label": "Review text", "default": "Everything felt smooth from start to finish. Clear communication, fast delivery and a product that exceeded expectations." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust 7 Final",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
