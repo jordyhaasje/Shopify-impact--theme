@@ -1,0 +1,169 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --tp-green: 0, 182, 122;
+  --tp-bg: 245, 247, 250;
+  --tp-card: 255,255,255;
+  --tp-text: 33,37,41;
+  --tp-muted: 108,117,125;
+  --tp-radius: 16px;
+}
+
+#shopify-section-{{ section.id }} .trust-7 {
+  background: rgb(var(--tp-bg));
+}
+
+#shopify-section-{{ section.id }} .trust-7__inner {
+  display: grid;
+  gap: 32px;
+}
+
+#shopify-section-{{ section.id }} .trust-7__header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#shopify-section-{{ section.id }} .trust-7__title {
+  font-size: clamp(28px,4vw,42px);
+  font-weight: 600;
+  color: rgb(var(--tp-text));
+}
+
+#shopify-section-{{ section.id }} .trust-7__rating {
+  margin-top: 10px;
+  color: rgb(var(--tp-muted));
+}
+
+#shopify-section-{{ section.id }} .trust-7__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 20px;
+}
+
+#shopify-section-{{ section.id }} .trust-7__card {
+  background: rgb(var(--tp-card));
+  border-radius: var(--tp-radius);
+  padding: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+}
+
+#shopify-section-{{ section.id }} .trust-7__stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+#shopify-section-{{ section.id }} .trust-7__star {
+  width: 18px;
+  height: 18px;
+  background: rgb(var(--tp-green));
+  border-radius: 3px;
+}
+
+#shopify-section-{{ section.id }} .trust-7__star.empty {
+  background: #e0e0e0;
+}
+
+#shopify-section-{{ section.id }} .trust-7__text {
+  font-size: 14px;
+  color: rgb(var(--tp-text));
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+#shopify-section-{{ section.id }} .trust-7__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#shopify-section-{{ section.id }} .trust-7__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#shopify-section-{{ section.id }} .trust-7__name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#shopify-section-{{ section.id }} .trust-7__verified {
+  font-size: 12px;
+  color: rgb(var(--tp-green));
+}
+</style>
+
+<section class="trust-7">
+  <div {% render 'section-properties' %}>
+    <div class="container">
+      <div class="trust-7__inner">
+        <div class="trust-7__header">
+          <h2 class="trust-7__title">{{ section.settings.heading }}</h2>
+          <div class="trust-7__rating">{{ section.settings.subheading }}</div>
+        </div>
+
+        <div class="trust-7__grid">
+          {% for block in section.blocks %}
+          <div class="trust-7__card" {{ block.shopify_attributes }}>
+
+            <div class="trust-7__stars">
+              {% for i in (1..5) %}
+                <div class="trust-7__star {% if i > block.settings.rating %}empty{% endif %}"></div>
+              {% endfor %}
+            </div>
+
+            <div class="trust-7__text">{{ block.settings.review }}</div>
+
+            <div class="trust-7__user">
+              {% if block.settings.avatar != blank %}
+                {{ block.settings.avatar | image_url: width: 80 | image_tag: class: 'trust-7__avatar' }}
+              {% endif %}
+              <div>
+                <div class="trust-7__name">{{ block.settings.name }}</div>
+                <div class="trust-7__verified">✔ Verified</div>
+              </div>
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust 7",
+  "settings": [
+    {"type":"text","id":"heading","label":"Heading","default":"Excellent reviews"},
+    {"type":"text","id":"subheading","label":"Subheading","default":"Rated 4.8 / 5 based on 1,200 reviews"}
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {"type":"image_picker","id":"avatar","label":"Avatar"},
+        {"type":"text","id":"name","label":"Name","default":"John Doe"},
+        {"type":"range","id":"rating","min":1,"max":5,"step":1,"default":5,"label":"Rating"},
+        {"type":"textarea","id":"review","label":"Review","default":"Amazing service and fast delivery!"}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust 7",
+      "blocks": [
+        {"type":"review"},
+        {"type":"review"},
+        {"type":"review"}
+      ]
+    }
+  ]
+}
+{% endschema %}
