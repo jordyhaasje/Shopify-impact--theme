@@ -1339,6 +1339,76 @@
         "review_card_bg": "#ffffff",
         "review_card_text": "#222222"
       }
+    },
+    "trust_7_final_xPHc9q": {
+      "type": "trust-7-final",
+      "blocks": {
+        "review_96m769": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "meta": "Netherlands • 2 days ago",
+            "verified": true,
+            "rating": 5,
+            "title": "Fast delivery and great quality",
+            "review": "Everything felt smooth from start to finish. Clear communication, fast delivery and a product that exceeded expectations."
+          }
+        },
+        "review_NbVPnH": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "meta": "Netherlands • 2 days ago",
+            "verified": true,
+            "rating": 5,
+            "title": "Fast delivery and great quality",
+            "review": "Everything felt smooth from start to finish. Clear communication, fast delivery and a product that exceeded expectations."
+          }
+        },
+        "review_jUReVV": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "meta": "Netherlands • 2 days ago",
+            "verified": true,
+            "rating": 5,
+            "title": "Fast delivery and great quality",
+            "review": "Everything felt smooth from start to finish. Clear communication, fast delivery and a product that exceeded expectations."
+          }
+        },
+        "review_CHwzPY": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "meta": "Netherlands • 2 days ago",
+            "verified": true,
+            "rating": 5,
+            "title": "Fast delivery and great quality",
+            "review": "Everything felt smooth from start to finish. Clear communication, fast delivery and a product that exceeded expectations."
+          }
+        }
+      },
+      "block_order": [
+        "review_96m769",
+        "review_NbVPnH",
+        "review_jUReVV",
+        "review_CHwzPY"
+      ],
+      "name": "Trust 7 Final",
+      "settings": {
+        "eyebrow": "Trusted by customers",
+        "heading": "Excellent customer reviews",
+        "rating_label": "Excellent",
+        "score": "4.8 / 5",
+        "microcopy": "Based on 1,200+ verified reviews",
+        "section_spacing": 48,
+        "card_width": 330,
+        "background": "#ffffff",
+        "card_background": "#FFFFFF",
+        "text_color": "#20252B",
+        "muted_color": "#6C727A",
+        "star_color": "#00B67A"
+      }
     }
   },
   "order": [
@@ -1365,6 +1435,7 @@
     "jordy_usp_PpbjYM",
     "hero_v7_BxpJaq",
     "uitgelicht_product_gXwjzK",
-    "hero_premium_3hGmne"
+    "hero_premium_3hGmne",
+    "trust_7_final_xPHc9q"
   ]
 }
