@@ -1,0 +1,61 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --tp-green: 0, 182, 122;
+  --tp-bg: 245, 247, 250;
+}
+.trust-7-pro {background: rgb(var(--tp-bg));}
+.trust-7-pro__header {text-align:center;margin-bottom:30px;}
+.trust-7-pro__score {font-size:36px;font-weight:700;}
+.trust-7-pro__stars {display:flex;justify-content:center;gap:4px;margin:10px 0;}
+.trust-7-pro__star {width:22px;height:22px;background:rgb(var(--tp-green));border-radius:3px;}
+.trust-7-pro__carousel {display:flex;overflow-x:auto;gap:20px;scroll-snap-type:x mandatory;}
+.trust-7-pro__card {min-width:300px;background:#fff;border-radius:16px;padding:20px;scroll-snap-align:start;}
+</style>
+
+<section class="trust-7-pro">
+  <div {% render 'section-properties' %}>
+    <div class="container">
+
+      <div class="trust-7-pro__header">
+        <div class="trust-7-pro__score">{{ section.settings.score }}</div>
+        <div class="trust-7-pro__stars">{% for i in (1..5) %}<div class="trust-7-pro__star"></div>{% endfor %}</div>
+        <div>{{ section.settings.subheading }}</div>
+      </div>
+
+      <div class="trust-7-pro__carousel">
+        {% for block in section.blocks %}
+        <div class="trust-7-pro__card" {{ block.shopify_attributes }}>
+          <strong>{{ block.settings.title }}</strong>
+          <p>{{ block.settings.review }}</p>
+          <small>{{ block.settings.name }}</small>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust 7 PRO",
+  "settings": [
+    {"type":"text","id":"score","label":"Score","default":"4.8"},
+    {"type":"text","id":"subheading","label":"Subheading","default":"Based on 1,200 reviews"}
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {"type":"text","id":"title","label":"Title","default":"Great"},
+        {"type":"textarea","id":"review","label":"Review","default":"Amazing"},
+        {"type":"text","id":"name","label":"Name","default":"John"}
+      ]
+    }
+  ],
+  "presets": [{"name":"Trust 7 PRO"}]
+}
+{% endschema %}
