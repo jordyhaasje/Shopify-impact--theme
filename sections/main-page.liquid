@@ -8,260 +8,158 @@
     margin-inline: auto;
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-header {
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
-  }
-
   #shopify-section-{{ section.id }} .faq-modern-title {
-    margin: 0;
-    font-size: clamp(2.75rem, 8vw, 5.5rem);
-    line-height: .9;
-    letter-spacing: -0.06em;
+    font-size: clamp(3rem, 8vw, 5.5rem);
     font-weight: 800;
+    letter-spacing: -0.04em;
   }
 
   #shopify-section-{{ section.id }} .faq-modern-intro {
-    max-width: 760px;
-    margin: 1.5rem 0 0;
-    font-size: clamp(1.1rem, 2vw, 1.45rem);
-    line-height: 1.65;
-    color: rgb(var(--text-color) / .78);
+    color: rgb(var(--text-color) / .7);
+    margin-top: 1rem;
   }
 
   #shopify-section-{{ section.id }} .faq-modern-card {
-    padding: clamp(1.25rem, 3vw, 2.75rem);
-    border-radius: clamp(1.5rem, 3vw, 2.5rem);
-    background: rgb(var(--text-color) / .045);
+    margin-top: 2.5rem;
+    border-radius: 20px;
+    background: rgb(var(--background));
+    box-shadow: 0 20px 60px rgb(var(--text-color) / .08);
+    overflow: hidden;
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-item + .faq-modern-item {
-    border-top: 1px solid rgb(var(--text-color) / .12);
+  #shopify-section-{{ section.id }} details {
+    border-bottom: 1px solid rgb(var(--text-color) / .08);
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-question {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: clamp(1.35rem, 3vw, 2rem) 0;
-    border: 0;
-    background: transparent;
-    color: rgb(var(--text-color));
-    text-align: left;
-    font: inherit;
-    font-size: clamp(1.15rem, 2.4vw, 1.65rem);
-    line-height: 1.2;
-    font-weight: 800;
+  #shopify-section-{{ section.id }} summary {
+    list-style: none;
     cursor: pointer;
+    padding: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.2rem;
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-icon {
-    flex: 0 0 auto;
-    width: 3rem;
-    height: 3rem;
-    display: grid;
-    place-items: center;
-    border-radius: 999px;
-    background: rgb(var(--text-color) / .08);
-    transition: transform .2s ease, background-color .2s ease;
+  #shopify-section-{{ section.id }} summary::-webkit-details-marker {
+    display: none;
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-question:hover .faq-modern-icon {
-    background: rgb(var(--text-color) / .13);
+  #shopify-section-{{ section.id }} .icon {
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-icon svg {
-    width: 1rem;
-    height: 1rem;
-    transition: transform .2s ease;
-  }
-
-  #shopify-section-{{ section.id }} .faq-modern-item[open] .faq-modern-icon svg {
+  #shopify-section-{{ section.id }} details[open] .icon {
     transform: rotate(180deg);
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-answer {
-    padding: 0 4.5rem clamp(1.35rem, 3vw, 2rem) 0;
-    color: rgb(var(--text-color) / .72);
-    font-size: 1rem;
-    line-height: 1.7;
+  #shopify-section-{{ section.id }} .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s ease, opacity .3s ease;
+    opacity: 0;
+    padding: 0 1.6rem;
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-answer > *:first-child {
-    margin-top: 0;
+  #shopify-section-{{ section.id }} details[open] .faq-answer {
+    max-height: 300px;
+    opacity: 1;
+    padding-bottom: 1.6rem;
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-answer > *:last-child {
-    margin-bottom: 0;
-  }
-
-  #shopify-section-{{ section.id }} .faq-modern-support {
-    max-width: 760px;
-    margin: clamp(2.25rem, 5vw, 4rem) auto 0;
+  #shopify-section-{{ section.id }} .faq-support {
+    margin-top: 3rem;
     padding: 1.5rem;
-    border-radius: 1.5rem;
-    background: rgb(var(--background));
-    box-shadow: 0 16px 45px rgb(var(--text-color) / .08);
-    text-align: center;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgb(var(--text-color) / .05), rgb(var(--text-color) / .02));
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-support p {
-    margin: 0;
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    line-height: 1.5;
+  #shopify-section-{{ section.id }} .faq-support-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(var(--text-color));
+    color: white;
   }
 
-  #shopify-section-{{ section.id }} .faq-modern-support .faq-modern-response-time {
-    margin-top: .35rem;
-    color: rgb(var(--text-color) / .55);
-    font-weight: 600;
-  }
-
-  @media screen and (max-width: 699px) {
-    #shopify-section-{{ section.id }} .faq-modern-answer {
-      padding-right: 0;
-    }
-
-    #shopify-section-{{ section.id }} .faq-modern-icon {
-      width: 2.6rem;
-      height: 2.6rem;
-    }
+  #shopify-section-{{ section.id }} .faq-support-text {
+    font-size: 0.95rem;
   }
 </style>
 
 <div class="container">
   <div class="page-spacer">
     <div class="faq-modern-wrapper">
-      <div class="faq-modern-header">
-        <h1 class="faq-modern-title">{{ page.title }}</h1>
 
-        {%- if section.settings.intro_text != blank -%}
-          <p class="faq-modern-intro">{{ section.settings.intro_text }}</p>
-        {%- endif -%}
-      </div>
+      <h1 class="faq-modern-title">{{ page.title }}</h1>
+
+      {% if section.settings.intro_text != blank %}
+        <p class="faq-modern-intro">{{ section.settings.intro_text }}</p>
+      {% endif %}
 
       <div class="faq-modern-card">
-        {%- for block in section.blocks -%}
-          {%- if block.settings.question != blank -%}
-            <details class="faq-modern-item" {{ block.shopify_attributes }}>
-              <summary class="faq-modern-question">
-                <span>{{ block.settings.question }}</span>
-                <span class="faq-modern-icon" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" fill="none">
-                    <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-              </summary>
+        {% for block in section.blocks %}
+          <details {{ block.shopify_attributes }}>
+            <summary>
+              {{ block.settings.question }}
+              <span class="icon">⌄</span>
+            </summary>
 
-              {%- if block.settings.answer != blank -%}
-                <div class="faq-modern-answer rte">
-                  {{ block.settings.answer }}
-                </div>
-              {%- endif -%}
-            </details>
-          {%- endif -%}
-        {%- else -%}
-          {%- if page.content != empty -%}
-            <div class="faq-modern-answer rte">
-              {{ page.content }}
+            <div class="faq-answer">
+              {{ block.settings.answer }}
             </div>
-          {%- endif -%}
-        {%- endfor -%}
+          </details>
+        {% endfor %}
       </div>
 
-      {%- if section.settings.support_text != blank or section.settings.response_time != blank -%}
-        <div class="faq-modern-support">
-          {%- if section.settings.support_text != blank -%}
-            <p>{{ section.settings.support_text }}</p>
-          {%- endif -%}
-
-          {%- if section.settings.response_time != blank -%}
-            <p class="faq-modern-response-time">{{ section.settings.response_time }}</p>
-          {%- endif -%}
+      <div class="faq-support">
+        <div class="faq-support-icon">
+          ✉️
         </div>
-      {%- endif -%}
+        <div class="faq-support-text">
+          <div>{{ section.settings.support_text }}</div>
+          <small>{{ section.settings.response_time }}</small>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "Page",
-  "class": "shopify-section--main-page",
-  "tag": "section",
+  "name": "FAQ page",
   "settings": [
-    {
-      "type": "select",
-      "id": "content_width",
-      "label": "Content width",
-      "options": [
-        { "value": "60ch", "label": "Small" },
-        { "value": "80ch", "label": "Medium" },
-        { "value": "100ch", "label": "Large" },
-        { "value": "120ch", "label": "X-Large" },
-        { "value": "100%", "label": "Full width" }
-      ],
-      "default": "100ch"
-    },
     {
       "type": "textarea",
       "id": "intro_text",
-      "label": "Intro text",
-      "default": "Use this text to share information about your product or shipping policies."
+      "label": "Intro"
     },
     {
       "type": "text",
       "id": "support_text",
-      "label": "Support text",
-      "default": "Our customer support is available Monday to Friday: 8am–8:30pm."
+      "label": "Support text"
     },
     {
       "type": "text",
       "id": "response_time",
-      "label": "Response time",
-      "default": "Average answer time: 24h"
+      "label": "Response time"
     }
   ],
   "blocks": [
     {
-      "type": "question",
-      "name": "Question",
+      "type": "faq",
+      "name": "FAQ",
       "settings": [
-        {
-          "type": "text",
-          "id": "question",
-          "label": "Question",
-          "default": "Do you ship overseas?"
-        },
-        {
-          "type": "richtext",
-          "id": "answer",
-          "label": "Answer",
-          "default": "<p>Yes, we ship worldwide. Shipping costs and delivery times are shown at checkout.</p>"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "FAQ page",
-      "blocks": [
-        { "type": "question" },
-        {
-          "type": "question",
-          "settings": {
-            "question": "How long will it take to get my orders?",
-            "answer": "<p>Delivery times depend on your location and selected shipping method. You will receive tracking details as soon as your order is shipped.</p>"
-          }
-        },
-        {
-          "type": "question",
-          "settings": {
-            "question": "Any question?",
-            "answer": "<p>Contact our support team and we will be happy to help.</p>"
-          }
-        }
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
       ]
     }
   ]
