@@ -2,16 +2,183 @@
   #shopify-section-{{ section.id }} {
     --page-max-width: {{ section.settings.content_width }};
   }
+
+  #shopify-section-{{ section.id }} .faq-modern-wrapper {
+    max-width: min(var(--page-max-width), 920px);
+    margin-inline: auto;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-header {
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-title {
+    margin: 0;
+    font-size: clamp(2.75rem, 8vw, 5.5rem);
+    line-height: .9;
+    letter-spacing: -0.06em;
+    font-weight: 800;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-intro {
+    max-width: 760px;
+    margin: 1.5rem 0 0;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    line-height: 1.65;
+    color: rgb(var(--text-color) / .78);
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-card {
+    padding: clamp(1.25rem, 3vw, 2.75rem);
+    border-radius: clamp(1.5rem, 3vw, 2.5rem);
+    background: rgb(var(--text-color) / .045);
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-item + .faq-modern-item {
+    border-top: 1px solid rgb(var(--text-color) / .12);
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: clamp(1.35rem, 3vw, 2rem) 0;
+    border: 0;
+    background: transparent;
+    color: rgb(var(--text-color));
+    text-align: left;
+    font: inherit;
+    font-size: clamp(1.15rem, 2.4vw, 1.65rem);
+    line-height: 1.2;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-icon {
+    flex: 0 0 auto;
+    width: 3rem;
+    height: 3rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: rgb(var(--text-color) / .08);
+    transition: transform .2s ease, background-color .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-question:hover .faq-modern-icon {
+    background: rgb(var(--text-color) / .13);
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-icon svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-item[open] .faq-modern-icon svg {
+    transform: rotate(180deg);
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-answer {
+    padding: 0 4.5rem clamp(1.35rem, 3vw, 2rem) 0;
+    color: rgb(var(--text-color) / .72);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-answer > *:first-child {
+    margin-top: 0;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-answer > *:last-child {
+    margin-bottom: 0;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-support {
+    max-width: 760px;
+    margin: clamp(2.25rem, 5vw, 4rem) auto 0;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background: rgb(var(--background));
+    box-shadow: 0 16px 45px rgb(var(--text-color) / .08);
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-support p {
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .faq-modern-support .faq-modern-response-time {
+    margin-top: .35rem;
+    color: rgb(var(--text-color) / .55);
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} .faq-modern-answer {
+      padding-right: 0;
+    }
+
+    #shopify-section-{{ section.id }} .faq-modern-icon {
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+  }
 </style>
 
 <div class="container">
   <div class="page-spacer">
-    <div class="page">
-      <h1 class="h1 text-center">{{ page.title }}</h1>
+    <div class="faq-modern-wrapper">
+      <div class="faq-modern-header">
+        <h1 class="faq-modern-title">{{ page.title }}</h1>
 
-      {%- if page.content != empty -%}
-        <div class="prose">
-          {{ page.content }}
+        {%- if section.settings.intro_text != blank -%}
+          <p class="faq-modern-intro">{{ section.settings.intro_text }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="faq-modern-card">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank -%}
+            <details class="faq-modern-item" {{ block.shopify_attributes }}>
+              <summary class="faq-modern-question">
+                <span>{{ block.settings.question }}</span>
+                <span class="faq-modern-icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" fill="none">
+                    <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </summary>
+
+              {%- if block.settings.answer != blank -%}
+                <div class="faq-modern-answer rte">
+                  {{ block.settings.answer }}
+                </div>
+              {%- endif -%}
+            </details>
+          {%- endif -%}
+        {%- else -%}
+          {%- if page.content != empty -%}
+            <div class="faq-modern-answer rte">
+              {{ page.content }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.support_text != blank or section.settings.response_time != blank -%}
+        <div class="faq-modern-support">
+          {%- if section.settings.support_text != blank -%}
+            <p>{{ section.settings.support_text }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.response_time != blank -%}
+            <p class="faq-modern-response-time">{{ section.settings.response_time }}</p>
+          {%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -29,28 +196,73 @@
       "id": "content_width",
       "label": "Content width",
       "options": [
-        {
-          "value": "60ch",
-          "label": "Small"
-        },
-        {
-          "value": "80ch",
-          "label": "Medium"
-        },
-        {
-          "value": "100ch",
-          "label": "Large"
-        },
-        {
-          "value": "120ch",
-          "label": "X-Large"
-        },
-        {
-          "value": "100%",
-          "label": "Full width"
-        }
+        { "value": "60ch", "label": "Small" },
+        { "value": "80ch", "label": "Medium" },
+        { "value": "100ch", "label": "Large" },
+        { "value": "120ch", "label": "X-Large" },
+        { "value": "100%", "label": "Full width" }
       ],
-      "default": "80ch"
+      "default": "100ch"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Intro text",
+      "default": "Use this text to share information about your product or shipping policies."
+    },
+    {
+      "type": "text",
+      "id": "support_text",
+      "label": "Support text",
+      "default": "Our customer support is available Monday to Friday: 8am–8:30pm."
+    },
+    {
+      "type": "text",
+      "id": "response_time",
+      "label": "Response time",
+      "default": "Average answer time: 24h"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Do you ship overseas?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Yes, we ship worldwide. Shipping costs and delivery times are shown at checkout.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ page",
+      "blocks": [
+        { "type": "question" },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How long will it take to get my orders?",
+            "answer": "<p>Delivery times depend on your location and selected shipping method. You will receive tracking details as soon as your order is shipped.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Any question?",
+            "answer": "<p>Contact our support team and we will be happy to help.</p>"
+          }
+        }
+      ]
     }
   ]
 }
