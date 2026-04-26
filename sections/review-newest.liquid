@@ -1,0 +1,242 @@
+{%- render 'section-spacing-collapsing', background: section.settings.background -%}
+
+{%- liquid
+  assign review_count = section.blocks.size
+  assign average_rating = section.settings.average_rating | replace: ',', '.' | plus: 0
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --review-newest-background: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --review-newest-card: {{ section.settings.card_background.red }}, {{ section.settings.card_background.green }}, {{ section.settings.card_background.blue }};
+    --review-newest-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --review-newest-heading: {{ section.settings.heading_color.red }}, {{ section.settings.heading_color.green }}, {{ section.settings.heading_color.blue }};
+    --review-newest-muted: {{ section.settings.muted_color.red }}, {{ section.settings.muted_color.green }}, {{ section.settings.muted_color.blue }};
+    --review-newest-green: {{ section.settings.trust_color.red }}, {{ section.settings.trust_color.green }}, {{ section.settings.trust_color.blue }};
+    --review-newest-star-empty: {{ section.settings.empty_star_color.red }}, {{ section.settings.empty_star_color.green }}, {{ section.settings.empty_star_color.blue }};
+    --review-newest-border: {{ section.settings.border_color.red }}, {{ section.settings.border_color.green }}, {{ section.settings.border_color.blue }};
+    --review-newest-radius: {{ section.settings.card_radius }}px;
+    --review-newest-gap: {{ section.settings.card_gap }}px;
+    --review-newest-card-width: {{ section.settings.desktop_card_width }}px;
+    --review-newest-mobile-card-width: {{ section.settings.mobile_card_width }}px;
+    --review-newest-shadow-opacity: {{ section.settings.shadow_opacity | divided_by: 100.0 }};
+    --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
+  }
+
+  #shopify-section-{{ section.id }} .review-newest {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--section-outer-spacing-block);
+    background:
+      radial-gradient(circle at 8% 8%, rgba(var(--review-newest-green), 0.11), transparent 32%),
+      radial-gradient(circle at 92% 12%, rgba(var(--review-newest-green), 0.08), transparent 28%),
+      rgb(var(--review-newest-background));
+    color: rgb(var(--review-newest-text));
+  }
+
+  #shopify-section-{{ section.id }} .review-newest__shell { display: grid; gap: clamp(28px, 4vw, 44px); }
+  #shopify-section-{{ section.id }} .review-newest__top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: end; }
+  #shopify-section-{{ section.id }} .review-newest__eyebrow { display: inline-flex; align-items: center; gap: 8px; width: fit-content; margin: 0 0 14px; padding: 8px 13px; border: 1px solid rgba(var(--review-newest-green), .2); border-radius: 999px; background: rgba(var(--review-newest-green), .09); color: rgb(var(--review-newest-green)); font-size: 12px; font-weight: 700; line-height: 1; letter-spacing: .01em; }
+  #shopify-section-{{ section.id }} .review-newest__pulse { width: 7px; height: 7px; border-radius: 999px; background: rgb(var(--review-newest-green)); box-shadow: 0 0 0 0 rgba(var(--review-newest-green), .42); animation: reviewNewestPulse-{{ section.id }} 1.8s ease-out infinite; }
+  #shopify-section-{{ section.id }} .review-newest__heading { max-width: 780px; margin: 0; color: rgb(var(--review-newest-heading)); font-size: clamp(32px, 4.8vw, 56px); line-height: .98; letter-spacing: -.045em; font-weight: 700; }
+  #shopify-section-{{ section.id }} .review-newest__heading em { color: rgb(var(--review-newest-green)); font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -.035em; }
+  #shopify-section-{{ section.id }} .review-newest__intro { max-width: 610px; margin-top: 16px; color: rgb(var(--review-newest-muted)); font-size: 16px; line-height: 1.65; }
+  #shopify-section-{{ section.id }} .review-newest__intro p { margin: 0; }
+
+  #shopify-section-{{ section.id }} .review-newest__score-card { position: relative; isolation: isolate; padding: 18px; border: 1px solid rgba(var(--review-newest-border), .72); border-radius: calc(var(--review-newest-radius) + 6px); background: rgba(var(--review-newest-card), .9); box-shadow: 0 20px 60px rgba(18,18,18,var(--review-newest-shadow-opacity)); backdrop-filter: blur(16px); }
+  #shopify-section-{{ section.id }} .review-newest__score-main { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+  #shopify-section-{{ section.id }} .review-newest__score-label { display: flex; align-items: center; gap: 9px; color: rgb(var(--review-newest-heading)); font-weight: 800; letter-spacing: -.02em; }
+  #shopify-section-{{ section.id }} .review-newest__trust-icon { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: rgb(var(--review-newest-green)); color: #fff; }
+  #shopify-section-{{ section.id }} .review-newest__rating-number { color: rgb(var(--review-newest-heading)); font-size: 42px; line-height: 1; font-weight: 800; letter-spacing: -.05em; }
+  #shopify-section-{{ section.id }} .review-newest__rating-number span { color: rgb(var(--review-newest-muted)); font-size: 17px; letter-spacing: -.02em; }
+  #shopify-section-{{ section.id }} .review-newest__stars, #shopify-section-{{ section.id }} .review-newest__mini-stars { display: flex; gap: 3px; }
+  #shopify-section-{{ section.id }} .review-newest__stars { margin-top: 14px; }
+  #shopify-section-{{ section.id }} .review-newest__star-box, #shopify-section-{{ section.id }} .review-newest__mini-star { display: grid; place-items: center; border-radius: 4px; background: rgb(var(--review-newest-green)); color: #fff; }
+  #shopify-section-{{ section.id }} .review-newest__star-box { width: 28px; height: 28px; }
+  #shopify-section-{{ section.id }} .review-newest__mini-star { width: 22px; height: 22px; border-radius: 3px; }
+  #shopify-section-{{ section.id }} .review-newest__star-box.is-empty, #shopify-section-{{ section.id }} .review-newest__mini-star.is-empty { background: rgb(var(--review-newest-star-empty)); }
+  #shopify-section-{{ section.id }} .review-newest__star-box svg { width: 16px; height: 16px; }
+  #shopify-section-{{ section.id }} .review-newest__mini-star svg { width: 12px; height: 12px; }
+  #shopify-section-{{ section.id }} .review-newest__score-footnote { margin: 13px 0 0; color: rgb(var(--review-newest-muted)); font-size: 13px; line-height: 1.45; }
+
+  #shopify-section-{{ section.id }} .review-newest__viewport { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 4px 2px 18px; }
+  #shopify-section-{{ section.id }} .review-newest__viewport::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .review-newest__track { display: flex; gap: var(--review-newest-gap); }
+  #shopify-section-{{ section.id }} .review-newest__card { position: relative; flex: 0 0 var(--review-newest-mobile-card-width); width: var(--review-newest-mobile-card-width); display: flex; flex-direction: column; gap: 18px; padding: 22px; border: 1px solid rgba(var(--review-newest-border), .76); border-radius: var(--review-newest-radius); background: rgb(var(--review-newest-card)); box-shadow: 0 18px 54px rgba(18,18,18,var(--review-newest-shadow-opacity)); scroll-snap-align: start; transform: translateY(14px); opacity: 0; animation: reviewNewestReveal-{{ section.id }} 700ms cubic-bezier(.22,.61,.36,1) forwards; transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease; }
+  #shopify-section-{{ section.id }} .review-newest__card:hover { transform: translateY(-3px); border-color: rgba(var(--review-newest-green), .36); box-shadow: 0 24px 70px rgba(18,18,18,calc(var(--review-newest-shadow-opacity) + .035)); }
+  #shopify-section-{{ section.id }} .review-newest__card-top { display: flex; justify-content: space-between; gap: 16px; }
+  #shopify-section-{{ section.id }} .review-newest__date { white-space: nowrap; color: rgb(var(--review-newest-muted)); font-size: 12px; line-height: 1.35; }
+  #shopify-section-{{ section.id }} .review-newest__quote-title { margin: 0; color: rgb(var(--review-newest-heading)); font-size: 18px; line-height: 1.25; font-weight: 800; letter-spacing: -.025em; }
+  #shopify-section-{{ section.id }} .review-newest__quote { margin: 0; color: rgb(var(--review-newest-text)); font-size: 14px; line-height: 1.65; }
+  #shopify-section-{{ section.id }} .review-newest__person { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 4px; }
+  #shopify-section-{{ section.id }} .review-newest__avatar, #shopify-section-{{ section.id }} .review-newest__avatar-fallback { width: 44px; height: 44px; min-width: 44px; border-radius: 999px; }
+  #shopify-section-{{ section.id }} .review-newest__avatar { object-fit: cover; }
+  #shopify-section-{{ section.id }} .review-newest__avatar-fallback { display: grid; place-items: center; background: linear-gradient(135deg, rgba(var(--review-newest-green), .16), rgba(var(--review-newest-green), .04)); color: rgb(var(--review-newest-green)); font-weight: 800; }
+  #shopify-section-{{ section.id }} .review-newest__name-row { display: flex; align-items: center; gap: 6px; }
+  #shopify-section-{{ section.id }} .review-newest__name { color: rgb(var(--review-newest-heading)); font-size: 14px; line-height: 1.25; font-weight: 800; }
+  #shopify-section-{{ section.id }} .review-newest__verified { display: inline-grid; place-items: center; width: 17px; height: 17px; border-radius: 999px; background: rgb(var(--review-newest-green)); color: #fff; }
+  #shopify-section-{{ section.id }} .review-newest__verified svg { width: 11px; height: 11px; }
+  #shopify-section-{{ section.id }} .review-newest__meta { margin-top: 3px; color: rgb(var(--review-newest-muted)); font-size: 12px; line-height: 1.35; }
+  #shopify-section-{{ section.id }} .review-newest__controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 12px; }
+  #shopify-section-{{ section.id }} .review-newest__buttons { display: flex; gap: 10px; }
+  #shopify-section-{{ section.id }} .review-newest__arrow { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(var(--review-newest-border), .86); border-radius: 999px; background: rgb(var(--review-newest-card)); color: rgb(var(--review-newest-heading)); cursor: pointer; transition: transform 180ms ease, border-color 180ms ease, background 180ms ease; }
+  #shopify-section-{{ section.id }} .review-newest__arrow:hover { transform: translateY(-1px); border-color: rgba(var(--review-newest-green), .42); }
+  #shopify-section-{{ section.id }} .review-newest__arrow[disabled] { cursor: not-allowed; opacity: .42; transform: none; }
+  #shopify-section-{{ section.id }} .review-newest__dots { display: flex; align-items: center; gap: 7px; }
+  #shopify-section-{{ section.id }} .review-newest__dot { width: 7px; height: 7px; border: 0; border-radius: 999px; padding: 0; background: rgba(var(--review-newest-heading), .18); cursor: pointer; transition: width 180ms ease, background 180ms ease; }
+  #shopify-section-{{ section.id }} .review-newest__dot[aria-current='true'] { width: 24px; background: rgb(var(--review-newest-green)); }
+
+  @keyframes reviewNewestPulse-{{ section.id }} { 0% { box-shadow: 0 0 0 0 rgba(var(--review-newest-green), .42); } 70% { box-shadow: 0 0 0 9px rgba(var(--review-newest-green), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--review-newest-green), 0); } }
+  @keyframes reviewNewestReveal-{{ section.id }} { to { transform: translateY(0); opacity: 1; } }
+  @media screen and (min-width: 700px) { #shopify-section-{{ section.id }} .review-newest__top { grid-template-columns: minmax(0, 1fr) minmax(280px, 370px); } #shopify-section-{{ section.id }} .review-newest__card { flex-basis: var(--review-newest-card-width); width: var(--review-newest-card-width); } }
+  @media screen and (max-width: 699px) { #shopify-section-{{ section.id }} .review-newest__viewport { margin-inline: -20px; padding-inline: 20px; } #shopify-section-{{ section.id }} .review-newest__heading { font-size: clamp(30px, 9vw, 42px); } #shopify-section-{{ section.id }} .review-newest__controls { justify-content: center; flex-wrap: wrap; } #shopify-section-{{ section.id }} .review-newest__dots { order: -1; width: 100%; justify-content: center; } }
+  @media (prefers-reduced-motion: reduce) { #shopify-section-{{ section.id }} .review-newest__card, #shopify-section-{{ section.id }} .review-newest__pulse { animation: none; transform: none; opacity: 1; } #shopify-section-{{ section.id }} .review-newest__viewport { scroll-behavior: auto; } }
+</style>
+
+<section class="review-newest" data-review-newest data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="review-newest__shell">
+      <div class="review-newest__top">
+        <div class="review-newest__copy">
+          {%- if section.settings.eyebrow != blank -%}<p class="review-newest__eyebrow"><span class="review-newest__pulse" aria-hidden="true"></span>{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+          {%- if section.settings.heading != blank -%}<h2 class="review-newest__heading">{{ section.settings.heading }}</h2>{%- endif -%}
+          {%- if section.settings.subheading != blank -%}<div class="review-newest__intro rte">{{ section.settings.subheading }}</div>{%- endif -%}
+        </div>
+        <aside class="review-newest__score-card" aria-label="{{ section.settings.score_label | escape }}">
+          <div class="review-newest__score-main">
+            <div class="review-newest__score-label"><span class="review-newest__trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" focusable="false"><path fill="currentColor" d="m12 2 2.9 6.28 6.87.78-5.08 4.65 1.36 6.79L12 17.1 5.95 20.5l1.36-6.79-5.08-4.65 6.87-.78L12 2Z"/></svg></span>{{ section.settings.score_label | escape }}</div>
+            <div class="review-newest__rating-number">{{ section.settings.average_rating | escape }}<span>/5</span></div>
+          </div>
+          <div class="review-newest__stars" aria-label="{{ section.settings.average_rating | escape }} van 5 sterren">{%- for i in (1..5) -%}<span class="review-newest__star-box{% if i > average_rating %} is-empty{% endif %}" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1.5l2.57 5.21 5.75.84-4.16 4.05.98 5.72L10 14.62 4.86 17.32l.98-5.72-4.16-4.05 5.75-.84L10 1.5Z" fill="currentColor"/></svg></span>{%- endfor -%}</div>
+          {%- if section.settings.score_text != blank -%}<p class="review-newest__score-footnote">{{ section.settings.score_text | escape }}</p>{%- endif -%}
+        </aside>
+      </div>
+      {%- if review_count > 0 -%}
+        <div class="review-newest__viewport-wrap">
+          <div class="review-newest__viewport" data-review-viewport tabindex="0" aria-label="Review slider">
+            <div class="review-newest__track" role="list">
+              {%- for block in section.blocks -%}
+                <article class="review-newest__card" role="listitem" style="animation-delay: {{ forloop.index0 | times: 90 }}ms" {{ block.shopify_attributes }}>
+                  <div class="review-newest__card-top"><div class="review-newest__mini-stars" aria-label="{{ block.settings.rating }} van 5 sterren">{%- for i in (1..5) -%}<span class="review-newest__mini-star{% if i > block.settings.rating %} is-empty{% endif %}" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M10 1.5l2.57 5.21 5.75.84-4.16 4.05.98 5.72L10 14.62 4.86 17.32l.98-5.72-4.16-4.05 5.75-.84L10 1.5Z" fill="currentColor"/></svg></span>{%- endfor -%}</div>{%- if block.settings.date != blank -%}<span class="review-newest__date">{{ block.settings.date | escape }}</span>{%- endif -%}</div>
+                  {%- if block.settings.title != blank -%}<h3 class="review-newest__quote-title">{{ block.settings.title | escape }}</h3>{%- endif -%}
+                  {%- if block.settings.review != blank -%}<p class="review-newest__quote">{{ block.settings.review | escape }}</p>{%- endif -%}
+                  <div class="review-newest__person">{%- if block.settings.avatar != blank -%}{{ block.settings.avatar | image_url: width: 96 | image_tag: loading: 'lazy', widths: '44,88,96', class: 'review-newest__avatar', alt: block.settings.name }}{%- else -%}<span class="review-newest__avatar-fallback" aria-hidden="true">{{ block.settings.name | strip | slice: 0, 1 | upcase }}</span>{%- endif -%}<div><div class="review-newest__name-row"><span class="review-newest__name">{{ block.settings.name | escape }}</span>{%- if block.settings.verified -%}<span class="review-newest__verified" title="Geverifieerde review" aria-label="Geverifieerde review"><svg viewBox="0 0 20 20" focusable="false"><path fill="currentColor" d="M7.7 14.1 3.9 10.3l1.4-1.4 2.4 2.4 7-7 1.4 1.4-8.4 8.4Z"/></svg></span>{%- endif -%}</div>{%- if block.settings.meta != blank -%}<div class="review-newest__meta">{{ block.settings.meta | escape }}</div>{%- endif -%}</div></div>
+                </article>
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="review-newest__controls" aria-label="Slider controls"><div class="review-newest__dots" data-review-dots aria-label="Slides"></div><div class="review-newest__buttons"><button class="review-newest__arrow" type="button" data-review-prev aria-label="Vorige reviews"><svg viewBox="0 0 20 20" width="18" height="18" focusable="false"><path fill="currentColor" d="M12.7 15.7 7 10l5.7-5.7 1.1 1.1L9.2 10l4.6 4.6-1.1 1.1Z"/></svg></button><button class="review-newest__arrow" type="button" data-review-next aria-label="Volgende reviews"><svg viewBox="0 0 20 20" width="18" height="18" focusable="false"><path fill="currentColor" d="m7.3 15.7-1.1-1.1 4.6-4.6-4.6-4.6 1.1-1.1L13 10l-5.7 5.7Z"/></svg></button></div></div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const initReviewNewest = (root) => {
+      if (!root || root.dataset.reviewNewestReady === 'true') return;
+      root.dataset.reviewNewestReady = 'true';
+      const viewport = root.querySelector('[data-review-viewport]');
+      const cards = Array.from(root.querySelectorAll('.review-newest__card'));
+      const prev = root.querySelector('[data-review-prev]');
+      const next = root.querySelector('[data-review-next]');
+      const dots = root.querySelector('[data-review-dots]');
+      if (!viewport || !cards.length || !prev || !next || !dots) return;
+      const getStep = () => {
+        const first = cards[0];
+        if (!first) return viewport.clientWidth;
+        const styles = window.getComputedStyle(root);
+        const gap = parseFloat(styles.getPropertyValue('--review-newest-gap')) || 20;
+        return first.getBoundingClientRect().width + gap;
+      };
+      const getIndex = () => Math.max(0, Math.min(cards.length - 1, Math.round(viewport.scrollLeft / getStep())));
+      const renderDots = () => {
+        dots.innerHTML = '';
+        cards.forEach((card, index) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'review-newest__dot';
+          dot.setAttribute('aria-label', `Ga naar review ${index + 1}`);
+          dot.addEventListener('click', () => viewport.scrollTo({ left: index * getStep(), behavior: 'smooth' }));
+          dots.appendChild(dot);
+        });
+      };
+      const update = () => {
+        const index = getIndex();
+        prev.disabled = viewport.scrollLeft <= 2;
+        next.disabled = viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 2;
+        Array.from(dots.children).forEach((dot, dotIndex) => dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false'));
+      };
+      prev.addEventListener('click', () => viewport.scrollBy({ left: -getStep(), behavior: 'smooth' }));
+      next.addEventListener('click', () => viewport.scrollBy({ left: getStep(), behavior: 'smooth' }));
+      viewport.addEventListener('scroll', () => window.requestAnimationFrame(update), { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      renderDots();
+      update();
+    };
+    const boot = () => document.querySelectorAll('[data-review-newest]').forEach(initReviewNewest);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+    document.addEventListener('shopify:section:load', (event) => initReviewNewest(event.target.querySelector('[data-review-newest]')));
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Review newest",
+  "tag": "section",
+  "class": "shopify-section--review-newest",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Geverifieerde klantreviews" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Nieuwste reviews van <em>tevreden klanten</em>" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Een professionele review slider met Trustpilot-geïnspireerde rating, echte slider-controls, avatars en geverifieerde klantbadges.</p>" },
+    { "type": "text", "id": "score_label", "label": "Score label", "default": "Uitstekend" },
+    { "type": "text", "id": "average_rating", "label": "Average rating", "default": "4.8" },
+    { "type": "text", "id": "score_text", "label": "Score text", "default": "Gebaseerd op 1.247+ geverifieerde reviews" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "section_spacing", "label": "Section spacing", "min": 0, "max": 80, "step": 4, "default": 48 },
+    { "type": "range", "id": "desktop_card_width", "label": "Desktop card width", "min": 280, "max": 420, "step": 4, "default": 340 },
+    { "type": "range", "id": "mobile_card_width", "label": "Mobile card width", "min": 252, "max": 336, "step": 4, "default": 292 },
+    { "type": "range", "id": "card_gap", "label": "Card gap", "min": 10, "max": 34, "step": 2, "default": 18 },
+    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 10, "max": 34, "step": 2, "default": 22 },
+    { "type": "range", "id": "shadow_opacity", "label": "Shadow opacity", "min": 0, "max": 16, "step": 1, "default": 7 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#F6F8F7" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#101820" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#3F4852" },
+    { "type": "color", "id": "muted_color", "label": "Muted color", "default": "#6B747C" },
+    { "type": "color", "id": "trust_color", "label": "Trust color", "default": "#00B67A" },
+    { "type": "color", "id": "empty_star_color", "label": "Empty star color", "default": "#D7DFE3" },
+    { "type": "color", "id": "border_color", "label": "Border color", "default": "#E4E9E7" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sophie de Vries" },
+        { "type": "text", "id": "meta", "label": "Meta", "default": "Geverifieerde koper" },
+        { "type": "checkbox", "id": "verified", "label": "Show verified badge", "default": true },
+        { "type": "text", "id": "date", "label": "Date", "default": "2 dagen geleden" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Review title", "default": "Boven verwachting goed" },
+        { "type": "textarea", "id": "review", "label": "Review", "default": "Superstrakke ervaring van begin tot eind. De kwaliteit voelt premium, de levering was snel en de communicatie was duidelijk. Dit is precies waarom ik terugkom." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review newest",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Sophie de Vries", "meta": "Geverifieerde koper", "date": "2 dagen geleden", "rating": 5, "title": "Boven verwachting goed", "review": "Superstrakke ervaring van begin tot eind. De kwaliteit voelt premium, de levering was snel en de communicatie was duidelijk. Dit is precies waarom ik terugkom." } },
+        { "type": "review", "settings": { "name": "Milan Bakker", "meta": "Terugkerende klant", "date": "4 dagen geleden", "rating": 5, "title": "Eindelijk een merk dat levert", "review": "Alles klopt: snelle checkout, nette verpakking en een product dat direct vertrouwen geeft. Je merkt dat hier veel aandacht in zit." } },
+        { "type": "review", "settings": { "name": "Noor Jansen", "meta": "Geverifieerde koper", "date": "1 week geleden", "rating": 5, "title": "Professioneel en betrouwbaar", "review": "Ik had vooraf nog een vraag en kreeg meteen helder antwoord. Daarna besteld en de volgende stap was steeds duidelijk. Erg fijne ervaring." } },
+        { "type": "review", "settings": { "name": "Daan Meijer", "meta": "Geverifieerde review", "date": "1 week geleden", "rating": 4, "title": "Zeer tevreden", "review": "Mooie kwaliteit en duidelijke service. Kleine vertraging bij de bezorging, maar dat werd goed gecommuniceerd. Zeker een aanrader." } },
+        { "type": "review", "settings": { "name": "Lotte Smit", "meta": "Geverifieerde koper", "date": "2 weken geleden", "rating": 5, "title": "Premium uitstraling", "review": "De hele webshop voelt betrouwbaar en professioneel. Het product kwam mooi binnen en zag er nog beter uit dan op de foto’s." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
