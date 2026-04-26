@@ -6,49 +6,67 @@
     --hero-text-color: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
   }
 
-  .hero-skin {
+  .hero-32 {
     background: rgb(var(--hero-background));
     color: rgb(var(--hero-text-color));
-    padding: 60px 0;
+    padding: 80px 0;
   }
 
-  .hero-skin__container {
+  .hero-32__container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 60px;
     flex-wrap: wrap;
   }
 
-  .hero-skin__image { flex: 1; min-width: 300px; }
-  .hero-skin__image img { width: 100%; height: auto; border-radius: 20px; }
-  .hero-skin__content { flex: 1; min-width: 300px; }
+  .hero-32__media { flex: 1; min-width: 400px; }
+  .hero-32__media img { width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 
-  .hero-skin__rating { font-weight: 600; margin-bottom: 16px; }
-  .hero-skin__heading { font-size: 48px; line-height: 1.1; margin: 0 0 24px; }
-  .hero-skin__features { list-style: none; padding: 0; margin: 0 0 32px; }
-  .hero-skin__feature { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 18px; }
+  .hero-32__content { flex: 1; min-width: 350px; }
+  .hero-32__rating { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 20px; font-size: 16px; }
+  .hero-32__rating-stars { color: #00B67A; }
+
+  .hero-32__title { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; margin: 0 0 20px 0; font-weight: 700; }
+  .hero-32__title span { display: block; color: #7A8193; font-weight: 400; }
+
+  .hero-32__list { list-style: none; padding: 0; margin: 0 0 40px 0; }
+  .hero-32__item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-size: 18px; }
+  .hero-32__icon { width: 24px; height: 24px; }
+
+  @media (max-width: 768px) {
+    .hero-32__container { gap: 30px; text-align: center; }
+    .hero-32__rating, .hero-32__item { justify-content: center; }
+  }
 </style>
 
-<section class="hero-skin">
-  <div class="hero-skin__container">
-    <div class="hero-skin__image">
+<section class="hero-32">
+  <div class="hero-32__container">
+    <div class="hero-32__media">
       {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+      {%- else -%}
+        <div style="background: #ddd; height: 500px; border-radius: 20px;"></div>
       {%- endif -%}
     </div>
 
-    <div class="hero-skin__content">
-      <div class="hero-skin__rating">★★★★★ 4.6 Excellent</div>
-      <h2 class="hero-skin__heading">{{ section.settings.heading }}</h2>
+    <div class="hero-32__content">
+      <div class="hero-32__rating">
+        <span class="hero-32__rating-stars">★★★★★</span> 4.6 Excellent
+      </div>
+      <h2 class="hero-32__title">
+        {{ section.settings.heading | newline_to_br }}
+      </h2>
       
-      <ul class="hero-skin__features">
+      <ul class="hero-32__list">
         {%- for block in section.blocks -%}
-          <li class="hero-skin__feature" {{ block.shopify_attributes }}>
+          <li class="hero-32__item" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}
-              {{ block.settings.icon | image_url: width: 24 | image_tag: width: 24, height: 24 }}
+              <div class="hero-32__icon">
+                {{ block.settings.icon | image_url: width: 48 | image_tag: width: 24, height: 24 }}
+              </div>
             {%- endif -%}
             {{ block.settings.text }}
           </li>
@@ -64,10 +82,10 @@
 
 {% schema %}
 {
-  "name": "Hero Skin Care",
+  "name": "Hero 32 Replica",
   "settings": [
     {"type": "image_picker", "id": "image", "label": "Image"},
-    {"type": "text", "id": "heading", "label": "Heading", "default": "Achieve visibly radiant transformed skin"},
+    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Achieve visibly\n<span>radiant</span>\n<span>transformed skin</span>"},
     {"type": "text", "id": "button_label", "label": "Button label", "default": "LEARN MORE"},
     {"type": "url", "id": "button_link", "label": "Button link"},
     {"type": "color", "id": "background", "label": "Background", "default": "#FFFFFF"},
@@ -83,6 +101,6 @@
       ]
     }
   ],
-  "presets": [{"name": "Hero Skin Care"}]
+  "presets": [{"name": "Hero 32 Replica"}]
 }
 {% endschema %}
