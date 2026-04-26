@@ -1208,25 +1208,6 @@
         "border_color": "#e8e1d5"
       }
     },
-    "hero_v7_BxpJaq": {
-      "type": "hero-v7",
-      "name": "Hero v7",
-      "settings": {
-        "bg_image": "shopify://shop_images/model-laughs-barefoot.jpg",
-        "overlay_opacity": 30,
-        "heading": "Bekijk onze nieuwe collectie",
-        "subheading": "Bekijk nu onze nieuwe collectie",
-        "text": "<p>Hij staat vanaf vandaag online</p>",
-        "button_1_label": "SHOP NU",
-        "button_1_link": "",
-        "button_2_label": "",
-        "button_2_link": "",
-        "avatar": "shopify://shop_images/ChatGPTImage8jan2026_20_15_16.png",
-        "reviewer_name": "Jake",
-        "reviewer_meta": "Hele fijne broek",
-        "review_text": "Dit is echt een hele fijne broek, hartstikke bedankt hiervoor!"
-      }
-    },
     "uitgelicht_product_gXwjzK": {
       "type": "uitgelicht-product",
       "blocks": {
@@ -1339,6 +1320,102 @@
         "review_card_bg": "#ffffff",
         "review_card_text": "#222222"
       }
+    },
+    "review_newest_wMKpPU": {
+      "type": "review-newest",
+      "blocks": {
+        "review_LRrghF": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/O1CN01IeKZkV2HFvwtWuKTx__2208504019122-0-cib.jpg",
+            "name": "Sophie de Vries",
+            "meta": "Geverifieerde koper",
+            "verified": true,
+            "date": "2 dagen geleden",
+            "rating": 5,
+            "title": "Boven verwachting goed",
+            "review": "Superstrakke ervaring van begin tot eind. De kwaliteit voelt premium, de levering was snel en de communicatie was duidelijk. Dit is precies waarom ik terugkom."
+          }
+        },
+        "review_tKTRCE": {
+          "type": "review",
+          "settings": {
+            "name": "Milan Bakker",
+            "meta": "Terugkerende klant",
+            "verified": true,
+            "date": "4 dagen geleden",
+            "rating": 5,
+            "title": "Eindelijk een merk dat levert",
+            "review": "Alles klopt: snelle checkout, nette verpakking en een product dat direct vertrouwen geeft. Je merkt dat hier veel aandacht in zit."
+          }
+        },
+        "review_WmQi8g": {
+          "type": "review",
+          "settings": {
+            "name": "Noor Jansen",
+            "meta": "Geverifieerde koper",
+            "verified": true,
+            "date": "1 week geleden",
+            "rating": 5,
+            "title": "Professioneel en betrouwbaar",
+            "review": "Ik had vooraf nog een vraag en kreeg meteen helder antwoord. Daarna besteld en de volgende stap was steeds duidelijk. Erg fijne ervaring."
+          }
+        },
+        "review_8AYPKE": {
+          "type": "review",
+          "settings": {
+            "name": "Daan Meijer",
+            "meta": "Geverifieerde review",
+            "verified": true,
+            "date": "1 week geleden",
+            "rating": 4,
+            "title": "Zeer tevreden",
+            "review": "Mooie kwaliteit en duidelijke service. Kleine vertraging bij de bezorging, maar dat werd goed gecommuniceerd. Zeker een aanrader."
+          }
+        },
+        "review_pbhrPR": {
+          "type": "review",
+          "settings": {
+            "name": "Lotte Smit",
+            "meta": "Geverifieerde koper",
+            "verified": true,
+            "date": "2 weken geleden",
+            "rating": 5,
+            "title": "Premium uitstraling",
+            "review": "De hele webshop voelt betrouwbaar en professioneel. Het product kwam mooi binnen en zag er nog beter uit dan op de foto’s."
+          }
+        }
+      },
+      "block_order": [
+        "review_LRrghF",
+        "review_tKTRCE",
+        "review_WmQi8g",
+        "review_8AYPKE",
+        "review_pbhrPR"
+      ],
+      "name": "Review newest",
+      "settings": {
+        "eyebrow": "Geverifieerde klantreviews",
+        "heading": "Nieuwste reviews van <em>tevreden klanten</em>",
+        "subheading": "<p>Een professionele review slider met Trustpilot-geïnspireerde rating, echte slider-controls, avatars en geverifieerde klantbadges.</p>",
+        "score_label": "Uitstekend",
+        "average_rating": "4.8",
+        "score_text": "Gebaseerd op 1.247+ geverifieerde reviews",
+        "section_spacing": 48,
+        "desktop_card_width": 340,
+        "mobile_card_width": 292,
+        "card_gap": 18,
+        "card_radius": 22,
+        "shadow_opacity": 7,
+        "background": "#ffffff",
+        "card_background": "#FFFFFF",
+        "heading_color": "#101820",
+        "text_color": "#3F4852",
+        "muted_color": "#6B747C",
+        "trust_color": "#00B67A",
+        "empty_star_color": "#D7DFE3",
+        "border_color": "#E4E9E7"
+      }
     }
   },
   "order": [
@@ -1363,8 +1440,8 @@
     "video_trust_header_9Dpg7U",
     "jordy_header_tMBpFY",
     "jordy_usp_PpbjYM",
-    "hero_v7_BxpJaq",
     "uitgelicht_product_gXwjzK",
-    "hero_premium_3hGmne"
+    "hero_premium_3hGmne",
+    "review_newest_wMKpPU"
   ]
 }
