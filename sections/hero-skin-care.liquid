@@ -2,69 +2,110 @@
 
 <style>
   #shopify-section-{{ section.id }} {
-    --hero-background: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
-    --hero-text-color: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --hero-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --hero-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --accent: #00B67A;
   }
 
-  .hero-32 {
-    background: rgb(var(--hero-background));
-    color: rgb(var(--hero-text-color));
+  .hero-32-wrapper {
+    background: rgb(var(--hero-bg));
+    color: rgb(var(--hero-text));
     padding: 80px 0;
+    overflow: hidden;
   }
 
-  .hero-32__container {
-    max-width: 1200px;
+  .hero-32-container {
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 80px;
+  }
+
+  .hero-32-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    display: block;
+  }
+
+  .hero-32-content {
+    max-width: 600px;
+  }
+
+  .hero-32-rating {
     display: flex;
     align-items: center;
-    gap: 60px;
-    flex-wrap: wrap;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 24px;
   }
 
-  .hero-32__media { flex: 1; min-width: 400px; }
-  .hero-32__media img { width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+  .hero-32-rating-stars {
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
 
-  .hero-32__content { flex: 1; min-width: 350px; }
-  .hero-32__rating { display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 20px; font-size: 16px; }
-  .hero-32__rating-stars { color: #00B67A; }
+  .hero-32-title {
+    font-size: 64px;
+    line-height: 1;
+    font-weight: 700;
+    margin-bottom: 32px;
+  }
 
-  .hero-32__title { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; margin: 0 0 20px 0; font-weight: 700; }
-  .hero-32__title span { display: block; color: #7A8193; font-weight: 400; }
+  .hero-32-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+  }
 
-  .hero-32__list { list-style: none; padding: 0; margin: 0 0 40px 0; }
-  .hero-32__item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-size: 18px; }
-  .hero-32__icon { width: 24px; height: 24px; }
+  .hero-32-feature {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
 
-  @media (max-width: 768px) {
-    .hero-32__container { gap: 30px; text-align: center; }
-    .hero-32__rating, .hero-32__item { justify-content: center; }
+  .hero-32-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (max-width: 990px) {
+    .hero-32-container { grid-template-columns: 1fr; gap: 40px; }
+    .hero-32-title { font-size: 40px; }
   }
 </style>
 
-<section class="hero-32">
-  <div class="hero-32__container">
-    <div class="hero-32__media">
+<section class="hero-32-wrapper">
+  <div class="hero-32-container">
+    <div class="hero-32-image">
       {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+        {{ section.settings.image | image_url: width: 1500 | image_tag: loading: 'lazy' }}
       {%- else -%}
-        <div style="background: #ddd; height: 500px; border-radius: 20px;"></div>
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
       {%- endif -%}
     </div>
 
-    <div class="hero-32__content">
-      <div class="hero-32__rating">
-        <span class="hero-32__rating-stars">★★★★★</span> 4.6 Excellent
+    <div class="hero-32-content">
+      <div class="hero-32-rating">
+        <span class="hero-32-rating-stars">★★★★★</span> 4.6 Excellent
       </div>
-      <h2 class="hero-32__title">
-        {{ section.settings.heading | newline_to_br }}
-      </h2>
+      <h1 class="hero-32-title">
+        Achieve visibly<br>
+        radiant<br>
+        transformed skin
+      </h1>
       
-      <ul class="hero-32__list">
+      <ul class="hero-32-features">
         {%- for block in section.blocks -%}
-          <li class="hero-32__item" {{ block.shopify_attributes }}>
+          <li class="hero-32-feature" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}
-              <div class="hero-32__icon">
+              <div class="hero-32-icon">
                 {{ block.settings.icon | image_url: width: 48 | image_tag: width: 24, height: 24 }}
               </div>
             {%- endif -%}
@@ -74,7 +115,7 @@
       </ul>
 
       {%- if section.settings.button_label != blank -%}
-        {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'lg' %}
+        {% render 'button', content: section.settings.button_label, href: section.settings.button_link, size: 'xl' %}
       {%- endif -%}
     </div>
   </div>
@@ -85,11 +126,10 @@
   "name": "Hero 32 Replica",
   "settings": [
     {"type": "image_picker", "id": "image", "label": "Image"},
-    {"type": "textarea", "id": "heading", "label": "Heading", "default": "Achieve visibly\n<span>radiant</span>\n<span>transformed skin</span>"},
     {"type": "text", "id": "button_label", "label": "Button label", "default": "LEARN MORE"},
     {"type": "url", "id": "button_link", "label": "Button link"},
-    {"type": "color", "id": "background", "label": "Background", "default": "#FFFFFF"},
-    {"type": "color", "id": "text_color", "label": "Text color", "default": "#000000"}
+    {"type": "color", "id": "background", "label": "Background", "default": "#E8E8E8"},
+    {"type": "color", "id": "text_color", "label": "Text color", "default": "#121212"}
   ],
   "blocks": [
     {
