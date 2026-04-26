@@ -1408,13 +1408,108 @@
         "card_radius": 22,
         "shadow_opacity": 7,
         "background": "#ffffff",
-        "card_background": "#FFFFFF",
+        "card_background": "#ffffff",
         "heading_color": "#101820",
-        "text_color": "#3F4852",
-        "muted_color": "#6B747C",
+        "text_color": "#3f4852",
+        "muted_color": "#6b747c",
+        "trust_color": "#00b67a",
+        "empty_star_color": "#d7dfe3",
+        "border_color": "#e4e9e7"
+      }
+    },
+    "review_newest_kf4rtM": {
+      "type": "review-newest",
+      "blocks": {
+        "review_q7VLey": {
+          "type": "review",
+          "settings": {
+            "name": "Sophie de Vries",
+            "meta": "Geverifieerde koper",
+            "verified": true,
+            "date": "2 dagen geleden",
+            "rating": 5,
+            "title": "Boven verwachting goed",
+            "review": "Superstrakke ervaring van begin tot eind. De kwaliteit voelt premium, de levering was snel en de communicatie was duidelijk. Dit is precies waarom ik terugkom."
+          }
+        },
+        "review_w3RPni": {
+          "type": "review",
+          "settings": {
+            "name": "Milan Bakker",
+            "meta": "Terugkerende klant",
+            "verified": true,
+            "date": "4 dagen geleden",
+            "rating": 5,
+            "title": "Eindelijk een merk dat levert",
+            "review": "Alles klopt: snelle checkout, nette verpakking en een product dat direct vertrouwen geeft. Je merkt dat hier veel aandacht in zit."
+          }
+        },
+        "review_46BQcn": {
+          "type": "review",
+          "settings": {
+            "name": "Noor Jansen",
+            "meta": "Geverifieerde koper",
+            "verified": true,
+            "date": "1 week geleden",
+            "rating": 5,
+            "title": "Professioneel en betrouwbaar",
+            "review": "Ik had vooraf nog een vraag en kreeg meteen helder antwoord. Daarna besteld en de volgende stap was steeds duidelijk. Erg fijne ervaring."
+          }
+        },
+        "review_NgpRx4": {
+          "type": "review",
+          "settings": {
+            "name": "Daan Meijer",
+            "meta": "Geverifieerde review",
+            "verified": true,
+            "date": "1 week geleden",
+            "rating": 4,
+            "title": "Zeer tevreden",
+            "review": "Mooie kwaliteit en duidelijke service. Kleine vertraging bij de bezorging, maar dat werd goed gecommuniceerd. Zeker een aanrader."
+          }
+        },
+        "review_rp7fAy": {
+          "type": "review",
+          "settings": {
+            "name": "Lotte Smit",
+            "meta": "Geverifieerde koper",
+            "verified": true,
+            "date": "2 weken geleden",
+            "rating": 5,
+            "title": "Premium uitstraling",
+            "review": "De hele webshop voelt betrouwbaar en professioneel. Het product kwam mooi binnen en zag er nog beter uit dan op de foto’s."
+          }
+        }
+      },
+      "block_order": [
+        "review_q7VLey",
+        "review_w3RPni",
+        "review_46BQcn",
+        "review_NgpRx4",
+        "review_rp7fAy"
+      ],
+      "name": "Review newest",
+      "settings": {
+        "eyebrow": "Geverifieerde Trustpilot reviews",
+        "heading": "Wat klanten zeggen over <em>onze service</em>",
+        "subheading": "<p>Lees de nieuwste ervaringen van klanten die ons beoordelen op kwaliteit, levering en service.</p>",
+        "score_label": "Uitstekend",
+        "average_rating": "4.8",
+        "score_text": "gebaseerd op 1.247+ reviews",
+        "section_spacing": 56,
+        "desktop_card_width": 356,
+        "mobile_card_width": 320,
+        "card_gap": 16,
+        "card_radius": 14,
+        "shadow_opacity": 5,
+        "background": "#F7F8F5",
+        "card_background": "#FFFFFF",
+        "heading_color": "#191919",
+        "text_color": "#303030",
+        "muted_color": "#6B6F76",
         "trust_color": "#00B67A",
-        "empty_star_color": "#D7DFE3",
-        "border_color": "#E4E9E7"
+        "empty_star_color": "#DCDCE6",
+        "border_color": "#E5E5E5"
       }
     }
   },
@@ -1442,6 +1537,7 @@
     "jordy_usp_PpbjYM",
     "uitgelicht_product_gXwjzK",
     "hero_premium_3hGmne",
-    "review_newest_wMKpPU"
+    "review_newest_wMKpPU",
+    "review_newest_kf4rtM"
   ]
 }
