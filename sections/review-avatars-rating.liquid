@@ -1,0 +1,327 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --review-avatar-rating-star-color: {{ section.settings.star_color }};
+    --review-avatar-rating-text-color: {{ section.settings.text_color }};
+    --review-avatar-rating-avatar-size: {{ section.settings.avatar_size }}px;
+    --review-avatar-rating-gap: {{ section.settings.gap }}px;
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating {
+    display: flex;
+    align-items: center;
+    gap: var(--review-avatar-rating-gap);
+    color: var(--review-avatar-rating-text-color);
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__avatars {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__avatar {
+    width: var(--review-avatar-rating-avatar-size);
+    height: var(--review-avatar-rating-avatar-size);
+    border-radius: 999px;
+    overflow: hidden;
+    border: {{ section.settings.avatar_border_width }}px solid {{ section.settings.avatar_border_color }};
+    background: #e5e5e5;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__avatar + .review-avatar-rating__avatar {
+    margin-left: -{{ section.settings.avatar_overlap }}px;
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #222, #777);
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__stars {
+    display: inline-flex;
+    align-items: center;
+    gap: {{ section.settings.star_gap }}px;
+    line-height: 1;
+    color: var(--review-avatar-rating-star-color);
+    font-size: {{ section.settings.star_size }}px;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__star {
+    position: relative;
+    display: inline-block;
+    color: {{ section.settings.empty_star_color }};
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__star-fill {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    color: var(--review-avatar-rating-star-color);
+    width: var(--star-fill, 100%);
+  }
+
+  #shopify-section-{{ section.id }} .review-avatar-rating__count {
+    font-size: {{ section.settings.count_size }}px;
+    line-height: 1;
+    font-weight: {{ section.settings.count_weight }};
+    color: var(--review-avatar-rating-text-color);
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} .review-avatar-rating {
+      gap: {{ section.settings.mobile_gap }}px;
+    }
+
+    #shopify-section-{{ section.id }} .review-avatar-rating__content {
+      gap: 9px;
+    }
+  }
+</style>
+
+<div {% render 'section-properties', tight: true %}>
+  <div class="review-avatar-rating" aria-label="{{ section.settings.accessibility_label | escape }}">
+    <div class="review-avatar-rating__avatars" aria-hidden="true">
+      {%- for block in section.blocks -%}
+        <div class="review-avatar-rating__avatar" {{ block.shopify_attributes }}>
+          {%- if block.settings.avatar != blank -%}
+            {{- block.settings.avatar | image_url: width: 96 | image_tag: loading: 'lazy', sizes: '48px', widths: '48,72,96', alt: block.settings.name -}}
+          {%- else -%}
+            <span class="review-avatar-rating__avatar-placeholder">{{ block.settings.initials | default: '★' | escape }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="review-avatar-rating__content">
+      {%- assign rating_times_10 = section.settings.rating | times: 10 | round -%}
+      <div class="review-avatar-rating__stars" aria-hidden="true">
+        {%- for i in (1..5) -%}
+          {%- assign star_threshold = i | times: 10 -%}
+          {%- assign previous_threshold = i | minus: 1 | times: 10 -%}
+          {%- if rating_times_10 >= star_threshold -%}
+            {%- assign fill = 100 -%}
+          {%- elsif rating_times_10 > previous_threshold -%}
+            {%- assign fill = rating_times_10 | minus: previous_threshold | times: 10 -%}
+          {%- else -%}
+            {%- assign fill = 0 -%}
+          {%- endif -%}
+          <span class="review-avatar-rating__star" style="--star-fill: {{ fill }}%;">★<span class="review-avatar-rating__star-fill">★</span></span>
+        {%- endfor -%}
+      </div>
+
+      <span class="review-avatar-rating__count">({{ section.settings.review_count }})</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Review avatars rating",
+  "class": "shopify-section--review-avatars-rating",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Rating",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "default": 4.5
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Aantal reviews",
+      "default": "422"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Toegankelijkheidslabel",
+      "default": "Beoordeeld met 4.5 van de 5 sterren op basis van 422 reviews"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Sterkleur",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "empty_star_color",
+      "label": "Lege ster kleur",
+      "default": "#D9D9D9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Tekstkleur",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Ster grootte",
+      "min": 14,
+      "max": 34,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "star_gap",
+      "label": "Ruimte tussen sterren",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "count_size",
+      "label": "Review count grootte",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "count_weight",
+      "label": "Review count dikte",
+      "options": [
+        { "value": "400", "label": "Normaal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "avatar_size",
+      "label": "Avatar grootte",
+      "min": 24,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "avatar_overlap",
+      "label": "Avatar overlap",
+      "min": 0,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "avatar_border_width",
+      "label": "Avatar randdikte",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "avatar_border_color",
+      "label": "Avatar randkleur",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Ruimte tussen avatars en sterren",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobiele ruimte tussen avatars en sterren",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "avatar",
+      "name": "Avatar",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar afbeelding"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Naam / alt tekst",
+          "default": "Klant"
+        },
+        {
+          "type": "text",
+          "id": "initials",
+          "label": "Initialen fallback",
+          "default": "★"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review avatars rating",
+      "blocks": [
+        { "type": "avatar", "settings": { "name": "Klant 1", "initials": "L" } },
+        { "type": "avatar", "settings": { "name": "Klant 2", "initials": "S" } },
+        { "type": "avatar", "settings": { "name": "Klant 3", "initials": "M" } },
+        { "type": "avatar", "settings": { "name": "Klant 4", "initials": "E" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
