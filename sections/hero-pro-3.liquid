@@ -1,0 +1,183 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --hp3-bg: {{ section.settings.background.red }}, {{ section.settings.background.green }}, {{ section.settings.background.blue }};
+    --hp3-card: {{ section.settings.card_background.red }}, {{ section.settings.card_background.green }}, {{ section.settings.card_background.blue }};
+    --hp3-text: {{ section.settings.text_color.red }}, {{ section.settings.text_color.green }}, {{ section.settings.text_color.blue }};
+    --hp3-heading: {{ section.settings.heading_color.red }}, {{ section.settings.heading_color.green }}, {{ section.settings.heading_color.blue }};
+    --hp3-muted: {{ section.settings.muted_color.red }}, {{ section.settings.muted_color.green }}, {{ section.settings.muted_color.blue }};
+    --hp3-accent: {{ section.settings.accent_color.red }}, {{ section.settings.accent_color.green }}, {{ section.settings.accent_color.blue }};
+    --hp3-trust: {{ section.settings.trust_green.red }}, {{ section.settings.trust_green.green }}, {{ section.settings.trust_green.blue }};
+    --section-outer-spacing-block: {{ section.settings.section_spacing }}px;
+  }
+  #shopify-section-{{ section.id }} .hero-pro-3 { background: rgb(var(--hp3-bg)); color: rgb(var(--hp3-text)); padding-block: var(--section-outer-spacing-block); overflow: hidden; }
+  #shopify-section-{{ section.id }} .hero-pro-3__wrap { max-width: {{ section.settings.content_max_width }}px; margin-inline: auto; padding-inline: 20px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__grid { display: grid; grid-template-columns: minmax(0,.95fr) minmax(320px,1.05fr); gap: clamp(28px,5vw,64px); align-items: center; }
+  #shopify-section-{{ section.id }} .hero-pro-3__content { display: grid; gap: 20px; justify-items: start; }
+  #shopify-section-{{ section.id }} .hero-pro-3__badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; color: rgb(var(--hp3-trust)); background: rgba(var(--hp3-trust),.12); font-size: 12px; font-weight: 800; }
+  #shopify-section-{{ section.id }} .hero-pro-3__badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: rgb(var(--hp3-trust)); box-shadow: 0 0 0 5px rgba(var(--hp3-trust),.14); }
+  #shopify-section-{{ section.id }} .hero-pro-3__heading { margin: 0; color: rgb(var(--hp3-heading)); font-size: clamp(40px,5vw,72px); line-height: .94; letter-spacing: -.055em; font-weight: 750; }
+  #shopify-section-{{ section.id }} .hero-pro-3__accent { color: rgb(var(--hp3-accent)); font-family: Georgia,'Times New Roman',serif; font-style: italic; font-weight: 500; }
+  #shopify-section-{{ section.id }} .hero-pro-3__subheading { max-width: 620px; color: rgb(var(--hp3-muted)); font-size: clamp(16px,1.4vw,20px); line-height: 1.55; }
+  #shopify-section-{{ section.id }} .hero-pro-3__subheading p { margin: 0; }
+  #shopify-section-{{ section.id }} .hero-pro-3__button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding-inline: 22px; border-radius: 999px; color: #fff; background: rgb(var(--hp3-heading)); font-weight: 800; text-decoration: none; }
+  #shopify-section-{{ section.id }} .hero-pro-3__rating { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; }
+  #shopify-section-{{ section.id }} .hero-pro-3__stars, #shopify-section-{{ section.id }} .hero-pro-3__slide-stars { display: inline-flex; gap: 4px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__star { display: inline-flex; align-items: center; justify-content: center; width: 19px; height: 19px; border-radius: 2px; background: rgb(var(--hp3-trust)); color: #fff; }
+  #shopify-section-{{ section.id }} .hero-pro-3__star.is-empty { background: rgba(var(--hp3-muted),.25); }
+  #shopify-section-{{ section.id }} .hero-pro-3__star svg { width: 11px; height: 11px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__slider { display: grid; gap: 18px; min-width: 0; }
+  #shopify-section-{{ section.id }} .hero-pro-3__track { display: flex; gap: {{ section.settings.slide_gap }}px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 4px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__track::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .hero-pro-3__review-card { flex: 0 0 100%; min-height: 430px; display: grid; grid-template-rows: auto 1fr auto; gap: 22px; padding: clamp(22px,3vw,34px); border-radius: {{ section.settings.card_radius }}px; background: rgb(var(--hp3-card)); box-shadow: 0 24px 80px rgba(18,18,18,.12); scroll-snap-align: start; opacity: .72; transform: scale(.985); transition: opacity .35s ease, transform .35s ease; }
+  #shopify-section-{{ section.id }} .hero-pro-3__review-card.is-active { opacity: 1; transform: scale(1); }
+  #shopify-section-{{ section.id }} .hero-pro-3__slide-top, #shopify-section-{{ section.id }} .hero-pro-3__slide-bottom { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+  #shopify-section-{{ section.id }} .hero-pro-3__logo { display: inline-flex; align-items: center; gap: 8px; color: rgb(var(--hp3-heading)); font-weight: 850; }
+  #shopify-section-{{ section.id }} .hero-pro-3__logo svg { width: 22px; height: 22px; color: rgb(var(--hp3-trust)); }
+  #shopify-section-{{ section.id }} .hero-pro-3__slide-badge { padding: 7px 11px; border-radius: 999px; color: rgb(var(--hp3-trust)); background: rgba(var(--hp3-trust),.12); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .07em; }
+  #shopify-section-{{ section.id }} .hero-pro-3__slide-stars .hero-pro-3__star { width: 28px; height: 28px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__slide-stars svg { width: 16px; height: 16px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__quote { margin: 0; color: rgb(var(--hp3-heading)); font-size: clamp(24px,3vw,42px); line-height: 1.04; letter-spacing: -.035em; font-weight: 750; }
+  #shopify-section-{{ section.id }} .hero-pro-3__quote mark { color: inherit; background: linear-gradient(transparent 50%,rgba(var(--hp3-accent),.2) 50%); }
+  #shopify-section-{{ section.id }} .hero-pro-3__person { display: flex; gap: 13px; align-items: center; }
+  #shopify-section-{{ section.id }} .hero-pro-3__avatar, #shopify-section-{{ section.id }} .hero-pro-3__avatar-placeholder { width: 52px; height: 52px; min-width: 52px; border-radius: 999px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__avatar { object-fit: cover; }
+  #shopify-section-{{ section.id }} .hero-pro-3__avatar-placeholder { display: inline-flex; align-items: center; justify-content: center; color: rgb(var(--hp3-trust)); background: rgba(var(--hp3-trust),.13); font-weight: 850; }
+  #shopify-section-{{ section.id }} .hero-pro-3__name { color: rgb(var(--hp3-heading)); font-weight: 850; }
+  #shopify-section-{{ section.id }} .hero-pro-3__meta { color: rgb(var(--hp3-muted)); font-size: 13px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__verified { color: rgb(var(--hp3-trust)); font-size: 13px; font-weight: 800; }
+  #shopify-section-{{ section.id }} .hero-pro-3__controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__arrows { display: inline-flex; gap: 10px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__arrow { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; border-radius: 999px; background: rgb(var(--hp3-card)); color: rgb(var(--hp3-heading)); box-shadow: 0 10px 30px rgba(18,18,18,.1); cursor: pointer; }
+  #shopify-section-{{ section.id }} .hero-pro-3__dots { display: inline-flex; align-items: center; gap: 7px; }
+  #shopify-section-{{ section.id }} .hero-pro-3__dot { width: 8px; height: 8px; border: 0; border-radius: 999px; background: rgba(var(--hp3-heading),.22); cursor: pointer; }
+  #shopify-section-{{ section.id }} .hero-pro-3__dot[aria-current='true'] { width: 26px; background: rgb(var(--hp3-trust)); }
+  #shopify-section-{{ section.id }} .hero-pro-3__empty { padding: 32px; border-radius: {{ section.settings.card_radius }}px; background: rgb(var(--hp3-card)); text-align: center; color: rgb(var(--hp3-muted)); }
+  @media screen and (max-width: 999px) { #shopify-section-{{ section.id }} .hero-pro-3__grid { grid-template-columns: 1fr; } #shopify-section-{{ section.id }} .hero-pro-3__content { justify-items: center; text-align: center; } }
+  @media screen and (max-width: 699px) { #shopify-section-{{ section.id }} .hero-pro-3 { padding-block: calc(var(--section-outer-spacing-block) * .75); } #shopify-section-{{ section.id }} .hero-pro-3__wrap { padding-inline: 18px; } #shopify-section-{{ section.id }} .hero-pro-3__heading { font-size: clamp(34px,11vw,48px); line-height: .98; } #shopify-section-{{ section.id }} .hero-pro-3__track { margin-inline: -18px; padding-inline: 18px; } #shopify-section-{{ section.id }} .hero-pro-3__review-card { min-height: 390px; padding: 22px; } #shopify-section-{{ section.id }} .hero-pro-3__slide-top, #shopify-section-{{ section.id }} .hero-pro-3__slide-bottom, #shopify-section-{{ section.id }} .hero-pro-3__controls { flex-direction: column; } #shopify-section-{{ section.id }} .hero-pro-3__quote { font-size: clamp(24px,8.2vw,34px); } }
+</style>
+
+<section class="hero-pro-3" data-hero-pro-3 data-autoplay="{{ section.settings.autoplay }}" data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}">
+  <div class="hero-pro-3__wrap">
+    <div class="hero-pro-3__grid">
+      <div class="hero-pro-3__content">
+        <div class="hero-pro-3__badge">{{ section.settings.badge | escape }}</div>
+        <h2 class="hero-pro-3__heading">{{ section.settings.heading | escape }} <span class="hero-pro-3__accent">{{ section.settings.heading_accent | escape }}</span></h2>
+        <div class="hero-pro-3__subheading rte">{{ section.settings.subheading }}</div>
+        <div class="hero-pro-3__rating"><span class="hero-pro-3__stars" aria-hidden="true">{%- for i in (1..5) -%}<span class="hero-pro-3__star"><svg viewBox="0 0 20 20"><path d="M10 1.6l2.57 5.21 5.75.84-4.16 4.06.98 5.73L10 14.74l-5.14 2.7.98-5.73L1.68 7.65l5.75-.84L10 1.6z" fill="currentColor"/></svg></span>{%- endfor -%}</span><span>{{ section.settings.rating_summary | escape }}</span></div>
+        {%- if section.settings.button_label != blank -%}<a class="hero-pro-3__button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>{%- endif -%}
+      </div>
+      <div class="hero-pro-3__slider">
+        {%- if section.blocks.size > 0 -%}
+          <div class="hero-pro-3__track" data-hero-pro-3-track role="list" aria-label="Review slides">
+            {%- for block in section.blocks -%}
+              {%- assign quote_html = block.settings.quote | escape -%}
+              {%- assign highlight = block.settings.highlight_phrase | strip -%}
+              {%- if highlight != blank -%}{%- capture highlight_replacement -%}<mark>{{ highlight | escape }}</mark>{%- endcapture -%}{%- assign quote_html = quote_html | replace: highlight, highlight_replacement -%}{%- endif -%}
+              <article class="hero-pro-3__review-card hero-pro-3__review-panel" data-hero-pro-3-slide data-slide-index="{{ forloop.index0 }}" role="listitem" aria-roledescription="slide" {{ block.shopify_attributes }}>
+                <div class="hero-pro-3__slide-top"><div class="hero-pro-3__logo"><svg viewBox="0 0 24 24"><path d="M12 2.2l2.88 5.84 6.45.94-4.66 4.54 1.1 6.42L12 16.91l-5.77 3.03 1.1-6.42-4.66-4.54 6.45-.94L12 2.2z" fill="currentColor"/></svg><span>{{ block.settings.logo_text | escape }}</span></div><span class="hero-pro-3__slide-badge">{{ block.settings.badge | escape }}</span></div>
+                <div><div class="hero-pro-3__slide-stars" aria-label="{{ block.settings.rating }} out of 5 stars">{%- for i in (1..5) -%}<span class="hero-pro-3__star {% if i > block.settings.rating %}is-empty{% endif %}"><svg viewBox="0 0 20 20"><path d="M10 1.6l2.57 5.21 5.75.84-4.16 4.06.98 5.73L10 14.74l-5.14 2.7.98-5.73L1.68 7.65l5.75-.84L10 1.6z" fill="currentColor"/></svg></span>{%- endfor -%}</div><p class="hero-pro-3__quote">{{ quote_html }}</p></div>
+                <div class="hero-pro-3__slide-bottom"><div class="hero-pro-3__person">{%- if block.settings.avatar != blank -%}{{ block.settings.avatar | image_url: width: 104 | image_tag: loading: 'lazy', widths: '52,104', class: 'hero-pro-3__avatar', alt: block.settings.name }}{%- else -%}<span class="hero-pro-3__avatar-placeholder">{{ block.settings.name | strip | slice: 0, 1 }}</span>{%- endif -%}<div><div class="hero-pro-3__name">{{ block.settings.name | escape }}</div><div class="hero-pro-3__meta">{{ block.settings.meta | escape }}</div></div></div><div class="hero-pro-3__verified">{{ block.settings.verified_text | escape }}</div></div>
+              </article>
+            {%- endfor -%}
+          </div>
+          <div class="hero-pro-3__controls"><div class="hero-pro-3__arrows"><button class="hero-pro-3__arrow" type="button" data-hero-pro-3-prev aria-label="Previous slide">‹</button><button class="hero-pro-3__arrow" type="button" data-hero-pro-3-next aria-label="Next slide">›</button></div><div class="hero-pro-3__dots" data-hero-pro-3-dots></div></div>
+        {%- else -%}<div class="hero-pro-3__empty">Add review slides in the theme editor.</div>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const init = (root) => {
+    if (!root || root.dataset.ready === 'true') return;
+    const track = root.querySelector('[data-hero-pro-3-track]');
+    const slides = Array.from(root.querySelectorAll('[data-hero-pro-3-slide]'));
+    const dotsWrap = root.querySelector('[data-hero-pro-3-dots]');
+    const prev = root.querySelector('[data-hero-pro-3-prev]');
+    const next = root.querySelector('[data-hero-pro-3-next]');
+    if (!track || !slides.length) return;
+    root.dataset.ready = 'true';
+    let index = 0;
+    let timer = null;
+    dotsWrap.innerHTML = '';
+    slides.forEach((slide, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'hero-pro-3__dot';
+      dot.dataset.index = String(i);
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(root.querySelectorAll('.hero-pro-3__dot'));
+    const set = (nextIndex, scroll = true) => {
+      index = ((nextIndex % slides.length) + slides.length) % slides.length;
+      slides.forEach((slide, i) => { slide.classList.toggle('is-active', i === index); slide.setAttribute('aria-hidden', i === index ? 'false' : 'true'); });
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', i === index ? 'true' : 'false'));
+      if (scroll) slides[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    };
+    const stop = () => { if (timer) window.clearInterval(timer); timer = null; };
+    const start = () => { stop(); if (root.dataset.autoplay !== 'true' || slides.length < 2) return; timer = window.setInterval(() => set(index + 1), Number(root.dataset.autoplaySpeed || 5000)); };
+    prev.addEventListener('click', () => { stop(); set(index - 1); start(); });
+    next.addEventListener('click', () => { stop(); set(index + 1); start(); });
+    dots.forEach((dot) => dot.addEventListener('click', () => { stop(); set(Number(dot.dataset.index || 0)); start(); }));
+    set(0, false); start();
+  };
+  const initAll = () => document.querySelectorAll('[data-hero-pro-3]').forEach(init);
+  initAll();
+  document.addEventListener('shopify:section:load', (event) => init(event.target.querySelector('[data-hero-pro-3]')));
+  document.addEventListener('shopify:block:select', (event) => {
+    const root = event.target.closest('[data-hero-pro-3]');
+    const slide = event.target.closest('[data-hero-pro-3-slide]');
+    if (!root || !slide) return;
+    root.querySelector(`.hero-pro-3__dot[data-index="${slide.dataset.slideIndex}"]`)?.click();
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero pro 3",
+  "tag": "section",
+  "settings": [
+    {"type":"color","id":"background","label":"Background","default":"#F4F7F3"},
+    {"type":"text","id":"badge","label":"Badge","default":"Rated excellent by 2,500+ customers"},
+    {"type":"text","id":"heading","label":"Heading","default":"Build trust before the first click"},
+    {"type":"text","id":"heading_accent","label":"Heading accent","default":"with real reviews."},
+    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>A high-converting hero with review proof, animated slides and mobile-first interaction.</p>"},
+    {"type":"text","id":"rating_summary","label":"Rating summary","default":"4.8 out of 5 · Excellent"},
+    {"type":"text","id":"button_label","label":"Button label","default":"Shop bestsellers"},
+    {"type":"url","id":"button_link","label":"Button link"},
+    {"type":"checkbox","id":"autoplay","label":"Enable autoplay","default":true},
+    {"type":"range","id":"autoplay_speed","label":"Autoplay speed","min":3,"max":9,"step":1,"default":5,"unit":"s"},
+    {"type":"range","id":"section_spacing","label":"Section spacing","min":0,"max":80,"step":4,"default":56},
+    {"type":"range","id":"content_max_width","label":"Content max width","min":900,"max":1400,"step":20,"default":1200},
+    {"type":"range","id":"slide_gap","label":"Slide gap","min":8,"max":32,"step":2,"default":18},
+    {"type":"range","id":"card_radius","label":"Card radius","min":12,"max":40,"step":2,"default":28},
+    {"type":"color","id":"card_background","label":"Slide background","default":"#FFFFFF"},
+    {"type":"color","id":"heading_color","label":"Heading color","default":"#101828"},
+    {"type":"color","id":"text_color","label":"Text color","default":"#344054"},
+    {"type":"color","id":"muted_color","label":"Muted text color","default":"#667085"},
+    {"type":"color","id":"accent_color","label":"Accent color","default":"#FF7A1A"},
+    {"type":"color","id":"trust_green","label":"Review green","default":"#00B67A"}
+  ],
+  "blocks": [{"type":"slide","name":"Review slide","settings":[
+    {"type":"text","id":"logo_text","label":"Logo text","default":"Trustpilot"},
+    {"type":"text","id":"badge","label":"Slide badge","default":"Verified"},
+    {"type":"range","id":"rating","label":"Rating","min":1,"max":5,"step":1,"default":5},
+    {"type":"textarea","id":"quote","label":"Quote","default":"This changed the way we shop online. The experience feels premium, fast and trustworthy from the first click."},
+    {"type":"text","id":"highlight_phrase","label":"Highlighted phrase","default":"premium, fast and trustworthy"},
+    {"type":"image_picker","id":"avatar","label":"Avatar"},
+    {"type":"text","id":"name","label":"Reviewer name","default":"Emma de Vries"},
+    {"type":"text","id":"meta","label":"Reviewer meta","default":"Verified buyer"},
+    {"type":"text","id":"verified_text","label":"Verified label","default":"Verified review"}
+  ]}],
+  "presets": [{"name":"Hero pro 3","blocks":[
+    {"type":"slide","settings":{"logo_text":"Trustpilot","badge":"Verified","rating":5,"quote":"This changed the way we shop online. The experience feels premium, fast and trustworthy from the first click.","highlight_phrase":"premium, fast and trustworthy","name":"Emma de Vries","meta":"Verified buyer","verified_text":"Verified review"}},
+    {"type":"slide","settings":{"logo_text":"Trustpilot","badge":"Excellent","rating":5,"quote":"The slider immediately adds social proof. Customers understand the value faster and the mobile version feels incredibly smooth.","highlight_phrase":"mobile version feels incredibly smooth","name":"Noah Jansen","meta":"Store owner","verified_text":"Verified review"}},
+    {"type":"slide","settings":{"logo_text":"Trustpilot","badge":"Top rated","rating":5,"quote":"The design looks premium and the controls work. We can add new review slides ourselves without touching code.","highlight_phrase":"add new review slides ourselves","name":"Mila Bakker","meta":"Marketing lead","verified_text":"Verified review"}}
+  ]}]
+}
+{% endschema %}
