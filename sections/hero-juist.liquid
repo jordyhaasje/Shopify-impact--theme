@@ -1,0 +1,261 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+#shopify-section-{{ section.id }} {
+  position: relative;
+}
+
+.hero-juist {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.hero-juist__bg {
+  position: absolute;
+  inset: 0;
+}
+.hero-juist__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-juist__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.75), rgba(0,0,0,.2));
+}
+
+.hero-juist__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-juist__content {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-juist__trust {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.hero-juist__stars {
+  display: flex;
+  gap: 2px;
+}
+
+.hero-juist__star {
+  width: 14px;
+  height: 14px;
+  background: #00b67a;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-juist__star svg {
+  width: 10px;
+  height: 10px;
+  fill: #fff;
+}
+
+.hero-juist__title {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.hero-juist__subtitle {
+  font-size: 18px;
+  max-width: 520px;
+  margin-bottom: 24px;
+}
+
+.hero-juist__slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.hero-juist__slide {
+  min-width: 100%;
+  scroll-snap-align: start;
+}
+
+.hero-juist__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.hero-juist__nav--prev { left: 20px; }
+.hero-juist__nav--next { right: 20px; }
+
+.hero-juist__nav button {
+  background: rgba(255,255,255,.2);
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+}
+
+.hero-juist__logos {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(0,0,0,.6);
+  padding: 12px 0;
+}
+
+.hero-juist__logos-track {
+  display: flex;
+  gap: 60px;
+  white-space: nowrap;
+  animation: heroScroll 25s linear infinite;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+@keyframes heroScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media(max-width:768px){
+  .hero-juist { min-height: 70vh; }
+  .hero-juist__content { padding: 40px 16px; }
+  .hero-juist__subtitle { font-size:16px; }
+}
+</style>
+
+<section class="hero-juist">
+  
+  <div class="hero-juist__bg">
+    {% if section.settings.image != blank %}
+      {{ section.settings.image | image_url: width: 2000 | image_tag }}
+    {% endif %}
+  </div>
+
+  <div class="hero-juist__overlay"></div>
+
+  <div class="hero-juist__inner">
+    <div class="container">
+
+      <div class="hero-juist__slider" data-slider>
+
+        <div class="hero-juist__slide">
+          <div class="hero-juist__content">
+
+            <div class="hero-juist__trust">
+              <div class="hero-juist__stars">
+                {% for i in (1..5) %}
+                <span class="hero-juist__star">
+                  <svg viewBox="0 0 20 20">
+                    <path d="M10 1l3 6 6 .9-4.5 4.3 1 6.2L10 15l-5.5 3.4 1-6.2L1 7.9 7 7z"/>
+                  </svg>
+                </span>
+                {% endfor %}
+              </div>
+              <div>Trusted by 100,000+ customers</div>
+            </div>
+
+            <h1 class="hero-juist__title">
+              Ready for adventure
+            </h1>
+
+            <p class="hero-juist__subtitle">
+              The world's #1 rated backpacks and bags. Join over 1M happy customers and never lose your gear.
+            </p>
+
+            {% render 'button', content: 'Shop now', href: section.settings.button_link, size: 'lg' %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="hero-juist__nav hero-juist__nav--prev">
+    <button type="button" aria-label="Previous"></button>
+  </div>
+  <div class="hero-juist__nav hero-juist__nav--next">
+    <button type="button" aria-label="Next"></button>
+  </div>
+
+  <!-- LOGOS -->
+  <div class="hero-juist__logos">
+    <div class="hero-juist__logos-track">
+      WomensHealth VOGUE BAZAAR GRAZIA ELLE WomensHealth VOGUE BAZAAR GRAZIA ELLE
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function(){
+  function init(section){
+    const slider = section.querySelector('[data-slider]');
+    if(!slider) return;
+
+    const next = section.querySelector('.hero-juist__nav--next button');
+    const prev = section.querySelector('.hero-juist__nav--prev button');
+
+    next?.addEventListener('click', () => {
+      slider.scrollBy({ left: slider.offsetWidth, behavior: 'smooth' });
+    });
+
+    prev?.addEventListener('click', () => {
+      slider.scrollBy({ left: -slider.offsetWidth, behavior: 'smooth' });
+    });
+  }
+
+  const section = document.getElementById('shopify-section-{{ section.id }}');
+  if(section) init(section);
+
+  document.addEventListener('shopify:section:load', function(e){
+    if(e.target.id === 'shopify-section-{{ section.id }}'){
+      init(e.target);
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero-juist",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero-juist"
+    }
+  ]
+}
+{% endschema %}
