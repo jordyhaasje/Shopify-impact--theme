@@ -13,10 +13,9 @@
 
 #shopify-section-{{ section.id }} .hp9__inner {
   display: grid;
-  gap: 32px;
+  gap: 28px;
 }
 
-/* Desktop split */
 @media (min-width: 900px) {
   #shopify-section-{{ section.id }} .hp9__inner {
     grid-template-columns: 1.1fr 0.9fr;
@@ -24,61 +23,81 @@
   }
 }
 
-#shopify-section-{{ section.id }} .hp9__content {
-  max-width: {{ section.settings.content_max_width }}px;
-}
-
 #shopify-section-{{ section.id }} .hp9__heading {
-  font-size: clamp(28px, 4vw, 48px);
-  line-height: 1.05;
-  margin: 0 0 12px;
+  font-size: clamp(28px, 4vw, 44px);
+  margin-bottom: 10px;
 }
 
 #shopify-section-{{ section.id }} .hp9__sub {
-  font-size: 16px;
-  opacity: 0.7;
+  font-size: 15px;
+  opacity: .7;
 }
 
-#shopify-section-{{ section.id }} .hp9__slider {
-  display: flex;
-  gap: var(--hp9-gap);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-#shopify-section-{{ section.id }} .hp9__slider::-webkit-scrollbar { display:none; }
-
-#shopify-section-{{ section.id }} .hp9__card {
-  flex: 0 0 var(--hp9-card-w-mobile);
-  scroll-snap-align: start;
-  background: #fff;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-}
-
-@media (min-width: 900px) {
-  #shopify-section-{{ section.id }} .hp9__card {
-    flex-basis: var(--hp9-card-w-desktop);
-  }
+#shopify-section-{{ section.id }} .hp9__rating {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:14px;
+  font-size:14px;
 }
 
 #shopify-section-{{ section.id }} .hp9__stars {
-  display:flex; gap:4px; margin-bottom:10px;
+  display:flex; gap:3px;
 }
 
 #shopify-section-{{ section.id }} .hp9__star {
-  width:16px; height:16px; background:#00b67a; border-radius:2px;
+  width:14px;height:14px;background:#00b67a;border-radius:2px;
 }
 
-#shopify-section-{{ section.id }} .hp9__text {
-  font-size:14px; line-height:1.5; margin-bottom:12px;
+#shopify-section-{{ section.id }} .hp9__slider-wrap {
+  position:relative;
 }
 
-#shopify-section-{{ section.id }} .hp9__author {
+#shopify-section-{{ section.id }} .hp9__slider {
+  display:flex;
+  gap:var(--hp9-gap);
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+
+#shopify-section-{{ section.id }} .hp9__card {
+  flex:0 0 var(--hp9-card-w-mobile);
+  scroll-snap-align:start;
+  background:#fff;
+  border-radius:12px;
+  padding:14px;
+  box-shadow:0 4px 14px rgba(0,0,0,.05);
+}
+
+@media (min-width:900px){
+  #shopify-section-{{ section.id }} .hp9__card{
+    flex-basis:var(--hp9-card-w-desktop);
+  }
+}
+
+#shopify-section-{{ section.id }} .hp9__text{
+  font-size:14px; line-height:1.5; margin-bottom:10px;
+}
+
+#shopify-section-{{ section.id }} .hp9__author{
   font-size:13px; opacity:.7;
 }
+
+#shopify-section-{{ section.id }} .hp9__nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:32px;height:32px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+
+#shopify-section-{{ section.id }} .hp9__nav--prev{left:-10px}
+#shopify-section-{{ section.id }} .hp9__nav--next{right:-10px}
+
 </style>
 
 <section class="hp9">
@@ -86,32 +105,39 @@
     <div class="container">
       <div class="hp9__inner">
 
-        <div class="hp9__content">
-          {%- if section.settings.heading != blank -%}
-            <h2 class="hp9__heading">{{ section.settings.heading }}</h2>
-          {%- endif -%}
+        <div>
+          <h2 class="hp9__heading">{{ section.settings.heading }}</h2>
+          <div class="hp9__sub rte">{{ section.settings.subheading }}</div>
 
-          {%- if section.settings.subheading != blank -%}
-            <div class="hp9__sub rte">{{ section.settings.subheading }}</div>
-          {%- endif -%}
+          <div class="hp9__rating">
+            <div class="hp9__stars">
+              {% for i in (1..5) %}
+                <span class="hp9__star"></span>
+              {% endfor %}
+            </div>
+            <span>4.8 / 5 • 2,000+ reviews</span>
+          </div>
         </div>
 
-        <div class="hp9__slider" data-slider>
-          {%- for block in section.blocks -%}
-            <div class="hp9__card" {{ block.shopify_attributes }}>
+        <div class="hp9__slider-wrap">
+          <button class="hp9__nav hp9__nav--prev" data-prev>‹</button>
+          <div class="hp9__slider" data-slider>
+            {% for block in section.blocks %}
+              <div class="hp9__card" {{ block.shopify_attributes }}>
 
-              <div class="hp9__stars">
-                {%- for i in (1..5) -%}
-                  <span class="hp9__star" style="opacity:{% if i <= block.settings.rating %}1{% else %}0.2{% endif %}"></span>
-                {%- endfor -%}
+                <div class="hp9__stars">
+                  {% for i in (1..5) %}
+                    <span class="hp9__star" style="opacity:{% if i <= block.settings.rating %}1{% else %}.2{% endif %}"></span>
+                  {% endfor %}
+                </div>
+
+                <div class="hp9__text">{{ block.settings.text }}</div>
+                <div class="hp9__author">{{ block.settings.author }}</div>
+
               </div>
-
-              <div class="hp9__text">{{ block.settings.text }}</div>
-
-              <div class="hp9__author">{{ block.settings.author }}</div>
-
-            </div>
-          {%- endfor -%}
+            {% endfor %}
+          </div>
+          <button class="hp9__nav hp9__nav--next" data-next>›</button>
         </div>
 
       </div>
@@ -121,17 +147,20 @@
 
 <script>
 (function(){
-  const root = document.getElementById('shopify-section-{{ section.id }}');
+  const root=document.getElementById('shopify-section-{{ section.id }}');
   if(!root) return;
-  const slider = root.querySelector('[data-slider]');
+  const slider=root.querySelector('[data-slider]');
+  const next=root.querySelector('[data-next]');
+  const prev=root.querySelector('[data-prev]');
 
-  function init(){
-    if(!slider) return;
-    slider.scrollLeft = 0;
+  function scroll(dir){
+    const card=slider.querySelector('.hp9__card');
+    if(!card) return;
+    slider.scrollBy({left: card.offsetWidth * dir, behavior:'smooth'});
   }
 
-  document.addEventListener('shopify:section:load', init);
-  document.addEventListener('DOMContentLoaded', init);
+  next.addEventListener('click',()=>scroll(1));
+  prev.addEventListener('click',()=>scroll(-1));
 })();
 </script>
 
