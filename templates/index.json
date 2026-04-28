@@ -576,6 +576,9 @@
           "type": "review",
           "settings": {
             "rating": 5,
+            "title": "Great service",
+            "date": "2 days ago",
+            "verified": true,
             "text": "Amazing product, would recommend.",
             "author": "John D."
           }
@@ -584,6 +587,9 @@
           "type": "review",
           "settings": {
             "rating": 5,
+            "title": "Great service",
+            "date": "2 days ago",
+            "verified": true,
             "text": "Amazing product, would recommend.",
             "author": "John D."
           }
@@ -592,6 +598,9 @@
           "type": "review",
           "settings": {
             "rating": 5,
+            "title": "Great service",
+            "date": "2 days ago",
+            "verified": true,
             "text": "Amazing product, would recommend.",
             "author": "John D."
           }
@@ -606,6 +615,59 @@
       "settings": {
         "heading": "Trusted by thousands",
         "subheading": "<p>Real reviews from real customers</p>",
+        "section_spacing": 48,
+        "content_max_width": 840,
+        "desktop_card_width": 280,
+        "mobile_card_width": 260,
+        "card_gap": 16
+      }
+    },
+    "hero_pro_9_XRQPJw": {
+      "type": "hero-pro-9",
+      "blocks": {
+        "review_hBArmt": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Great service",
+            "date": "2 days ago",
+            "verified": false,
+            "text": "Amazing experience.",
+            "author": "John D."
+          }
+        },
+        "review_hFUffE": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Great service",
+            "date": "2 days ago",
+            "verified": true,
+            "text": "Amazing experience.",
+            "author": "John D."
+          }
+        },
+        "review_JYGQK6": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Great service",
+            "date": "2 days ago",
+            "verified": true,
+            "text": "Amazing experience.",
+            "author": "John D."
+          }
+        }
+      },
+      "block_order": [
+        "review_hBArmt",
+        "review_hFUffE",
+        "review_JYGQK6"
+      ],
+      "name": "Hero Pro 9",
+      "settings": {
+        "heading": "Excellent",
+        "subheading": "<p>Based on real customer reviews</p>",
         "section_spacing": 48,
         "content_max_width": 840,
         "desktop_card_width": 280,
@@ -627,6 +689,7 @@
     "press",
     "hot-spots",
     "video_trust_header_9Dpg7U",
-    "hero_pro_9_MdiWWA"
+    "hero_pro_9_MdiWWA",
+    "hero_pro_9_XRQPJw"
   ]
 }
