@@ -7,96 +7,53 @@
   --hp9-card-w-mobile: {{ section.settings.mobile_card_width }}px;
 }
 
-#shopify-section-{{ section.id }} .hp9 {
-  padding-block: {{ section.settings.section_spacing }}px;
-}
+#shopify-section-{{ section.id }} .hp9 { padding-block: {{ section.settings.section_spacing }}px; }
 
-#shopify-section-{{ section.id }} .hp9__inner {
-  display: grid;
-  gap: 28px;
-}
+#shopify-section-{{ section.id }} .hp9__inner { display:grid; gap:28px; }
 
-@media (min-width: 900px) {
-  #shopify-section-{{ section.id }} .hp9__inner {
-    grid-template-columns: 1.1fr 0.9fr;
-    align-items: center;
+@media (min-width:900px){
+  #shopify-section-{{ section.id }} .hp9__inner{
+    grid-template-columns:1.1fr .9fr; align-items:center;
   }
 }
 
-#shopify-section-{{ section.id }} .hp9__heading {
-  font-size: clamp(28px, 4vw, 44px);
-  margin-bottom: 10px;
+#shopify-section-{{ section.id }} .hp9__heading{
+  font-size:clamp(28px,4vw,44px); margin-bottom:8px;
 }
 
-#shopify-section-{{ section.id }} .hp9__sub {
-  font-size: 15px;
-  opacity: .7;
-}
+#shopify-section-{{ section.id }} .hp9__sub{ font-size:15px; opacity:.7; }
 
-#shopify-section-{{ section.id }} .hp9__rating {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-top:14px;
-  font-size:14px;
-}
+/* Trustpilot stars */
+.tp-stars{display:flex;gap:3px}
+.tp-star{width:18px;height:18px;background:#00b67a;display:flex;align-items:center;justify-content:center}
+.tp-star svg{width:12px;height:12px;fill:#fff}
 
-#shopify-section-{{ section.id }} .hp9__stars {
-  display:flex; gap:3px;
-}
+.hp9__rating{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:14px}
 
-#shopify-section-{{ section.id }} .hp9__star {
-  width:14px;height:14px;background:#00b67a;border-radius:2px;
-}
+.hp9__slider{display:flex;gap:var(--hp9-gap);overflow-x:auto;scroll-snap-type:x mandatory}
 
-#shopify-section-{{ section.id }} .hp9__slider-wrap {
-  position:relative;
-}
-
-#shopify-section-{{ section.id }} .hp9__slider {
-  display:flex;
-  gap:var(--hp9-gap);
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-}
-
-#shopify-section-{{ section.id }} .hp9__card {
+.hp9__card{
   flex:0 0 var(--hp9-card-w-mobile);
   scroll-snap-align:start;
   background:#fff;
-  border-radius:12px;
-  padding:14px;
-  box-shadow:0 4px 14px rgba(0,0,0,.05);
+  border-radius:10px;
+  padding:16px;
+  border:1px solid #e6e6e6;
 }
 
-@media (min-width:900px){
-  #shopify-section-{{ section.id }} .hp9__card{
-    flex-basis:var(--hp9-card-w-desktop);
-  }
+@media(min-width:900px){
+  .hp9__card{flex-basis:var(--hp9-card-w-desktop)}
 }
 
-#shopify-section-{{ section.id }} .hp9__text{
-  font-size:14px; line-height:1.5; margin-bottom:10px;
-}
+.hp9__card-title{font-weight:600;margin:6px 0}
+.hp9__meta{font-size:12px;opacity:.6;margin-bottom:6px}
+.hp9__verified{color:#00b67a;font-size:12px;font-weight:600}
+.hp9__text{font-size:14px;line-height:1.5;margin:8px 0}
+.hp9__author{font-size:13px;opacity:.8}
 
-#shopify-section-{{ section.id }} .hp9__author{
-  font-size:13px; opacity:.7;
-}
-
-#shopify-section-{{ section.id }} .hp9__nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:32px;height:32px;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;
-}
-
-#shopify-section-{{ section.id }} .hp9__nav--prev{left:-10px}
-#shopify-section-{{ section.id }} .hp9__nav--next{right:-10px}
+.hp9__nav{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:#fff;border:1px solid #ddd;display:flex;align-items:center;justify-content:center}
+.hp9__nav--prev{left:-10px}
+.hp9__nav--next{right:-10px}
 
 </style>
 
@@ -107,29 +64,42 @@
 
         <div>
           <h2 class="hp9__heading">{{ section.settings.heading }}</h2>
-          <div class="hp9__sub rte">{{ section.settings.subheading }}</div>
+          {%- if section.settings.subheading != blank -%}
+            <div class="hp9__sub rte">{{ section.settings.subheading }}</div>
+          {%- endif -%}
 
           <div class="hp9__rating">
-            <div class="hp9__stars">
+            <div class="tp-stars">
               {% for i in (1..5) %}
-                <span class="hp9__star"></span>
+                <div class="tp-star">
+                  <svg viewBox="0 0 20 20"><path d="M10 15l-5 3 1-6-4-4 6-1 2-5 2 5 6 1-4 4 1 6z"/></svg>
+                </div>
               {% endfor %}
             </div>
-            <span>4.8 / 5 • 2,000+ reviews</span>
+            <span>TrustScore 4.8 | 2,000+ reviews</span>
           </div>
         </div>
 
-        <div class="hp9__slider-wrap">
+        <div style="position:relative">
           <button class="hp9__nav hp9__nav--prev" data-prev>‹</button>
           <div class="hp9__slider" data-slider>
             {% for block in section.blocks %}
               <div class="hp9__card" {{ block.shopify_attributes }}>
 
-                <div class="hp9__stars">
+                <div class="tp-stars">
                   {% for i in (1..5) %}
-                    <span class="hp9__star" style="opacity:{% if i <= block.settings.rating %}1{% else %}.2{% endif %}"></span>
+                    <div class="tp-star" style="opacity:{% if i <= block.settings.rating %}1{% else %}.2{% endif %}">
+                      <svg viewBox="0 0 20 20"><path d="M10 15l-5 3 1-6-4-4 6-1 2-5 2 5 6 1-4 4 1 6z"/></svg>
+                    </div>
                   {% endfor %}
                 </div>
+
+                <div class="hp9__card-title">{{ block.settings.title }}</div>
+                <div class="hp9__meta">{{ block.settings.date }}</div>
+
+                {% if block.settings.verified %}
+                  <div class="hp9__verified">✔ Verified</div>
+                {% endif %}
 
                 <div class="hp9__text">{{ block.settings.text }}</div>
                 <div class="hp9__author">{{ block.settings.author }}</div>
@@ -168,8 +138,8 @@
 {
   "name": "Hero Pro 9",
   "settings": [
-    {"type":"text","id":"heading","label":"Heading","default":"Trusted by thousands"},
-    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Real reviews from real customers</p>"},
+    {"type":"text","id":"heading","label":"Heading","default":"Excellent"},
+    {"type":"richtext","id":"subheading","label":"Subheading","default":"<p>Based on real customer reviews</p>"},
     {"type":"range","id":"section_spacing","label":"Spacing","min":0,"max":80,"step":4,"default":48},
     {"type":"range","id":"content_max_width","label":"Content width","min":600,"max":1200,"step":20,"default":840},
     {"type":"range","id":"desktop_card_width","label":"Desktop card width","min":220,"max":360,"step":4,"default":280},
@@ -182,7 +152,10 @@
       "name": "Review",
       "settings": [
         {"type":"range","id":"rating","label":"Rating","min":1,"max":5,"step":1,"default":5},
-        {"type":"textarea","id":"text","label":"Text","default":"Amazing product, would recommend."},
+        {"type":"text","id":"title","label":"Title","default":"Great service"},
+        {"type":"text","id":"date","label":"Date","default":"2 days ago"},
+        {"type":"checkbox","id":"verified","label":"Verified","default":true},
+        {"type":"textarea","id":"text","label":"Text","default":"Amazing experience."},
         {"type":"text","id":"author","label":"Author","default":"John D."}
       ]
     }
