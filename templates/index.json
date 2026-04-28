@@ -568,6 +568,50 @@
         "button_label": "Shop nu",
         "button_link": ""
       }
+    },
+    "hero_pro_9_MdiWWA": {
+      "type": "hero-pro-9",
+      "blocks": {
+        "review_hBx4zK": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Amazing product, would recommend.",
+            "author": "John D."
+          }
+        },
+        "review_RepwDg": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Amazing product, would recommend.",
+            "author": "John D."
+          }
+        },
+        "review_fjx3VK": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Amazing product, would recommend.",
+            "author": "John D."
+          }
+        }
+      },
+      "block_order": [
+        "review_hBx4zK",
+        "review_RepwDg",
+        "review_fjx3VK"
+      ],
+      "name": "Hero Pro 9",
+      "settings": {
+        "heading": "Trusted by thousands",
+        "subheading": "<p>Real reviews from real customers</p>",
+        "section_spacing": 48,
+        "content_max_width": 840,
+        "desktop_card_width": 280,
+        "mobile_card_width": 260,
+        "card_gap": 16
+      }
     }
   },
   "order": [
@@ -582,6 +626,7 @@
     "before-after-image",
     "press",
     "hot-spots",
-    "video_trust_header_9Dpg7U"
+    "video_trust_header_9Dpg7U",
+    "hero_pro_9_MdiWWA"
   ]
 }
