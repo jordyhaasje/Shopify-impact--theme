@@ -1,0 +1,436 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --section-outer-spacing-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px;
+    --csp-background: {{ section.settings.background }};
+    --csp-text: {{ section.settings.text_color }};
+    --csp-muted: {{ section.settings.muted_text_color }};
+    --csp-card-background: {{ section.settings.card_background }};
+    --csp-card-border: {{ section.settings.card_border }};
+    --csp-facebook-background: {{ section.settings.facebook_bubble_background }};
+    --csp-max-width: {{ section.settings.content_width }}px;
+    --csp-card-width: {{ section.settings.card_width }}px;
+    --csp-facebook-width: {{ section.settings.facebook_width }}px;
+    --csp-avatar-size: {{ section.settings.avatar_size }}px;
+    --csp-card-radius: {{ section.settings.card_radius }}px;
+    --csp-shadow-opacity: {{ section.settings.shadow_opacity | divided_by: 100.0 }};
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof {
+    background: var(--csp-background);
+    color: var(--csp-text);
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__inner {
+    width: min(var(--csp-max-width), calc(100vw - 40px));
+    margin-inline: auto;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__heading {
+    margin: 0;
+    text-align: center;
+    color: var(--csp-text);
+    font-size: clamp({{ section.settings.heading_size_mobile }}px, 4.2vw, {{ section.settings.heading_size }}px);
+    line-height: 1.08;
+    letter-spacing: {{ section.settings.heading_letter_spacing | divided_by: 100.0 }}em;
+    font-weight: 800;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__subheading {
+    margin: 16px auto 0;
+    text-align: center;
+    color: var(--csp-muted);
+    font-size: clamp({{ section.settings.subheading_size_mobile }}px, 2.6vw, {{ section.settings.subheading_size }}px);
+    line-height: 1.28;
+    letter-spacing: {{ section.settings.subheading_letter_spacing | divided_by: 100.0 }}em;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__feed {
+    margin-top: {{ section.settings.cards_margin_top }}px;
+    display: grid;
+    gap: {{ section.settings.card_gap }}px;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__card {
+    position: relative;
+    width: 100%;
+    margin-inline: auto;
+    color: var(--csp-text);
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__card--instagram,
+  #shopify-section-{{ section.id }} .customer-social-proof__card--comment {
+    max-width: var(--csp-card-width);
+    display: grid;
+    grid-template-columns: var(--csp-avatar-size) minmax(0, 1fr) auto;
+    column-gap: 22px;
+    align-items: start;
+    padding: {{ section.settings.card_padding }}px;
+    border: 1px solid var(--csp-card-border);
+    border-radius: var(--csp-card-radius);
+    background: var(--csp-card-background);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, var(--csp-shadow-opacity));
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__card--facebook {
+    max-width: var(--csp-facebook-width);
+    display: grid;
+    grid-template-columns: var(--csp-avatar-size) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__avatar,
+  #shopify-section-{{ section.id }} .customer-social-proof__avatar-placeholder {
+    width: var(--csp-avatar-size);
+    height: var(--csp-avatar-size);
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    overflow: hidden;
+    flex: 0 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__avatar-placeholder {
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(135deg, #26262b, #aaa);
+    font-size: calc(var(--csp-avatar-size) * .38);
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__main { min-width: 0; }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__username {
+    color: var(--csp-text);
+    font-size: {{ section.settings.username_size }}px;
+    line-height: 1.15;
+    letter-spacing: .035em;
+    font-weight: 400;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__verified {
+    width: 20px;
+    height: 20px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #22cfe3;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__inline-meta {
+    color: var(--csp-muted);
+    font-size: {{ section.settings.meta_size }}px;
+    letter-spacing: .04em;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__author-heart {
+    color: #f43f58;
+    font-size: 21px;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__body {
+    margin: 10px 0 0;
+    color: var(--csp-text);
+    font-size: {{ section.settings.review_size }}px;
+    line-height: 1.34;
+    letter-spacing: .035em;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__meta {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--csp-muted);
+    font-size: {{ section.settings.meta_size }}px;
+    line-height: 1;
+    letter-spacing: .035em;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__meta strong {
+    color: #8b8b90;
+    font-weight: 800;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__like-side {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #96969b;
+    font-size: {{ section.settings.meta_size }}px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__heart-outline {
+    font-size: 30px;
+    line-height: .9;
+    font-weight: 300;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__fb-bubble {
+    position: relative;
+    background: var(--csp-facebook-background);
+    border-radius: 13px 34px 34px 34px;
+    padding: 21px 28px 25px;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__fb-name {
+    margin-bottom: 9px;
+    font-size: {{ section.settings.facebook_name_size }}px;
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: .01em;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__fb-text {
+    font-size: {{ section.settings.facebook_text_size }}px;
+    line-height: 1.24;
+    letter-spacing: .01em;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__fb-actions {
+    grid-column: 2;
+    display: flex;
+    gap: 22px;
+    margin-top: -3px;
+    color: #6f7077;
+    font-size: {{ section.settings.facebook_action_size }}px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__reactions {
+    position: absolute;
+    right: 24px;
+    bottom: -16px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 11px 4px 5px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, .18);
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .customer-social-proof__reaction-count {
+    margin-left: 5px;
+    color: #666;
+    font-size: {{ section.settings.facebook_action_size }}px;
+  }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} {
+      --section-outer-spacing-block: {{ section.settings.padding_top_mobile }}px {{ section.settings.padding_bottom_mobile }}px;
+      --csp-avatar-size: {{ section.settings.avatar_size_mobile }}px;
+    }
+
+    #shopify-section-{{ section.id }} .customer-social-proof__inner { width: min(var(--csp-max-width), calc(100vw - 28px)); }
+    #shopify-section-{{ section.id }} .customer-social-proof__subheading { margin-top: 12px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__feed { margin-top: {{ section.settings.cards_margin_top_mobile }}px; gap: {{ section.settings.card_gap_mobile }}px; }
+
+    #shopify-section-{{ section.id }} .customer-social-proof__card--instagram,
+    #shopify-section-{{ section.id }} .customer-social-proof__card--comment {
+      grid-template-columns: var(--csp-avatar-size) minmax(0, 1fr) auto;
+      column-gap: 12px;
+      padding: 18px;
+      border-radius: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .customer-social-proof__username { font-size: {{ section.settings.username_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__body { font-size: {{ section.settings.review_size_mobile }}px; line-height: 1.32; }
+    #shopify-section-{{ section.id }} .customer-social-proof__meta,
+    #shopify-section-{{ section.id }} .customer-social-proof__inline-meta,
+    #shopify-section-{{ section.id }} .customer-social-proof__like-side { font-size: {{ section.settings.meta_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__heart-outline { font-size: 24px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__card--facebook { gap: 12px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__fb-bubble { padding: 16px 18px 22px; border-radius: 12px 27px 27px 27px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__fb-name { font-size: {{ section.settings.facebook_name_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__fb-text { font-size: {{ section.settings.facebook_text_size_mobile }}px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__fb-actions { font-size: {{ section.settings.facebook_action_size_mobile }}px; gap: 16px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__reactions { right: 16px; font-size: 16px; }
+    #shopify-section-{{ section.id }} .customer-social-proof__reaction-count { font-size: {{ section.settings.facebook_action_size_mobile }}px; }
+  }
+</style>
+
+<div class="section section-full customer-social-proof">
+  <div class="customer-social-proof__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="customer-social-proof__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="customer-social-proof__subheading">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+
+    <div class="customer-social-proof__feed">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign style = block.settings.style
+          assign fallback_name = block.settings.username | default: block.settings.display_name
+          assign initial = fallback_name | slice: 0, 1 | upcase
+        -%}
+
+        <article class="customer-social-proof__card customer-social-proof__card--{{ style }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.avatar != blank -%}
+            {{ block.settings.avatar | image_url: width: 160 | image_tag: loading: 'lazy', widths: '48,60,72,96,120,160', class: 'customer-social-proof__avatar', alt: fallback_name }}
+          {%- else -%}
+            <span class="customer-social-proof__avatar-placeholder" aria-hidden="true">{{ initial }}</span>
+          {%- endif -%}
+
+          {%- if style == 'facebook' -%}
+            <div class="customer-social-proof__main">
+              <div class="customer-social-proof__fb-bubble">
+                <div class="customer-social-proof__fb-name">{{ block.settings.display_name | default: block.settings.username | escape }}</div>
+                <div class="customer-social-proof__fb-text">{{ block.settings.review | escape }}</div>
+                {%- if block.settings.show_reactions -%}
+                  <div class="customer-social-proof__reactions" aria-label="{{ block.settings.reaction_count | escape }} reactions">
+                    <span aria-hidden="true">👍</span><span aria-hidden="true">❤</span><span aria-hidden="true">🥰</span>
+                    <span class="customer-social-proof__reaction-count">{{ block.settings.reaction_count }}</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="customer-social-proof__fb-actions">
+              {%- if block.settings.facebook_action_one != blank -%}<span>{{ block.settings.facebook_action_one }}</span>{%- endif -%}
+              {%- if block.settings.facebook_action_two != blank -%}<span>{{ block.settings.facebook_action_two }}</span>{%- endif -%}
+              {%- if block.settings.time_ago != blank -%}<span>{{ block.settings.time_ago }}</span>{%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="customer-social-proof__main">
+              <div class="customer-social-proof__name-row">
+                <span class="customer-social-proof__username">{{ block.settings.username | escape }}</span>
+                {%- if block.settings.show_verified -%}<span class="customer-social-proof__verified">✓</span>{%- endif -%}
+                {%- if block.settings.show_time_inline and block.settings.time_ago != blank -%}<span class="customer-social-proof__inline-meta">{{ block.settings.time_ago }}</span>{%- endif -%}
+                {%- if block.settings.show_author_like -%}<span class="customer-social-proof__author-heart">♥</span><span class="customer-social-proof__inline-meta">{{ block.settings.author_text }}</span>{%- endif -%}
+              </div>
+
+              {%- if block.settings.review != blank -%}<p class="customer-social-proof__body">{{ block.settings.review | escape }}</p>{%- endif -%}
+
+              <div class="customer-social-proof__meta">
+                {%- if block.settings.meta_left != blank -%}<span>{{ block.settings.meta_left }}</span>{%- endif -%}
+                {%- if block.settings.meta_right != blank -%}<strong>{{ block.settings.meta_right }}</strong>{%- endif -%}
+              </div>
+            </div>
+
+            <div class="customer-social-proof__like-side" aria-hidden="true">
+              {%- if block.settings.show_side_heart -%}<span class="customer-social-proof__heart-outline">♡</span>{%- endif -%}
+              {%- if block.settings.likes != blank -%}<span>{{ block.settings.likes }}</span>{%- endif -%}
+            </div>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "What customers say",
+  "class": "shopify-section--customer-social-proof",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What Our Customers Say" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Real reviews from real customers" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "content_width", "label": "Content width", "min": 720, "max": 1120, "step": 20, "unit": "px", "default": 1040 },
+    { "type": "range", "id": "card_width", "label": "Instagram card width", "min": 600, "max": 1040, "step": 20, "unit": "px", "default": 960 },
+    { "type": "range", "id": "facebook_width", "label": "Facebook card width", "min": 520, "max": 900, "step": 20, "unit": "px", "default": 800 },
+    { "type": "range", "id": "cards_margin_top", "label": "Cards top spacing", "min": 20, "max": 100, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "cards_margin_top_mobile", "label": "Cards top spacing mobile", "min": 16, "max": 64, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "card_gap", "label": "Card gap", "min": 16, "max": 36, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "card_gap_mobile", "label": "Card gap mobile", "min": 12, "max": 20, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "card_padding", "label": "Instagram card padding", "min": 16, "max": 28, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "card_radius", "label": "Card border radius", "min": 8, "max": 30, "step": 2, "unit": "px", "default": 18 },
+    { "type": "range", "id": "avatar_size", "label": "Avatar size", "min": 44, "max": 80, "step": 2, "unit": "px", "default": 68 },
+    { "type": "range", "id": "avatar_size_mobile", "label": "Avatar size mobile", "min": 36, "max": 60, "step": 2, "unit": "px", "default": 46 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 76 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top mobile", "min": 0, "max": 88, "step": 4, "unit": "px", "default": 28 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom mobile", "min": 0, "max": 108, "step": 4, "unit": "px", "default": 56 },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 28, "max": 52, "step": 1, "unit": "px", "default": 46 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size mobile", "min": 24, "max": 38, "step": 1, "unit": "px", "default": 32 },
+    { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": 0, "max": 12, "step": 1, "default": 5 },
+    { "type": "range", "id": "subheading_size", "label": "Subheading size", "min": 18, "max": 32, "step": 1, "unit": "px", "default": 28 },
+    { "type": "range", "id": "subheading_size_mobile", "label": "Subheading size mobile", "min": 16, "max": 24, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "subheading_letter_spacing", "label": "Subheading letter spacing", "min": 0, "max": 14, "step": 1, "default": 8 },
+    { "type": "range", "id": "username_size", "label": "Username size", "min": 18, "max": 32, "step": 1, "unit": "px", "default": 30 },
+    { "type": "range", "id": "username_size_mobile", "label": "Username size mobile", "min": 16, "max": 24, "step": 1, "unit": "px", "default": 21 },
+    { "type": "range", "id": "review_size", "label": "Review text size", "min": 18, "max": 32, "step": 1, "unit": "px", "default": 31 },
+    { "type": "range", "id": "review_size_mobile", "label": "Review text size mobile", "min": 16, "max": 24, "step": 1, "unit": "px", "default": 21 },
+    { "type": "range", "id": "meta_size", "label": "Meta text size", "min": 14, "max": 24, "step": 1, "unit": "px", "default": 22 },
+    { "type": "range", "id": "meta_size_mobile", "label": "Meta text size mobile", "min": 13, "max": 19, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "facebook_name_size", "label": "Facebook name size", "min": 18, "max": 30, "step": 1, "unit": "px", "default": 27 },
+    { "type": "range", "id": "facebook_name_size_mobile", "label": "Facebook name size mobile", "min": 16, "max": 23, "step": 1, "unit": "px", "default": 21 },
+    { "type": "range", "id": "facebook_text_size", "label": "Facebook text size", "min": 18, "max": 32, "step": 1, "unit": "px", "default": 30 },
+    { "type": "range", "id": "facebook_text_size_mobile", "label": "Facebook text size mobile", "min": 16, "max": 24, "step": 1, "unit": "px", "default": 21 },
+    { "type": "range", "id": "facebook_action_size", "label": "Facebook action size", "min": 14, "max": 24, "step": 1, "unit": "px", "default": 22 },
+    { "type": "range", "id": "facebook_action_size_mobile", "label": "Facebook action size mobile", "min": 13, "max": 19, "step": 1, "unit": "px", "default": 17 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#242428" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text", "default": "#96969b" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "card_border", "label": "Card border", "default": "#eeeeee" },
+    { "type": "color", "id": "facebook_bubble_background", "label": "Facebook bubble background", "default": "#f0f1f6" },
+    { "type": "range", "id": "shadow_opacity", "label": "Card shadow opacity", "min": 0, "max": 20, "step": 1, "unit": "%", "default": 8 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "select", "id": "style", "label": "Card style", "options": [ { "value": "instagram", "label": "Instagram post" }, { "value": "comment", "label": "Instagram comment" }, { "value": "facebook", "label": "Facebook comment" } ], "default": "instagram" },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+        { "type": "text", "id": "username", "label": "Username", "default": "megan_rose" },
+        { "type": "text", "id": "display_name", "label": "Facebook display name", "default": "Amanda Emerson" },
+        { "type": "textarea", "id": "review", "label": "Review text", "default": "Absolutely love the quality and attention to detail. This product has become part of my daily routine." },
+        { "type": "checkbox", "id": "show_verified", "label": "Show verified badge", "default": true },
+        { "type": "checkbox", "id": "show_time_inline", "label": "Show time inline", "default": false },
+        { "type": "text", "id": "time_ago", "label": "Time ago", "default": "5d ago" },
+        { "type": "checkbox", "id": "show_author_like", "label": "Show author like", "default": false },
+        { "type": "text", "id": "author_text", "label": "Author text", "default": "by author" },
+        { "type": "checkbox", "id": "show_side_heart", "label": "Show side heart", "default": true },
+        { "type": "text", "id": "likes", "label": "Likes", "default": "2.8K" },
+        { "type": "text", "id": "meta_left", "label": "Meta left", "default": "5d ago" },
+        { "type": "text", "id": "meta_right", "label": "Meta right", "default": "Reply" },
+        { "type": "text", "id": "facebook_action_one", "label": "Facebook action 1", "default": "Like" },
+        { "type": "text", "id": "facebook_action_two", "label": "Facebook action 2", "default": "Reply" },
+        { "type": "checkbox", "id": "show_reactions", "label": "Show Facebook reactions", "default": true },
+        { "type": "text", "id": "reaction_count", "label": "Reaction count", "default": "47" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "What customers say",
+      "blocks": [
+        { "type": "review", "settings": { "style": "instagram", "username": "megan_rose", "show_verified": true, "time_ago": "5d ago", "likes": "2.8K", "meta_left": "5d ago", "meta_right": "Reply" } },
+        { "type": "review", "settings": { "style": "comment", "username": "brooke.burnett", "show_verified": false, "show_time_inline": true, "show_author_like": true, "time_ago": "1w", "likes": "", "meta_left": "156 likes", "meta_right": "Reply" } },
+        { "type": "review", "settings": { "style": "facebook", "username": "Amanda Emerson", "display_name": "Amanda Emerson", "time_ago": "3d", "reaction_count": "47" } },
+        { "type": "review", "settings": { "style": "comment", "username": "brooke.burnett", "show_verified": false, "show_time_inline": true, "show_author_like": true, "time_ago": "1w", "likes": "", "meta_left": "156 likes", "meta_right": "Reply" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
