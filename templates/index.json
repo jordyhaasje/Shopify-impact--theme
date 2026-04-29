@@ -674,6 +674,90 @@
         "mobile_card_width": 260,
         "card_gap": 16
       }
+    },
+    "instagram_social_cards_8q9XxJ": {
+      "type": "instagram-social-cards",
+      "blocks": {
+        "post_TyRfV4": {
+          "type": "post",
+          "settings": {
+            "username": "",
+            "verified": true,
+            "location": "Amsterdam, Netherlands",
+            "media_badge": "1/3",
+            "show_carousel_dots": true,
+            "likes": "2,847",
+            "caption": "New drop just landed. Tap to shop your favorite style.",
+            "comments": "128",
+            "timestamp": "2 hours ago"
+          }
+        },
+        "post_DnQPzq": {
+          "type": "post",
+          "settings": {
+            "username": "",
+            "verified": true,
+            "location": "Amsterdam, Netherlands",
+            "media_badge": "1/3",
+            "show_carousel_dots": true,
+            "likes": "1,932",
+            "caption": "Behind the scenes from our latest shoot.",
+            "comments": "76",
+            "timestamp": "1 day ago"
+          }
+        },
+        "post_BDEk79": {
+          "type": "post",
+          "settings": {
+            "username": "",
+            "verified": true,
+            "location": "Amsterdam, Netherlands",
+            "media_badge": "1/3",
+            "show_carousel_dots": true,
+            "likes": "4,210",
+            "caption": "Customer favorite of the week. Which color would you pick?",
+            "comments": "211",
+            "timestamp": "3 days ago"
+          }
+        }
+      },
+      "block_order": [
+        "post_TyRfV4",
+        "post_DnQPzq",
+        "post_BDEk79"
+      ],
+      "name": "Instagram social cards",
+      "settings": {
+        "eyebrow": "Follow us",
+        "heading": "Latest on Instagram",
+        "subheading": "Shop the latest looks and see what we are posting on socials.",
+        "default_username": "yourbrand",
+        "default_avatar": "shopify://shop_images/5_3cb3b2a7-32df-4e34-89a7-6914c5474be3.jpg",
+        "content_width": 1120,
+        "card_width": 330,
+        "card_gap": 20,
+        "card_gap_mobile": 16,
+        "card_radius": 14,
+        "media_ratio": "1 / 1",
+        "show_arrows": true,
+        "show_menu": false,
+        "show_like_icon": true,
+        "show_comment_icon": true,
+        "show_share_icon": true,
+        "show_save_icon": true,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48,
+        "heading_size": 44,
+        "subheading_size": 16,
+        "background": "#ffffff",
+        "text_color": "#111111",
+        "muted_text_color": "#737373",
+        "card_background": "#ffffff",
+        "border_color": "#dbdbdb",
+        "accent_color": "#d62976"
+      }
     }
   },
   "order": [
@@ -690,6 +774,7 @@
     "hot-spots",
     "video_trust_header_9Dpg7U",
     "hero_pro_9_MdiWWA",
-    "hero_pro_9_XRQPJw"
+    "hero_pro_9_XRQPJw",
+    "instagram_social_cards_8q9XxJ"
   ]
 }
