@@ -1,0 +1,364 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --section-outer-spacing-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px;
+    --ig-bg: {{ section.settings.background }};
+    --ig-text: {{ section.settings.text_color }};
+    --ig-muted: {{ section.settings.muted_text_color }};
+    --ig-card-bg: {{ section.settings.card_background }};
+    --ig-border: {{ section.settings.border_color }};
+    --ig-accent: {{ section.settings.accent_color }};
+    --ig-max-width: {{ section.settings.content_width }}px;
+    --ig-card-width: {{ section.settings.card_width }}px;
+    --ig-radius: {{ section.settings.card_radius }}px;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards {
+    background: var(--ig-bg);
+    color: var(--ig-text);
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__inner {
+    width: min(var(--ig-max-width), calc(100vw - 40px));
+    margin-inline: auto;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    margin-bottom: 30px;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__eyebrow {
+    margin: 0 0 8px;
+    color: var(--ig-accent);
+    font-size: 13px;
+    line-height: 1;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__heading {
+    margin: 0;
+    font-size: clamp(28px, 4vw, {{ section.settings.heading_size }}px);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -.03em;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__subheading {
+    max-width: 560px;
+    margin: 10px 0 0;
+    color: var(--ig-muted);
+    font-size: {{ section.settings.subheading_size }}px;
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__controls {
+    display: flex;
+    gap: 10px;
+    flex: 0 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__button {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--ig-border);
+    background: var(--ig-card-bg);
+    color: var(--ig-text);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__button:hover { transform: translateY(-1px); }
+  #shopify-section-{{ section.id }} .instagram-social-cards__button[disabled] { opacity: .35; cursor: default; transform: none; }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(280px, var(--ig-card-width));
+    gap: {{ section.settings.card_gap }}px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    padding: 2px 2px 16px;
+    scrollbar-width: none;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__track::-webkit-scrollbar { display: none; }
+
+  #shopify-section-{{ section.id }} .instagram-card {
+    scroll-snap-align: start;
+    background: var(--ig-card-bg);
+    border: 1px solid var(--ig-border);
+    border-radius: var(--ig-radius);
+    overflow: hidden;
+    color: var(--ig-text);
+    box-shadow: 0 8px 24px rgba(0,0,0,.07);
+  }
+
+  #shopify-section-{{ section.id }} .instagram-card__top {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 14px;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-card__avatar,
+  #shopify-section-{{ section.id }} .instagram-card__avatar-fallback {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(135deg,#feda75,#d62976,#962fbf,#4f5bd5);
+    padding: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-card__avatar img { border-radius: 50%; }
+  #shopify-section-{{ section.id }} .instagram-card__avatar-fallback { display:grid;place-items:center;color:#fff;font-weight:800;padding:0; }
+
+  #shopify-section-{{ section.id }} .instagram-card__account { min-width: 0; flex: 1 1 auto; }
+  #shopify-section-{{ section.id }} .instagram-card__name-line { display:flex;align-items:center;gap:5px;min-width:0; }
+  #shopify-section-{{ section.id }} .instagram-card__username { font-size: 14px; line-height: 1.1; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #shopify-section-{{ section.id }} .instagram-card__verified { width: 15px;height:15px;border-radius:50%;background:#1da1f2;color:white;display:grid;place-items:center;font-size:9px;font-weight:900;flex:0 0 auto; }
+  #shopify-section-{{ section.id }} .instagram-card__location { margin-top: 3px; font-size: 11px; color: var(--ig-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #shopify-section-{{ section.id }} .instagram-card__menu { font-size: 24px; line-height: 1; letter-spacing: -3px; }
+
+  #shopify-section-{{ section.id }} .instagram-card__media {
+    position: relative;
+    aspect-ratio: {{ section.settings.media_ratio }};
+    background: #f3f3f3;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-card__media img { width:100%;height:100%;object-fit:cover;display:block; }
+  #shopify-section-{{ section.id }} .instagram-card__media-placeholder { width:100%;height:100%;display:grid;place-items:center;background:linear-gradient(135deg,#ececec,#fafafa);color:#999;font-size:13px; }
+
+  #shopify-section-{{ section.id }} .instagram-card__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0,0,0,.62);
+    color: white;
+    border-radius: 999px;
+    padding: 5px 9px;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-card__dots {
+    position:absolute;
+    left:50%;
+    bottom:10px;
+    transform:translateX(-50%);
+    display:flex;
+    gap:5px;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-card__dot { width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55); }
+  #shopify-section-{{ section.id }} .instagram-card__dot:first-child { background:#0095f6; }
+
+  #shopify-section-{{ section.id }} .instagram-card__body { padding: 11px 14px 14px; }
+  #shopify-section-{{ section.id }} .instagram-card__actions { display:flex;align-items:center;justify-content:space-between;margin-bottom:10px; }
+  #shopify-section-{{ section.id }} .instagram-card__action-left { display:flex;gap:14px;align-items:center; }
+  #shopify-section-{{ section.id }} .instagram-card__icon { width:23px;height:23px;display:block; }
+  #shopify-section-{{ section.id }} .instagram-card__likes { font-size: 14px; font-weight: 800; margin-bottom: 7px; }
+  #shopify-section-{{ section.id }} .instagram-card__caption { font-size: 14px; line-height: 1.42; margin: 0; }
+  #shopify-section-{{ section.id }} .instagram-card__caption strong { font-weight: 800; }
+  #shopify-section-{{ section.id }} .instagram-card__comments { margin-top: 7px; color: var(--ig-muted); font-size: 14px; }
+  #shopify-section-{{ section.id }} .instagram-card__time { margin-top: 9px; color: var(--ig-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} { --section-outer-spacing-block: {{ section.settings.padding_top_mobile }}px {{ section.settings.padding_bottom_mobile }}px; }
+    #shopify-section-{{ section.id }} .instagram-social-cards__inner { width: min(var(--ig-max-width), calc(100vw - 28px)); }
+    #shopify-section-{{ section.id }} .instagram-social-cards__header { display:block;margin-bottom:22px; }
+    #shopify-section-{{ section.id }} .instagram-social-cards__controls { margin-top:18px; }
+    #shopify-section-{{ section.id }} .instagram-social-cards__track { grid-auto-columns: minmax(280px, 86vw); gap: {{ section.settings.card_gap_mobile }}px; }
+  }
+</style>
+
+<div class="section section-full instagram-social-cards" data-instagram-social-cards="{{ section.id }}">
+  <div class="instagram-social-cards__inner">
+    <div class="instagram-social-cards__header">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="instagram-social-cards__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="instagram-social-cards__heading">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<p class="instagram-social-cards__subheading">{{ section.settings.subheading | escape }}</p>{%- endif -%}
+      </div>
+      {%- if section.settings.show_arrows -%}
+        <div class="instagram-social-cards__controls">
+          <button class="instagram-social-cards__button" type="button" data-ig-prev aria-label="Previous Instagram post">‹</button>
+          <button class="instagram-social-cards__button" type="button" data-ig-next aria-label="Next Instagram post">›</button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="instagram-social-cards__track" data-ig-track>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign username = block.settings.username | default: section.settings.default_username
+          assign initial = username | slice: 0, 1 | upcase
+        -%}
+        <article class="instagram-card" {{ block.shopify_attributes }}>
+          <div class="instagram-card__top">
+            {%- if block.settings.avatar != blank -%}
+              <span class="instagram-card__avatar">{{ block.settings.avatar | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,60,80', alt: username }}</span>
+            {%- elsif section.settings.default_avatar != blank -%}
+              <span class="instagram-card__avatar">{{ section.settings.default_avatar | image_url: width: 80 | image_tag: loading: 'lazy', widths: '40,60,80', alt: username }}</span>
+            {%- else -%}
+              <span class="instagram-card__avatar-fallback">{{ initial }}</span>
+            {%- endif -%}
+            <div class="instagram-card__account">
+              <div class="instagram-card__name-line">
+                <span class="instagram-card__username">{{ username | escape }}</span>
+                {%- if block.settings.verified -%}<span class="instagram-card__verified">✓</span>{%- endif -%}
+              </div>
+              {%- if block.settings.location != blank -%}<div class="instagram-card__location">{{ block.settings.location | escape }}</div>{%- endif -%}
+            </div>
+            {%- if section.settings.show_menu -%}<div class="instagram-card__menu" aria-hidden="true">•••</div>{%- endif -%}
+          </div>
+
+          <div class="instagram-card__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320,420,560,700,900', alt: block.settings.caption }}
+            {%- else -%}
+              <div class="instagram-card__media-placeholder">Upload social image</div>
+            {%- endif -%}
+            {%- if block.settings.media_badge != blank -%}<span class="instagram-card__badge">{{ block.settings.media_badge | escape }}</span>{%- endif -%}
+            {%- if block.settings.show_carousel_dots -%}<div class="instagram-card__dots" aria-hidden="true"><span class="instagram-card__dot"></span><span class="instagram-card__dot"></span><span class="instagram-card__dot"></span></div>{%- endif -%}
+          </div>
+
+          <div class="instagram-card__body">
+            <div class="instagram-card__actions">
+              <div class="instagram-card__action-left">
+                {%- if section.settings.show_like_icon -%}<svg class="instagram-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>{%- endif -%}
+                {%- if section.settings.show_comment_icon -%}<svg class="instagram-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.8 8.8 0 0 1-3.8-.9L3 20l1.1-4.7A8.2 8.2 0 0 1 3 11.5a9 8.4 0 0 1 18 0Z"/></svg>{%- endif -%}
+                {%- if section.settings.show_share_icon -%}<svg class="instagram-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/></svg>{%- endif -%}
+              </div>
+              {%- if section.settings.show_save_icon -%}<svg class="instagram-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M6 3h12v18l-6-4-6 4V3Z"/></svg>{%- endif -%}
+            </div>
+
+            {%- if block.settings.likes != blank -%}<div class="instagram-card__likes">{{ block.settings.likes | escape }} likes</div>{%- endif -%}
+            {%- if block.settings.caption != blank -%}<p class="instagram-card__caption"><strong>{{ username | escape }}</strong> {{ block.settings.caption | escape }}</p>{%- endif -%}
+            {%- if block.settings.comments != blank -%}<div class="instagram-card__comments">View all {{ block.settings.comments | escape }} comments</div>{%- endif -%}
+            {%- if block.settings.timestamp != blank -%}<div class="instagram-card__time">{{ block.settings.timestamp | escape }}</div>{%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const initInstagramCards{{ section.id | replace: '-', '_' }} = () => {
+      const root = document.querySelector('[data-instagram-social-cards="{{ section.id }}"]');
+      if (!root || root.dataset.igReady === 'true') return;
+      root.dataset.igReady = 'true';
+      const track = root.querySelector('[data-ig-track]');
+      const prev = root.querySelector('[data-ig-prev]');
+      const next = root.querySelector('[data-ig-next]');
+      if (!track) return;
+      const getStep = () => {
+        const card = track.querySelector('.instagram-card');
+        if (!card) return 320;
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 0);
+        return card.getBoundingClientRect().width + gap;
+      };
+      const update = () => {
+        if (prev) prev.disabled = track.scrollLeft <= 4;
+        if (next) next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      };
+      if (prev) prev.addEventListener('click', () => track.scrollBy({ left: -getStep(), behavior: 'smooth' }));
+      if (next) next.addEventListener('click', () => track.scrollBy({ left: getStep(), behavior: 'smooth' }));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    };
+    initInstagramCards{{ section.id | replace: '-', '_' }}();
+    document.addEventListener('shopify:section:load', initInstagramCards{{ section.id | replace: '-', '_' }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Instagram social cards",
+  "class": "shopify-section--instagram-social-cards",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Follow us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Latest on Instagram" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Shop the latest looks and see what we are posting on socials." },
+    { "type": "text", "id": "default_username", "label": "Default username", "default": "yourbrand" },
+    { "type": "image_picker", "id": "default_avatar", "label": "Default avatar" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "content_width", "label": "Content width", "min": 720, "max": 1120, "step": 20, "unit": "px", "default": 1120 },
+    { "type": "range", "id": "card_width", "label": "Card width", "min": 280, "max": 360, "step": 10, "unit": "px", "default": 330 },
+    { "type": "range", "id": "card_gap", "label": "Card gap", "min": 12, "max": 36, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "card_gap_mobile", "label": "Card gap mobile", "min": 12, "max": 20, "step": 4, "unit": "px", "default": 16 },
+    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 14 },
+    { "type": "select", "id": "media_ratio", "label": "Media ratio", "options": [ { "value": "1 / 1", "label": "Square" }, { "value": "4 / 5", "label": "Portrait" }, { "value": "16 / 9", "label": "Landscape" } ], "default": "1 / 1" },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show carousel arrows", "default": true },
+    { "type": "checkbox", "id": "show_menu", "label": "Show three-dot menu", "default": true },
+    { "type": "checkbox", "id": "show_like_icon", "label": "Show like icon", "default": true },
+    { "type": "checkbox", "id": "show_comment_icon", "label": "Show comment icon", "default": true },
+    { "type": "checkbox", "id": "show_share_icon", "label": "Show share icon", "default": true },
+    { "type": "checkbox", "id": "show_save_icon", "label": "Show save icon", "default": true },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Padding top mobile", "min": 0, "max": 88, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom mobile", "min": 0, "max": 88, "step": 4, "unit": "px", "default": 48 },
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 28, "max": 56, "step": 1, "unit": "px", "default": 44 },
+    { "type": "range", "id": "subheading_size", "label": "Subheading size", "min": 13, "max": 22, "step": 1, "unit": "px", "default": 16 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#111111" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text", "default": "#737373" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "border_color", "label": "Border", "default": "#dbdbdb" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#d62976" }
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "Instagram post",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Post image" },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar override" },
+        { "type": "text", "id": "username", "label": "Username override" },
+        { "type": "checkbox", "id": "verified", "label": "Show verified badge", "default": true },
+        { "type": "text", "id": "location", "label": "Location", "default": "Amsterdam, Netherlands" },
+        { "type": "text", "id": "media_badge", "label": "Media badge", "default": "1/3" },
+        { "type": "checkbox", "id": "show_carousel_dots", "label": "Show carousel dots on image", "default": true },
+        { "type": "text", "id": "likes", "label": "Likes", "default": "2,847" },
+        { "type": "textarea", "id": "caption", "label": "Caption", "default": "New drop just landed. Tap to shop your favorite style." },
+        { "type": "text", "id": "comments", "label": "Comments count", "default": "128" },
+        { "type": "text", "id": "timestamp", "label": "Timestamp", "default": "2 hours ago" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram social cards",
+      "blocks": [
+        { "type": "post" },
+        { "type": "post", "settings": { "likes": "1,932", "comments": "76", "timestamp": "1 day ago", "caption": "Behind the scenes from our latest shoot." } },
+        { "type": "post", "settings": { "likes": "4,210", "comments": "211", "timestamp": "3 days ago", "caption": "Customer favorite of the week. Which color would you pick?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
