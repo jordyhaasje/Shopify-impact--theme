@@ -18,6 +18,7 @@
     background: var(--ig-bg);
     color: var(--ig-text);
     overflow: hidden;
+    padding-block: var(--section-outer-spacing-block);
   }
 
   #shopify-section-{{ section.id }} .instagram-social-cards__inner {
@@ -57,6 +58,13 @@
     color: var(--ig-muted);
     font-size: {{ section.settings.subheading_size }}px;
     line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .instagram-social-cards__slider-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 22px;
   }
 
   #shopify-section-{{ section.id }} .instagram-social-cards__controls {
@@ -183,8 +191,9 @@
     #shopify-section-{{ section.id }} { --section-outer-spacing-block: {{ section.settings.padding_top_mobile }}px {{ section.settings.padding_bottom_mobile }}px; }
     #shopify-section-{{ section.id }} .instagram-social-cards__inner { width: min(var(--ig-max-width), calc(100vw - 28px)); }
     #shopify-section-{{ section.id }} .instagram-social-cards__header { display:block;margin-bottom:22px; }
-    #shopify-section-{{ section.id }} .instagram-social-cards__controls { margin-top:18px; }
-    #shopify-section-{{ section.id }} .instagram-social-cards__track { grid-auto-columns: minmax(280px, 86vw); gap: {{ section.settings.card_gap_mobile }}px; }
+    #shopify-section-{{ section.id }} .instagram-social-cards__slider-footer { margin-top: 16px; }
+    #shopify-section-{{ section.id }} .instagram-social-cards__button { width: 42px; height: 42px; }
+    #shopify-section-{{ section.id }} .instagram-social-cards__track { grid-auto-columns: minmax(280px, 86vw); gap: {{ section.settings.card_gap_mobile }}px; padding-bottom: 12px; }
   }
 </style>
 
@@ -196,12 +205,6 @@
         {%- if section.settings.heading != blank -%}<h2 class="instagram-social-cards__heading">{{ section.settings.heading | escape }}</h2>{%- endif -%}
         {%- if section.settings.subheading != blank -%}<p class="instagram-social-cards__subheading">{{ section.settings.subheading | escape }}</p>{%- endif -%}
       </div>
-      {%- if section.settings.show_arrows -%}
-        <div class="instagram-social-cards__controls">
-          <button class="instagram-social-cards__button" type="button" data-ig-prev aria-label="Previous Instagram post">‹</button>
-          <button class="instagram-social-cards__button" type="button" data-ig-next aria-label="Next Instagram post">›</button>
-        </div>
-      {%- endif -%}
     </div>
 
     <div class="instagram-social-cards__track" data-ig-track>
@@ -257,6 +260,15 @@
         </article>
       {%- endfor -%}
     </div>
+
+    {%- if section.settings.show_arrows -%}
+      <div class="instagram-social-cards__slider-footer">
+        <div class="instagram-social-cards__controls">
+          <button class="instagram-social-cards__button" type="button" data-ig-prev aria-label="Previous Instagram post">‹</button>
+          <button class="instagram-social-cards__button" type="button" data-ig-next aria-label="Next Instagram post">›</button>
+        </div>
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
