@@ -1,0 +1,188 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --social-sliding-bg: {{ section.settings.background.rgb }};
+    --social-sliding-text: {{ section.settings.text_color.rgb }};
+    --social-sliding-muted: {{ section.settings.muted_text_color.rgb }};
+    --social-sliding-card: {{ section.settings.card_background.rgb }};
+    --social-sliding-bubble: {{ section.settings.bubble_background.rgb }};
+    --social-sliding-accent: {{ section.settings.accent_color.rgb }};
+    --social-sliding-border: {{ section.settings.border_color.rgb }};
+    --social-sliding-radius: {{ section.settings.card_radius }}px;
+    --social-sliding-avatar-size: {{ section.settings.avatar_size }}px;
+    --social-sliding-cards-desktop: {{ section.settings.cards_desktop }};
+  }
+
+  #shopify-section-{{ section.id }} .social-sliding { color: rgb(var(--social-sliding-text)); background: rgb(var(--social-sliding-bg)); }
+  #shopify-section-{{ section.id }} .social-sliding__inner { max-width: {{ section.settings.content_width }}px; margin-inline: auto; padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px; }
+  #shopify-section-{{ section.id }} .social-sliding__header { display: grid; gap: 14px; margin-block-end: 28px; max-width: 760px; }
+  #shopify-section-{{ section.id }} .social-sliding__eyebrow { display: inline-flex; align-items: center; gap: 8px; width: fit-content; min-height: 28px; padding: 5px 11px; border-radius: 999px; background: rgb(var(--social-sliding-accent) / .1); color: rgb(var(--social-sliding-accent)); font-weight: 700; font-size: 13px; line-height: 1; }
+  #shopify-section-{{ section.id }} .social-sliding__eyebrow svg { width: 15px; height: 15px; }
+  #shopify-section-{{ section.id }} .social-sliding__heading { margin: 0; color: rgb(var(--social-sliding-text)); }
+  #shopify-section-{{ section.id }} .social-sliding__text { color: rgb(var(--social-sliding-muted)); max-width: 650px; }
+  #shopify-section-{{ section.id }} .social-sliding__track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, calc((100% - (var(--social-sliding-cards-desktop) - 1) * 18px) / var(--social-sliding-cards-desktop))); gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 3px 2px 10px; }
+  #shopify-section-{{ section.id }} .social-sliding__track::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .social-sliding__slide { scroll-snap-align: start; min-width: 0; }
+  #shopify-section-{{ section.id }} .social-sliding__card { height: 100%; display: grid; align-content: start; gap: 14px; padding: 18px; border: 1px solid rgb(var(--social-sliding-border)); border-radius: var(--social-sliding-radius); background: rgb(var(--social-sliding-card)); box-shadow: 0 10px 30px rgb(15 23 42 / .08); transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease; }
+  #shopify-section-{{ section.id }} .social-sliding__card:hover { transform: translateY(-3px); box-shadow: 0 18px 38px rgb(15 23 42 / .12); border-color: rgb(var(--social-sliding-accent) / .28); }
+  #shopify-section-{{ section.id }} .social-sliding__profile { display: grid; grid-template-columns: var(--social-sliding-avatar-size) minmax(0, 1fr); gap: 10px; align-items: center; }
+  #shopify-section-{{ section.id }} .social-sliding__avatar { position: relative; width: var(--social-sliding-avatar-size); height: var(--social-sliding-avatar-size); border-radius: 50%; overflow: visible; background: rgb(var(--social-sliding-accent) / .14); display: grid; place-items: center; color: rgb(var(--social-sliding-accent)); font-weight: 800; font-size: 18px; }
+  #shopify-section-{{ section.id }} .social-sliding__avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  #shopify-section-{{ section.id }} .social-sliding__verified { position: absolute; right: -1px; bottom: -1px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgb(var(--social-sliding-card)); background: rgb(var(--social-sliding-accent)); color: #fff; }
+  #shopify-section-{{ section.id }} .social-sliding__verified svg { width: 10px; height: 10px; }
+  #shopify-section-{{ section.id }} .social-sliding__name { font-weight: 800; font-size: 14px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #shopify-section-{{ section.id }} .social-sliding__meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-block-start: 3px; color: rgb(var(--social-sliding-muted)); font-size: 12px; line-height: 1.3; }
+  #shopify-section-{{ section.id }} .social-sliding__stars { color: #f5b301; letter-spacing: .5px; font-size: 13px; }
+  #shopify-section-{{ section.id }} .social-sliding__bubble { position: relative; padding: 13px 14px; border-radius: 18px; background: rgb(var(--social-sliding-bubble)); color: rgb(var(--social-sliding-text)); font-size: 14px; line-height: 1.55; }
+  #shopify-section-{{ section.id }} .social-sliding__bubble::before { content: ''; position: absolute; top: -7px; left: 18px; border-inline: 8px solid transparent; border-bottom: 8px solid rgb(var(--social-sliding-bubble)); }
+  #shopify-section-{{ section.id }} .social-sliding__actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: rgb(var(--social-sliding-muted)); font-size: 12px; }
+  #shopify-section-{{ section.id }} .social-sliding__action-left { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-weight: 700; }
+  #shopify-section-{{ section.id }} .social-sliding__reaction { display: inline-flex; align-items: center; gap: 4px; }
+  #shopify-section-{{ section.id }} .social-sliding__reaction-icons { display: inline-flex; isolation: isolate; }
+  #shopify-section-{{ section.id }} .social-sliding__reaction-icon { display: grid; place-items: center; width: 17px; height: 17px; margin-inline-end: -4px; border: 1px solid #fff; border-radius: 999px; background: rgb(var(--social-sliding-accent)); color: #fff; font-size: 9px; line-height: 1; }
+  #shopify-section-{{ section.id }} .social-sliding__reaction-icon--heart { background: #f55376; }
+  #shopify-section-{{ section.id }} .social-sliding__controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-block-start: 18px; }
+  #shopify-section-{{ section.id }} .social-sliding__buttons { display: flex; gap: 8px; }
+  #shopify-section-{{ section.id }} .social-sliding__button { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgb(var(--social-sliding-border)); border-radius: 50%; background: rgb(var(--social-sliding-card)); color: rgb(var(--social-sliding-text)); cursor: pointer; transition: transform .2s ease, border-color .2s ease; }
+  #shopify-section-{{ section.id }} .social-sliding__button:hover { transform: translateY(-1px); border-color: rgb(var(--social-sliding-accent)); }
+  #shopify-section-{{ section.id }} .social-sliding__button svg { width: 17px; height: 17px; }
+  #shopify-section-{{ section.id }} .social-sliding__dots { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  #shopify-section-{{ section.id }} .social-sliding__dot { width: 8px; height: 8px; border: 0; border-radius: 999px; background: rgb(var(--social-sliding-muted) / .35); cursor: pointer; padding: 0; transition: width .2s ease, background .2s ease; }
+  #shopify-section-{{ section.id }} .social-sliding__dot[aria-current='true'] { width: 24px; background: rgb(var(--social-sliding-accent)); }
+  #shopify-section-{{ section.id }} .social-sliding__cta { margin-block-start: 22px; }
+  #shopify-section-{{ section.id }} .social-sliding__cta a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 18px; border-radius: 999px; background: rgb(var(--social-sliding-accent)); color: #fff; font-weight: 800; text-decoration: none; }
+
+  @media screen and (max-width: 999px) { #shopify-section-{{ section.id }} .social-sliding__track { grid-auto-columns: minmax(0, 72%); } }
+  @media screen and (max-width: 699px) { #shopify-section-{{ section.id }} .social-sliding__inner { padding: {{ section.settings.mobile_padding_top }}px 16px {{ section.settings.mobile_padding_bottom }}px; } #shopify-section-{{ section.id }} .social-sliding__track { grid-auto-columns: minmax(0, 88%); gap: 14px; } #shopify-section-{{ section.id }} .social-sliding__card { padding: 15px; } #shopify-section-{{ section.id }} .social-sliding__controls { align-items: flex-start; flex-direction: column-reverse; } }
+</style>
+
+<div {% render 'section-properties', class: 'social-sliding' %}>
+  <div class="social-sliding__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.text != blank -%}
+      <div class="social-sliding__header {{ section.settings.text_alignment }}">
+        {%- if section.settings.eyebrow != blank -%}<div class="social-sliding__eyebrow"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.1C22 6.5 17.5 2 12 2S2 6.5 2 12.1c0 5 3.7 9.1 8.4 9.9v-7H7.9v-2.9h2.5V9.9c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.5v1.9h2.8l-.4 2.9h-2.4v7c4.7-.8 8.4-4.9 8.4-9.9Z"/></svg><span>{{ section.settings.eyebrow | escape }}</span></div>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="social-sliding__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="social-sliding__text">{{ section.settings.text }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <social-sliding-carousel class="social-sliding__viewport" data-autoplay="{{ section.settings.enable_autoplay }}" data-speed="{{ section.settings.autoplay_speed | times: 1000 }}">
+      <div class="social-sliding__track" tabindex="0" aria-label="{{ section.settings.heading | default: 'Social comments slider' | escape }}">
+        {%- for block in section.blocks -%}
+          <article class="social-sliding__slide" {{ block.shopify_attributes }}>
+            <div class="social-sliding__card">
+              <div class="social-sliding__profile">
+                <div class="social-sliding__avatar">
+                  {%- if block.settings.avatar != blank -%}{{- block.settings.avatar | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80,120,160', sizes: '80px', alt: block.settings.name -}}{%- else -%}{{- block.settings.name | default: 'C' | slice: 0 | upcase -}}{%- endif -%}
+                  {%- if block.settings.verified -%}<span class="social-sliding__verified" aria-label="Verified"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.4 11.4 2.9 7.9l1.4-1.4 2.1 2.1 5.3-5.3 1.4 1.4-6.7 6.7Z"/></svg></span>{%- endif -%}
+                </div>
+                <div>
+                  {%- if block.settings.name != blank -%}<div class="social-sliding__name">{{ block.settings.name | escape }}</div>{%- endif -%}
+                  <div class="social-sliding__meta">
+                    {%- if block.settings.time_label != blank -%}<span>{{ block.settings.time_label | escape }}</span>{%- endif -%}
+                    {%- if block.settings.location != blank -%}<span>•</span><span>{{ block.settings.location | escape }}</span>{%- endif -%}
+                    {%- if block.settings.rating > 0 -%}<span class="social-sliding__stars" aria-label="{{ block.settings.rating }} out of 5 stars">{%- for i in (1..5) -%}{%- if i <= block.settings.rating -%}★{%- else -%}☆{%- endif -%}{%- endfor -%}</span>{%- endif -%}
+                  </div>
+                </div>
+              </div>
+              {%- if block.settings.comment != blank -%}<div class="social-sliding__bubble">{{ block.settings.comment }}</div>{%- endif -%}
+              <div class="social-sliding__actions"><div class="social-sliding__action-left"><span>{{ block.settings.like_label | default: 'Like' | escape }}</span><span>{{ block.settings.reply_label | default: 'Reply' | escape }}</span></div><div class="social-sliding__reaction"><span class="social-sliding__reaction-icons" aria-hidden="true"><span class="social-sliding__reaction-icon">👍</span><span class="social-sliding__reaction-icon social-sliding__reaction-icon--heart">♥</span></span>{%- if block.settings.reaction_count != blank -%}<span>{{ block.settings.reaction_count | escape }}</span>{%- endif -%}</div></div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+      {%- if section.blocks.size > 1 -%}<div class="social-sliding__controls"><div class="social-sliding__dots" aria-label="Slider pagination"></div><div class="social-sliding__buttons"><button class="social-sliding__button" type="button" data-direction="previous" aria-label="Previous comment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><button class="social-sliding__button" type="button" data-direction="next" aria-label="Next comment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div></div>{%- endif -%}
+    </social-sliding-carousel>
+
+    {%- if section.settings.button_text != blank and section.settings.button_link != blank -%}<div class="social-sliding__cta"><a href="{{ section.settings.button_link }}">{{ section.settings.button_text | escape }}</a></div>{%- endif -%}
+  </div>
+</div>
+
+<script>
+  (() => {
+    class SocialSlidingCarousel extends HTMLElement {
+      connectedCallback() { this.initialize(); }
+      disconnectedCallback() { this.destroy(); }
+      initialize() { this.destroy(); this.track = this.querySelector('.social-sliding__track'); this.slides = Array.from(this.querySelectorAll('.social-sliding__slide')); this.dots = this.querySelector('.social-sliding__dots'); this.buttons = Array.from(this.querySelectorAll('[data-direction]')); this.autoplay = this.dataset.autoplay === 'true'; this.speed = Number(this.dataset.speed || 5000); this.buttonHandlers = []; this.dotHandlers = []; this.boundScroll = () => window.requestAnimationFrame(() => this.updateDots()); this.boundStop = () => this.stopAutoplay(); this.boundStart = () => this.startAutoplay(); if (!this.track || this.slides.length === 0) return; this.buildDots(); this.bindEvents(); this.updateDots(); this.startAutoplay(); this.dataset.initialized = 'true'; }
+      destroy() { this.stopAutoplay(); if (this.track && this.boundScroll) this.track.removeEventListener('scroll', this.boundScroll); if (this.boundStop) { this.removeEventListener('mouseenter', this.boundStop); this.removeEventListener('focusin', this.boundStop); } if (this.boundStart) { this.removeEventListener('mouseleave', this.boundStart); this.removeEventListener('focusout', this.boundStart); } if (this.buttonHandlers) this.buttonHandlers.forEach((entry) => entry.button.removeEventListener('click', entry.handler)); if (this.dotHandlers) this.dotHandlers.forEach((entry) => entry.dot.removeEventListener('click', entry.handler)); this.buttonHandlers = []; this.dotHandlers = []; }
+      buildDots() { if (!this.dots) return; this.dots.innerHTML = ''; this.slides.forEach((slide, index) => { const dot = document.createElement('button'); dot.type = 'button'; dot.className = 'social-sliding__dot'; dot.setAttribute('aria-label', `Go to comment ${index + 1}`); const handler = () => this.goTo(index); dot.addEventListener('click', handler); this.dotHandlers.push({ dot, handler }); this.dots.appendChild(dot); }); }
+      bindEvents() { this.buttons.forEach((button) => { const handler = () => { const direction = button.dataset.direction === 'previous' ? -1 : 1; this.goTo(this.currentIndex() + direction); }; button.addEventListener('click', handler); this.buttonHandlers.push({ button, handler }); }); this.track.addEventListener('scroll', this.boundScroll, { passive: true }); this.addEventListener('mouseenter', this.boundStop); this.addEventListener('mouseleave', this.boundStart); this.addEventListener('focusin', this.boundStop); this.addEventListener('focusout', this.boundStart); }
+      currentIndex() { const left = this.track.scrollLeft; let closest = 0; let distance = Infinity; this.slides.forEach((slide, index) => { const slideDistance = Math.abs(slide.offsetLeft - left); if (slideDistance < distance) { distance = slideDistance; closest = index; } }); return closest; }
+      goTo(index) { if (this.slides.length === 0) return; const normalizedIndex = (index + this.slides.length) % this.slides.length; this.track.scrollTo({ left: this.slides[normalizedIndex].offsetLeft, behavior: 'smooth' }); }
+      updateDots() { if (!this.dots) return; const active = this.currentIndex(); Array.from(this.dots.children).forEach((dot, index) => { dot.setAttribute('aria-current', index === active ? 'true' : 'false'); }); }
+      startAutoplay() { this.stopAutoplay(); if (!this.autoplay || this.slides.length < 2) return; this.timer = window.setInterval(() => this.goTo(this.currentIndex() + 1), this.speed); }
+      stopAutoplay() { if (this.timer) { window.clearInterval(this.timer); this.timer = null; } }
+    }
+    if (!window.customElements.get('social-sliding-carousel')) window.customElements.define('social-sliding-carousel', SocialSlidingCarousel);
+    const initSocialSliding = (root = document) => root.querySelectorAll('social-sliding-carousel').forEach((carousel) => carousel.initialize && carousel.initialize());
+    document.addEventListener('shopify:section:load', (event) => initSocialSliding(event.target));
+    document.addEventListener('shopify:section:select', (event) => initSocialSliding(event.target));
+    document.addEventListener('shopify:block:select', (event) => { const carousel = event.target.closest('social-sliding-carousel'); const slide = event.target.closest('.social-sliding__slide'); if (carousel && slide) carousel.goTo(Array.from(carousel.querySelectorAll('.social-sliding__slide')).indexOf(slide)); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Social sliding",
+  "class": "shopify-section--social-sliding",
+  "tag": "section",
+  "disabled_on": { "templates": ["password"], "groups": ["header", "custom.overlay"] },
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Facebook comments" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Wat klanten zeggen" },
+    { "type": "select", "id": "heading_size", "label": "Heading size", "options": [{ "value": "h2", "label": "Small" }, { "value": "h1", "label": "Medium" }, { "value": "h0", "label": "Large" }], "default": "h1" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Laat handmatig ingevoerde social proof zien in een Facebook-achtige commentslider.</p>" },
+    { "type": "select", "id": "text_alignment", "label": "Text alignment", "options": [{ "value": "text-start", "label": "Left" }, { "value": "text-center", "label": "Center" }], "default": "text-start" },
+    { "type": "range", "id": "content_width", "label": "Content width", "min": 900, "max": 1120, "step": 20, "unit": "px", "default": 960 },
+    { "type": "range", "id": "cards_desktop", "label": "Cards on desktop", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "checkbox", "id": "enable_autoplay", "label": "Enable autoplay", "default": true },
+    { "type": "range", "id": "autoplay_speed", "label": "Autoplay speed", "min": 3, "max": 10, "step": 1, "unit": "s", "default": 5 },
+    { "type": "range", "id": "avatar_size", "label": "Avatar size", "min": 40, "max": 70, "step": 2, "unit": "px", "default": 52 },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 8, "max": 32, "step": 2, "unit": "px", "default": 18 },
+    { "type": "text", "id": "button_text", "label": "Button text" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "color_background", "id": "background_gradient", "label": "Background gradient" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#1c1e21" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text", "default": "#65676b" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "bubble_background", "label": "Comment bubble background", "default": "#f0f2f5" },
+    { "type": "color", "id": "border_color", "label": "Border", "default": "#e4e6eb" },
+    { "type": "color", "id": "accent_color", "label": "Accent / Facebook blue", "default": "#1877f2" },
+    { "type": "color", "id": "input_background", "label": "Input background", "default": "#ffffff" },
+    { "type": "color", "id": "input_text_color", "label": "Input text", "default": "#1c1e21" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "mobile_padding_top", "label": "Mobile top padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 44 },
+    { "type": "range", "id": "mobile_padding_bottom", "label": "Mobile bottom padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 44 }
+  ],
+  "blocks": [{
+    "type": "comment",
+    "name": "Social comment",
+    "settings": [
+      { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+      { "type": "text", "id": "name", "label": "Name", "default": "Sophie de Vries" },
+      { "type": "checkbox", "id": "verified", "label": "Show verified badge", "default": true },
+      { "type": "text", "id": "time_label", "label": "Time label", "default": "2 d" },
+      { "type": "text", "id": "location", "label": "Location / subtitle", "default": "Amsterdam" },
+      { "type": "range", "id": "rating", "label": "Rating", "min": 0, "max": 5, "step": 1, "default": 5 },
+      { "type": "richtext", "id": "comment", "label": "Comment", "default": "<p>Ik was eerst sceptisch, maar dit werkte echt boven verwachting. Snelle levering en fijne service.</p>" },
+      { "type": "text", "id": "like_label", "label": "Like label", "default": "Like" },
+      { "type": "text", "id": "reply_label", "label": "Reply label", "default": "Reply" },
+      { "type": "text", "id": "reaction_count", "label": "Reaction count", "default": "38" }
+    ]
+  }],
+  "presets": [{
+    "name": "Social sliding",
+    "blocks": [
+      { "type": "comment", "settings": { "name": "Sophie de Vries", "time_label": "2 d", "location": "Amsterdam", "rating": 5, "comment": "<p>Ik was eerst sceptisch, maar dit werkte echt boven verwachting. Snelle levering en fijne service.</p>", "reaction_count": "38" } },
+      { "type": "comment", "settings": { "name": "Milan Jansen", "time_label": "1 w", "location": "Rotterdam", "rating": 5, "comment": "<p>Precies zoals op de site. De comments maken het meteen vertrouwd en professioneel.</p>", "reaction_count": "24" } },
+      { "type": "comment", "settings": { "name": "Nora Bakker", "time_label": "3 w", "location": "Utrecht", "rating": 4, "comment": "<p>Mooi design, duidelijk en heel makkelijk om eigen klantreacties in te zetten.</p>", "reaction_count": "17" } }
+    ]
+  }]
+}
+{% endschema %}
