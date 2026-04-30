@@ -652,6 +652,128 @@
         "border_color": "#dbdbdb",
         "accent_color": "#d62976"
       }
+    },
+    "jordy_heroo_6RG4Xg": {
+      "type": "jordy-heroo",
+      "blocks": {
+        "slide_ttw7Jq": {
+          "type": "slide",
+          "settings": {
+            "star_count": 5,
+            "rating_text": "Trusted by 100,000+ customers",
+            "heading": "Ready for adventure",
+            "text": "<p>The world's #1 rated backpacks and bags. Join over 1M happy customers and never lose your gear.</p>",
+            "button_text": "Shop now",
+            "button_link": ""
+          }
+        },
+        "slide_QNdkzt": {
+          "type": "slide",
+          "settings": {
+            "star_count": 5,
+            "rating_text": "Loved by travelers worldwide",
+            "heading": "Pack your next trip",
+            "text": "<p>The world's #1 rated backpacks and bags. Join over 1M happy customers and never lose your gear.</p>",
+            "button_text": "Explore bags",
+            "button_link": ""
+          }
+        },
+        "logo_KUtPQt": {
+          "type": "logo",
+          "settings": {
+            "logo_text": "WomensHealth",
+            "author": "WomensHealth",
+            "rating": 5
+          }
+        },
+        "logo_Eez8Xd": {
+          "type": "logo",
+          "settings": {
+            "logo_text": "VOGUE",
+            "author": "VOGUE",
+            "rating": 5
+          }
+        },
+        "logo_fEz3kT": {
+          "type": "logo",
+          "settings": {
+            "logo_text": "BAZAAR",
+            "author": "BAZAAR",
+            "rating": 5
+          }
+        },
+        "logo_hmjL9c": {
+          "type": "logo",
+          "settings": {
+            "logo_text": "GRAZIA",
+            "author": "GRAZIA",
+            "rating": 5
+          }
+        },
+        "logo_iqKgQD": {
+          "type": "logo",
+          "settings": {
+            "logo_text": "ELLE",
+            "author": "ELLE",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "slide_ttw7Jq",
+        "slide_QNdkzt",
+        "logo_KUtPQt",
+        "logo_Eez8Xd",
+        "logo_fEz3kT",
+        "logo_hmjL9c",
+        "logo_iqKgQD"
+      ],
+      "name": "Jordy-heroo",
+      "settings": {
+        "accessibility_label": "Hero slider",
+        "hero_height": 520,
+        "mobile_hero_height": 560,
+        "content_width": 1180,
+        "text_max_width": 660,
+        "content_offset_y": 16,
+        "mobile_content_offset_y": 0,
+        "content_padding_top": 92,
+        "content_padding_bottom": 120,
+        "mobile_padding_top": 88,
+        "mobile_padding_bottom": 124,
+        "enable_autoplay": true,
+        "autoplay_speed": 5,
+        "star_count": 5,
+        "rating_text": "Trusted by 100,000+ customers",
+        "heading": "Ready for adventure",
+        "text": "<p>The world's #1 rated backpacks and bags. Join over 1M happy customers and never lose your gear.</p>",
+        "button_text": "Shop now",
+        "button_link": "",
+        "show_arrow": true,
+        "arrow_link": "",
+        "arrow_label": "Next",
+        "heading_size": 52,
+        "text_size": 16,
+        "button_radius": 0,
+        "star_background": "#00b67a",
+        "star_color": "#ffffff",
+        "marquee_label": "Featured in",
+        "marquee_height": 66,
+        "mobile_marquee_height": 58,
+        "marquee_speed": 60,
+        "logo_gap": 62,
+        "mobile_logo_gap": 42,
+        "logo_text_size": 34,
+        "logo_image_width": 180,
+        "logo_image_height": 42,
+        "logo_opacity": 90,
+        "text_color": "#ffffff",
+        "button_background": "#ffffff",
+        "button_text_color": "#333333",
+        "logo_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
     }
   },
   "order": [
@@ -667,6 +789,7 @@
     "press",
     "hot-spots",
     "video_trust_header_9Dpg7U",
-    "instagram_social_cards_8q9XxJ"
+    "instagram_social_cards_8q9XxJ",
+    "jordy_heroo_6RG4Xg"
   ]
 }
