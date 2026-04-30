@@ -1,0 +1,125 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+#shopify-section-{{ section.id }} {
+  --bg: {{ section.settings.background_color }};
+  --card: {{ section.settings.card_color }};
+  --text: {{ section.settings.text_color }};
+  --muted: {{ section.settings.muted_text_color }};
+  --accent: {{ section.settings.accent_color }};
+}
+
+#shopify-section-{{ section.id }} .ai-wrap {
+  max-width: {{ section.settings.content_width }}px;
+  margin: auto;
+  padding: {{ section.settings.padding_y }}px 20px;
+}
+
+#shopify-section-{{ section.id }} .ai-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+}
+
+#shopify-section-{{ section.id }} .ai-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 24px;
+  position: relative;
+  color: var(--text);
+  box-shadow: 0 0 40px rgba(0,255,255,.15);
+  transition: .3s;
+}
+
+#shopify-section-{{ section.id }} .ai-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 60px var(--accent);
+}
+
+#shopify-section-{{ section.id }} .price {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+#shopify-section-{{ section.id }} ul {
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+
+#shopify-section-{{ section.id }} li {
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+@media(max-width: 900px){
+  #shopify-section-{{ section.id }} .ai-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+<section>
+  <div class="ai-wrap" data-section-bounded-shell>
+    <div class="ai-grid">
+      <div class="ai-card">
+        <h3>{{ section.settings.plan_1_name }}</h3>
+        <div class="price">{{ section.settings.plan_1_price }}</div>
+        <ul>
+          <li>{{ section.settings.plan_1_feature_1 }}</li>
+          <li>{{ section.settings.plan_1_feature_2 }}</li>
+        </ul>
+      </div>
+
+      <div class="ai-card">
+        <h3>{{ section.settings.plan_2_name }}</h3>
+        <div class="price">{{ section.settings.plan_2_price }}</div>
+        <ul>
+          <li>{{ section.settings.plan_2_feature_1 }}</li>
+          <li>{{ section.settings.plan_2_feature_2 }}</li>
+        </ul>
+      </div>
+
+      <div class="ai-card">
+        <h3>{{ section.settings.plan_3_name }}</h3>
+        <div class="price">{{ section.settings.plan_3_price }}</div>
+        <ul>
+          <li>{{ section.settings.plan_3_feature_1 }}</li>
+          <li>{{ section.settings.plan_3_feature_2 }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "AI pricing glow",
+  "settings": [
+    {"type":"text","id":"plan_1_name","label":"Plan 1","default":"Starter"},
+    {"type":"text","id":"plan_1_price","label":"Price","default":"€19"},
+    {"type":"text","id":"plan_1_feature_1","label":"Feature","default":"AI chat"},
+    {"type":"text","id":"plan_1_feature_2","label":"Feature","default":"Support"},
+
+    {"type":"text","id":"plan_2_name","label":"Plan 2","default":"Pro"},
+    {"type":"text","id":"plan_2_price","label":"Price","default":"€49"},
+    {"type":"text","id":"plan_2_feature_1","label":"Feature","default":"Automation"},
+    {"type":"text","id":"plan_2_feature_2","label":"Feature","default":"Priority"},
+
+    {"type":"text","id":"plan_3_name","label":"Plan 3","default":"Elite"},
+    {"type":"text","id":"plan_3_price","label":"Price","default":"€99"},
+    {"type":"text","id":"plan_3_feature_1","label":"Feature","default":"Scaling"},
+    {"type":"text","id":"plan_3_feature_2","label":"Feature","default":"24/7"},
+
+    {"type":"range","id":"content_width","label":"Width","min":900,"max":1120,"step":20,"default":1060},
+    {"type":"range","id":"padding_y","label":"Padding","min":48,"max":120,"step":4,"default":84},
+
+    {"type":"color","id":"background_color","label":"BG","default":"#000"},
+    {"type":"color","id":"card_color","label":"Card","default":"#111"},
+    {"type":"color","id":"text_color","label":"Text","default":"#fff"},
+    {"type":"color","id":"muted_text_color","label":"Muted","default":"#aaa"},
+    {"type":"color","id":"accent_color","label":"Accent","default":"#00ffff"}
+  ],
+  "presets":[{"name":"AI pricing"}]
+}
+{% endschema %}
