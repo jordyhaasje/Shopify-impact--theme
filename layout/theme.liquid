@@ -84,7 +84,7 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
         {%- sections 'footer-group' -%}
       {%- endif -%}
     </main>
-    <!-- BLACK FRIDAY POPUP - soft pink fashion modal -->
+    <!-- BLACK FRIDAY SPIN TO WIN POPUP - soft pink fashion modal -->
     <style>
       .bf-fashion-popup {
         position: fixed;
@@ -94,8 +94,8 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
         align-items: center;
         justify-content: center;
         padding: 18px;
-        background: rgba(20, 14, 17, .44);
-        backdrop-filter: blur(8px);
+        background: rgba(20, 14, 17, .46);
+        backdrop-filter: blur(10px);
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -110,16 +110,16 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
 
       .bf-fashion-popup__card {
         position: relative;
-        width: min(100%, 440px);
+        width: min(100%, 760px);
         overflow: hidden;
-        border-radius: 28px;
-        padding: 30px 24px 24px;
-        text-align: center;
-        color: #22161a;
+        border-radius: 30px;
+        padding: 28px;
+        color: #23161a;
         background:
-          radial-gradient(circle at 16% 12%, rgba(255, 203, 221, .8), transparent 34%),
-          linear-gradient(180deg, #ffffff 0%, #fff1f6 100%);
-        box-shadow: 0 28px 90px rgba(50, 18, 30, .26), 0 0 0 1px rgba(255, 255, 255, .8) inset;
+          radial-gradient(circle at 10% 8%, rgba(255, 202, 221, .95), transparent 30%),
+          radial-gradient(circle at 92% 8%, rgba(255, 239, 246, .95), transparent 32%),
+          linear-gradient(135deg, #ffffff 0%, #fff3f7 100%);
+        box-shadow: 0 30px 100px rgba(49, 18, 30, .30), 0 0 0 1px rgba(255, 255, 255, .86) inset;
         transform: translateY(26px) scale(.96);
         transition: transform .45s cubic-bezier(.2,.8,.2,1);
       }
@@ -132,15 +132,107 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
         position: absolute;
         top: 14px;
         right: 16px;
-        width: 34px;
-        height: 34px;
+        z-index: 4;
+        width: 36px;
+        height: 36px;
         border: 0;
         border-radius: 999px;
-        background: rgba(255, 255, 255, .7);
+        background: rgba(255, 255, 255, .78);
         color: #8a6670;
         cursor: pointer;
         font-size: 22px;
         line-height: 1;
+        box-shadow: 0 8px 24px rgba(80, 36, 50, .10);
+      }
+
+      .bf-fashion-popup__layout {
+        display: grid;
+        grid-template-columns: minmax(230px, .86fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 30px;
+      }
+
+      .bf-fashion-popup__wheel-wrap {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 280px;
+      }
+
+      .bf-fashion-popup__pointer {
+        position: absolute;
+        top: 15px;
+        z-index: 3;
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 26px solid #ff4f8f;
+        filter: drop-shadow(0 5px 12px rgba(255, 79, 143, .35));
+      }
+
+      .bf-fashion-popup__wheel {
+        width: 248px;
+        height: 248px;
+        border-radius: 50%;
+        position: relative;
+        display: grid;
+        place-items: center;
+        background: conic-gradient(#ff8fbd 0 60deg, #ffffff 60deg 120deg, #ffd4e4 120deg 180deg, #ffffff 180deg 240deg, #ff6fa7 240deg 300deg, #ffffff 300deg 360deg);
+        box-shadow: 0 18px 45px rgba(255, 79, 143, .24), 0 0 0 10px rgba(255,255,255,.72), 0 0 0 1px rgba(255, 79, 143, .20) inset;
+        transition: transform 3.2s cubic-bezier(.12,.78,.18,1);
+      }
+
+      .bf-fashion-popup__wheel:before {
+        content: "";
+        position: absolute;
+        inset: 18px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, .78);
+      }
+
+      .bf-fashion-popup__wheel-center {
+        position: relative;
+        z-index: 2;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        color: #fff;
+        background: linear-gradient(135deg, #ff8fbd, #ff4f8f);
+        box-shadow: 0 10px 28px rgba(255, 79, 143, .34);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+
+      .bf-fashion-popup__slice {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 92px;
+        margin-left: -46px;
+        margin-top: -10px;
+        color: #7d304d;
+        font-size: 12px;
+        font-weight: 900;
+        text-align: center;
+        text-transform: uppercase;
+        transform-origin: 46px 10px;
+      }
+
+      .bf-fashion-popup__slice:nth-child(1) { transform: rotate(30deg) translateY(-90px); }
+      .bf-fashion-popup__slice:nth-child(2) { transform: rotate(90deg) translateY(-90px); }
+      .bf-fashion-popup__slice:nth-child(3) { transform: rotate(150deg) translateY(-90px); }
+      .bf-fashion-popup__slice:nth-child(4) { transform: rotate(210deg) translateY(-90px); }
+      .bf-fashion-popup__slice:nth-child(5) { transform: rotate(270deg) translateY(-90px); }
+      .bf-fashion-popup__slice:nth-child(6) { transform: rotate(330deg) translateY(-90px); }
+
+      .bf-fashion-popup__content {
+        padding: 10px 8px 10px 0;
       }
 
       .bf-fashion-popup__eyebrow {
@@ -151,7 +243,7 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
         background: #ffe0eb;
         color: #d8477b;
         font-size: 11px;
-        font-weight: 800;
+        font-weight: 900;
         letter-spacing: .16em;
         text-transform: uppercase;
       }
@@ -160,48 +252,85 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
         margin: 0;
         color: #1d1518;
         font-family: var(--heading-font-family, inherit);
-        font-size: clamp(30px, 7vw, 42px);
+        font-size: clamp(30px, 5.2vw, 46px);
         line-height: .98;
-        letter-spacing: -.045em;
+        letter-spacing: -.05em;
       }
 
       .bf-fashion-popup__text {
-        max-width: 330px;
-        margin: 14px auto 0;
+        max-width: 390px;
+        margin: 14px 0 0;
         color: #7b636a;
         font-size: 15px;
         line-height: 1.6;
       }
 
-      .bf-fashion-popup__discount {
-        margin: 18px auto 0;
-        color: #ff4f8f;
-        font-size: clamp(34px, 9vw, 52px);
-        font-weight: 900;
-        line-height: .95;
-        letter-spacing: -.06em;
+      .bf-fashion-popup__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-top: 22px;
       }
 
+      .bf-fashion-popup__spin,
       .bf-fashion-popup__button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-top: 24px;
         min-height: 48px;
-        padding: 0 28px;
+        padding: 0 24px;
+        border: 0;
         border-radius: 999px;
         color: #fff;
         background: linear-gradient(135deg, #ff8fbd, #ff4f8f);
         box-shadow: 0 14px 34px rgba(255, 79, 143, .35);
+        cursor: pointer;
         font-size: 14px;
-        font-weight: 800;
+        font-weight: 900;
         text-decoration: none;
         transition: transform .22s ease, box-shadow .22s ease;
       }
 
+      .bf-fashion-popup__button {
+        display: none;
+        background: #1e1518;
+        box-shadow: 0 14px 34px rgba(30, 21, 24, .18);
+      }
+
+      .bf-fashion-popup__spin:hover,
       .bf-fashion-popup__button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 18px 44px rgba(255, 79, 143, .45);
+      }
+
+      .bf-fashion-popup__result {
+        min-height: 24px;
+        margin-top: 16px;
+        color: #ff4f8f;
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .bf-fashion-popup__code {
+        display: none;
+        margin-top: 10px;
+        padding: 11px 14px;
+        border: 1px dashed rgba(255, 79, 143, .55);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, .72);
+        color: #1d1518;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: .08em;
+      }
+
+      .bf-fashion-popup.has-result .bf-fashion-popup__button,
+      .bf-fashion-popup.has-result .bf-fashion-popup__code {
+        display: inline-flex;
+      }
+
+      .bf-fashion-popup.has-result .bf-fashion-popup__spin {
+        display: none;
       }
 
       .bf-fashion-popup__note {
@@ -210,21 +339,55 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
         font-size: 12px;
       }
 
-      @media screen and (max-width: 480px) {
+      @media screen and (max-width: 720px) {
         .bf-fashion-popup { align-items: flex-end; padding: 12px; }
-        .bf-fashion-popup__card { border-radius: 24px; padding: 28px 18px 22px; }
+        .bf-fashion-popup__card { width: 100%; max-height: calc(100vh - 24px); overflow-y: auto; border-radius: 24px; padding: 24px 18px 20px; }
+        .bf-fashion-popup__layout { grid-template-columns: 1fr; gap: 16px; text-align: center; }
+        .bf-fashion-popup__wheel-wrap { min-height: 230px; }
+        .bf-fashion-popup__wheel { width: 205px; height: 205px; }
+        .bf-fashion-popup__slice { transform-origin: 46px 10px; font-size: 10px; }
+        .bf-fashion-popup__slice:nth-child(1) { transform: rotate(30deg) translateY(-74px); }
+        .bf-fashion-popup__slice:nth-child(2) { transform: rotate(90deg) translateY(-74px); }
+        .bf-fashion-popup__slice:nth-child(3) { transform: rotate(150deg) translateY(-74px); }
+        .bf-fashion-popup__slice:nth-child(4) { transform: rotate(210deg) translateY(-74px); }
+        .bf-fashion-popup__slice:nth-child(5) { transform: rotate(270deg) translateY(-74px); }
+        .bf-fashion-popup__slice:nth-child(6) { transform: rotate(330deg) translateY(-74px); }
+        .bf-fashion-popup__content { padding: 0; }
+        .bf-fashion-popup__text { margin-left: auto; margin-right: auto; }
+        .bf-fashion-popup__actions { justify-content: center; }
       }
     </style>
 
     <div class="bf-fashion-popup" id="bfFashionPopup" aria-hidden="true">
-      <div class="bf-fashion-popup__card" role="dialog" aria-modal="true" aria-label="Black Friday Sale">
+      <div class="bf-fashion-popup__card" role="dialog" aria-modal="true" aria-label="Black Friday Spin to Win">
         <button class="bf-fashion-popup__close" type="button" data-bf-close aria-label="Sluit popup">×</button>
-        <div class="bf-fashion-popup__eyebrow">Black Friday</div>
-        <h2 class="bf-fashion-popup__title">Soft pink styles, limited sale</h2>
-        <p class="bf-fashion-popup__text">Shop je favoriete kledingstukken tijdelijk met extra Black Friday voordeel.</p>
-        <div class="bf-fashion-popup__discount">Tot 50% korting</div>
-        <a class="bf-fashion-popup__button" href="/collections/all">Shop de sale</a>
-        <div class="bf-fashion-popup__note">Alleen tijdelijk beschikbaar</div>
+        <div class="bf-fashion-popup__layout">
+          <div class="bf-fashion-popup__wheel-wrap" aria-hidden="true">
+            <div class="bf-fashion-popup__pointer"></div>
+            <div class="bf-fashion-popup__wheel" data-bf-wheel>
+              <span class="bf-fashion-popup__slice">10%</span>
+              <span class="bf-fashion-popup__slice">15%</span>
+              <span class="bf-fashion-popup__slice">20%</span>
+              <span class="bf-fashion-popup__slice">Free ship</span>
+              <span class="bf-fashion-popup__slice">25%</span>
+              <span class="bf-fashion-popup__slice">Mystery</span>
+              <div class="bf-fashion-popup__wheel-center">Spin<br>to win</div>
+            </div>
+          </div>
+
+          <div class="bf-fashion-popup__content">
+            <div class="bf-fashion-popup__eyebrow">Black Friday</div>
+            <h2 class="bf-fashion-popup__title">Spin & unlock your soft pink deal</h2>
+            <p class="bf-fashion-popup__text">Draai het wiel en ontvang direct je exclusieve Black Friday voordeel op onze kledingcollectie.</p>
+            <div class="bf-fashion-popup__actions">
+              <button class="bf-fashion-popup__spin" type="button" data-bf-spin>Spin het wiel</button>
+              <a class="bf-fashion-popup__button" href="/collections/all">Shop met korting</a>
+            </div>
+            <div class="bf-fashion-popup__result" data-bf-result></div>
+            <div class="bf-fashion-popup__code" data-bf-code>CODE: PINK20</div>
+            <div class="bf-fashion-popup__note">Alleen tijdelijk geldig tijdens Black Friday</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -234,7 +397,12 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
         if (!popup) return;
 
         var closeButton = popup.querySelector('[data-bf-close]');
-        var storageKey = 'bf_fashion_popup_seen_v1';
+        var spinButton = popup.querySelector('[data-bf-spin]');
+        var wheel = popup.querySelector('[data-bf-wheel]');
+        var result = popup.querySelector('[data-bf-result]');
+        var code = popup.querySelector('[data-bf-code]');
+        var storageKey = 'bf_fashion_spin_popup_seen_v1';
+        var hasSpun = false;
 
         function showPopup() {
           popup.classList.add('is-visible');
@@ -247,6 +415,20 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
           try { window.localStorage.setItem(storageKey, '1'); } catch (error) {}
         }
 
+        function spinWheel() {
+          if (hasSpun) return;
+          hasSpun = true;
+          if (spinButton) spinButton.textContent = 'Aan het draaien...';
+          if (wheel) wheel.style.transform = 'rotate(1860deg)';
+
+          window.setTimeout(function() {
+            popup.classList.add('has-result');
+            if (result) result.textContent = 'Je hebt 20% korting gewonnen.';
+            if (code) code.textContent = 'CODE: PINK20';
+            try { window.localStorage.setItem(storageKey, '1'); } catch (error) {}
+          }, 3300);
+        }
+
         try {
           if (!window.localStorage.getItem(storageKey)) {
             window.setTimeout(showPopup, 2500);
@@ -255,6 +437,7 @@ NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing
           window.setTimeout(showPopup, 2500);
         }
 
+        if (spinButton) spinButton.addEventListener('click', spinWheel);
         if (closeButton) closeButton.addEventListener('click', closePopup);
         popup.addEventListener('click', function(event) {
           if (event.target === popup) closePopup();
