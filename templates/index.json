@@ -841,8 +841,8 @@
       ],
       "name": "video-test",
       "settings": {
-        "content_width": 960,
-        "columns_desktop": "3",
+        "content_width": 1160,
+        "columns_desktop": "4",
         "mobile_columns": "2",
         "grid_gap": 24,
         "mobile_gap": 16,
