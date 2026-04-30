@@ -1,0 +1,353 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --vt-bg: {{ section.settings.background.rgb }};
+    --vt-text: {{ section.settings.text_color.rgb }};
+    --vt-card: {{ section.settings.card_background.rgb }};
+    --vt-overlay: {{ section.settings.overlay_color.rgb }} / {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --vt-play-bg: {{ section.settings.play_background.rgb }};
+    --vt-play-color: {{ section.settings.play_icon_color.rgb }};
+    --vt-icon-bg: {{ section.settings.platform_background.rgb }};
+    --vt-icon-color: {{ section.settings.platform_icon_color.rgb }};
+    --vt-btn-bg: {{ section.settings.button_background.rgb }};
+    --vt-btn-text: {{ section.settings.button_text_color.rgb }};
+    --vt-btn-border: {{ section.settings.button_border_color.rgb }};
+    --vt-width: {{ section.settings.content_width }}px;
+    --vt-gap: {{ section.settings.grid_gap }}px;
+    --vt-radius: {{ section.settings.card_radius }}px;
+    --vt-height: {{ section.settings.media_height }}px;
+    --vt-caption-size: {{ section.settings.caption_size }}px;
+    --vt-play-size: {{ section.settings.play_size }}px;
+  }
+
+  #shopify-section-{{ section.id }} .video-test {
+    background: rgb(var(--vt-bg));
+    color: rgb(var(--vt-text));
+    padding-block: {{ section.settings.padding_top }}px {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__inner {
+    width: min(var(--vt-width), calc(100vw - 48px));
+    margin-inline: auto;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    gap: var(--vt-gap);
+  }
+
+  #shopify-section-{{ section.id }} .video-test__card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--vt-radius);
+    background: rgb(var(--vt-card));
+    isolation: isolate;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__media {
+    position: relative;
+    height: var(--vt-height);
+    overflow: hidden;
+    border-radius: var(--vt-radius) var(--vt-radius) 0 0;
+    background: #d8d8d8;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__media video,
+  #shopify-section-{{ section.id }} .video-test__media img,
+  #shopify-section-{{ section.id }} .video-test__placeholder {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__video {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__poster,
+  #shopify-section-{{ section.id }} .video-test__overlay,
+  #shopify-section-{{ section.id }} .video-test__play {
+    transition: opacity .25s ease, visibility .25s ease, transform .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__poster,
+  #shopify-section-{{ section.id }} .video-test__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__poster { z-index: 1; }
+  #shopify-section-{{ section.id }} .video-test__overlay {
+    z-index: 2;
+    background: rgb(var(--vt-overlay));
+    pointer-events: none;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__placeholder {
+    background: linear-gradient(135deg, #8994a0 0%, #d4bf44 100%);
+  }
+
+  #shopify-section-{{ section.id }} .video-test__play {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    width: var(--vt-play-size);
+    height: var(--vt-play-size);
+    transform: translate(-50%, -50%);
+    border: 0;
+    border-radius: 999px;
+    background: rgb(var(--vt-play-bg));
+    color: rgb(var(--vt-play-color));
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgb(0 0 0 / .12);
+  }
+
+  #shopify-section-{{ section.id }} .video-test__play:hover { transform: translate(-50%, -50%) scale(1.05); }
+  #shopify-section-{{ section.id }} .video-test__play svg { width: 42%; height: 42%; margin-left: 5%; }
+  #shopify-section-{{ section.id }} .video-test__card.is-playing .video-test__video { opacity: 1; visibility: visible; }
+  #shopify-section-{{ section.id }} .video-test__card.is-playing .video-test__poster,
+  #shopify-section-{{ section.id }} .video-test__card.is-playing .video-test__overlay,
+  #shopify-section-{{ section.id }} .video-test__card.is-playing .video-test__play { opacity: 0; visibility: hidden; }
+
+  #shopify-section-{{ section.id }} .video-test__caption {
+    min-height: {{ section.settings.caption_min_height }}px;
+    padding: {{ section.settings.caption_padding_top }}px {{ section.settings.caption_padding_x }}px {{ section.settings.caption_padding_bottom }}px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-size: var(--vt-caption-size);
+    line-height: 1.12;
+    letter-spacing: .01em;
+    font-weight: {{ section.settings.caption_weight }};
+    color: rgb(var(--vt-text));
+  }
+
+  #shopify-section-{{ section.id }} .video-test__platform {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    width: {{ section.settings.platform_size }}px;
+    height: {{ section.settings.platform_size }}px;
+    border-radius: {{ section.settings.platform_radius }}px 0 var(--vt-radius) 0;
+    background: rgb(var(--vt-icon-bg));
+    color: rgb(var(--vt-icon-color));
+    display: grid;
+    place-items: center;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__platform svg { width: 70%; height: 70%; display: block; }
+
+  #shopify-section-{{ section.id }} .video-test__cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: {{ section.settings.button_margin_top }}px;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__cta {
+    min-width: {{ section.settings.button_min_width }}px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    min-height: {{ section.settings.button_height }}px;
+    padding: 0 42px;
+    border: {{ section.settings.button_border_width }}px solid rgb(var(--vt-btn-border));
+    border-radius: {{ section.settings.button_radius }}px;
+    background: rgb(var(--vt-btn-bg));
+    color: rgb(var(--vt-btn-text));
+    font-size: {{ section.settings.button_font_size }}px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  #shopify-section-{{ section.id }} .video-test__cta svg { width: {{ section.settings.arrow_size }}px; height: {{ section.settings.arrow_size }}px; }
+
+  @media screen and (max-width: 999px) {
+    #shopify-section-{{ section.id }} .video-test__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} {
+      --vt-height: {{ section.settings.mobile_media_height }}px;
+      --vt-gap: {{ section.settings.mobile_gap }}px;
+      --vt-caption-size: {{ section.settings.mobile_caption_size }}px;
+    }
+    #shopify-section-{{ section.id }} .video-test__inner { width: min(var(--vt-width), calc(100vw - 28px)); }
+    #shopify-section-{{ section.id }} .video-test__grid { grid-template-columns: {% if section.settings.mobile_columns == '2' %}repeat(2, minmax(0, 1fr)){% else %}1fr{% endif %}; }
+    #shopify-section-{{ section.id }} .video-test__caption { min-height: {{ section.settings.mobile_caption_min_height }}px; padding: 16px 12px 22px; }
+    #shopify-section-{{ section.id }} .video-test__cta { min-width: 0; width: min(100%, {{ section.settings.button_min_width }}px); padding-inline: 24px; font-size: max(18px, {{ section.settings.button_font_size | minus: 6 }}px); }
+  }
+</style>
+
+<section class="video-test" data-video-test-section="{{ section.id }}">
+  <div class="video-test__inner" data-section-bounded-shell>
+    <div class="video-test__grid">
+      {%- for block in section.blocks -%}
+        <article class="video-test__card" {{ block.shopify_attributes }}>
+          <div class="video-test__media">
+            {%- if block.settings.video != blank -%}
+              {{ block.settings.video | video_tag: image_size: '800x', controls: false, autoplay: false, loop: block.settings.loop_video, muted: block.settings.muted_video, class: 'video-test__video', playsinline: true, preload: 'metadata' }}
+            {%- endif -%}
+            <div class="video-test__poster">
+              {%- if block.settings.poster != blank -%}
+                {{ block.settings.poster | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 86vw, (max-width: 999px) 45vw, 25vw', widths: '300,400,500,600,700,800', class: 'video-test__poster-image' }}
+              {%- elsif block.settings.video != blank and block.settings.video.preview_image != blank -%}
+                {{ block.settings.video.preview_image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(max-width: 699px) 86vw, (max-width: 999px) 45vw, 25vw', widths: '300,400,500,600,700,800', class: 'video-test__poster-image' }}
+              {%- else -%}
+                <div class="video-test__placeholder" aria-hidden="true"></div>
+              {%- endif -%}
+            </div>
+            <div class="video-test__overlay"></div>
+            <button class="video-test__play" type="button" aria-label="{{ block.settings.play_label | escape }}">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            </button>
+          </div>
+          <div class="video-test__caption">{{ block.settings.caption | newline_to_br }}</div>
+          <div class="video-test__platform" aria-hidden="true">
+            {%- case block.settings.platform -%}
+              {%- when 'tiktok' -%}<svg viewBox="0 0 24 24"><path d="M15.3 3c.4 2.6 1.8 4.1 4.3 4.3v3.2c-1.5.1-2.9-.4-4.2-1.2v5.8c0 3.7-2.4 5.9-5.8 5.9-3.1 0-5.2-2-5.2-4.8 0-3.2 2.5-5 5.7-4.7v3.3c-1.5-.3-2.5.3-2.5 1.4 0 1 .8 1.6 1.9 1.6 1.4 0 2.1-.8 2.1-2.6V3h3.7Z" fill="currentColor"/></svg>
+              {%- when 'instagram' -%}<svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.8" stroke="currentColor" stroke-width="2"/><circle cx="16.8" cy="7.2" r="1.2" fill="currentColor"/></svg>
+              {%- else -%}<svg viewBox="0 0 24 24"><path d="M12 3.2c2.9 0 3.2 0 4.4.1 1.1.1 1.7.2 2.1.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.1.1 1.2.1 1.5.1 4.4s0 3.2-.1 4.4c-.1 1.1-.2 1.7-.4 2.1-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.1.4-1.2.1-1.5.1-4.4.1s-3.2 0-4.4-.1c-1.1-.1-1.7-.2-2.1-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.1-.1-1.2-.1-1.5-.1-4.4s0-3.2.1-4.4c.1-1.1.2-1.7.4-2.1.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.1-.4 1.2-.1 1.5-.1 4.4-.1Z" fill="currentColor"/><path d="M9.5 8.1v7.8l6-3.9-6-3.9Z" fill="rgb(var(--vt-icon-bg))"/></svg>
+            {%- endcase -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.button_text != blank -%}
+      <div class="video-test__cta-wrap">
+        <a class="video-test__cta" href="{{ section.settings.button_link | default: '#' }}">
+          <span>{{ section.settings.button_text | escape }}</span>
+          {%- if section.settings.show_arrow -%}<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>{%- endif -%}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function() {
+    function initVideoTest{{ section.id | replace: '-', '_' }}() {
+      var root = document.querySelector('[data-video-test-section="{{ section.id }}"]');
+      if (!root || root.dataset.videoTestReady === 'true') return;
+      root.dataset.videoTestReady = 'true';
+      root.querySelectorAll('.video-test__card').forEach(function(card) {
+        var button = card.querySelector('.video-test__play');
+        var video = card.querySelector('video');
+        if (!button) return;
+        button.addEventListener('click', function() {
+          root.querySelectorAll('.video-test__card.is-playing').forEach(function(activeCard) {
+            if (activeCard === card) return;
+            activeCard.classList.remove('is-playing');
+            var activeVideo = activeCard.querySelector('video');
+            if (activeVideo) activeVideo.pause();
+          });
+          card.classList.add('is-playing');
+          if (video) { video.controls = false; video.play(); }
+        });
+        if (video) video.addEventListener('ended', function() { if (!video.loop) card.classList.remove('is-playing'); });
+      });
+    }
+    initVideoTest{{ section.id | replace: '-', '_' }}();
+    document.addEventListener('shopify:section:load', initVideoTest{{ section.id | replace: '-', '_' }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "video-test",
+  "class": "shopify-section--video-test",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "content_width", "label": "Content width", "min": 900, "max": 1180, "step": 20, "unit": "px", "default": 1180 },
+    { "type": "select", "id": "columns_desktop", "label": "Desktop columns", "options": [{ "value": "3", "label": "3" }, { "value": "4", "label": "4" }], "default": "4" },
+    { "type": "select", "id": "mobile_columns", "label": "Mobile columns", "options": [{ "value": "1", "label": "1" }, { "value": "2", "label": "2" }], "default": "1" },
+    { "type": "range", "id": "grid_gap", "label": "Desktop gap", "min": 8, "max": 36, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "mobile_gap", "label": "Mobile gap", "min": 8, "max": 20, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "media_height", "label": "Desktop video height", "min": 260, "max": 440, "step": 10, "unit": "px", "default": 440 },
+    { "type": "range", "id": "mobile_media_height", "label": "Mobile video height", "min": 260, "max": 360, "step": 10, "unit": "px", "default": 360 },
+    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 32, "step": 1, "unit": "px", "default": 12 },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 },
+
+    { "type": "header", "content": "Caption" },
+    { "type": "range", "id": "caption_size", "label": "Desktop text size", "min": 14, "max": 34, "step": 1, "unit": "px", "default": 23 },
+    { "type": "range", "id": "mobile_caption_size", "label": "Mobile text size", "min": 13, "max": 28, "step": 1, "unit": "px", "default": 20 },
+    { "type": "select", "id": "caption_weight", "label": "Text weight", "options": [{ "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semi bold" }, { "value": "700", "label": "Bold" }], "default": "400" },
+    { "type": "range", "id": "caption_min_height", "label": "Desktop caption height", "min": 70, "max": 160, "step": 2, "unit": "px", "default": 124 },
+    { "type": "range", "id": "mobile_caption_min_height", "label": "Mobile caption height", "min": 56, "max": 140, "step": 2, "unit": "px", "default": 100 },
+    { "type": "range", "id": "caption_padding_top", "label": "Caption top padding", "min": 8, "max": 28, "step": 2, "unit": "px", "default": 26 },
+    { "type": "range", "id": "caption_padding_bottom", "label": "Caption bottom padding", "min": 8, "max": 28, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "caption_padding_x", "label": "Caption side padding", "min": 8, "max": 28, "step": 2, "unit": "px", "default": 20 },
+
+    { "type": "header", "content": "Play button and platform icon" },
+    { "type": "range", "id": "play_size", "label": "Play button size", "min": 44, "max": 100, "step": 2, "unit": "px", "default": 70 },
+    { "type": "range", "id": "platform_size", "label": "Platform icon box size", "min": 24, "max": 60, "step": 1, "unit": "px", "default": 37 },
+    { "type": "range", "id": "platform_radius", "label": "Platform icon radius", "min": 0, "max": 20, "step": 1, "unit": "px", "default": 10 },
+    { "type": "range", "id": "overlay_opacity", "label": "Video overlay opacity", "min": 0, "max": 70, "step": 1, "unit": "%", "default": 25 },
+
+    { "type": "header", "content": "CTA" },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "SHOP NOW" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "show_arrow", "label": "Show arrow", "default": true },
+    { "type": "range", "id": "button_margin_top", "label": "Button top spacing", "min": 12, "max": 80, "step": 2, "unit": "px", "default": 26 },
+    { "type": "range", "id": "button_min_width", "label": "Button width", "min": 220, "max": 520, "step": 10, "unit": "px", "default": 390 },
+    { "type": "range", "id": "button_height", "label": "Button height", "min": 48, "max": 110, "step": 2, "unit": "px", "default": 84 },
+    { "type": "range", "id": "button_font_size", "label": "Button font size", "min": 16, "max": 42, "step": 1, "unit": "px", "default": 33 },
+    { "type": "range", "id": "button_radius", "label": "Button radius", "min": 0, "max": 30, "step": 1, "unit": "px", "default": 12 },
+    { "type": "range", "id": "button_border_width", "label": "Button border width", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 2 },
+    { "type": "range", "id": "arrow_size", "label": "Arrow size", "min": 16, "max": 44, "step": 1, "unit": "px", "default": 28 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Section background", "default": "#f4f4f4" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Card text", "default": "#171217" },
+    { "type": "color", "id": "overlay_color", "label": "Video overlay", "default": "#000000" },
+    { "type": "color", "id": "play_background", "label": "Play button background", "default": "#e2c547" },
+    { "type": "color", "id": "play_icon_color", "label": "Play icon", "default": "#ffffff" },
+    { "type": "color", "id": "platform_background", "label": "Platform icon background", "default": "#090505" },
+    { "type": "color", "id": "platform_icon_color", "label": "Platform icon color", "default": "#ffffff" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#ffffff" },
+    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#171217" },
+    { "type": "color", "id": "button_border_color", "label": "Button border", "default": "#171217" }
+  ],
+  "blocks": [
+    {
+      "type": "video_card",
+      "name": "Video card",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Shopify uploaded video" },
+        { "type": "image_picker", "id": "poster", "label": "Poster image" },
+        { "type": "textarea", "id": "caption", "label": "Caption", "default": "You asked, Kylian Mbappé\nanswered. ⚡" },
+        { "type": "select", "id": "platform", "label": "Platform icon", "options": [{ "value": "shorts", "label": "Shorts" }, { "value": "tiktok", "label": "TikTok" }, { "value": "instagram", "label": "Instagram" }], "default": "shorts" },
+        { "type": "text", "id": "play_label", "label": "Play accessibility label", "default": "Play video" },
+        { "type": "checkbox", "id": "loop_video", "label": "Loop video", "default": false },
+        { "type": "checkbox", "id": "muted_video", "label": "Mute video", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "video-test",
+      "blocks": [
+        { "type": "video_card", "settings": { "caption": "You asked, Kylian Mbappé\nanswered. ⚡", "platform": "shorts" } },
+        { "type": "video_card", "settings": { "caption": "A hooper’s hunger can’t be\nsatisfied. Stay hungry\nhoopers. 🍔", "platform": "tiktok" } },
+        { "type": "video_card", "settings": { "caption": "Matilda made everyone\nfootball fans this month", "platform": "instagram" } },
+        { "type": "video_card", "settings": { "caption": "Answers some this or that\nquestions in his all\nnew #NikeTech 👀🔥", "platform": "tiktok" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
