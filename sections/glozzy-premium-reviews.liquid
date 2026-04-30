@@ -8,8 +8,11 @@
     --gz-muted: {{ section.settings.muted_text_color }};
     --gz-accent: {{ section.settings.accent_color }};
     --gz-star: {{ section.settings.star_color }};
-    --gz-line: color-mix(in srgb, var(--gz-accent) 18%, transparent);
-    --gz-shadow: 0 28px 90px rgba(151, 55, 95, .14);
+    --gz-cream: #fbf8f4;
+    --gz-soft: #f5eee9;
+    --gz-border: rgba(59, 20, 36, .095);
+    --gz-border-light: rgba(59, 20, 36, .06);
+    --gz-shadow: 0 24px 70px rgba(41, 27, 24, .075);
   }
 
   #shopify-section-{{ section.id }} .gz {
@@ -18,39 +21,19 @@
     isolation: isolate;
     color: var(--gz-text);
     background:
-      radial-gradient(circle at 13% 12%, color-mix(in srgb, var(--gz-accent) 22%, transparent), transparent 26%),
-      radial-gradient(circle at 92% 20%, rgba(255,255,255,.92), transparent 22%),
-      linear-gradient(145deg, #fff 0%, var(--gz-bg) 44%, #fff 100%);
-  }
-
-  #shopify-section-{{ section.id }} .gz::before,
-  #shopify-section-{{ section.id }} .gz::after {
-    content: '';
-    position: absolute;
-    border-radius: 999px;
-    pointer-events: none;
-    z-index: 0;
+      linear-gradient(180deg, #fff 0%, var(--gz-cream) 50%, #fff 100%);
   }
 
   #shopify-section-{{ section.id }} .gz::before {
-    width: 420px;
-    height: 420px;
-    left: -170px;
-    top: 90px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--gz-accent) 28%, white), transparent 68%);
-    filter: blur(8px);
-    opacity: .46;
-    animation: gz-drift-{{ section.id }} 11s ease-in-out infinite;
-  }
-
-  #shopify-section-{{ section.id }} .gz::after {
-    width: 260px;
-    height: 260px;
-    right: -90px;
-    bottom: 100px;
-    background: radial-gradient(circle, rgba(255,255,255,.95), color-mix(in srgb, var(--gz-accent) 18%, transparent) 58%, transparent 72%);
-    opacity: .85;
-    animation: gz-drift-{{ section.id }} 13s ease-in-out infinite reverse;
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--gz-accent) 8%, transparent), transparent 30%),
+      radial-gradient(circle at 84% 14%, rgba(255,255,255,.92), transparent 28%);
+    opacity: .8;
+    z-index: 0;
   }
 
   #shopify-section-{{ section.id }} .gz__shell {
@@ -61,207 +44,143 @@
     z-index: 1;
   }
 
-  #shopify-section-{{ section.id }} .gz__layout {
+  #shopify-section-{{ section.id }} .gz__header {
     display: grid;
-    grid-template-columns: minmax(280px, .82fr) minmax(0, 1.5fr);
-    gap: clamp(24px, 4vw, 52px);
-    align-items: center;
-  }
-
-  #shopify-section-{{ section.id }} .gz__intro {
-    position: relative;
-    padding: clamp(22px, 3vw, 34px);
-    border: 1px solid rgba(255,255,255,.72);
-    border-radius: 34px;
-    background: linear-gradient(180deg, rgba(255,255,255,.76), rgba(255,255,255,.42));
-    box-shadow: var(--gz-shadow), inset 0 1px 0 rgba(255,255,255,.95);
-    backdrop-filter: blur(18px);
+    grid-template-columns: minmax(0, .92fr) minmax(260px, .58fr);
+    gap: clamp(26px, 5vw, 74px);
+    align-items: end;
+    padding-bottom: clamp(28px, 4vw, 46px);
+    border-bottom: 1px solid var(--gz-border-light);
   }
 
   #shopify-section-{{ section.id }} .gz__eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 13px;
-    border-radius: 999px;
-    border: 1px solid var(--gz-line);
-    background: rgba(255,255,255,.72);
-    color: var(--gz-accent);
+    gap: 10px;
+    color: color-mix(in srgb, var(--gz-text) 62%, var(--gz-accent));
     font-size: 11px;
-    font-weight: 850;
-    letter-spacing: .14em;
+    font-weight: 800;
+    letter-spacing: .18em;
     text-transform: uppercase;
-    box-shadow: 0 10px 24px rgba(151,55,95,.08);
   }
 
-  #shopify-section-{{ section.id }} .gz__sparkle {
-    width: 7px;
-    height: 7px;
-    border-radius: 99px;
-    background: currentColor;
-    box-shadow: 0 0 18px currentColor;
+  #shopify-section-{{ section.id }} .gz__eyebrow::before {
+    content: '';
+    width: 34px;
+    height: 1px;
+    background: color-mix(in srgb, var(--gz-accent) 45%, var(--gz-text));
+    opacity: .55;
   }
 
   #shopify-section-{{ section.id }} .gz__title {
-    margin: 18px 0 13px;
-    max-width: 11ch;
+    margin: 18px 0 0;
+    max-width: 760px;
     font-family: var(--heading-font-family);
-    font-size: clamp(32px, 4.8vw, 58px);
-    line-height: .93;
-    letter-spacing: -.055em;
+    font-size: clamp(40px, 6.2vw, 78px);
+    line-height: .92;
+    letter-spacing: -.062em;
     color: var(--gz-text);
   }
 
   #shopify-section-{{ section.id }} .gz__title span {
-    color: var(--gz-accent);
+    color: color-mix(in srgb, var(--gz-accent) 56%, var(--gz-text));
     font-style: italic;
     font-weight: inherit;
   }
 
   #shopify-section-{{ section.id }} .gz__text {
+    color: color-mix(in srgb, var(--gz-muted) 82%, var(--gz-text));
+    font-size: clamp(15px, 1.35vw, 17px);
+    line-height: 1.8;
+    max-width: 390px;
+    justify-self: end;
+  }
+
+  #shopify-section-{{ section.id }} .gz__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 0 24px;
+  }
+
+  #shopify-section-{{ section.id }} .gz__rating-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
     color: var(--gz-muted);
-    font-size: 15px;
-    line-height: 1.72;
-    max-width: 36rem;
+    font-size: 13px;
+    letter-spacing: .02em;
   }
 
-  #shopify-section-{{ section.id }} .gz__proof {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--gz-line);
-  }
-
-  #shopify-section-{{ section.id }} .gz__proof-item {
-    padding: 12px 10px;
-    border-radius: 18px;
-    background: rgba(255,255,255,.58);
-    border: 1px solid rgba(255,255,255,.7);
-    text-align: center;
-  }
-
-  #shopify-section-{{ section.id }} .gz__proof-strong {
-    display: block;
-    font-size: 16px;
-    font-weight: 900;
-    color: var(--gz-text);
-    letter-spacing: -.03em;
-  }
-
-  #shopify-section-{{ section.id }} .gz__proof-label {
-    display: block;
-    margin-top: 2px;
-    font-size: 10px;
-    font-weight: 750;
-    color: var(--gz-muted);
+  #shopify-section-{{ section.id }} .gz__rating-stars {
+    color: color-mix(in srgb, var(--gz-star) 74%, #9b705f);
     letter-spacing: .08em;
+    font-size: 14px;
+  }
+
+  #shopify-section-{{ section.id }} .gz__hint {
+    color: color-mix(in srgb, var(--gz-muted) 75%, var(--gz-text));
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: .12em;
     text-transform: uppercase;
   }
 
-  #shopify-section-{{ section.id }} .gz__stage {
-    min-width: 0;
-    border-radius: 38px;
-    padding: 14px;
-    border: 1px solid rgba(255,255,255,.82);
-    background: linear-gradient(135deg, rgba(255,255,255,.8), rgba(255,246,250,.56));
-    box-shadow: 0 32px 100px rgba(151,55,95,.16), inset 0 1px 0 rgba(255,255,255,.9);
-    backdrop-filter: blur(20px);
+  #shopify-section-{{ section.id }} .gz__reviews-wrap {
     position: relative;
-  }
-
-  #shopify-section-{{ section.id }} .gz__stage::before {
-    content: '';
-    position: absolute;
-    inset: 12px;
-    border-radius: 28px;
-    border: 1px solid rgba(217,95,148,.08);
-    pointer-events: none;
   }
 
   #shopify-section-{{ section.id }} .gz__track {
     display: flex;
-    gap: 16px;
+    gap: 18px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    padding: 6px 6px 18px;
-    position: relative;
-    z-index: 1;
+    padding: 2px 2px 22px;
   }
 
   #shopify-section-{{ section.id }} .gz__track::-webkit-scrollbar { display: none; }
 
   #shopify-section-{{ section.id }} .gz-card {
     scroll-snap-align: start;
-    flex: 0 0 calc((100% - 16px) / 2);
-    min-height: 356px;
+    flex: 0 0 calc((100% - 36px) / 3);
+    min-height: 276px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 22px;
-    padding: 26px;
-    border-radius: 30px;
-    border: 1px solid rgba(217,95,148,.14);
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.82)),
-      radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--gz-accent) 16%, transparent), transparent 36%);
-    box-shadow: 0 22px 58px rgba(151,55,95,.13);
+    gap: 24px;
+    padding: clamp(22px, 2.5vw, 30px);
+    border-radius: 4px;
+    border: 1px solid var(--gz-border);
+    background: color-mix(in srgb, var(--gz-card) 82%, #fbf8f4);
+    box-shadow: 0 14px 34px rgba(41,27,24,.04);
     position: relative;
-    overflow: hidden;
-    transform: translateZ(0);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   }
 
-  #shopify-section-{{ section.id }} .gz-card::before {
-    content: '“';
-    position: absolute;
-    right: 22px;
-    top: -16px;
-    font-family: Georgia, serif;
-    font-size: 118px;
-    line-height: 1;
-    color: color-mix(in srgb, var(--gz-accent) 12%, transparent);
-    pointer-events: none;
-  }
-
-  #shopify-section-{{ section.id }} .gz-card__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
+  #shopify-section-{{ section.id }} .gz-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--gz-shadow);
+    border-color: color-mix(in srgb, var(--gz-accent) 16%, var(--gz-border));
   }
 
   #shopify-section-{{ section.id }} .gz-card__stars {
     display: inline-flex;
-    align-items: center;
     gap: 3px;
-    padding: 8px 10px;
-    border-radius: 999px;
-    color: var(--gz-star);
-    background: color-mix(in srgb, var(--gz-star) 9%, white);
-    border: 1px solid color-mix(in srgb, var(--gz-star) 20%, transparent);
+    color: color-mix(in srgb, var(--gz-star) 72%, #9b705f);
     font-size: {{ section.settings.star_size }}px;
     letter-spacing: .02em;
-    box-shadow: 0 10px 20px color-mix(in srgb, var(--gz-star) 11%, transparent);
-  }
-
-  #shopify-section-{{ section.id }} .gz-card__verified {
-    color: var(--gz-accent);
-    font-size: 11px;
-    font-weight: 850;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    white-space: nowrap;
   }
 
   #shopify-section-{{ section.id }} .gz-card__quote {
     margin: 0;
-    max-width: 95%;
     color: var(--gz-text);
-    font-size: clamp(18px, 1.9vw, 25px);
-    line-height: 1.32;
+    font-family: var(--heading-font-family);
+    font-size: clamp(18px, 1.8vw, 25px);
+    line-height: 1.28;
     letter-spacing: -.035em;
   }
 
@@ -269,23 +188,23 @@
     display: flex;
     align-items: center;
     gap: 13px;
-    padding-top: 20px;
-    border-top: 1px solid var(--gz-line);
+    padding-top: 18px;
+    border-top: 1px solid var(--gz-border-light);
   }
 
   #shopify-section-{{ section.id }} .gz-card__avatar {
-    width: 58px;
-    height: 58px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     overflow: hidden;
     display: grid;
     place-items: center;
     flex: 0 0 auto;
-    color: var(--gz-accent);
-    font-weight: 900;
-    background: linear-gradient(135deg, #fff, #ffd7e8 55%, #fff);
-    border: 3px solid rgba(255,255,255,.92);
-    box-shadow: 0 14px 30px rgba(151,55,95,.18);
+    color: var(--gz-text);
+    font-size: 13px;
+    font-weight: 850;
+    background: linear-gradient(135deg, #fff, var(--gz-soft));
+    border: 1px solid rgba(59,20,36,.11);
   }
 
   #shopify-section-{{ section.id }} .gz-card__avatar img {
@@ -295,214 +214,167 @@
   }
 
   #shopify-section-{{ section.id }} .gz-card__name {
-    font-weight: 900;
     color: var(--gz-text);
-    letter-spacing: -.02em;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -.01em;
   }
 
   #shopify-section-{{ section.id }} .gz-card__label {
     margin-top: 2px;
     color: var(--gz-muted);
-    font-size: 13px;
+    font-size: 12px;
   }
 
   #shopify-section-{{ section.id }} .gz__controls {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 2px 8px 4px;
-    position: relative;
-    z-index: 1;
-  }
-
-  #shopify-section-{{ section.id }} .gz__counter {
-    color: var(--gz-muted);
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-
-  #shopify-section-{{ section.id }} .gz__buttons {
-    display: flex;
-    gap: 10px;
+    justify-content: flex-end;
+    gap: 8px;
   }
 
   #shopify-section-{{ section.id }} .gz__btn {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    border: 1px solid rgba(217,95,148,.2);
-    background: linear-gradient(180deg, #fff, #fff5f9);
-    color: var(--gz-accent);
+    border: 1px solid var(--gz-border);
+    background: rgba(255,255,255,.62);
+    color: var(--gz-text);
     display: grid;
     place-items: center;
     cursor: pointer;
-    box-shadow: 0 16px 32px rgba(151,55,95,.12);
-    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    opacity: .72;
+    transition: opacity .2s ease, background .2s ease, transform .2s ease;
   }
 
   #shopify-section-{{ section.id }} .gz__btn:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--gz-accent) 36%, transparent);
-    box-shadow: 0 22px 40px rgba(151,55,95,.18);
+    opacity: 1;
+    background: #fff;
+    transform: translateY(-1px);
   }
 
-  #shopify-section-{{ section.id }} .gz__marquee {
-    margin-top: 26px;
-    overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  }
-
-  #shopify-section-{{ section.id }} .gz__marquee-track {
-    width: max-content;
-    display: flex;
-    gap: 10px;
-    animation: gz-marquee-{{ section.id }} {{ section.settings.marquee_speed }}s linear infinite;
-  }
-
-  #shopify-section-{{ section.id }} .gz__icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    min-width: max-content;
-    padding: 10px 15px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.64);
-    border: 1px solid rgba(217,95,148,.14);
-    color: var(--gz-text);
-    font-size: 12px;
-    font-weight: 850;
-    letter-spacing: .04em;
-    box-shadow: 0 10px 22px rgba(151,55,95,.08);
-  }
-
-  #shopify-section-{{ section.id }} .gz__icon-symbol {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: color-mix(in srgb, var(--gz-accent) 12%, white);
-    color: var(--gz-accent);
-  }
-
-  @keyframes gz-marquee-{{ section.id }} {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  @keyframes gz-drift-{{ section.id }} {
-    0%, 100% { transform: translate3d(0,0,0) scale(1); }
-    50% { transform: translate3d(22px,-18px,0) scale(1.04); }
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .gz__controls { margin-top: -4px; }
   }
 
   @media screen and (max-width: 989px) {
-    #shopify-section-{{ section.id }} .gz__layout { grid-template-columns: 1fr; }
-    #shopify-section-{{ section.id }} .gz__intro { text-align: center; }
-    #shopify-section-{{ section.id }} .gz__title { max-width: none; margin-inline: auto; }
-    #shopify-section-{{ section.id }} .gz__text { margin-inline: auto; }
-    #shopify-section-{{ section.id }} .gz-card { flex-basis: calc((100% - 16px) / 2); }
+    #shopify-section-{{ section.id }} .gz__header {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      text-align: center;
+    }
+
+    #shopify-section-{{ section.id }} .gz__eyebrow { justify-content: center; }
+    #shopify-section-{{ section.id }} .gz__eyebrow::after { content: ''; width: 34px; height: 1px; background: color-mix(in srgb, var(--gz-accent) 45%, var(--gz-text)); opacity: .55; }
+    #shopify-section-{{ section.id }} .gz__text { justify-self: center; margin-inline: auto; }
+    #shopify-section-{{ section.id }} .gz-card { flex-basis: calc((100% - 18px) / 2); }
   }
 
   @media screen and (max-width: 699px) {
-    #shopify-section-{{ section.id }} .gz__shell { padding: {{ section.settings.mobile_padding_y }}px 14px; }
-    #shopify-section-{{ section.id }} .gz__intro { border-radius: 28px; padding: 22px 18px; }
-    #shopify-section-{{ section.id }} .gz__title { font-size: clamp(31px, 10vw, 42px); line-height: .96; }
-    #shopify-section-{{ section.id }} .gz__proof { grid-template-columns: 1fr 1fr 1fr; gap: 7px; }
-    #shopify-section-{{ section.id }} .gz__proof-item { padding: 10px 6px; border-radius: 14px; }
-    #shopify-section-{{ section.id }} .gz__proof-strong { font-size: 14px; }
-    #shopify-section-{{ section.id }} .gz__proof-label { font-size: 9px; }
-    #shopify-section-{{ section.id }} .gz__stage { border-radius: 28px; padding: 10px; }
-    #shopify-section-{{ section.id }} .gz__stage::before { inset: 8px; border-radius: 22px; }
-    #shopify-section-{{ section.id }} .gz__track { gap: 12px; padding: 4px 2px 14px; }
-    #shopify-section-{{ section.id }} .gz-card { flex-basis: 88%; min-height: 330px; padding: 22px 20px; border-radius: 24px; }
-    #shopify-section-{{ section.id }} .gz-card__top { align-items: flex-start; flex-direction: column; gap: 10px; }
-    #shopify-section-{{ section.id }} .gz-card__quote { font-size: 20px; max-width: 100%; }
-    #shopify-section-{{ section.id }} .gz__controls { padding-inline: 4px; }
-    #shopify-section-{{ section.id }} .gz__btn { width: 44px; height: 44px; }
+    #shopify-section-{{ section.id }} .gz__shell {
+      padding: {{ section.settings.mobile_padding_y }}px 16px;
+    }
+
+    #shopify-section-{{ section.id }} .gz__header {
+      padding-bottom: 26px;
+    }
+
+    #shopify-section-{{ section.id }} .gz__title {
+      font-size: clamp(36px, 12vw, 54px);
+      line-height: .94;
+    }
+
+    #shopify-section-{{ section.id }} .gz__summary {
+      align-items: flex-start;
+      padding: 18px 0 18px;
+    }
+
+    #shopify-section-{{ section.id }} .gz__hint {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .gz__track {
+      gap: 12px;
+      padding-bottom: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .gz-card {
+      flex-basis: 86%;
+      min-height: 260px;
+      padding: 22px;
+    }
+
+    #shopify-section-{{ section.id }} .gz-card__quote {
+      font-size: 21px;
+    }
+
+    #shopify-section-{{ section.id }} .gz__controls {
+      justify-content: center;
+    }
   }
 </style>
 
 <section class="gz" data-glozzy-reviews data-section-id="{{ section.id }}">
   <div class="gz__shell" data-section-bounded-shell>
-    <div class="gz__layout">
-      <div class="gz__intro">
+    <div class="gz__header">
+      <div>
         {%- if section.settings.eyebrow != blank -%}
-          <div class="gz__eyebrow"><span class="gz__sparkle"></span>{{ section.settings.eyebrow | escape }}</div>
+          <div class="gz__eyebrow">{{ section.settings.eyebrow | escape }}</div>
         {%- endif -%}
 
         {%- if section.settings.heading != blank -%}
           <h2 class="gz__title">{{ section.settings.heading }}</h2>
         {%- endif -%}
-
-        {%- if section.settings.text != blank -%}
-          <div class="gz__text">{{ section.settings.text }}</div>
-        {%- endif -%}
-
-        <div class="gz__proof" aria-label="Glozzy review highlights">
-          <div class="gz__proof-item"><span class="gz__proof-strong">4.9</span><span class="gz__proof-label">rating</span></div>
-          <div class="gz__proof-item"><span class="gz__proof-strong">2k+</span><span class="gz__proof-label">glows</span></div>
-          <div class="gz__proof-item"><span class="gz__proof-strong">98%</span><span class="gz__proof-label">love it</span></div>
-        </div>
       </div>
 
-      <div class="gz__stage">
-        <div class="gz__track" data-section-slider aria-label="{{ section.settings.heading | strip_html | escape }}">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'review' -%}
-              <article class="gz-card" data-section-slide data-section-review-item {{ block.shopify_attributes }}>
-                <div class="gz-card__top">
-                  <div class="gz-card__stars" data-section-rating-badge aria-label="{{ block.settings.rating }} van 5 sterren">
-                    {%- for i in (1..5) -%}<span>{% if i <= block.settings.rating %}★{% else %}☆{% endif %}</span>{%- endfor -%}
-                  </div>
-                  <div class="gz-card__verified">Verified</div>
+      {%- if section.settings.text != blank -%}
+        <div class="gz__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="gz__summary">
+      <div class="gz__rating-line">
+        <span class="gz__rating-stars" aria-hidden="true">★★★★★</span>
+        <span>Customer notes from the Glozzy community</span>
+      </div>
+      <span class="gz__hint">Drag to explore</span>
+    </div>
+
+    <div class="gz__reviews-wrap">
+      <div class="gz__track" data-section-slider aria-label="{{ section.settings.heading | strip_html | escape }}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            <article class="gz-card" data-section-slide data-section-review-item {{ block.shopify_attributes }}>
+              <div>
+                <div class="gz-card__stars" data-section-rating-badge aria-label="{{ block.settings.rating }} van 5 sterren">
+                  {%- for i in (1..5) -%}<span>{% if i <= block.settings.rating %}★{% else %}☆{% endif %}</span>{%- endfor -%}
                 </div>
 
                 {%- if block.settings.quote != blank -%}
                   <p class="gz-card__quote">{{ block.settings.quote | escape }}</p>
                 {%- endif -%}
+              </div>
 
-                <div class="gz-card__meta">
-                  <div class="gz-card__avatar">
-                    {%- if block.settings.avatar != blank -%}
-                      {{ block.settings.avatar | image_url: width: 140 | image_tag: loading: 'lazy', widths: '70,100,140', alt: block.settings.author }}
-                    {%- else -%}
-                      {{ block.settings.author | slice: 0 | upcase }}
-                    {%- endif -%}
-                  </div>
-                  <div>
-                    <div class="gz-card__name">{{ block.settings.author | escape }}</div>
-                    {%- if block.settings.label != blank -%}<div class="gz-card__label">{{ block.settings.label | escape }}</div>{%- endif -%}
-                  </div>
+              <div class="gz-card__meta">
+                <div class="gz-card__avatar">
+                  {%- if block.settings.avatar != blank -%}
+                    {{ block.settings.avatar | image_url: width: 120 | image_tag: loading: 'lazy', widths: '60,90,120', alt: block.settings.author }}
+                  {%- else -%}
+                    {{ block.settings.author | slice: 0 | upcase }}
+                  {%- endif -%}
                 </div>
-              </article>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-
-        <div class="gz__controls" aria-label="Slider navigatie">
-          <span class="gz__counter">Swipe reviews</span>
-          <div class="gz__buttons">
-            <button class="gz__btn" type="button" data-glozzy-prev aria-label="Vorige review">‹</button>
-            <button class="gz__btn" type="button" data-glozzy-next aria-label="Volgende review">›</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {%- assign icons = section.settings.beauty_icons | split: ',' -%}
-    <div class="gz__marquee" aria-label="Beauty product icons">
-      <div class="gz__marquee-track">
-        {%- for repeat in (1..2) -%}
-          {%- for icon in icons -%}
-            {%- assign label = icon | strip -%}
-            {%- if label != blank -%}
-              <span class="gz__icon"><span class="gz__icon-symbol">✦</span>{{ label | escape }}</span>
-            {%- endif -%}
-          {%- endfor -%}
+                <div>
+                  <div class="gz-card__name">{{ block.settings.author | escape }}</div>
+                  {%- if block.settings.label != blank -%}<div class="gz-card__label">{{ block.settings.label | escape }}</div>{%- endif -%}
+                </div>
+              </div>
+            </article>
+          {%- endif -%}
         {%- endfor -%}
+      </div>
+
+      <div class="gz__controls" aria-label="Review navigatie">
+        <button class="gz__btn" type="button" data-glozzy-prev aria-label="Vorige review">‹</button>
+        <button class="gz__btn" type="button" data-glozzy-next aria-label="Volgende review">›</button>
       </div>
     </div>
   </div>
@@ -559,20 +431,20 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by beauty lovers" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Glozzy glow, <span>real reviews</span>" },
-    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Een premium review slider met zachte roze tinten, professionele sterren en een luxe beauty uitstraling.</p>" },
-    { "type": "text", "id": "beauty_icons", "label": "Scrolling beauty producten", "default": "Lip Gloss, Blush, Serum, Mascara, Highlighter, Lip Oil, Primer, Setting Spray" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Een rustige premium reviewsectie met subtiele tinten, veel witruimte en verfijnde customer proof.</p>" },
+    { "type": "text", "id": "beauty_icons", "label": "Legacy beauty products text", "default": "Lip Gloss, Blush, Serum, Mascara, Highlighter, Lip Oil, Primer, Setting Spray" },
     { "type": "range", "id": "content_width", "label": "Content width", "min": 900, "max": 1120, "step": 20, "unit": "px", "default": 1060 },
     { "type": "range", "id": "padding_y", "label": "Desktop vertical padding", "min": 48, "max": 120, "step": 4, "unit": "px", "default": 88 },
     { "type": "range", "id": "mobile_padding_y", "label": "Mobile vertical padding", "min": 36, "max": 84, "step": 4, "unit": "px", "default": 56 },
-    { "type": "range", "id": "star_size", "label": "Star size", "min": 16, "max": 28, "step": 1, "unit": "px", "default": 21 },
-    { "type": "range", "id": "marquee_speed", "label": "Icon scroll speed", "min": 12, "max": 42, "step": 2, "unit": "s", "default": 24 },
+    { "type": "range", "id": "star_size", "label": "Star size", "min": 16, "max": 28, "step": 1, "unit": "px", "default": 18 },
+    { "type": "range", "id": "marquee_speed", "label": "Legacy icon speed", "min": 12, "max": 42, "step": 2, "unit": "s", "default": 24 },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#fff1f7" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#fbf8f4" },
     { "type": "color", "id": "card_color", "label": "Card", "default": "#ffffff" },
-    { "type": "color", "id": "text_color", "label": "Text", "default": "#3b1424" },
-    { "type": "color", "id": "muted_text_color", "label": "Muted text", "default": "#8b5d6e" },
-    { "type": "color", "id": "accent_color", "label": "Pink accent", "default": "#d95f94" },
-    { "type": "color", "id": "star_color", "label": "Stars", "default": "#e45596" }
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#2f2421" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text", "default": "#786b66" },
+    { "type": "color", "id": "accent_color", "label": "Soft accent", "default": "#b88a80" },
+    { "type": "color", "id": "star_color", "label": "Stars", "default": "#b88a80" }
   ],
   "blocks": [
     {
