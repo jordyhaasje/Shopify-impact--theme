@@ -514,8 +514,8 @@
               }
 
               .pair-with-{{ block.id }}__media {
-                width: 84px;
-                min-width: 84px;
+                width: 60px;
+                min-width: 60px;
               }
 
               .pair-with-{{ block.id }}__image {
@@ -579,16 +579,19 @@
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                min-height: 44px;
-                padding: 10px 16px;
+                width: 36px;
+                height: 36px;
                 border-radius: 999px;
                 background: {{ block.settings.button_background | default: '#111111' }};
                 color: {{ block.settings.button_text_color | default: '#ffffff' }};
                 text-decoration: none;
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: 700;
-                line-height: 1;
-                white-space: nowrap;
+              }
+
+              .pair-with-{{ block.id }}__button svg {
+                width: 16px;
+                height: 16px;
               }
 
               @media screen and (max-width: 749px) {
@@ -656,8 +659,14 @@
                       {%- render 'price-list', product: pair_product -%}
                     </div>
 
-                    <a href="{{ pair_product.url }}" class="pair-with-{{ block.id }}__button">
-                      {{ block.settings.button_label | default: 'Shop now' | escape }}
+                    <a href="{{ pair_product.url }}" class="pair-with-{{ block.id }}__button" aria-label="Add to cart">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                        <line x1="12" y1="10" x2="12" y2="16" />
+                        <line x1="9" y1="13" x2="15" y2="13" />
+                      </svg>
                     </a>
                   </div>
                 </div>
