@@ -487,13 +487,13 @@
             <style>
               .pair-with-{{ block.id }} {
                 display: grid;
-                gap: 14px;
-                padding: 16px;
-                border-radius: 18px;
-                border: 1px solid rgba(0, 0, 0, 0.08);
-                background: {{ block.settings.card_background | default: '#ffffff' }};
+                gap: 10px;
+                padding: 12px;
+                border-radius: 12px;
+                border: none;
+                background: transparent;
                 color: {{ block.settings.text_color | default: '#111111' }};
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                box-shadow: none;
               }
 
               .pair-with-{{ block.id }}__label {
@@ -514,8 +514,8 @@
               }
 
               .pair-with-{{ block.id }}__media {
-                width: 60px;
-                min-width: 60px;
+                width: 48px;
+                min-width: 48px;
               }
 
               .pair-with-{{ block.id }}__image {
@@ -579,36 +579,36 @@
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 36px;
-                height: 36px;
+                width: 28px;
+                height: 28px;
                 border-radius: 999px;
-                background: {{ block.settings.button_background | default: '#111111' }};
-                color: {{ block.settings.button_text_color | default: '#ffffff' }};
+                background: transparent;
+                color: {{ block.settings.text_color | default: '#111111' }};
+                border: 1px solid rgba(0,0,0,0.12);
                 text-decoration: none;
-                font-size: 14px;
-                font-weight: 700;
               }
 
               .pair-with-{{ block.id }}__button svg {
-                width: 16px;
-                height: 16px;
+                width: 14px;
+                height: 14px;
+                stroke-width: 1.5;
               }
 
               @media screen and (max-width: 749px) {
                 .pair-with-{{ block.id }} {
-                  padding: 14px;
-                  gap: 12px;
+                  padding: 10px;
+                  gap: 10px;
                 }
 
                 .pair-with-{{ block.id }}__card {
-                  grid-template-columns: 72px minmax(0, 1fr);
-                  gap: 10px;
-                  align-items: start;
+                  grid-template-columns: 56px minmax(0, 1fr);
+                  gap: 8px;
+                  align-items: center;
                 }
 
                 .pair-with-{{ block.id }}__media {
-                  width: 72px;
-                  min-width: 72px;
+                  width: 56px;
+                  min-width: 56px;
                 }
 
                 .pair-with-{{ block.id }}__title {
