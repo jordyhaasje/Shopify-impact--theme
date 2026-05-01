@@ -1,0 +1,109 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<div id="shopify-section-{{ section.id }}" data-section-bounded-shell>
+  <style>
+    #shopify-section-{{ section.id }} .pw-wrapper {
+      padding: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .pw-card {
+      display: grid;
+      grid-template-columns: {{ section.settings.image_size_desktop }}px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: {{ section.settings.card_padding }}px;
+      border-radius: {{ section.settings.card_radius }}px;
+      background: {{ section.settings.card_background }};
+      border: {{ section.settings.border_width }}px solid {{ section.settings.border_color }};
+      box-shadow: {% if section.settings.enable_shadow %}0 10px 30px rgba(0,0,0,0.08){% else %}none{% endif %};
+    }
+
+    #shopify-section-{{ section.id }} .pw-image {
+      width: {{ section.settings.image_size_desktop }}px;
+      height: {{ section.settings.image_size_desktop }}px;
+      border-radius: {{ section.settings.image_radius }}px;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+
+    #shopify-section-{{ section.id }} .pw-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .pw-sub {
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    #shopify-section-{{ section.id }} .pw-btn {
+      width: {{ section.settings.button_size }}px;
+      height: {{ section.settings.button_size }}px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: {{ section.settings.button_background }};
+      color: {{ section.settings.button_color }};
+    }
+
+    @media(max-width:749px){
+      #shopify-section-{{ section.id }} .pw-card{
+        grid-template-columns: {{ section.settings.image_size_mobile }}px 1fr auto;
+      }
+    }
+  </style>
+
+  <div class="pw-wrapper">
+  {% if section.settings.product != blank %}
+    {% assign p = section.settings.product %}
+    <div class="pw-card">
+      <div class="pw-image">
+        {{ p.featured_image | image_url: width: 200 | image_tag }}
+      </div>
+
+      <div>
+        <div class="pw-title">{{ p.title }}</div>
+        <div class="pw-sub">{{ section.settings.subtext }}</div>
+      </div>
+
+      <a href="{{ p.url }}" class="pw-btn">
+        {% case section.settings.icon %}
+          {% when 'plus' %}+{% when 'arrow' %}→{% else %}🛒{% endcase %}
+      </a>
+    </div>
+  {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Premium Pair With",
+  "settings": [
+    {"type":"product","id":"product","label":"Product"},
+    {"type":"text","id":"subtext","label":"Subtext","default":"Complete the look"},
+
+    {"type":"range","id":"image_size_desktop","min":40,"max":100,"step":2,"default":56,"label":"Image size desktop"},
+    {"type":"range","id":"image_size_mobile","min":40,"max":100,"step":2,"default":52,"label":"Image size mobile"},
+    {"type":"range","id":"image_radius","min":0,"max":20,"step":2,"default":10,"label":"Image radius"},
+
+    {"type":"color","id":"card_background","label":"Background","default":"#FFF5F8"},
+    {"type":"color","id":"border_color","label":"Border","default":"#F0DCE4"},
+    {"type":"range","id":"border_width","min":0,"max":4,"step":1,"default":1,"label":"Border width"},
+    {"type":"range","id":"card_radius","min":0,"max":24,"step":2,"default":14,"label":"Card radius"},
+    {"type":"range","id":"card_padding","min":0,"max":24,"step":2,"default":12,"label":"Padding"},
+    {"type":"checkbox","id":"enable_shadow","default":false,"label":"Shadow"},
+
+    {"type":"select","id":"icon","label":"Icon","options":[
+      {"value":"cart","label":"Cart"},
+      {"value":"plus","label":"Plus"},
+      {"value":"arrow","label":"Arrow"}
+    ],"default":"cart"},
+
+    {"type":"range","id":"button_size","min":24,"max":50,"step":2,"default":32,"label":"Button size"},
+    {"type":"color","id":"button_background","label":"Button background","default":"#111111"},
+    {"type":"color","id":"button_color","label":"Button color","default":"#ffffff"}
+  ],
+  "presets": [{"name":"Premium Pair With"}]
+}
+{% endschema %}
