@@ -795,7 +795,7 @@
           "type": "video_card",
           "settings": {
             "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
-            "caption": "You asked, Kylian Mbapp\u00e9\nanswered. \u26a1",
+            "caption": "You asked, Kylian Mbappé\nanswered. ⚡",
             "platform": "shorts",
             "play_label": "Play video",
             "loop_video": false,
@@ -805,7 +805,7 @@
         "video_card_VgUjkW": {
           "type": "video_card",
           "settings": {
-            "caption": "A hooper\u2019s hunger can\u2019t be\nsatisfied. Stay hungry\nhoopers. \ud83c\udf54",
+            "caption": "A hooper’s hunger can’t be\nsatisfied. Stay hungry\nhoopers. 🍔",
             "platform": "tiktok",
             "play_label": "Play video",
             "loop_video": false,
@@ -825,7 +825,7 @@
         "video_card_tDBLUb": {
           "type": "video_card",
           "settings": {
-            "caption": "Answers some this or that\nquestions in his all\nnew #NikeTech \ud83d\udc40\ud83d\udd25",
+            "caption": "Answers some this or that\nquestions in his all\nnew #NikeTech 👀🔥",
             "platform": "tiktok",
             "play_label": "Play video",
             "loop_video": false,
@@ -954,7 +954,6 @@
     },
     "trustpilot_rev_1_tjmgnm": {
       "type": "trustpilot-rev-1",
-      "name": "Trustpilot Reviews",
       "blocks": {
         "review_1": {
           "type": "review",
@@ -992,6 +991,7 @@
         "review_2",
         "review_3"
       ],
+      "name": "Trustpilot Reviews",
       "settings": {
         "title": "What our customers say",
         "subtitle": "Trusted by thousands of happy customers",
@@ -1016,6 +1016,25 @@
         "show_verified": true,
         "verified_label": "Verified"
       }
+    },
+    "scrolling_hero_9iEzUM": {
+      "type": "scrolling-hero",
+      "name": "Scrolling Hero",
+      "settings": {
+        "heading": "Targeted Solutions",
+        "body": "Whether you struggle with dryness, sensitivity, or acne, our brand has a targeted skincare solution for you. Achieve your healthiest, most balanced complexion.",
+        "button_label": "LEARN MORE",
+        "button_url": "",
+        "image": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "ticker_text": "just in",
+        "ticker_speed": 32,
+        "icon_speed": 10,
+        "bg_color": "#f1f0ed",
+        "text_color": "#67645e",
+        "button_color": "#67645e",
+        "section_margin": 60,
+        "border_radius": 12
+      }
     }
   },
   "order": [
@@ -1035,6 +1054,7 @@
     "jordy_heroo_6RG4Xg",
     "video_test_gzdRJR",
     "glozzy_premium_reviews_NEfakL",
-    "trustpilot_rev_1_tjmgnm"
+    "trustpilot_rev_1_tjmgnm",
+    "scrolling_hero_9iEzUM"
   ]
 }
