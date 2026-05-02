@@ -1,0 +1,763 @@
+{%- liquid
+  assign heading     = section.settings.heading
+  assign sec_rating  = section.settings.section_rating
+  assign bg_color    = section.settings.bg_color
+  assign card_bg     = section.settings.card_bg_color
+  assign text_color  = section.settings.text_color
+  assign accent      = section.settings.accent_color
+  assign star_color  = section.settings.star_color
+  assign btn_color   = section.settings.button_color
+  assign btn_hover   = section.settings.button_hover_color
+  assign card_radius = section.settings.card_radius
+  assign view_d      = section.settings.view_desktop
+  assign view_m      = section.settings.view_mobile
+  assign gap         = section.settings.gap
+  assign mt          = section.settings.section_margin_top
+  assign mb          = section.settings.section_margin_bottom
+  assign pt          = section.settings.section_padding_top
+  assign pb          = section.settings.section_padding_bottom
+-%}
+
+{%- style -%}
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&display=swap');
+
+  /* Layer 1: Shopify wrapper — witruimte */
+  #shopify-section-{{ section.id }} {
+    margin-top: {{ mt }}px;
+    margin-bottom: {{ mb }}px;
+    padding-top: {{ pt }}px;
+    padding-bottom: {{ pb }}px;
+    background: {{ bg_color }};
+  }
+
+  /* Layer 2: Inner section */
+  .t22-section {
+    margin: 0 auto;
+    padding: 27px 1.5rem;
+  }
+
+  .t22-heading-wrap {
+    margin-bottom: 28px;
+  }
+
+  .t22-stars-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+
+  .t22-star {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .t22-star svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .t22-heading {
+    font-family: "Bricolage Grotesque", var(--font-heading-family), sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 500;
+    color: {{ text_color }};
+    line-height: 130%;
+    margin: 0;
+  }
+
+  /* ── Carousel ── */
+  .t22-slider-wrap {
+    position: relative;
+  }
+
+  .t22-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: {{ gap }}px;
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .t22-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .t22-slide {
+    flex: 0 0 calc((100% - (({{ view_m }} - 1) * {{ gap }}px)) / {{ view_m }}));
+    scroll-snap-align: start;
+    background: {{ card_bg }};
+    border-radius: {{ card_radius }}px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    min-height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .t22-slide-stars {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    margin-bottom: 10px;
+  }
+
+  .t22-slide-stars .t22-star {
+    width: 20px;
+    height: 20px;
+  }
+
+  .t22-slide-title {
+    font-family: "Bricolage Grotesque", var(--font-heading-family), sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: {{ text_color }};
+    line-height: 130%;
+    margin: 0 0 10px;
+  }
+
+  /* ── Read more / less toggle ── */
+  .t22-text-wrap {
+    position: relative;
+  }
+
+  .t22-text-toggle {
+    display: none;
+  }
+
+  .t22-text-content {
+    font-family: "Bricolage Grotesque", var(--font-body-family), sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: {{ text_color }};
+    line-height: 160%;
+    max-height: 4.8em;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    word-break: break-word;
+  }
+
+  .t22-text-toggle:checked ~ .t22-text-content {
+    max-height: 600px;
+  }
+
+  .t22-read-more {
+    color: {{ accent }};
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: "Bricolage Grotesque", var(--font-body-family), sans-serif;
+    margin-top: 8px;
+    display: inline-block;
+  }
+
+  .t22-text-toggle:checked ~ .t22-read-more .t22-more {
+    display: none;
+  }
+
+  .t22-text-toggle:not(:checked) ~ .t22-read-more .t22-less {
+    display: none;
+  }
+
+  /* ── Author ── */
+  .t22-author-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 24px;
+  }
+
+  .t22-author-name {
+    font-family: "Bricolage Grotesque", var(--font-body-family), sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: {{ text_color }};
+    line-height: 130%;
+    margin: 0;
+  }
+
+  .t22-verify {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .t22-verify-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .t22-verify-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .t22-verify-text {
+    font-family: "Bricolage Grotesque", var(--font-body-family), sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: {{ accent }};
+    line-height: 130%;
+    margin: 0;
+  }
+
+  /* ── Product ── */
+  .t22-product {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 0;
+    border-radius: 8px;
+    background: transparent;
+  }
+
+  .t22-product-img {
+    width: 25%;
+    flex-shrink: 0;
+    aspect-ratio: 12 / 12;
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  .t22-product-img img,
+  .t22-product-img svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .t22-product-img svg {
+    background-color: rgb(175, 175, 175);
+  }
+
+  .t22-product-content {
+    flex: 1 1 0;
+  }
+
+  .t22-product-title {
+    font-family: "Bricolage Grotesque", var(--font-body-family), sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: {{ text_color }};
+    line-height: 150%;
+    text-align: center;
+    margin: 0 0 10px;
+  }
+
+  .t22-product-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 100%;
+    text-align: center;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 100px;
+    transition: 0.25s;
+    background-color: {{ btn_color }};
+    border: 0;
+    cursor: pointer;
+    min-width: max-content;
+    font-family: "Bricolage Grotesque", var(--font-body-family), sans-serif;
+  }
+
+  .t22-product-btn:hover {
+    background-color: {{ btn_hover }};
+    color: #ffffff;
+  }
+
+  /* ── Scrollbar ── */
+  .t22-scrollbar {
+    margin-top: 16px;
+    height: 6px;
+    background: #e9e6e5;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .t22-scrollbar-track {
+    height: 100%;
+    background: #7bbc62;
+    border-radius: 3px;
+    width: 30%;
+    transition: transform 0.1s linear, width 0.1s linear;
+  }
+
+  /* ── Desktop ── */
+  @media (min-width: 1024px) {
+    .t22-section {
+      padding: 36px 5rem;
+    }
+
+    .t22-slider {
+      margin: 0;
+      padding: 0;
+      gap: {{ gap }}px;
+    }
+
+    .t22-slide {
+      flex: 0 0 calc((100% - (({{ view_d }} - 1) * {{ gap }}px)) / {{ view_d }}));
+      padding: 32px;
+    }
+
+    .t22-slide-stars .t22-star {
+      width: 22px;
+      height: 22px;
+    }
+
+    .t22-text-content {
+      font-size: 16px;
+    }
+
+    .t22-author-wrap {
+      margin-top: 48px;
+    }
+
+    .t22-product-title {
+      font-size: 16px;
+    }
+
+    .t22-scrollbar {
+      margin-top: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t22-text-content { transition: none; }
+  }
+{%- endstyle -%}
+
+{%- capture star_full -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+    <path d="M10 0L12.9389 5.95492L19.5106 6.90983L14.7553 11.5451L15.8779 18.0902L10 15L4.12215 18.0902L5.24472 11.5451L0.489435 6.90983L7.06107 5.95492L10 0Z" fill="{{ star_color }}"/>
+  </svg>
+{%- endcapture -%}
+
+{%- capture star_half -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+    <defs>
+      <linearGradient id="t22-grad-{{ section.id }}">
+        <stop offset="0%" stop-color="{{ star_color }}"/>
+        <stop offset="50%" stop-color="{{ star_color }}"/>
+        <stop offset="50%" stop-color="transparent"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </linearGradient>
+    </defs>
+    <path stroke="{{ star_color }}" d="M10 0L12.9389 5.95492L19.5106 6.90983L14.7553 11.5451L15.8779 18.0902L10 15L4.12215 18.0902L5.24472 11.5451L0.489435 6.90983L7.06107 5.95492L10 0Z" fill="url(#t22-grad-{{ section.id }})"/>
+  </svg>
+{%- endcapture -%}
+
+{%- capture star_empty -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+    <path d="M10 0L12.9389 5.95492L19.5106 6.90983L14.7553 11.5451L15.8779 18.0902L10 15L4.12215 18.0902L5.24472 11.5451L0.489435 6.90983L7.06107 5.95492L10 0Z" stroke="{{ star_color }}" fill="transparent"/>
+  </svg>
+{%- endcapture -%}
+
+{%- capture verify_icon -%}
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+    <rect width="16" height="16" rx="8" fill="{{ accent }}"/>
+    <path d="M4 8L7 11L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+{%- endcapture -%}
+
+<div class="t22-section">
+  {%- if sec_rating > 0 -%}
+    <div class="t22-heading-wrap">
+      <div class="t22-stars-wrapper">
+        {%- assign full_stars = sec_rating | floor -%}
+        {%- assign half_star = sec_rating | minus: full_stars -%}
+        {%- for i in (1..full_stars) -%}
+          <span class="t22-star">{{ star_full }}</span>
+        {%- endfor -%}
+        {%- if half_star >= 0.5 -%}
+          <span class="t22-star">{{ star_half }}</span>
+        {%- endif -%}
+        {%- assign empty_stars = 5 | minus: full_stars | minus: half_star | ceil -%}
+        {%- for i in (1..empty_stars) -%}
+          <span class="t22-star">{{ star_empty }}</span>
+        {%- endfor -%}
+      </div>
+
+      {%- if heading != blank -%}
+        <h2 class="t22-heading">{{ heading | escape }}</h2>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    {%- if heading != blank -%}
+      <div class="t22-heading-wrap">
+        <h2 class="t22-heading">{{ heading | escape }}</h2>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  <div class="t22-slider-wrap">
+    <div class="t22-slider" id="t22-slider-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div class="t22-slide" {{ block.shopify_attributes }}>
+          <div class="t22-slide-top">
+            {%- if block.settings.rating > 0 -%}
+              <div class="t22-slide-stars">
+                {%- assign b_full = block.settings.rating | floor -%}
+                {%- for i in (1..b_full) -%}
+                  <span class="t22-star">{{ star_full }}</span>
+                {%- endfor -%}
+                {%- assign b_rem = 5 | minus: b_full -%}
+                {%- for i in (1..b_rem) -%}
+                  <span class="t22-star">{{ star_empty }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <h3 class="t22-slide-title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <div class="t22-text-wrap">
+                <input type="checkbox" id="t22-toggle-{{ block.id }}" class="t22-text-toggle">
+                <div class="t22-text-content">
+                  {{ block.settings.text | escape | newline_to_br }}
+                </div>
+                <label for="t22-toggle-{{ block.id }}" class="t22-read-more">
+                  <span class="t22-more">Read more</span>
+                  <span class="t22-less">Read less</span>
+                </label>
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="t22-slide-bottom">
+            <div class="t22-author-wrap">
+              {%- if block.settings.author_name != blank -%}
+                <p class="t22-author-name">{{ block.settings.author_name | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.verified_buyer -%}
+                <div class="t22-verify">
+                  <span class="t22-verify-icon">{{ verify_icon }}</span>
+                  <p class="t22-verify-text">Verified buyer</p>
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.product_image != blank or block.settings.product_title != blank -%}
+              <div class="t22-product">
+                {%- if block.settings.product_image != blank -%}
+                  <div class="t22-product-img">
+                    {{
+                      block.settings.product_image
+                      | image_url: width: 200
+                      | image_tag: loading: 'lazy', widths: '100,200', sizes: '25vw'
+                    }}
+                  </div>
+                {%- else -%}
+                  <div class="t22-product-img">
+                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+                <div class="t22-product-content">
+                  {%- if block.settings.product_title != blank -%}
+                    <p class="t22-product-title">{{ block.settings.product_title | escape }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.product_link != blank -%}
+                    <a href="{{ block.settings.product_link }}" class="t22-product-btn">
+                      View
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Scrollbar -->
+    <div class="t22-scrollbar">
+      <div class="t22-scrollbar-track" id="t22-track-{{ section.id }}"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var slider = document.getElementById('t22-slider-{{ section.id }}');
+    var track  = document.getElementById('t22-track-{{ section.id }}');
+    if (!slider || !track) return;
+
+    function update() {
+      var maxScroll = slider.scrollWidth - slider.clientWidth;
+      if (maxScroll <= 0) {
+        track.style.width = '100%';
+        track.style.transform = 'translateX(0)';
+        return;
+      }
+      var thumbPct = (slider.clientWidth / slider.scrollWidth) * 100;
+      var scrollPct = slider.scrollLeft / maxScroll;
+      var maxTranslate = 100 - thumbPct;
+      track.style.width = thumbPct + '%';
+      track.style.transform = 'translateX(' + (scrollPct * maxTranslate) + '%)';
+    }
+
+    slider.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    // Init after fonts / images load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', update);
+    } else {
+      update();
+    }
+    setTimeout(update, 500);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonial Super22",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "In your own words"
+    },
+    {
+      "type": "range",
+      "id": "section_rating",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "label": "Section star rating",
+      "default": 4.5
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background color",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color (links, verified)",
+      "default": "#178056"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#ffd645"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#178056"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover color",
+      "default": "#076745"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "view_desktop",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "label": "Slides visible (desktop)",
+      "default": 3.5
+    },
+    {
+      "type": "range",
+      "id": "view_mobile",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Slides visible (mobile)",
+      "default": 1.1
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between slides",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "section_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Best travel mug!"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text",
+          "default": "Finally, a travel mug that doesn't compromise on taste! I hate the metallic taste that some travel mugs impart, but this ceramic mug keeps my coffee tasting exactly as it should."
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author name",
+          "default": "Emily R."
+        },
+        {
+          "type": "checkbox",
+          "id": "verified_buyer",
+          "label": "Verified buyer",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product image"
+        },
+        {
+          "type": "text",
+          "id": "product_title",
+          "label": "Product title",
+          "default": "Stoneware Travel Mug"
+        },
+        {
+          "type": "url",
+          "id": "product_link",
+          "label": "Product link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial Super22",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["*"]
+  }
+}
+{% endschema %}
