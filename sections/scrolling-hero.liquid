@@ -1,0 +1,452 @@
+{%- liquid
+  assign heading        = section.settings.heading
+  assign body           = section.settings.body
+  assign btn_label      = section.settings.button_label
+  assign btn_url        = section.settings.button_url
+  assign image          = section.settings.image
+  assign ticker         = section.settings.ticker_text
+  assign ticker_speed   = section.settings.ticker_speed
+  assign icon_speed     = section.settings.icon_speed
+  assign bg_color       = section.settings.bg_color
+  assign text_color     = section.settings.text_color
+  assign btn_color      = section.settings.button_color
+  assign section_margin = section.settings.section_margin
+  assign radius         = section.settings.border_radius
+-%}
+
+{%- style -%}
+  @keyframes sh-ticker-desktop {
+    0%   { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes sh-icon-rotate {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .sh-section {
+    border-top: 0 solid {{ text_color }};
+    border-bottom: 0 solid {{ text_color }};
+    margin: {{ section_margin | times: 0.75 | round: 0 }}px 1.5rem;
+    border-radius: {{ radius | times: 0.58 | round: 0 }}px;
+    overflow: hidden;
+    background: {{ bg_color }};
+  }
+
+  .sh-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .sh-image-col {
+    order: 1;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 12 / 12;
+  }
+
+  .sh-image-col img,
+  .sh-image-col .placeholder-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sh-image-col .placeholder-svg {
+    background-color: rgb(175, 175, 175);
+  }
+
+  .sh-content {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sh-content-top {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .sh-heading {
+    text-align: left;
+    margin-top: 0;
+  }
+
+  .sh-heading * {
+    margin: 0;
+    font-size: 26px;
+    color: {{ text_color }};
+    line-height: 130%;
+    text-transform: unset;
+  }
+
+  .sh-text {
+    text-align: left;
+    margin-top: 16px;
+  }
+
+  .sh-text * {
+    margin: 0;
+    font-size: 14px;
+    color: {{ text_color }};
+    text-transform: unset;
+  }
+
+  .sh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: fit-content;
+    margin: 24px 0 0;
+    font-size: 13px;
+    color: {{ btn_color }};
+    line-height: 100%;
+    text-align: center;
+    text-transform: unset;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 100px;
+    transition: 0.25s;
+    position: relative;
+    font-weight: 700;
+    z-index: 2;
+    border: 1px solid {{ btn_color }};
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .sh-btn:hover {
+    background-color: {{ btn_color }};
+    color: {{ bg_color }};
+    transition: 0.25s;
+  }
+
+  .sh-ticker-wrap {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    margin-left: -16px;
+    margin-right: -16px;
+    background-attachment: scroll !important;
+    margin-top: 16px;
+  }
+
+  .sh-ticker-list {
+    display: flex;
+    white-space: nowrap;
+    animation: {{ ticker_speed }}s linear 0s infinite normal none running sh-ticker-desktop;
+    flex-shrink: 0;
+    background-attachment: scroll !important;
+  }
+
+  .sh-ticker-item {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    flex-shrink: 0;
+    background-attachment: scroll !important;
+  }
+
+  .sh-ticker-text {
+    display: inline-block;
+    margin: 0 16px 0 0;
+    font-size: 40px;
+    color: {{ text_color }};
+    line-height: 130%;
+    text-transform: unset;
+    font-weight: 700;
+  }
+
+  .sh-ticker-icon {
+    display: inline-block;
+    width: 26px;
+    flex-shrink: 0;
+  }
+
+  .sh-ticker-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    animation: {{ icon_speed }}s linear 0s infinite normal none running sh-icon-rotate;
+    margin-top: 5px;
+  }
+
+  .sh-ticker-icon svg path {
+    fill: {{ text_color }};
+  }
+
+  /* ── Desktop (1024px+) ── */
+  @media (min-width: 1024px) {
+    .sh-section {
+      margin: {{ section_margin }}px 5rem;
+      border-radius: {{ radius }}px;
+    }
+
+    .sh-body {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .sh-image-col {
+      order: 2;
+      aspect-ratio: 12 / 12;
+    }
+
+    .sh-content {
+      order: 1;
+      justify-content: end;
+      padding: 32px;
+      padding-right: calc(150px);
+    }
+
+    .sh-content-top {
+      align-items: start;
+    }
+
+    .sh-heading {
+      text-align: left;
+      margin-top: 0;
+    }
+
+    .sh-heading * {
+      font-size: 36px;
+    }
+
+    .sh-text {
+      text-align: left;
+      margin-top: 24px;
+    }
+
+    .sh-text * {
+      font-size: 16px;
+    }
+
+    .sh-btn {
+      margin-top: 24px;
+      padding: 12px 30px;
+      font-size: 13px;
+    }
+
+    .sh-ticker-wrap {
+      margin: 0;
+      pointer-events: none;
+      transform: rotate(-90deg);
+      position: absolute;
+      top: 0;
+      width: 100%;
+      right: 0;
+      height: 100%;
+    }
+
+    .sh-ticker-list {
+      align-items: end;
+      animation-duration: {{ ticker_speed | times: 0.625 | round: 0 }}s;
+    }
+
+    .sh-ticker-item {
+      margin-right: 16px;
+      margin-bottom: 12px;
+    }
+
+    .sh-ticker-text {
+      font-size: 60px;
+      margin-right: 16px;
+    }
+
+    .sh-ticker-icon {
+      width: 26px;
+    }
+
+    .sh-ticker-icon svg {
+      margin-top: 8px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sh-ticker-list {
+      animation-play-state: paused;
+    }
+    .sh-ticker-icon svg {
+      animation-play-state: paused;
+    }
+  }
+{%- endstyle -%}
+
+{%- capture star_svg -%}
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.72 25.72"><path d="M12.38.41c.07-.55.87-.55.94,0l.6,4.73c.07.45.66.57.89.18l2.37-4.14c.28-.48,1.01-.18.87.36l-1.25,4.6c-.12.44.39.78.75.5l3.77-2.92c.44-.34,1,.23.67.67l-2.92,3.76c-.28.36.06.87.5.75l4.6-1.25c.54-.14.84.6.36.87l-4.14,2.37c-.39.23-.27.82.18.88l4.73.61c.55.07.55.87,0,.94l-4.73.6c-.26.02-.46.24-.44.5.01.17.11.32.26.39l4.14,2.37c.48.28.18,1.01-.36.87l-4.6-1.25c-.25-.08-.51.06-.59.31-.05.15-.01.32.09.44l2.92,3.77c.34.44-.23,1-.67.67l-3.77-2.92c-.2-.17-.5-.14-.66.06-.1.12-.14.29-.09.44l1.25,4.6c.14.54-.6.84-.87.36l-2.37-4.14c-.12-.23-.41-.31-.64-.19-.14.07-.23.21-.24.37l-.61,4.73c-.07.55-.87.55-.94,0l-.6-4.73c-.02-.26-.24-.46-.5-.44-.17.01-.32.11-.39.26l-2.37,4.16c-.28.48-1.01.18-.87-.36l1.25-4.6c.08-.25-.06-.51-.31-.59-.15-.05-.32-.01-.44.09l-3.77,2.92c-.44.34-1-.23-.67-.67l2.92-3.77c.17-.2.14-.5-.06-.66-.12-.1-.29-.14-.44-.09l-4.59,1.23c-.54.14-.84-.6-.36-.87l4.14-2.37c.23-.12.31-.41.19-.64-.07-.14-.21-.23-.37-.24l-4.73-.61c-.55-.07-.55-.87,0-.94l4.73-.6c.26-.02.46-.24.44-.5-.01-.17-.11-.32-.26-.39l-4.15-2.36c-.48-.28-.18-1.01.36-.87l4.6,1.25c.44.12.78-.39.5-.75l-2.92-3.77c-.34-.44.23-1,.67-.67l3.76,2.93c.36.28.87-.06.75-.5l-1.24-4.6c-.14-.54.6-.84.87-.36l2.37,4.14c.23.39.82.27.88-.18l.61-4.73h0Z" style="stroke-width:0px;"/></svg>
+{%- endcapture -%}
+
+<div class="sh-section">
+  <div class="sh-body">
+    <div class="sh-content">
+      <div class="sh-content-top">
+        {%- if heading != blank -%}
+          <div class="sh-heading">
+            <h2>{{ heading | escape }}</h2>
+          </div>
+        {%- endif -%}
+        {%- if body != blank -%}
+          <div class="sh-text">
+            <p>{{ body | escape }}</p>
+          </div>
+        {%- endif -%}
+        {%- if btn_label != blank -%}
+          <a href="{{ btn_url | default: '#' }}" class="sh-btn">
+            {{ btn_label | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="sh-ticker-wrap" aria-hidden="true">
+        <div class="sh-ticker-list">
+          {%- for i in (1..12) -%}
+            <div class="sh-ticker-item">
+              <span class="sh-ticker-text">{{ ticker | escape }}</span>
+              <span class="sh-ticker-icon">{{ star_svg }}</span>
+            </div>
+          {%- endfor -%}
+          {%- for i in (1..12) -%}
+            <div class="sh-ticker-item">
+              <span class="sh-ticker-text">{{ ticker | escape }}</span>
+              <span class="sh-ticker-icon">{{ star_svg }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="sh-image-col">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'lazy',
+            widths: '400,600,800,1000,1200',
+            sizes: '(max-width: 1023px) 100vw, 50vw'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Scrolling Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Targeted Solutions"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Whether you struggle with dryness, sensitivity, or acne, our brand has a targeted skincare solution for you. Achieve your healthiest, most balanced complexion."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "LEARN MORE"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "ticker_text",
+      "label": "Ticker text",
+      "default": "just in"
+    },
+    {
+      "type": "range",
+      "id": "ticker_speed",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "label": "Ticker animation duration",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "icon_speed",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "label": "Icon rotation duration",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#f1f0ed"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#67645e"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#67645e"
+    },
+    {
+      "type": "range",
+      "id": "section_margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section margin (top/bottom)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling Hero"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["*"]
+  }
+}
+{% endschema %}
