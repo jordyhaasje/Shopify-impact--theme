@@ -20,6 +20,32 @@
         top: calc(var(--sticky-header-enabled, 0) * var(--header-height, 0px));
       }
     {%- endif -%}
+
+    #shopify-section-{{ section.id }} {
+      --announcement-bar-icon-size: 16px;
+      --announcement-bar-icon-gap: 6px;
+    }
+
+    #shopify-section-{{ section.id }} .announcement-bar__block-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--announcement-bar-icon-gap);
+    }
+
+    #shopify-section-{{ section.id }} .announcement-bar__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--announcement-bar-icon-size);
+      height: var(--announcement-bar-icon-size);
+      flex-shrink: 0;
+    }
+
+    #shopify-section-{{ section.id }} .announcement-bar__icon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
   </style>
 
   {%- comment -%}
@@ -35,11 +61,18 @@
           {%- capture content -%}
             {%- for block in section.blocks -%}
               <p class="bold {{ section.settings.text_size }}" {{ block.shopify_attributes }}>
-                {%- if block.settings.url != blank -%}
-                  <a href="{{ block.settings.url }}">{{ block.settings.text | escape }}</a>
-                {%- else -%}
-                  {{ block.settings.text | escape }}
-                {%- endif -%}
+                <span class="announcement-bar__block-wrapper">
+                  {%- if block.settings.icon != 'none' -%}
+                    <span class="announcement-bar__icon">
+                      {%- render 'icon-announcement', icon: block.settings.icon -%}
+                    </span>
+                  {%- endif -%}
+                  {%- if block.settings.url != blank -%}
+                    <a href="{{ block.settings.url }}">{{ block.settings.text | escape }}</a>
+                  {%- else -%}
+                    {{ block.settings.text | escape }}
+                  {%- endif -%}
+                </span>
               </p>
 
               <span class="shape-circle shape--sm"></span>
@@ -64,11 +97,18 @@
             <announcement-bar swipeable id="announcement-bar" class="announcement-bar__static-list">
               {%- for block in section.blocks -%}
                 <p class="bold {{ section.settings.text_size }} {% unless forloop.first %}reveal-invisible{% endunless %}" {{ block.shopify_attributes }}>
-                  {%- if block.settings.url != blank -%}
-                    <a href="{{ block.settings.url }}">{{ block.settings.text | escape }}</a>
-                  {%- else -%}
-                    {{ block.settings.text | escape }}
-                  {%- endif -%}
+                  <span class="announcement-bar__block-wrapper">
+                    {%- if block.settings.icon != 'none' -%}
+                      <span class="announcement-bar__icon">
+                        {%- render 'icon-announcement', icon: block.settings.icon -%}
+                      </span>
+                    {%- endif -%}
+                    {%- if block.settings.url != blank -%}
+                      <a href="{{ block.settings.url }}">{{ block.settings.text | escape }}</a>
+                    {%- else -%}
+                      {{ block.settings.text | escape }}
+                    {%- endif -%}
+                  </span>
                 </p>
               {%- endfor -%}
             </announcement-bar>
@@ -100,6 +140,24 @@
       "type": "message",
       "name": "Message",
       "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "truck", "label": "Shipping truck" },
+            { "value": "klarna", "label": "Klarna (pay later)" },
+            { "value": "shield", "label": "Shield (secure)" },
+            { "value": "tag", "label": "Tag (discount)" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "returns", "label": "Returns" }
+          ],
+          "default": "none"
+        },
         {
           "type": "text",
           "id": "text",

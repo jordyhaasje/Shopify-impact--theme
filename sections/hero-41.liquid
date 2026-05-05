@@ -1,0 +1,1118 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --hero41-height-desktop: {{ section.settings.slide_height_desktop }}px;
+    --hero41-height-mobile: {{ section.settings.slide_height_mobile }}px;
+    --hero41-autoplay-delay: {{ section.settings.autoplay_delay }}s;
+    --hero41-transition-speed: {{ section.settings.transition_speed }}ms;
+    --hero41-nav-size: {{ section.settings.nav_button_size }}px;
+    --hero41-nav-color: {{ section.settings.nav_button_color }};
+    --hero41-overlay-color: 0, 0, 0;
+    --hero41-logo-bar-bg: {{ section.settings.logo_bar_bg }};
+    --hero41-logo-bar-speed: {{ section.settings.logo_bar_speed }}s;
+    --hero41-section-padding-top: {{ section.settings.section_padding_top }}px;
+    --hero41-section-padding-bottom: {{ section.settings.section_padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41 {
+    position: relative;
+    padding-top: var(--hero41-section-padding-top);
+    padding-bottom: var(--hero41-section-padding-bottom);
+  }
+
+  /* ── Slider Track ── */
+  #shopify-section-{{ section.id }} .hero41__slider {
+    position: relative;
+    height: var(--hero41-height-desktop);
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__track {
+    display: flex;
+    height: 100%;
+    transition: transform var(--hero41-transition-speed) ease;
+    will-change: transform;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__track--snap {
+    transition: none;
+  }
+
+  /* ── Slide ── */
+  #shopify-section-{{ section.id }} .hero41__slide {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__slide-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__slide-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+  }
+
+  /* ── Overlay ── */
+  #shopify-section-{{ section.id }} .hero41__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── Content Positioning ── */
+  #shopify-section-{{ section.id }} .hero41__content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    padding: 50px;
+    pointer-events: none;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__content > * {
+    pointer-events: auto;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__content--left-top {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--left-center {
+    justify-content: flex-start;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--left-bottom {
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--right-top {
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--right-center {
+    justify-content: flex-end;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--right-bottom {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--center-top {
+    justify-content: center;
+    align-items: flex-start;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--center-center {
+    justify-content: center;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .hero41__content--center-bottom {
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__content-inner {
+    max-width: 560px;
+  }
+
+  /* ── Rating Badge ── */
+  #shopify-section-{{ section.id }} .hero41__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__rating--badge {
+    background: #ffffff;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__rating--inline {
+    background: transparent;
+    color: #0000ee;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__star {
+    width: 16px;
+    height: 16px;
+    color: #fbbf24;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__star--empty {
+    color: #d1d5db;
+  }
+
+  /* ── Heading ── */
+  #shopify-section-{{ section.id }} .hero41__heading {
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    margin: 0 0 16px;
+  }
+
+  /* ── Description ── */
+  #shopify-section-{{ section.id }} .hero41__description {
+    color: #ffffff;
+    margin: 0 0 24px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__description p {
+    margin: 0;
+  }
+
+  /* ── CTA Button ── */
+  #shopify-section-{{ section.id }} .hero41__cta {
+    display: inline-block;
+    font-weight: 700;
+    text-decoration: none;
+    line-height: 1;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__cta--primary {
+    background: var(--hero41-cta-bg, #F0FF3B);
+    color: var(--hero41-cta-color, #121212);
+    border-radius: 6px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__cta--secondary {
+    background: #ffffff;
+    color: #121212;
+    border-radius: 6px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__cta--outline {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 6px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__cta:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  /* ── Slider Counter ── */
+  #shopify-section-{{ section.id }} .hero41__counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__counter-current {
+    font-variant-numeric: tabular-nums;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__counter-sep {
+    opacity: 0.5;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__counter-total {
+    opacity: 0.5;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Navigation Buttons ── */
+  #shopify-section-{{ section.id }} .hero41__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav--prev {
+    left: 20px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav--next {
+    right: 20px;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav-button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--hero41-nav-size);
+    height: var(--hero41-nav-size);
+    padding: 0;
+    border: none;
+    border-radius: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav-button--filled {
+    background: var(--hero41-nav-color);
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav-button--transparent {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav-button:hover {
+    transform: scale(1.08);
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav-button:active {
+    transform: scale(0.95);
+  }
+
+  #shopify-section-{{ section.id }} .hero41__nav-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ── Progress Bar (autoplay indicator) ── */
+  #shopify-section-{{ section.id }} .hero41__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 4;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  #shopify-section-{{ section.id }} .hero41__progress-bar {
+    height: 100%;
+    background: #ffffff;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__progress-bar--running {
+    width: 100%;
+    transition: width var(--hero41-autoplay-delay) linear;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__progress-bar--reset {
+    width: 0%;
+    transition: none;
+  }
+
+  /* ── Logo Marquee Bar ── */
+  #shopify-section-{{ section.id }} .hero41__logo-bar {
+    background: var(--hero41-logo-bar-bg);
+    padding: 14px 0;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__logo-track {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    white-space: nowrap;
+    animation: hero41Scroll var(--hero41-logo-bar-speed) linear infinite;
+  }
+
+  @keyframes hero41Scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  #shopify-section-{{ section.id }} .hero41__logo-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__logo-item img {
+    display: block;
+    height: auto;
+  }
+
+  #shopify-section-{{ section.id }} .hero41__logo-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* ── Reduced Motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .hero41__track {
+      transition: none !important;
+    }
+    #shopify-section-{{ section.id }} .hero41__logo-track {
+      animation: none !important;
+    }
+    #shopify-section-{{ section.id }} .hero41__progress-bar {
+      transition: none !important;
+    }
+  }
+
+  /* ── Mobile (<=749px) ── */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .hero41__slider {
+      height: var(--hero41-height-mobile);
+    }
+
+    #shopify-section-{{ section.id }} .hero41__content {
+      padding: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .hero41__content-inner {
+      max-width: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .hero41__nav--prev {
+      left: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .hero41__nav--next {
+      right: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .hero41__logo-bar {
+      padding: 10px 0;
+    }
+
+    #shopify-section-{{ section.id }} .hero41__logo-track {
+      gap: 40px;
+    }
+  }
+
+  /* ── Tablet (750-989px) ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .hero41__content {
+      padding: 40px;
+    }
+
+    #shopify-section-{{ section.id }} .hero41__content-inner {
+      max-width: 420px;
+    }
+  }
+</style>
+
+<section class="hero41" data-section-id="{{ section.id }}" aria-label="Hero slideshow">
+  <div class="hero41__slider">
+    <div class="hero41__track" data-hero41-track role="list" aria-roledescription="carousel">
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'slide' -%}
+          <div class="hero41__slide" role="listitem" role="group" aria-roledescription="slide" aria-label="Slide {{ forloop.index }} van {{ section.blocks | where: 'type', 'slide' | size }}" {{ block.shopify_attributes }}
+               style="--hero41-heading-size: {{ block.settings.heading_size }}px; --hero41-desc-size: {{ block.settings.description_size }}px; --hero41-overlay-opacity: {{ block.settings.overlay_opacity }}%; --hero41-cta-bg: {{ block.settings.cta_bg_color }}; --hero41-cta-color: {{ block.settings.cta_text_color }}; --hero41-cta-radius: {{ block.settings.cta_border_radius }}px;">
+
+            {%- if block.settings.background_image != blank -%}
+              {%- assign hero41_image_alt = block.settings.heading | default: 'Hero slide' | escape -%}
+              {{ block.settings.background_image | image_url: width: 3840 | image_tag: loading: 'eager', class: 'hero41__slide-image', alt: hero41_image_alt, sizes: '100vw', widths: '750, 1100, 1500, 2000, 3840' }}
+            {%- else -%}
+              <div class="hero41__slide-placeholder" aria-hidden="true"></div>
+            {%- endif -%}
+
+            <div class="hero41__overlay" style="background: rgba(var(--hero41-overlay-color), calc(var(--hero41-overlay-opacity) / 100));"></div>
+
+            <div class="hero41__content hero41__content--{{ block.settings.content_position }}">
+              <div class="hero41__content-inner">
+
+                {%- if block.settings.show_rating -%}
+                  <div class="hero41__rating hero41__rating--{{ block.settings.rating_style }}">
+                    <div class="hero41__stars" aria-label="{{ block.settings.rating_stars }} van 5 sterren">
+                      {%- for i in (1..5) -%}
+                        <svg class="hero41__star{% if i > block.settings.rating_stars %} hero41__star--empty{% endif %}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false">
+                          <path d="M10 1l3 6 6 .9-4.5 4.3 1 6.2L10 15l-5.5 3.4 1-6.2L1 7.9 7 7z"/>
+                        </svg>
+                      {%- endfor -%}
+                    </div>
+                    <span>{{ block.settings.rating_score | escape }}</span>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="hero41__heading" style="font-size: var(--hero41-heading-size);">
+                    {{ block.settings.heading | escape }}
+                  </h2>
+                {%- endif -%}
+
+                {%- if block.settings.description != blank -%}
+                  <div class="hero41__description" style="font-size: var(--hero41-desc-size);">
+                    {{ block.settings.description }}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.cta_text != blank -%}
+                  <a href="{{ block.settings.cta_url }}" class="hero41__cta hero41__cta--{{ block.settings.cta_style }}" style="padding: 18px 24px; font-size: 16px; border-radius: var(--hero41-cta-radius);">
+                    {{ block.settings.cta_text | escape }}
+                  </a>
+                {%- endif -%}
+
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+
+    {%- assign slide_blocks = section.blocks | where: 'type', 'slide' -%}
+    {%- if slide_blocks.size > 1 -%}
+      <!-- Slider Counter -->
+      <div class="hero41__counter" aria-hidden="true">
+        <span class="hero41__counter-current" data-hero41-counter-current>1</span>
+        <span class="hero41__counter-sep">/</span>
+        <span class="hero41__counter-total">{{ slide_blocks.size }}</span>
+      </div>
+
+      <!-- Navigation -->
+      {%- if section.settings.show_navigation -%}
+        <div class="hero41__nav hero41__nav--prev">
+          <button type="button" class="hero41__nav-button {% if section.settings.nav_button_transparent %}hero41__nav-button--transparent{% else %}hero41__nav-button--filled{% endif %}" data-hero41-prev aria-label="Vorige slide">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+              <path d="M11.833 5.833 7.666 10l4.167 4.167" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="hero41__nav hero41__nav--next">
+          <button type="button" class="hero41__nav-button {% if section.settings.nav_button_transparent %}hero41__nav-button--transparent{% else %}hero41__nav-button--filled{% endif %}" data-hero41-next aria-label="Volgende slide">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+              <path d="M8.167 14.167 12.334 10 8.167 5.833" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.autoplay_enabled -%}
+        <!-- Autoplay Progress -->
+        <div class="hero41__progress" aria-hidden="true">
+          <div class="hero41__progress-bar" data-hero41-progress></div>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  <!-- Logo Marquee Bar -->
+  {%- assign logo_blocks = section.blocks | where: 'type', 'logo' -%}
+  {%- if section.settings.show_logo_bar and logo_blocks.size > 0 -%}
+    <div class="hero41__logo-bar">
+      <div class="hero41__logo-track" aria-label="Merklogo's">
+        {%- for i in (1..2) -%}
+          {%- for block in logo_blocks -%}
+            {%- if block.settings.logo_image != blank -%}
+              <div class="hero41__logo-item" {{ block.shopify_attributes }}>
+                {%- if block.settings.logo_link != blank -%}
+                  <a href="{{ block.settings.logo_link }}" aria-label="{{ block.settings.logo_image.alt | default: 'Logo' | escape }}">
+                    {{ block.settings.logo_image | image_url: width: block.settings.logo_width | image_tag: loading: 'lazy', widths: block.settings.logo_width, style: 'width:' | append: block.settings.logo_width | append: 'px' }}
+                  </a>
+                {%- else -%}
+                  {{ block.settings.logo_image | image_url: width: block.settings.logo_width | image_tag: loading: 'lazy', widths: block.settings.logo_width, style: 'width:' | append: block.settings.logo_width | append: 'px' }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+<script>
+  (() => {
+    const sectionRoot = document.getElementById('shopify-section-{{ section.id }}');
+    if (!sectionRoot) return;
+
+    const initHero41 = () => {
+      const sliderRoot = sectionRoot.querySelector('.hero41');
+      const track = sectionRoot.querySelector('[data-hero41-track]');
+      if (!sliderRoot || !track || sliderRoot.dataset.sliderReady === 'true') return;
+      sliderRoot.dataset.sliderReady = 'true';
+
+      const slides = Array.from(track.querySelectorAll('.hero41__slide'));
+      const total = slides.length;
+      if (total <= 1) return;
+
+      const prevBtn = sectionRoot.querySelector('[data-hero41-prev]');
+      const nextBtn = sectionRoot.querySelector('[data-hero41-next]');
+      const counterCurrent = sectionRoot.querySelector('[data-hero41-counter-current]');
+      const progressBar = sectionRoot.querySelector('[data-hero41-progress]');
+      const autoplayEnabled = {{ section.settings.autoplay_enabled }};
+      const autoplayDelay = {{ section.settings.autoplay_delay }} * 1000;
+      const loopEnabled = {{ section.settings.loop_enabled }};
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let currentIndex = 0;
+      let autoplayTimer = null;
+      let progressResetTimer = null;
+
+      /* ── Core: Go to Slide ── */
+      const goToSlide = (index, direction) => {
+        if (index < 0) {
+          index = loopEnabled ? total - 1 : 0;
+        } else if (index >= total) {
+          index = loopEnabled ? 0 : total - 1;
+        }
+
+        track.style.transform = `translateX(-${index * 100}%)`;
+        currentIndex = index;
+
+        if (counterCurrent) {
+          counterCurrent.textContent = index + 1;
+        }
+
+        if (prevBtn) prevBtn.disabled = !loopEnabled && currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = !loopEnabled && currentIndex === total - 1;
+
+        /* Restart autoplay progress if applicable */
+        if (autoplayEnabled && !reducedMotion && progressBar) {
+          resetProgress();
+        }
+      };
+
+      /* ── Progress Bar ── */
+      const resetProgress = () => {
+        if (!progressBar) return;
+        progressBar.classList.remove('hero41__progress-bar--running');
+        progressBar.classList.add('hero41__progress-bar--reset');
+        /* Force reflow */
+        void progressBar.offsetWidth;
+        clearTimeout(progressResetTimer);
+        progressResetTimer = setTimeout(() => {
+          progressBar.classList.remove('hero41__progress-bar--reset');
+          progressBar.classList.add('hero41__progress-bar--running');
+        }, 50);
+      };
+
+      /* ── Autoplay ── */
+      const startAutoplay = () => {
+        if (!autoplayEnabled || reducedMotion) return;
+        stopAutoplay();
+        if (progressBar) resetProgress();
+        autoplayTimer = setInterval(() => {
+          goToSlide(currentIndex + 1, 'next');
+        }, autoplayDelay);
+      };
+
+      const stopAutoplay = () => {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      };
+
+      const restartAutoplay = () => {
+        stopAutoplay();
+        startAutoplay();
+      };
+
+      /* ── Touch / Drag Support ── */
+      let startX = 0;
+      let isDragging = false;
+      let dragDelta = 0;
+
+      const onPointerDown = (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        isDragging = true;
+        startX = e.clientX;
+        dragDelta = 0;
+        track.classList.add('hero41__track--snap');
+        if (autoplayEnabled) stopAutoplay();
+      };
+
+      const onPointerMove = (e) => {
+        if (!isDragging) return;
+        dragDelta = e.clientX - startX;
+        const offset = -(currentIndex * 100);
+        const dragPercent = (dragDelta / track.parentElement.offsetWidth) * 100;
+        track.style.transform = `translateX(calc(${offset}% + ${dragPercent}%))`;
+      };
+
+      const onPointerUp = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.classList.remove('hero41__track--snap');
+        const threshold = track.parentElement.offsetWidth * 0.15;
+        if (dragDelta < -threshold) {
+          goToSlide(currentIndex + 1, 'next');
+        } else if (dragDelta > threshold) {
+          goToSlide(currentIndex - 1, 'prev');
+        } else {
+          goToSlide(currentIndex);
+        }
+        if (autoplayEnabled) restartAutoplay();
+      };
+
+      track.addEventListener('pointerdown', onPointerDown);
+      track.addEventListener('pointermove', onPointerMove);
+      track.addEventListener('pointerup', onPointerUp);
+      track.addEventListener('pointercancel', onPointerUp);
+
+      /* ── Nav Buttons ── */
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          goToSlide(currentIndex - 1, 'prev');
+          if (autoplayEnabled) restartAutoplay();
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          goToSlide(currentIndex + 1, 'next');
+          if (autoplayEnabled) restartAutoplay();
+        });
+      }
+
+      /* ── Keyboard ── */
+      sliderRoot.setAttribute('tabindex', '0');
+      sliderRoot.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          goToSlide(currentIndex - 1, 'prev');
+          if (autoplayEnabled) restartAutoplay();
+        } else if (e.key === 'ArrowRight') {
+          goToSlide(currentIndex + 1, 'next');
+          if (autoplayEnabled) restartAutoplay();
+        }
+      });
+
+      /* ── Pause on hover ── */
+      if (autoplayEnabled) {
+        sliderRoot.addEventListener('mouseenter', stopAutoplay);
+        sliderRoot.addEventListener('mouseleave', startAutoplay);
+      }
+
+      /* ── Visibility API ── */
+      document.addEventListener('visibilitychange', () => {
+        if (!autoplayEnabled) return;
+        if (document.hidden) {
+          stopAutoplay();
+        } else {
+          startAutoplay();
+        }
+      });
+
+      /* ── Initialize ── */
+      goToSlide(0);
+      if (autoplayEnabled && !reducedMotion) startAutoplay();
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHero41, { once: true });
+    } else {
+      initHero41();
+    }
+
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.target && event.target.id === 'shopify-section-{{ section.id }}') {
+        const root = event.target.querySelector('.hero41');
+        if (root) root.dataset.sliderReady = 'false';
+        initHero41();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero #41 – Slideshow",
+  "tag": "section",
+  "class": "shopify-section--hero41",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Slider instellingen"
+    },
+    {
+      "type": "range",
+      "id": "slide_height_desktop",
+      "label": "Slide hoogte (desktop)",
+      "min": 400,
+      "max": 900,
+      "step": 10,
+      "default": 620,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "slide_height_mobile",
+      "label": "Slide hoogte (mobiel)",
+      "min": 300,
+      "max": 600,
+      "step": 10,
+      "default": 400,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_enabled",
+      "label": "Autoplay inschakelen",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Autoplay vertraging",
+      "info": "In seconden (2–15)",
+      "min": 2,
+      "max": 15,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "label": "Transitie snelheid",
+      "info": "In seconden (0.2–2.0)",
+      "min": 200,
+      "max": 2000,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_enabled",
+      "label": "Loop (oneindig doorlopen)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Navigatie"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Navigatieknoppen tonen",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "nav_button_size",
+      "label": "Navigatieknop grootte",
+      "options": [
+        { "value": "32", "label": "32px" },
+        { "value": "40", "label": "40px" },
+        { "value": "48", "label": "48px" }
+      ],
+      "default": "48"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_color",
+      "label": "Navigatieknop kleur",
+      "default": "#333333"
+    },
+    {
+      "type": "checkbox",
+      "id": "nav_button_transparent",
+      "label": "Transparante navigatieknoppen",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Logo marquee bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo_bar",
+      "label": "Logo bar tonen",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "logo_bar_bg",
+      "label": "Logo bar achtergrond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "logo_bar_speed",
+      "label": "Marquee snelheid",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "default": 30,
+      "unit": "s"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding boven",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding onder",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Achtergrondafbeelding"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content positie",
+          "options": [
+            { "value": "left-top", "label": "Links boven" },
+            { "value": "left-center", "label": "Links midden" },
+            { "value": "left-bottom", "label": "Links onder" },
+            { "value": "right-top", "label": "Rechts boven" },
+            { "value": "right-center", "label": "Rechts midden" },
+            { "value": "right-bottom", "label": "Rechts onder" },
+            { "value": "center-top", "label": "Midden boven" },
+            { "value": "center-center", "label": "Midden midden" },
+            { "value": "center-bottom", "label": "Midden onder" }
+          ],
+          "default": "left-top"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Hero titel"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading grootte",
+          "options": [
+            { "value": "24", "label": "24px" },
+            { "value": "32", "label": "32px" },
+            { "value": "40", "label": "40px" },
+            { "value": "48", "label": "48px" },
+            { "value": "56", "label": "56px" },
+            { "value": "64", "label": "64px" }
+          ],
+          "default": "48"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Beschrijving"
+        },
+        {
+          "type": "select",
+          "id": "description_size",
+          "label": "Beschrijving grootte",
+          "options": [
+            { "value": "12", "label": "12px" },
+            { "value": "14", "label": "14px" },
+            { "value": "16", "label": "16px" },
+            { "value": "18", "label": "18px" },
+            { "value": "20", "label": "20px" }
+          ],
+          "default": "16"
+        },
+        {
+          "type": "header",
+          "content": "Rating"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating",
+          "label": "Rating tonen",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "rating_score",
+          "label": "Rating tekst",
+          "default": "Excellent 4.7"
+        },
+        {
+          "type": "range",
+          "id": "rating_stars",
+          "label": "Aantal sterren",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "select",
+          "id": "rating_style",
+          "label": "Rating stijl",
+          "options": [
+            { "value": "badge", "label": "Badge (witte achtergrond)" },
+            { "value": "inline", "label": "Inline (tekstkleur)" }
+          ],
+          "default": "badge"
+        },
+        {
+          "type": "header",
+          "content": "CTA knop"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Knop tekst",
+          "info": "Leeg laten om knop te verbergen"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Knop link"
+        },
+        {
+          "type": "select",
+          "id": "cta_style",
+          "label": "Knop stijl",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "primary"
+        },
+        {
+          "type": "color",
+          "id": "cta_bg_color",
+          "label": "Knop achtergrondkleur",
+          "default": "#F0FF3B"
+        },
+        {
+          "type": "color",
+          "id": "cta_text_color",
+          "label": "Knop tekstkleur",
+          "default": "#121212"
+        },
+        {
+          "type": "range",
+          "id": "cta_border_radius",
+          "label": "Knop border radius",
+          "min": 0,
+          "max": 50,
+          "step": 2,
+          "default": 6,
+          "unit": "px"
+        },
+        {
+          "type": "header",
+          "content": "Overlay"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay opacity",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "default": 30,
+          "unit": "%"
+        }
+      ]
+    },
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo afbeelding"
+        },
+        {
+          "type": "range",
+          "id": "logo_width",
+          "label": "Logo breedte",
+          "min": 60,
+          "max": 200,
+          "step": 10,
+          "default": 130,
+          "unit": "px"
+        },
+        {
+          "type": "url",
+          "id": "logo_link",
+          "label": "Logo link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero #41 – Slideshow",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "content_position": "left-top",
+            "heading": "Ready for adventure",
+            "heading_size": "48",
+            "description": "<p>The world's #1 rated backpacks and bags. Join over 1M happy customers.</p>",
+            "description_size": "14",
+            "show_rating": true,
+            "rating_score": "Excellent 4.7",
+            "rating_stars": 5,
+            "rating_style": "badge",
+            "cta_text": "",
+            "cta_url": "",
+            "overlay_opacity": 30
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "content_position": "left-top",
+            "heading": "Get up to 35% off Fall Sale",
+            "heading_size": "48",
+            "description": "<p>It's very easy to have a new one. Join over 1M happy customers.</p>",
+            "description_size": "14",
+            "show_rating": true,
+            "rating_score": "Excellent 4.7",
+            "rating_stars": 5,
+            "rating_style": "badge",
+            "cta_text": "Shop sale",
+            "cta_style": "primary",
+            "overlay_opacity": 30
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
