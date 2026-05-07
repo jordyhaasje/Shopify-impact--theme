@@ -1,0 +1,1231 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --heropro2-accent: {{ section.settings.accent_color }};
+    --heropro2-accent-r: {{ section.settings.accent_color.red }};
+    --heropro2-accent-g: {{ section.settings.accent_color.green }};
+    --heropro2-accent-b: {{ section.settings.accent_color.blue }};
+    --heropro2-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --heropro2-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --heropro2-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --heropro2-heading-line-height: {{ section.settings.heading_line_height }}%;
+    --heropro2-min-height-desktop: {{ section.settings.min_height_desktop }}vh;
+    --heropro2-min-height-mobile: {{ section.settings.min_height_mobile }}vh;
+    --heropro2-text-max-width: {{ section.settings.text_max_width }}px;
+    --heropro2-section-max-width: {{ section.settings.section_max_width }}px;
+    --heropro2-section-border-radius: {{ section.settings.section_border_radius }}px;
+    --heropro2-section-margin-h: {{ section.settings.section_margin_horizontal }}px;
+    --heropro2-padding-top: {{ section.settings.section_padding_top }}px;
+    --heropro2-padding-bottom: {{ section.settings.section_padding_bottom }}px;
+    --heropro2-star-color: {{ section.settings.star_color }};
+    --heropro2-text-color: {{ section.settings.text_color }};
+  }
+
+  /* ── Section Container ── */
+  #shopify-section-{{ section.id }} .heropro2__section {
+    border-radius: var(--heropro2-section-border-radius);
+    overflow: hidden;
+    margin: var(--heropro2-padding-top) auto var(--heropro2-padding-bottom);
+    width: calc(100% - (var(--heropro2-section-margin-h) * 2 / 16 * 1rem));
+    max-width: var(--heropro2-section-max-width);
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__section {
+      margin: calc(var(--heropro2-padding-top) * 1.33) auto calc(var(--heropro2-padding-bottom) * 1.33);
+      width: calc(100% - (var(--heropro2-section-margin-h) * 2 / 16 * 1rem));
+    }
+  }
+
+  /* ── Body ── */
+  #shopify-section-{{ section.id }} .heropro2__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    min-height: var(--heropro2-min-height-mobile);
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__body {
+      flex-direction: row;
+      align-items: stretch;
+      min-height: var(--heropro2-min-height-desktop);
+    }
+  }
+
+  /* ── Background Images ── */
+  #shopify-section-{{ section.id }} .heropro2__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__bg--desktop {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__bg--desktop {
+      display: block;
+    }
+    #shopify-section-{{ section.id }} .heropro2__bg--mobile {
+      display: none;
+    }
+  }
+
+  /* ── Overlay ── */
+  #shopify-section-{{ section.id }} .heropro2__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: rgba({{ section.settings.overlay_color.red }}, {{ section.settings.overlay_color.green }}, {{ section.settings.overlay_color.blue }}, var(--heropro2-overlay-opacity));
+    pointer-events: none;
+  }
+
+  /* ── Content ── */
+  #shopify-section-{{ section.id }} .heropro2__content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    flex: 1;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 27px 1.5rem;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__content--left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__content--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__content--right {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__content {
+      flex: none;
+      width: 70%;
+      padding: 36px 5rem;
+    }
+  }
+
+  /* ── Badge ── */
+  #shopify-section-{{ section.id }} .heropro2__badge {
+    margin: 0;
+    margin-top: 12px;
+    font-size: 11px;
+    line-height: 130%;
+    border-radius: 100px;
+    padding: 6px 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    word-break: break-word;
+    display: inline-block;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__badge--pill {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(var(--heropro2-accent-r), var(--heropro2-accent-g), var(--heropro2-accent-b), 0.2);
+    color: var(--heropro2-accent);
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__badge--tag {
+    border-radius: 4px;
+    background-color: #1a1a1a;
+    border: 1px solid rgba(var(--heropro2-accent-r), var(--heropro2-accent-g), var(--heropro2-accent-b), 0.3);
+    color: var(--heropro2-accent);
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__badge {
+      font-size: 12px;
+      padding: 6px 16px;
+    }
+  }
+
+  /* ── Heading ── */
+  #shopify-section-{{ section.id }} .heropro2__heading {
+    margin-top: 12px;
+    {% if section.settings.content_alignment == 'center' %}text-align: center;{% elsif section.settings.content_alignment == 'right' %}text-align: right;{% else %}text-align: left;{% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__heading h1,
+  #shopify-section-{{ section.id }} .heropro2__heading h2 {
+    margin: 0;
+    font-size: var(--heropro2-heading-size-mobile);
+    line-height: var(--heropro2-heading-line-height);
+    color: #ffffff;
+    text-transform: unset;
+    text-decoration: none;
+    word-break: break-word;
+    font-family: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__heading h1,
+    #shopify-section-{{ section.id }} .heropro2__heading h2 {
+      font-size: var(--heropro2-heading-size-desktop);
+    }
+  }
+
+  {% if section.settings.heading_gradient %}
+  #shopify-section-{{ section.id }} .heropro2__heading strong {
+    background: linear-gradient(135deg, {{ section.settings.heading_gradient_from }}, {{ section.settings.heading_gradient_to }});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  {% else %}
+  #shopify-section-{{ section.id }} .heropro2__heading strong {
+    color: var(--heropro2-accent);
+  }
+  {% endif %}
+
+  /* ── Text ── */
+  #shopify-section-{{ section.id }} .heropro2__text {
+    margin-top: 12px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--heropro2-text-max-width);
+    {% if section.settings.content_alignment == 'center' %}text-align: center;{% elsif section.settings.content_alignment == 'right' %}text-align: right;{% else %}text-align: left;{% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__text p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--heropro2-text-color);
+    line-height: 150%;
+    word-break: break-word;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__text strong {
+    color: #ffffff;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__text p {
+      font-size: 16px;
+    }
+  }
+
+  /* ── Stars ── */
+  #shopify-section-{{ section.id }} .heropro2__stars-wrapper {
+    width: 100%;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stars--left {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stars--center {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stars--right {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stars-count {
+    margin: 0;
+    font-size: 12px;
+    color: {{ section.settings.star_text_color }};
+    line-height: 130%;
+    word-break: break-word;
+  }
+
+  /* ── Buttons ── */
+  #shopify-section-{{ section.id }} .heropro2__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__buttons--center {
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__buttons--right {
+    justify-content: flex-end;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__buttons {
+      margin-top: 32px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: fit-content;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    font-size: 12px;
+    line-height: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    word-break: break-word;
+    transition: all 0.3s ease;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__button--pill {
+    border-radius: 100px;
+    padding: 20px 36px;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__button--rounded {
+    border-radius: 4px;
+    padding: 18px 40px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.7px;
+  }
+
+  /* ── Features (Trust Pills) ── */
+  #shopify-section-{{ section.id }} .heropro2__features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__features--center {
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__features--right {
+    justify-content: flex-end;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: left;
+    flex-direction: row;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 1px 0 rgba(var(--heropro2-accent-r), var(--heropro2-accent-g), var(--heropro2-accent-b), 0.16) inset;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(var(--heropro2-accent-r), var(--heropro2-accent-g), var(--heropro2-accent-b), 0.2);
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__feature {
+      padding: 8px 12px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature--hide-mobile {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__feature--hide-mobile {
+      display: flex;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature-icon svg,
+  #shopify-section-{{ section.id }} .heropro2__feature-icon img {
+    width: 100%;
+    height: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature-icon svg path,
+  #shopify-section-{{ section.id }} .heropro2__feature-icon svg circle {
+    fill: var(--heropro2-accent);
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature-icon svg .heropro2__stroke-icon path,
+  #shopify-section-{{ section.id }} .heropro2__feature-icon svg .heropro2__stroke-icon polyline {
+    fill: none;
+    stroke: var(--heropro2-accent);
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature-text {
+    margin: 0;
+    text-align: left;
+    word-break: break-word;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__feature-text p {
+    margin: 0;
+    font-size: 13px;
+    color: #ffffff;
+    line-height: 150%;
+  }
+
+  /* ── Stats ── */
+  #shopify-section-{{ section.id }} .heropro2__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    z-index: 3;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 1.5rem 27px;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stats--center {
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stats--right {
+    justify-content: flex-end;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__stats {
+      flex: none;
+      width: 30%;
+      padding: 36px 2rem;
+      align-self: center;
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat {
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.20), 0 1px 0 rgba(255, 255, 255, 0.16) inset;
+    min-width: 0;
+    width: calc(50% - 5px);
+    box-sizing: border-box;
+    border: 1px solid rgba(var(--heropro2-accent-r), var(--heropro2-accent-g), var(--heropro2-accent-b), 0.2);
+    border-radius: 18px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    text-align: left;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__stat {
+      width: 100%;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat-percent-wrap {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 28px;
+    line-height: 130%;
+    flex: none;
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    white-space: nowrap;
+    word-break: break-word;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .heropro2__stat-percent-wrap {
+      font-size: 40px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat-percent-wrap--gradient {
+    background: linear-gradient(135deg, {{ section.settings.heading_gradient_from }}, {{ section.settings.heading_gradient_to }});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat-inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat-heading {
+    margin-top: 6px;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat-heading h3 {
+    margin: 0;
+    font-size: 11px;
+    color: var(--heropro2-accent);
+    line-height: 130%;
+    text-decoration: none;
+    word-break: break-word;
+    font-weight: 600;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat-text {
+    margin-top: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .heropro2__stat-text p {
+    margin: 0;
+    font-size: 10px;
+    line-height: 150%;
+    text-decoration: none;
+    word-break: break-word;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* ── Accessibility ── */
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .heropro2__button {
+      transition: none;
+    }
+  }
+</style>
+
+<div class="heropro2__section">
+  <div class="heropro2__body">
+
+    {%- comment -%} Background Images {%- endcomment -%}
+    {%- if section.settings.background_image_mobile -%}
+      <img
+        src="{{ section.settings.background_image_mobile | image_url: width: 1200 }}"
+        srcset="{{ section.settings.background_image_mobile | image_url: width: 400 }} 400w,
+                {{ section.settings.background_image_mobile | image_url: width: 600 }} 600w,
+                {{ section.settings.background_image_mobile | image_url: width: 800 }} 800w,
+                {{ section.settings.background_image_mobile | image_url: width: 1200 }} 1200w"
+        loading="eager"
+        fetchpriority="high"
+        sizes="100vw"
+        alt=""
+        class="heropro2__bg heropro2__bg--mobile"
+      >
+    {%- endif -%}
+    {%- if section.settings.background_image -%}
+      <img
+        src="{{ section.settings.background_image | image_url: width: 2000 }}"
+        srcset="{{ section.settings.background_image | image_url: width: 800 }} 800w,
+                {{ section.settings.background_image | image_url: width: 1200 }} 1200w,
+                {{ section.settings.background_image | image_url: width: 1600 }} 1600w,
+                {{ section.settings.background_image | image_url: width: 2000 }} 2000w"
+        loading="eager"
+        fetchpriority="high"
+        sizes="100vw"
+        alt=""
+        class="heropro2__bg heropro2__bg--desktop"
+      >
+    {%- endif -%}
+
+    {%- comment -%} Overlay {%- endcomment -%}
+    {%- if section.settings.overlay_opacity > 0 -%}
+      <div class="heropro2__overlay"></div>
+    {%- endif -%}
+
+    {%- comment -%} Content {%- endcomment -%}
+    <div class="heropro2__content heropro2__content--{{ section.settings.content_alignment }}">
+
+      {%- comment -%} Badge {%- endcomment -%}
+      {%- if section.settings.badge_text != blank -%}
+        <p class="heropro2__badge heropro2__badge--{{ section.settings.badge_style }}">
+          {{ section.settings.badge_text }}
+        </p>
+      {%- endif -%}
+
+      {%- comment -%} Heading {%- endcomment -%}
+      {%- if section.settings.heading != blank -%}
+        <div class="heropro2__heading">
+          <{{ section.settings.heading_tag }}>{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Text {%- endcomment -%}
+      {%- if section.settings.text != blank -%}
+        <div class="heropro2__text">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Stars {%- endcomment -%}
+      {%- if section.settings.show_stars -%}
+        <div class="heropro2__stars-wrapper heropro2__stars--{{ section.settings.content_alignment }}">
+          <div class="heropro2__stars" role="img" aria-label="{{ section.settings.star_rating }} out of 5 stars">
+            {%- for i in (1..section.settings.star_rating) -%}
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="32" height="32" fill="{{ section.settings.star_color }}"></rect>
+                <g clip-path="url(#clip-star-{{ section.id }}-{{ i }})">
+                  <path d="M9.2 27L16 21.8L22.8 27L20.2 18.6L27 13.4H18.6L16 5L13.4 13.4H5L11.8 18.6Z" fill="#ffffff"></path>
+                </g>
+                <defs>
+                  <clipPath id="clip-star-{{ section.id }}-{{ i }}">
+                    <rect width="22" height="22" fill="#ffffff" transform="translate(5 5)"></rect>
+                  </clipPath>
+                </defs>
+              </svg>
+            {%- endfor -%}
+          </div>
+          {%- if section.settings.star_text != blank -%}
+            <p class="heropro2__stars-count">{{ section.settings.star_text }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Buttons {%- endcomment -%}
+      {%- assign button_blocks = section.blocks | where: 'type', 'button' -%}
+      {%- if button_blocks.size > 0 -%}
+        <div class="heropro2__buttons heropro2__buttons--{{ section.settings.content_alignment }}">
+          {%- for block in button_blocks -%}
+            <a
+              href="{{ block.settings.button_link }}"
+              class="heropro2__button heropro2__button--{{ block.settings.button_shape }}"
+              style="background-color: {{ block.settings.button_bg_color }}; color: {{ block.settings.button_text_color }}; border: 0px none {{ block.settings.button_text_color }};"
+              {{ block.shopify_attributes }}
+            >
+              <span>{{ block.settings.button_text }}</span>
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Feature Pills {%- endcomment -%}
+      {%- assign feature_blocks = section.blocks | where: 'type', 'feature' -%}
+      {%- if feature_blocks.size > 0 -%}
+        <div class="heropro2__features heropro2__features--{{ section.settings.content_alignment }}">
+          {%- for block in feature_blocks -%}
+            <div class="heropro2__feature{% if block.settings.hide_on_mobile %} heropro2__feature--hide-mobile{% endif %}" {{ block.shopify_attributes }}>
+              <div class="heropro2__feature-icon">
+                {%- case block.settings.feature_icon -%}
+                  {%- when 'shield' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M9 1.5L2.25 4.5V8.25C2.25 12.075 5.13 15.675 9 16.5C12.87 15.675 15.75 12.075 15.75 8.25V4.5L9 1.5Z" fill="currentColor"/>
+                    </svg>
+                  {%- when 'bolt' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M10.5 1.5L4.5 10.5H9L7.5 16.5L13.5 7.5H9L10.5 1.5Z" fill="currentColor"/>
+                    </svg>
+                  {%- when 'leaf' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M14.25 2.25C11.25 2.25 7.5 3 5.25 5.25C3 7.5 2.25 11.25 2.25 14.25C2.25 14.25 6 12.75 9 9.75C12 6.75 14.25 2.25 14.25 2.25Z" fill="currentColor"/>
+                    </svg>
+                  {%- when 'earth' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                      <ellipse cx="9" cy="9" rx="3.5" ry="7.5" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                      <line x1="1.5" y1="9" x2="16.5" y2="9" stroke="currentColor" stroke-width="1.2"/>
+                    </svg>
+                  {%- when 'refresh' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" class="heropro2__stroke-icon" aria-hidden="true">
+                      <path d="M14.25 9C14.25 11.8995 11.8995 14.25 9 14.25C6.1005 14.25 3.75 11.8995 3.75 9C3.75 6.1005 6.1005 3.75 9 3.75C10.65 3.75 12.15 4.5 13.2 5.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+                      <polyline points="13.2,2.7 13.2,5.7 10.2,5.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                  {%- when 'check' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M15 4.5L6.75 12.75L3 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                  {%- when 'award' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <circle cx="9" cy="7.5" r="4.5" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                      <path d="M6.75 11.25L6 16.5L9 15L12 16.5L11.25 11.25" fill="currentColor"/>
+                    </svg>
+                  {%- when 'star' -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path d="M9 1.5L11.3 6.4L16.5 7.1L12.75 10.8L13.6 16.5L9 13.9L4.4 16.5L5.25 10.8L1.5 7.1L6.7 6.4L9 1.5Z" fill="currentColor"/>
+                    </svg>
+                {%- endcase -%}
+              </div>
+              <div class="heropro2__feature-content">
+                <div class="heropro2__feature-text"><p>{{ block.settings.feature_text }}</p></div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} Stats {%- endcomment -%}
+    {%- assign stat_blocks = section.blocks | where: 'type', 'stat' -%}
+    {%- if stat_blocks.size > 0 -%}
+      <div class="heropro2__stats heropro2__stats--{{ section.settings.content_alignment }}">
+        {%- for block in stat_blocks -%}
+          <div class="heropro2__stat" {{ block.shopify_attributes }}>
+            <div class="heropro2__stat-percent-wrap{% if block.settings.stat_use_gradient %} heropro2__stat-percent-wrap--gradient{% endif %}"
+              {% unless block.settings.stat_use_gradient %}
+                style="color: {{ block.settings.stat_percent_color }};"
+              {% else %}
+                style="background: linear-gradient(135deg, {{ block.settings.stat_gradient_from }}, {{ block.settings.stat_gradient_to }}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+              {% endunless %}
+            >
+              <span class="heropro2__stat-percent">{{ block.settings.stat_percentage }}</span>{{ block.settings.stat_percentage_suffix }}
+            </div>
+            <div class="heropro2__stat-inner">
+              {%- if block.settings.stat_heading != blank -%}
+                <div class="heropro2__stat-heading">
+                  <h3>{{ block.settings.stat_heading }}</h3>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.stat_description != blank -%}
+                <div class="heropro2__stat-text">
+                  <p>{{ block.settings.stat_description }}</p>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Pro 2",
+  "tag": "section",
+  "class": "heropro2-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_max_width",
+      "min": 800,
+      "max": 2400,
+      "step": 100,
+      "unit": "px",
+      "label": "Max breedte",
+      "default": 1600
+    },
+    {
+      "type": "range",
+      "id": "section_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_margin_horizontal",
+      "min": 0,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontale marge",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Achtergrond"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Achtergrondafbeelding (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Achtergrondafbeelding (mobiel)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay kleur",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Hoogte"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "vh",
+      "label": "Min-hoogte desktop",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 60,
+      "max": 150,
+      "step": 5,
+      "unit": "vh",
+      "label": "Min-hoogte mobiel",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        { "value": "left", "label": "Links" },
+        { "value": "center", "label": "Midden" },
+        { "value": "right", "label": "Rechts" }
+      ],
+      "default": "left",
+      "label": "Content uitlijning"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent kleur",
+      "default": "#d4a84b"
+    },
+    {
+      "type": "header",
+      "content": "Badge / Label"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge tekst",
+      "default": "NEW ARRIVAL"
+    },
+    {
+      "type": "select",
+      "id": "badge_style",
+      "options": [
+        { "value": "pill", "label": "Pill (afgerond)" },
+        { "value": "tag", "label": "Tag (vierkant)" }
+      ],
+      "default": "pill",
+      "label": "Badge stijl"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your hero heading goes here."
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" }
+      ],
+      "default": "h1",
+      "label": "Heading tag"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading font",
+      "default": "bricolage_grotesque_n7"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 24,
+      "max": 96,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading grootte desktop",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading grootte mobiel",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 80,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Heading line-height",
+      "default": 105
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_gradient",
+      "label": "Gradient text op vetgedrukte woorden",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "heading_gradient_from",
+      "label": "Gradient start kleur",
+      "default": "#d4a84b"
+    },
+    {
+      "type": "color",
+      "id": "heading_gradient_to",
+      "label": "Gradient eind kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Subtekst"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Subtekst"
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Subtekst max-breedte",
+      "default": 640
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Subtekst kleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Sterren / Review"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Toon sterren",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "star_rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Aantal sterren",
+      "default": 5
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Sterkleur",
+      "default": "#d4a84b"
+    },
+    {
+      "type": "text",
+      "id": "star_text",
+      "label": "Sterren tekst",
+      "default": "4.9 based on 25,000+ reviews"
+    },
+    {
+      "type": "color",
+      "id": "star_text_color",
+      "label": "Sterren tekst kleur",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "CTA Knop",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Knop tekst",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Knop link"
+        },
+        {
+          "type": "select",
+          "id": "button_shape",
+          "options": [
+            { "value": "pill", "label": "Pill (afgerond)" },
+            { "value": "rounded", "label": "Rounded (licht afgerond)" }
+          ],
+          "default": "pill",
+          "label": "Knop vorm"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Achtergrondkleur",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Tekstkleur",
+          "default": "#000000"
+        }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature Pill",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "select",
+          "id": "feature_icon",
+          "options": [
+            { "value": "shield", "label": "Schild" },
+            { "value": "bolt", "label": "Bliksem" },
+            { "value": "leaf", "label": "Blad" },
+            { "value": "earth", "label": "Wereldbol" },
+            { "value": "refresh", "label": "Vernieuwen" },
+            { "value": "check", "label": "Vinkje" },
+            { "value": "award", "label": "Award" },
+            { "value": "star", "label": "Ster" }
+          ],
+          "default": "shield",
+          "label": "Icoon"
+        },
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "Feature tekst",
+          "default": "Feature description"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Verbergen op mobiel",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Statistiek",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_percentage",
+          "label": "Percentage / Getal",
+          "default": "92"
+        },
+        {
+          "type": "text",
+          "id": "stat_percentage_suffix",
+          "label": "Suffix (bijv. %, +)",
+          "default": "%"
+        },
+        {
+          "type": "text",
+          "id": "stat_heading",
+          "label": "Statistiek heading",
+          "default": "Felt More Energy"
+        },
+        {
+          "type": "text",
+          "id": "stat_description",
+          "label": "Statistiek beschrijving",
+          "default": "Within 30 days"
+        },
+        {
+          "type": "color",
+          "id": "stat_percent_color",
+          "label": "Percentage kleur",
+          "default": "#d4a84b"
+        },
+        {
+          "type": "checkbox",
+          "id": "stat_use_gradient",
+          "label": "Gradient op percentage",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "stat_gradient_from",
+          "label": "Gradient start",
+          "default": "#d4a84b"
+        },
+        {
+          "type": "color",
+          "id": "stat_gradient_to",
+          "label": "Gradient eind",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Pro 2",
+      "blocks": [
+        {
+          "type": "button",
+          "settings": {
+            "button_text": "Shop Now",
+            "button_shape": "pill",
+            "button_bg_color": "rgba(0,0,0,0)",
+            "button_text_color": "#000000"
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "button_text": "Learn More",
+            "button_shape": "pill",
+            "button_bg_color": "rgba(0,0,0,0)",
+            "button_text_color": "#000000"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_icon": "shield",
+            "feature_text": "30-Day Guarantee"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_icon": "check",
+            "feature_text": "Clinically Tested",
+            "hide_on_mobile": true
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "feature_icon": "leaf",
+            "feature_text": "100% Natural",
+            "hide_on_mobile": true
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "stat_percentage": "92",
+            "stat_percentage_suffix": "%",
+            "stat_heading": "Customer Satisfaction",
+            "stat_description": "Based on reviews"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "stat_percentage": "88",
+            "stat_percentage_suffix": "%",
+            "stat_heading": "Would Recommend",
+            "stat_description": "To a friend"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "stat_percentage": "97",
+            "stat_percentage_suffix": "%",
+            "stat_heading": "Reordered",
+            "stat_description": "Came back for more"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
