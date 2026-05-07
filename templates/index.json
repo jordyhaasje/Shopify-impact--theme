@@ -1032,7 +1032,145 @@
         "bg_color": "#f1f0ed",
         "text_color": "#67645e",
         "button_color": "#67645e",
+        "section_margin_top": 60,
+        "section_margin_bottom": 60,
+        "section_padding_top": 0,
+        "section_padding_bottom": 0,
+        "section_horizontal_margin": 0,
         "border_radius": 12
+      }
+    },
+    "hero_pro_2_QWnaVJ": {
+      "type": "hero-pro-2",
+      "blocks": {
+        "button_RAzJny": {
+          "type": "button",
+          "settings": {
+            "button_text": "Shop Now",
+            "button_link": "",
+            "button_shape": "pill",
+            "button_bg_color": "rgba(0,0,0,0)",
+            "button_text_color": "#000000"
+          }
+        },
+        "button_JC6PCm": {
+          "type": "button",
+          "settings": {
+            "button_text": "Learn More",
+            "button_link": "",
+            "button_shape": "pill",
+            "button_bg_color": "rgba(0,0,0,0)",
+            "button_text_color": "#000000"
+          }
+        },
+        "feature_cAztmL": {
+          "type": "feature",
+          "settings": {
+            "feature_icon": "shield",
+            "feature_text": "30-Day Guarantee",
+            "hide_on_mobile": false
+          }
+        },
+        "feature_WrUj4X": {
+          "type": "feature",
+          "settings": {
+            "feature_icon": "check",
+            "feature_text": "Clinically Tested",
+            "hide_on_mobile": true
+          }
+        },
+        "feature_jV6Dyn": {
+          "type": "feature",
+          "settings": {
+            "feature_icon": "leaf",
+            "feature_text": "100% Natural",
+            "hide_on_mobile": true
+          }
+        },
+        "stat_VxXXbV": {
+          "type": "stat",
+          "settings": {
+            "stat_percentage": "92",
+            "stat_percentage_suffix": "%",
+            "stat_heading": "Customer Satisfaction",
+            "stat_description": "Based on reviews",
+            "stat_percent_color": "#d4a84b",
+            "stat_use_gradient": true,
+            "stat_gradient_from": "#d4a84b",
+            "stat_gradient_to": "#ffffff"
+          }
+        },
+        "stat_A9zEtb": {
+          "type": "stat",
+          "settings": {
+            "stat_percentage": "88",
+            "stat_percentage_suffix": "%",
+            "stat_heading": "Would Recommend",
+            "stat_description": "To a friend",
+            "stat_percent_color": "#d4a84b",
+            "stat_use_gradient": true,
+            "stat_gradient_from": "#d4a84b",
+            "stat_gradient_to": "#ffffff"
+          }
+        },
+        "stat_wjDRer": {
+          "type": "stat",
+          "settings": {
+            "stat_percentage": "97",
+            "stat_percentage_suffix": "%",
+            "stat_heading": "Reordered",
+            "stat_description": "Came back for more",
+            "stat_percent_color": "#d4a84b",
+            "stat_use_gradient": true,
+            "stat_gradient_from": "#d4a84b",
+            "stat_gradient_to": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "button_RAzJny",
+        "button_JC6PCm",
+        "feature_cAztmL",
+        "feature_WrUj4X",
+        "feature_jV6Dyn",
+        "stat_VxXXbV",
+        "stat_A9zEtb",
+        "stat_wjDRer"
+      ],
+      "name": "Hero Pro 2",
+      "settings": {
+        "section_padding_top": 24,
+        "section_padding_bottom": 24,
+        "section_max_width": 1600,
+        "section_border_radius": 20,
+        "section_margin_horizontal": 32,
+        "background_image": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "background_image_mobile": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "overlay_opacity": 0,
+        "overlay_color": "#000000",
+        "min_height_desktop": 100,
+        "min_height_mobile": 100,
+        "content_alignment": "left",
+        "accent_color": "#d4a84b",
+        "badge_text": "NEW ARRIVAL",
+        "badge_style": "pill",
+        "heading": "Your hero heading goes here.",
+        "heading_tag": "h1",
+        "heading_font": "bricolage_grotesque_n7",
+        "heading_size_desktop": 64,
+        "heading_size_mobile": 32,
+        "heading_line_height": 105,
+        "heading_gradient": true,
+        "heading_gradient_from": "#d4a84b",
+        "heading_gradient_to": "#ffffff",
+        "text": "",
+        "text_max_width": 640,
+        "text_color": "#ffffff",
+        "show_stars": true,
+        "star_rating": 5,
+        "star_color": "#d4a84b",
+        "star_text": "4.9 based on 25,000+ reviews",
+        "star_text_color": "#ffffff"
       }
     }
   },
@@ -1054,6 +1192,7 @@
     "video_test_gzdRJR",
     "glozzy_premium_reviews_NEfakL",
     "trustpilot_rev_1_tjmgnm",
-    "scrolling_hero_9iEzUM"
+    "scrolling_hero_9iEzUM",
+    "hero_pro_2_QWnaVJ"
   ]
 }
