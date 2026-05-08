@@ -1,0 +1,501 @@
+{%- render 'section-spacing-collapsing', background: section.settings.background_color -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --hero-127-bg: {{ section.settings.background_color }};
+    --hero-127-text: {{ section.settings.text_color }};
+    --hero-127-star: {{ section.settings.star_color }};
+    --hero-127-star-bg: {{ section.settings.star_background }};
+    --hero-127-card: {{ section.settings.button_background }};
+  }
+
+  #shopify-section-{{ section.id }} .hero-127 {
+    position: relative;
+    overflow: hidden;
+    color: var(--hero-127-text);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--hero-127-bg) 88%, #fff) 0%, var(--hero-127-bg) 100%);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__shell {
+    max-width: {{ section.settings.content_width }}px;
+    margin-inline: auto;
+    min-height: {{ section.settings.desktop_min_height }}px;
+    padding: {{ section.settings.padding_top }}px 24px {{ section.settings.padding_bottom }}px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, .76fr);
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+    position: relative;
+    z-index: 1;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 690px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__proof {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    margin-bottom: clamp(24px, 3.8vw, 44px);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__avatars {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__avatar {
+    width: 50px;
+    height: 50px;
+    margin-left: -10px;
+    border-radius: 999px;
+    border: 2px solid rgba(255,255,255,.86);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(80,31,38,.1);
+    color: #161616;
+    font-size: 12px;
+    font-weight: 800;
+    background: var(--avatar-bg, #efe8e1);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__rating-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__customers {
+    font-size: clamp(17px, 2vw, 28px);
+    line-height: 1;
+    letter-spacing: .12em;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__stars-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__stars {
+    display: inline-flex;
+    gap: 2px;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__star {
+    width: 31px;
+    height: 31px;
+    display: grid;
+    place-items: center;
+    background: var(--hero-127-star-bg);
+    color: var(--hero-127-star);
+    font: 20px/1 Arial, sans-serif;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__score {
+    font-size: clamp(18px, 2.2vw, 28px);
+    line-height: 1;
+    letter-spacing: .08em;
+    font-weight: 400;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__heading {
+    margin: 0;
+    max-width: 760px;
+    color: var(--hero-127-text);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(44px, 5.4vw, {{ section.settings.heading_size }}px);
+    line-height: .9;
+    letter-spacing: -.045em;
+    font-weight: 900;
+    text-wrap: balance;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__heading-line {
+    display: inline-block;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__heading-line::after {
+    content: '';
+    position: absolute;
+    left: .07em;
+    right: .03em;
+    bottom: -.1em;
+    height: 3px;
+    background: rgba(255,255,255,.92);
+    box-shadow: 0 9px 0 rgba(255,255,255,.92);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__heading-emphasis {
+    display: block;
+    margin-top: .32em;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__text {
+    margin: clamp(26px, 3vw, 38px) 0 0;
+    max-width: 650px;
+    color: var(--hero-127-text);
+    font-size: clamp(16px, 1.75vw, {{ section.settings.text_size }}px);
+    line-height: 1.68;
+    letter-spacing: .15em;
+    font-weight: 300;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    width: 100%;
+    margin-top: clamp(30px, 4vw, 46px);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__button {
+    min-width: min(240px, 100%);
+    min-height: 70px;
+    padding: 18px 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--hero-127-text);
+    background: var(--hero-127-card);
+    border: 1px solid rgba(17,17,17,.04);
+    box-shadow: 0 16px 36px rgba(76,21,29,.07);
+    font-size: 17px;
+    line-height: 1;
+    letter-spacing: .16em;
+    font-weight: 800;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(76,21,29,.12);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__bottom-proof {
+    margin-top: 30px;
+    width: 100%;
+    text-align: left;
+    font-size: clamp(15px, 1.9vw, 26px);
+    line-height: 1.2;
+    letter-spacing: .14em;
+    font-weight: 900;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__visual {
+    position: relative;
+    min-height: 360px;
+    align-self: stretch;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__hand {
+    position: absolute;
+    top: 18%;
+    right: -22%;
+    width: min(470px, 48vw);
+    height: 150px;
+    border-radius: 999px 0 0 999px;
+    background: linear-gradient(90deg, #f2ad90 0%, #f7c1ad 46%, #e6967f 100%);
+    box-shadow: 30px 38px 0 rgba(157,35,48,.16);
+    transform: rotate(12deg);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__hand::before {
+    content: '';
+    position: absolute;
+    left: 8%;
+    top: -50px;
+    width: 170px;
+    height: 72px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #f6b89f, #e89079);
+    transform: rotate(-12deg);
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__product {
+    position: absolute;
+    left: 0;
+    bottom: 22%;
+    width: min(330px, 84%);
+    min-height: 92px;
+    padding: 16px 22px;
+    border-radius: 12px;
+    display: grid;
+    align-content: center;
+    background: #fff7f2;
+    color: #151515;
+    box-shadow: 0 26px 54px rgba(110,32,45,.18);
+    transform: rotate(-14deg);
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__product::before,
+  #shopify-section-{{ section.id }} .hero-127__product::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 36px;
+    height: 100%;
+    background: repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 2px, transparent 2px 6px);
+  }
+  #shopify-section-{{ section.id }} .hero-127__product::before { left: 0; }
+  #shopify-section-{{ section.id }} .hero-127__product::after { right: 0; }
+
+  #shopify-section-{{ section.id }} .hero-127__product-image {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__product-fallback {
+    position: relative;
+    z-index: 2;
+    padding-inline: 34px;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__product-kicker {
+    font-size: 12px;
+    letter-spacing: .15em;
+    font-weight: 900;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__product-title {
+    margin-top: 3px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 34px;
+    line-height: .84;
+    letter-spacing: -.06em;
+    font-weight: 900;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__product-flavor {
+    margin-top: 4px;
+    font-size: 11px;
+    letter-spacing: .1em;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .hero-127__shadow {
+    position: absolute;
+    inset-inline: 10% -22%;
+    bottom: -10px;
+    height: 110px;
+    background: rgba(152,31,46,.13);
+    transform: skewY(9deg);
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .hero-127__shell {
+      display: block;
+      max-width: 760px;
+      min-height: 0;
+      padding: {{ section.settings.mobile_padding_top }}px 18px {{ section.settings.mobile_padding_bottom }}px;
+      text-align: center;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__content {
+      align-items: center;
+      max-width: none;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__proof {
+      justify-content: center;
+      margin-bottom: 38px;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__rating-wrap {
+      justify-content: center;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__visual {
+      display: block;
+      position: absolute;
+      inset: 0;
+      min-height: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__hand {
+      top: 20%;
+      right: -34%;
+      width: 92vw;
+      min-width: 330px;
+      height: 122px;
+      opacity: .82;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__product {
+      left: 24%;
+      bottom: 37%;
+      width: min(310px, 52vw);
+      min-height: 66px;
+      opacity: .84;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__heading {
+      font-size: clamp(42px, 11vw, 56px);
+      max-width: 94vw;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__text {
+      margin-top: 38px;
+      max-width: 94%;
+      font-size: clamp(16px, 4vw, 20px);
+      line-height: 1.72;
+      letter-spacing: .17em;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__buttons {
+      justify-content: center;
+      margin-top: 44px;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__button {
+      flex: 0 1 calc(50% - 10px);
+      min-width: 210px;
+      min-height: 76px;
+      font-size: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .hero-127__bottom-proof {
+      margin-top: 36px;
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} .hero-127__shell { padding-inline: 14px; }
+    #shopify-section-{{ section.id }} .hero-127__avatars { width: 100%; justify-content: center; }
+    #shopify-section-{{ section.id }} .hero-127__avatar { width: 47px; height: 47px; }
+    #shopify-section-{{ section.id }} .hero-127__customers { width: 100%; font-size: 21px; letter-spacing: .13em; }
+    #shopify-section-{{ section.id }} .hero-127__star { width: 30px; height: 30px; font-size: 20px; }
+    #shopify-section-{{ section.id }} .hero-127__score { font-size: 24px; }
+    #shopify-section-{{ section.id }} .hero-127__heading-line::after { bottom: -.11em; height: 2px; box-shadow: 0 8px 0 rgba(255,255,255,.92); }
+    #shopify-section-{{ section.id }} .hero-127__buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    #shopify-section-{{ section.id }} .hero-127__button { min-width: 0; min-height: 72px; padding: 16px 12px; font-size: 15px; }
+    #shopify-section-{{ section.id }} .hero-127__bottom-proof { font-size: 18px; letter-spacing: .16em; }
+    #shopify-section-{{ section.id }} .hero-127__hand { right: -48%; }
+    #shopify-section-{{ section.id }} .hero-127__product-kicker { font-size: 9px; }
+    #shopify-section-{{ section.id }} .hero-127__product-title { font-size: 24px; }
+    #shopify-section-{{ section.id }} .hero-127__product-flavor { font-size: 8px; }
+  }
+</style>
+
+<section class="hero-127" data-section-id="{{ section.id }}">
+  <div class="hero-127__shell" data-section-bounded-shell>
+    <div class="hero-127__content">
+      <div class="hero-127__proof" aria-label="{{ section.settings.customers_text | escape }}">
+        <div class="hero-127__avatars" aria-hidden="true">
+          <span class="hero-127__avatar" style="--avatar-bg:#e8edf5;">A</span>
+          <span class="hero-127__avatar" style="--avatar-bg:#eadcca;">J</span>
+          <span class="hero-127__avatar" style="--avatar-bg:#d8e2df;">M</span>
+          <span class="hero-127__avatar" style="--avatar-bg:#efe4d9;">N</span>
+        </div>
+        <div class="hero-127__rating-wrap">
+          {%- if section.settings.customers_text != blank -%}<div class="hero-127__customers">{{ section.settings.customers_text | escape }}</div>{%- endif -%}
+          <div class="hero-127__stars-row">
+            <span class="hero-127__stars" aria-hidden="true">{%- for i in (1..5) -%}<span class="hero-127__star">★</span>{%- endfor -%}</span>
+            {%- if section.settings.rating_score != blank -%}<span class="hero-127__score">{{ section.settings.rating_score | escape }}</span>{%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      {%- if section.settings.heading_line_1 != blank or section.settings.heading_line_2 != blank -%}
+        <h1 class="hero-127__heading">
+          {%- if section.settings.heading_line_1 != blank -%}<span class="hero-127__heading-line">{{ section.settings.heading_line_1 | escape }}</span>{%- endif -%}
+          {%- if section.settings.heading_line_2 != blank -%}<span class="hero-127__heading-emphasis">{{ section.settings.heading_line_2 | escape }}</span>{%- endif -%}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}<div class="hero-127__text">{{ section.settings.text }}</div>{%- endif -%}
+
+      <div class="hero-127__buttons">
+        {%- if section.settings.button_1_label != blank -%}<a class="hero-127__button" href="{{ section.settings.button_1_link | default: '#' }}">{{ section.settings.button_1_label | escape }}</a>{%- endif -%}
+        {%- if section.settings.button_2_label != blank -%}<a class="hero-127__button" href="{{ section.settings.button_2_link | default: '#' }}">{{ section.settings.button_2_label | escape }}</a>{%- endif -%}
+      </div>
+
+      {%- if section.settings.bottom_proof != blank -%}<div class="hero-127__bottom-proof">{{ section.settings.bottom_proof | escape }}</div>{%- endif -%}
+    </div>
+
+    <div class="hero-127__visual" aria-hidden="true">
+      <div class="hero-127__hand"></div>
+      <div class="hero-127__product">
+        {%- if section.settings.product_image != blank -%}
+          <div class="hero-127__product-image">{{ section.settings.product_image | image_url: width: 800 | image_tag: loading: 'eager', widths: '280,420,560,800', alt: section.settings.product_title }}</div>
+        {%- else -%}
+          <div class="hero-127__product-fallback">
+            <div class="hero-127__product-kicker">{{ section.settings.product_kicker | escape }}</div>
+            <div class="hero-127__product-title">{{ section.settings.product_title | escape }}</div>
+            <div class="hero-127__product-flavor">{{ section.settings.product_flavor | escape }}</div>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="hero-127__shadow"></div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero-127",
+  "class": "shopify-section--hero-127",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "customers_text", "label": "Customers text", "default": "50K+ Happy Customers" },
+    { "type": "text", "id": "rating_score", "label": "Rating score", "default": "4.7" },
+    { "type": "text", "id": "heading_line_1", "label": "Heading first line", "default": "It's all about the" },
+    { "type": "text", "id": "heading_line_2", "label": "Heading second line", "default": "crave" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Our products are easy to understand, made from organic nutritious and delicious ingredients.</p>" },
+    { "type": "text", "id": "button_1_label", "label": "First button label", "default": "Shop bars" },
+    { "type": "url", "id": "button_1_link", "label": "First button link" },
+    { "type": "text", "id": "button_2_label", "label": "Second button label", "default": "Shop chips" },
+    { "type": "url", "id": "button_2_link", "label": "Second button link" },
+    { "type": "text", "id": "bottom_proof", "label": "Bottom proof text", "default": "Over 50.000 Happy Customers" },
+    { "type": "header", "content": "Product visual" },
+    { "type": "image_picker", "id": "product_image", "label": "Product image" },
+    { "type": "text", "id": "product_kicker", "label": "Product kicker", "default": "The Organic" },
+    { "type": "text", "id": "product_title", "label": "Product title", "default": "CRAVE" },
+    { "type": "text", "id": "product_flavor", "label": "Product flavor", "default": "Cocoa & Nibs" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "content_width", "label": "Content width", "min": 960, "max": 1320, "step": 20, "unit": "px", "default": 1200 },
+    { "type": "range", "id": "desktop_min_height", "label": "Desktop minimum height", "min": 360, "max": 680, "step": 20, "unit": "px", "default": 560 },
+    { "type": "range", "id": "heading_size", "label": "Desktop heading size", "min": 44, "max": 56, "step": 1, "unit": "px", "default": 56 },
+    { "type": "range", "id": "text_size", "label": "Desktop text size", "min": 16, "max": 20, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding_top", "label": "Desktop padding top", "min": 40, "max": 120, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Desktop padding bottom", "min": 40, "max": 120, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "mobile_padding_top", "label": "Mobile padding top", "min": 32, "max": 100, "step": 4, "unit": "px", "default": 52 },
+    { "type": "range", "id": "mobile_padding_bottom", "label": "Mobile padding bottom", "min": 40, "max": 120, "step": 4, "unit": "px", "default": 88 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#efabb5" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#0f0f0f" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#ffffff" },
+    { "type": "color", "id": "star_background", "label": "Star background", "default": "#00b67a" },
+    { "type": "color", "id": "star_color", "label": "Star", "default": "#ffffff" }
+  ],
+  "presets": [
+    { "name": "Hero-127" }
+  ]
+}
+{% endschema %}
