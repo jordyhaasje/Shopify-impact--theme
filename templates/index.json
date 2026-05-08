@@ -1204,13 +1204,46 @@
         "mobile_padding_bottom": 80,
         "bg_color": "#0a0a0a",
         "text_color": "#ffffff",
-        "muted_text_color": "rgba(255,255,255,0.7)",
+        "muted_text_color": "#ffffffb3",
         "accent_color": "#00b674",
         "button_primary_color": "#ffffff",
         "button_primary_text_color": "#000000",
-        "button_secondary_color": "transparent",
+        "button_secondary_color": "rgba(0,0,0,0)",
         "button_secondary_text_color": "#ffffff",
         "title_weight": "700"
+      }
+    },
+    "hero_127_bWpXxB": {
+      "type": "hero-127",
+      "name": "Hero-127",
+      "settings": {
+        "customers_text": "50K+ Happy Customers",
+        "rating_score": "4.9",
+        "heading_line_1": "It's all about the",
+        "heading_line_2": "crave",
+        "text": "<p>Our products are easy to understand, made from organic nutritious and delicious ingredients.</p>",
+        "button_1_label": "Shop bars",
+        "button_1_link": "",
+        "button_2_label": "Shop chips",
+        "button_2_link": "",
+        "bottom_proof": "Over 50.000 Happy Customers",
+        "product_image": "shopify://shop_images/blik1.webp",
+        "product_kicker": "The Organic",
+        "product_title": "CRAVE",
+        "product_flavor": "Cocoa & Nibs",
+        "content_width": 1200,
+        "desktop_min_height": 560,
+        "heading_size": 53,
+        "text_size": 19,
+        "padding_top": 72,
+        "padding_bottom": 80,
+        "mobile_padding_top": 52,
+        "mobile_padding_bottom": 88,
+        "background_color": "#efabb5",
+        "text_color": "#0f0f0f",
+        "button_background": "#ffffff",
+        "star_background": "#00b67a",
+        "star_color": "#ffffff"
       }
     }
   },
@@ -1234,6 +1267,7 @@
     "trustpilot_rev_1_tjmgnm",
     "scrolling_hero_9iEzUM",
     "hero_pro_2_QWnaVJ",
-    "hero_p_3_iNf8Nh"
+    "hero_p_3_iNf8Nh",
+    "hero_127_bWpXxB"
   ]
 }
