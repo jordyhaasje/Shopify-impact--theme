@@ -1,0 +1,152 @@
+{% liquid
+  assign slider_delay = section.settings.autoplay_speed | times: 1000
+%}
+
+<style>
+  #shopify-section-{{ section.id }} .hazify-test-slider { color: {{ section.settings.text_color }}; padding: {{ section.settings.padding_top }}px 1.5rem {{ section.settings.padding_bottom }}px; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__inner { width: min(100%, {{ section.settings.max_width }}px); margin: 0 auto; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__heading { margin: 0; max-width: 760px; font-size: clamp(2rem, 4vw, 3.8rem); line-height: 1.05; font-weight: 750; letter-spacing: 0; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__intro { max-width: 680px; margin: 0.75rem 0 0; color: {{ section.settings.muted_text_color }}; font-size: 1rem; line-height: 1.7; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__controls { display: flex; align-items: center; gap: 0.75rem; flex: 0 0 auto; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__counter { min-width: 4.5rem; padding: 0.7rem 0.9rem; border-radius: 999px; background: {{ section.settings.control_background }}; color: {{ section.settings.control_text_color }}; text-align: center; font-size: 0.95rem; line-height: 1; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__button { width: 3rem; height: 3rem; border: 0; border-radius: 50%; background: {{ section.settings.control_background }}; color: {{ section.settings.control_text_color }}; box-shadow: 0 12px 30px rgba(0,0,0,0.12); cursor: pointer; display: inline-grid; place-items: center; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__button:disabled { cursor: not-allowed; opacity: 0.35; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__viewport { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__viewport::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, {{ section.settings.card_width }}px); gap: {{ section.settings.gap }}px; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__slide { scroll-snap-align: start; border-radius: {{ section.settings.card_radius }}px; overflow: hidden; background: {{ section.settings.card_background }}; color: {{ section.settings.card_text_color }}; min-height: {{ section.settings.card_height }}px; display: grid; grid-template-rows: auto 1fr; box-shadow: 0 20px 50px rgba(0,0,0,0.08); }
+  #shopify-section-{{ section.id }} .hazify-test-slider__slide-content { padding: clamp(1.25rem, 3vw, 2rem); position: relative; z-index: 1; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__eyebrow { margin: 0 0 0.65rem; font-size: 0.78rem; line-height: 1.2; font-weight: 750; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.72; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__title { margin: 0; font-size: clamp(1.55rem, 3vw, 2.2rem); line-height: 1.12; font-weight: 800; letter-spacing: 0; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__text { margin-top: 0.85rem; font-size: 1rem; line-height: 1.65; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__text p { margin: 0; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__link { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1rem; color: currentColor; font-weight: 700; text-decoration: none; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__media { min-height: 210px; display: grid; align-items: end; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__media picture,
+  #shopify-section-{{ section.id }} .hazify-test-slider__media img { width: 100%; height: 100%; min-height: 210px; display: block; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__media img { object-fit: cover; }
+  #shopify-section-{{ section.id }} .hazify-test-slider__fallback { min-height: 240px; background: linear-gradient(135deg, rgba(255,255,255,0.78), rgba(0,0,0,0.06)); }
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .hazify-test-slider { padding-top: {{ section.settings.mobile_padding_top }}px; padding-bottom: {{ section.settings.mobile_padding_bottom }}px; }
+    #shopify-section-{{ section.id }} .hazify-test-slider__header { display: block; }
+    #shopify-section-{{ section.id }} .hazify-test-slider__controls { margin-top: 1rem; justify-content: flex-start; }
+    #shopify-section-{{ section.id }} .hazify-test-slider__track { grid-auto-columns: minmax(250px, 84vw); }
+  }
+</style>
+
+<section class="hazify-test-slider" data-section-bounded-shell data-section-slider data-autoplay="{{ section.settings.autoplay }}" data-delay="{{ slider_delay }}">
+  <div class="hazify-test-slider__inner">
+    <div class="hazify-test-slider__header">
+      <div>
+        {% if section.settings.heading != blank %}<h2 class="hazify-test-slider__heading">{{ section.settings.heading }}</h2>{% endif %}
+        {% if section.settings.intro != blank %}<div class="hazify-test-slider__intro">{{ section.settings.intro }}</div>{% endif %}
+      </div>
+      {% if section.blocks.size > 1 and section.settings.show_controls %}
+        <div class="hazify-test-slider__controls" aria-label="Slider controls">
+          {% if section.settings.show_counter %}<span class="hazify-test-slider__counter" data-slider-counter>1 / {{ section.blocks.size }}</span>{% endif %}
+          <button class="hazify-test-slider__button" type="button" data-slider-prev aria-label="Previous slide"><span aria-hidden="true">‹</span></button>
+          <button class="hazify-test-slider__button" type="button" data-slider-next aria-label="Next slide"><span aria-hidden="true">›</span></button>
+        </div>
+      {% endif %}
+    </div>
+    <div class="hazify-test-slider__viewport" data-slider-viewport tabindex="0">
+      <div class="hazify-test-slider__track" data-slider-track>
+        {% for block in section.blocks %}
+          <article class="hazify-test-slider__slide" data-section-slide {{ block.shopify_attributes }}>
+            <div class="hazify-test-slider__slide-content">
+              {% if block.settings.eyebrow != blank %}<p class="hazify-test-slider__eyebrow">{{ block.settings.eyebrow }}</p>{% endif %}
+              {% if block.settings.heading != blank %}<h3 class="hazify-test-slider__title">{{ block.settings.heading }}</h3>{% endif %}
+              {% if block.settings.text != blank %}<div class="hazify-test-slider__text">{{ block.settings.text }}</div>{% endif %}
+              {% if block.settings.button_label != blank and block.settings.button_link != blank %}<a class="hazify-test-slider__link" href="{{ block.settings.button_link }}">{{ block.settings.button_label }} <span aria-hidden="true">→</span></a>{% endif %}
+            </div>
+            <div class="hazify-test-slider__media">
+              {% if block.settings.image != blank %}
+                <picture>
+                  {% if block.settings.mobile_image != blank %}<source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 900 }}">{% endif %}
+                  {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900, 1200', sizes: '(min-width: 990px) 360px, 84vw', alt: block.settings.image_alt }}
+                </picture>
+              {% else %}
+                <div class="hazify-test-slider__fallback" aria-hidden="true"></div>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    function initHazifyTestSlider(scope) {
+      var roots = scope.querySelectorAll('[data-section-slider]');
+      roots.forEach(function(root) {
+        if (root.dataset.sliderReady === 'true') return;
+        root.dataset.sliderReady = 'true';
+        var viewport = root.querySelector('[data-slider-viewport]');
+        var slides = Array.prototype.slice.call(root.querySelectorAll('[data-section-slide]'));
+        var prev = root.querySelector('[data-slider-prev]');
+        var next = root.querySelector('[data-slider-next]');
+        var counter = root.querySelector('[data-slider-counter]');
+        var autoplay = root.dataset.autoplay === 'true';
+        var delay = parseInt(root.dataset.delay || '5000', 10);
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var index = 0;
+        var timer = null;
+        if (!viewport || slides.length === 0) return;
+        function setIndex(nextIndex) { index = Math.max(0, Math.min(slides.length - 1, nextIndex)); if (counter) counter.textContent = String(index + 1) + ' / ' + String(slides.length); if (prev) prev.disabled = index === 0; if (next) next.disabled = index === slides.length - 1; }
+        function nearestIndex() { var viewportLeft = viewport.getBoundingClientRect().left; var nearest = 0; var distance = Infinity; slides.forEach(function(slide, slideIndex) { var currentDistance = Math.abs(slide.getBoundingClientRect().left - viewportLeft); if (currentDistance < distance) { distance = currentDistance; nearest = slideIndex; } }); return nearest; }
+        function goTo(nextIndex, behavior) { setIndex(nextIndex); slides[index].scrollIntoView({ behavior: behavior || 'smooth', block: 'nearest', inline: 'start' }); }
+        function stopAutoplay() { if (timer) window.clearInterval(timer); timer = null; }
+        function startAutoplay() { stopAutoplay(); if (!autoplay || reducedMotion || slides.length < 2) return; timer = window.setInterval(function() { goTo(index >= slides.length - 1 ? 0 : index + 1, 'smooth'); }, delay); }
+        if (prev) prev.addEventListener('click', function() { stopAutoplay(); goTo(index - 1, 'smooth'); });
+        if (next) next.addEventListener('click', function() { stopAutoplay(); goTo(index + 1, 'smooth'); });
+        viewport.addEventListener('scroll', function() { window.requestAnimationFrame(function() { setIndex(nearestIndex()); }); }, { passive: true });
+        root.addEventListener('mouseenter', stopAutoplay);
+        root.addEventListener('focusin', stopAutoplay);
+        root.addEventListener('mouseleave', startAutoplay);
+        root.addEventListener('focusout', startAutoplay);
+        setIndex(0);
+        startAutoplay();
+      });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', function() { initHazifyTestSlider(document); }); } else { initHazifyTestSlider(document); }
+    document.addEventListener('shopify:section:load', function(event) { initHazifyTestSlider(event.target); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hazify test slider",
+  "tag": "section",
+  "class": "section-hazify-test-slider",
+  "max_blocks": 8,
+  "enabled_on": { "templates": ["*"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured highlights" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Add a short introduction for this slider.</p>" },
+    { "type": "checkbox", "id": "show_controls", "label": "Show controls", "default": true },
+    { "type": "checkbox", "id": "show_counter", "label": "Show counter", "default": true },
+    { "type": "checkbox", "id": "autoplay", "label": "Enable autoplay", "default": false },
+    { "type": "range", "id": "autoplay_speed", "label": "Autoplay speed", "min": 3, "max": 9, "step": 1, "unit": "s", "default": 5 },
+    { "type": "range", "id": "max_width", "label": "Maximum width", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "card_width", "label": "Desktop card width", "min": 280, "max": 520, "step": 20, "unit": "px", "default": 360 },
+    { "type": "range", "id": "card_height", "label": "Minimum card height", "min": 360, "max": 720, "step": 20, "unit": "px", "default": 520 },
+    { "type": "range", "id": "gap", "label": "Card gap", "min": 8, "max": 48, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "padding_top", "label": "Desktop top padding", "min": 24, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Desktop bottom padding", "min": 24, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "mobile_padding_top", "label": "Mobile top padding", "min": 20, "max": 96, "step": 4, "unit": "px", "default": 44 },
+    { "type": "range", "id": "mobile_padding_bottom", "label": "Mobile bottom padding", "min": 20, "max": 96, "step": 4, "unit": "px", "default": 44 },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#1f2328" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text", "default": "#667085" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#f5f6f7" },
+    { "type": "color", "id": "card_text_color", "label": "Card text", "default": "#1f2328" },
+    { "type": "color", "id": "control_background", "label": "Control background", "default": "#ffffff" },
+    { "type": "color", "id": "control_text_color", "label": "Control text", "default": "#111111" }
+  ],
+  "blocks": [ { "type": "slide", "name": "Slide", "settings": [ { "type": "image_picker", "id": "image", "label": "Image" }, { "type": "image_picker", "id": "mobile_image", "label": "Mobile image" }, { "type": "text", "id": "image_alt", "label": "Image alt text" }, { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New" }, { "type": "text", "id": "heading", "label": "Heading", "default": "Slide heading" }, { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Describe this slide.</p>" }, { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" }, { "type": "url", "id": "button_link", "label": "Button link" } ] } ],
+  "presets": [ { "name": "Hazify test slider", "blocks": [ { "type": "slide", "settings": { "eyebrow": "New", "heading": "First slide", "text": "<p>Use this area to highlight a product, collection or campaign.</p>" } }, { "type": "slide", "settings": { "eyebrow": "Featured", "heading": "Second slide", "text": "<p>Add another message with its own image and call to action.</p>" } }, { "type": "slide", "settings": { "eyebrow": "Popular", "heading": "Third slide", "text": "<p>Blocks make this carousel flexible in the theme editor.</p>" } } ] } ]
+}
+{% endschema %}
