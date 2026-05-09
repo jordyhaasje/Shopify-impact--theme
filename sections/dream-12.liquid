@@ -1,0 +1,297 @@
+{% liquid
+  assign section_root = 'dream-12-' | append: section.id
+%}
+
+<style>
+  #shopify-section-{{ section.id }} .dream-12 {
+    --dream-bg: {{ section.settings.background_color }};
+    --dream-card: {{ section.settings.card_color }};
+    --dream-text: {{ section.settings.text_color }};
+    --dream-muted: {{ section.settings.muted_color }};
+    --dream-accent: {{ section.settings.accent_color }};
+    --dream-radius: {{ section.settings.border_radius }}px;
+    --dream-max-width: {{ section.settings.max_width }}px;
+    color: var(--dream-text);
+    background: var(--dream-bg);
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__inner {
+    max-width: var(--dream-max-width);
+    margin: 0 auto;
+    display: grid;
+    gap: 28px;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: end;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__eyebrow {
+    margin: 0 0 10px;
+    color: var(--dream-accent);
+    font-size: 12px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__heading {
+    max-width: 760px;
+    margin: 0;
+    color: var(--dream-text);
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.02;
+    font-weight: 750;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__text {
+    max-width: 640px;
+    margin-top: 16px;
+    color: var(--dream-muted);
+    font-size: clamp(16px, 2vw, 19px);
+    line-height: 1.6;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__text p,
+  #shopify-section-{{ section.id }} .dream-12__card-text p {
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    background: var(--dream-accent);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__controls {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__control {
+    width: 46px;
+    height: 46px;
+    border: 1px solid color-mix(in srgb, var(--dream-text) 15%, transparent);
+    border-radius: 999px;
+    background: var(--dream-card);
+    color: var(--dream-text);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 4px 2px 10px;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__card {
+    flex: 0 0 calc((100% - 32px) / 3);
+    scroll-snap-align: start;
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 24px;
+    border-radius: var(--dream-radius);
+    background: var(--dream-card);
+    border: 1px solid color-mix(in srgb, var(--dream-accent) 16%, transparent);
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.08);
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__card-kicker {
+    color: var(--dream-accent);
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__card-heading {
+    margin: 0;
+    color: var(--dream-text);
+    font-size: 22px;
+    line-height: 1.15;
+    font-weight: 720;
+  }
+
+  #shopify-section-{{ section.id }} .dream-12__card-text {
+    color: var(--dream-muted);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  @media screen and (max-width: 899px) {
+    #shopify-section-{{ section.id }} .dream-12__header {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    #shopify-section-{{ section.id }} .dream-12__controls {
+      justify-content: flex-start;
+    }
+
+    #shopify-section-{{ section.id }} .dream-12__card {
+      flex-basis: min(78vw, 360px);
+    }
+  }
+
+  @media screen and (max-width: 649px) {
+    #shopify-section-{{ section.id }} .dream-12 {
+      padding: {{ section.settings.mobile_padding_top }}px 16px {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    #shopify-section-{{ section.id }} .dream-12__inner {
+      gap: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .dream-12__card {
+      flex-basis: 86vw;
+      padding: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .dream-12__track {
+      scroll-behavior: auto;
+    }
+  }
+</style>
+
+<section class="dream-12" id="{{ section_root }}" data-dream-12="{{ section.id }}">
+  <div class="dream-12__inner" data-section-bounded-shell>
+    <div class="dream-12__header">
+      <div>
+        {% if section.settings.eyebrow != blank %}
+          <p class="dream-12__eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="dream-12__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.text != blank %}
+          <div class="dream-12__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+        {% if section.settings.button_label != blank %}
+          <p><a class="dream-12__button" {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}>{{ section.settings.button_label }}</a></p>
+        {% endif %}
+      </div>
+      <div class="dream-12__controls" aria-label="Carousel controls">
+        <button class="dream-12__control" type="button" data-dream-prev aria-label="Previous card">‹</button>
+        <button class="dream-12__control" type="button" data-dream-next aria-label="Next card">›</button>
+      </div>
+    </div>
+
+    <div class="dream-12__track" data-dream-track>
+      {% for block in section.blocks %}
+        <article class="dream-12__card" {{ block.shopify_attributes }}>
+          {% if block.settings.content != blank %}
+            <div class="dream-12__card-kicker">{{ block.settings.content }}</div>
+          {% endif %}
+          {% if block.settings.heading != blank %}
+            <h3 class="dream-12__card-heading">{{ block.settings.heading }}</h3>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <div class="dream-12__card-text rte">{{ block.settings.text }}</div>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var sectionId = '{{ section.id }}';
+    function initDream12(scope) {
+      var root = (scope || document).querySelector('[data-dream-12="' + sectionId + '"]');
+      if (!root || root.dataset.dreamReady === 'true') return;
+      var track = root.querySelector('[data-dream-track]');
+      var prev = root.querySelector('[data-dream-prev]');
+      var next = root.querySelector('[data-dream-next]');
+      if (!track || !prev || !next) return;
+      root.dataset.dreamReady = 'true';
+      function step(direction) {
+        var firstCard = track.querySelector('.dream-12__card');
+        var amount = firstCard ? firstCard.getBoundingClientRect().width + 16 : track.clientWidth;
+        track.scrollBy({ left: amount * direction, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+      prev.addEventListener('click', function() { step(-1); });
+      next.addEventListener('click', function() { step(1); });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { initDream12(document); });
+    } else {
+      initDream12(document);
+    }
+    document.addEventListener('shopify:section:load', function(event) { initDream12(event.target); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Dream 12",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Built for momentum" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A sharper way to launch every moment." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Create a flexible opening moment with editable content, responsive spacing, and a polished carousel that works across Online Store 2.0 themes.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "range", "id": "max_width", "label": "Maximum width", "min": 720, "max": 1120, "step": 20, "unit": "px", "default": 960 },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "mobile_padding_top", "label": "Mobile top padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "mobile_padding_bottom", "label": "Mobile bottom padding", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "border_radius", "label": "Border radius", "min": 8, "max": 32, "step": 1, "unit": "px", "default": 22 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#f5f7f2" },
+    { "type": "color", "id": "card_color", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#172117" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#667067" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#178545" }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "content", "label": "Kicker", "default": "01" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Fast to customize" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Every detail is merchant-editable through the Shopify theme editor.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dream 12",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card", "settings": { "content": "02", "heading": "Responsive by default", "text": "<p>The carousel adapts from three cards to a swipeable mobile track.</p>" } },
+        { "type": "card", "settings": { "content": "03", "heading": "Theme-safe", "text": "<p>Scoped CSS and isolated JavaScript keep it portable across OS 2.0 themes.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
