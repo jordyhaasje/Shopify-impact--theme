@@ -886,70 +886,57 @@
         "button_border_color": "#171217"
       }
     },
-    "glozzy_premium_reviews_NEfakL": {
-      "type": "glozzy-premium-reviews",
-      "blocks": {
-        "review_U3gDnq": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "De kleur, shine en verpakking voelen echt high-end. Mijn everyday lip gloss.",
-            "author": "Lina R.",
-            "label": "Verified customer"
-          }
-        },
-        "review_UqFVtr": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "Super zacht op mijn lippen en de roze glow past perfect bij mijn make-up routine.",
-            "author": "Amira K.",
-            "label": "Beauty lover"
-          }
-        },
-        "review_eK8ygk": {
-          "type": "review",
-          "settings": {
-            "avatar": "shopify://shop_images/O1CN01IeKZkV2HFvwtWuKTx__2208504019122-0-cib.jpg",
-            "rating": 5,
-            "quote": "Glozzy ziet eruit als een premium beauty brand. De finish is glossy maar niet plakkerig.",
-            "author": "Noor V.",
-            "label": "Repeat customer"
-          }
-        },
-        "review_KqkEHy": {
-          "type": "review",
-          "settings": {
-            "rating": 4,
-            "quote": "Prachtige zachte tinten en heel professioneel. Ik krijg er vaak complimenten over.",
-            "author": "Eva S.",
-            "label": "Verified customer"
-          }
-        }
-      },
-      "block_order": [
-        "review_U3gDnq",
-        "review_UqFVtr",
-        "review_eK8ygk",
-        "review_KqkEHy"
-      ],
-      "name": "Glozzy premium reviews",
+    "hero_33_t39XxJ": {
+      "type": "hero-33",
+      "name": "Hero 33",
       "settings": {
-        "eyebrow": "Loved by beauty lovers",
-        "heading": "Glozzy glow, real reviews",
-        "text": "<p>Een rustige premium reviewsectie met subtiele tinten, veel witruimte en verfijnde customer proof.</p>",
-        "beauty_icons": "Lip Gloss, Blush, Serum, Mascara, Highlighter, Lip Oil, Primer, Setting Spray",
-        "content_width": 1060,
-        "padding_y": 88,
-        "mobile_padding_y": 56,
-        "star_size": 18,
-        "marquee_speed": 24,
-        "background_color": "#fbf8f4",
-        "card_color": "#ffffff",
-        "text_color": "#2f2421",
-        "muted_text_color": "#786b66",
-        "accent_color": "#b88a80",
-        "star_color": "#b88a80"
+        "bg_image_desktop": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "bg_image_mobile": "shopify://shop_images/model-laughs-barefoot.jpg",
+        "overlay_opacity": 10,
+        "min_height": 670,
+        "min_height_mobile": 550,
+        "section_radius": 14,
+        "section_radius_desktop": 24,
+        "margin_top": 36,
+        "margin_bottom": 36,
+        "margin_x": 1.5,
+        "margin_x_desktop": 2,
+        "heading": "Buy One, Get One Half Off",
+        "subheading": "Make Mother's Day twice as nice! Select skincare and bodycare is buy one, get one half off, so you can give more to the special women in your life.",
+        "heading_size": 32,
+        "heading_size_desktop": 48,
+        "body_size": 14,
+        "body_line_height": 1.7,
+        "content_max_width": 45,
+        "padding_y": 27,
+        "padding_y_desktop": 36,
+        "padding_x": 1.5,
+        "padding_x_desktop": 5,
+        "button_label": "Shop new",
+        "button_link": "",
+        "button_padding_y": 18,
+        "button_padding_x": 24,
+        "button_font_size": 12,
+        "button_font_size_desktop": 14,
+        "button_radius": 16,
+        "button_bg": "#ffffff",
+        "button_text": "#121212",
+        "button_hover_bg": "#121212",
+        "button_hover_text": "#ffffff",
+        "show_review": true,
+        "show_stars": true,
+        "review_text": "Excellent 4.9 | 100,000+ Customers",
+        "star_count": 5,
+        "show_author_review": true,
+        "author_image": "shopify://shop_images/O1CN01IeKZkV2HFvwtWuKTx__2208504019122-0-cib.jpg",
+        "author_quote": "\"My skin looks amazing now! This brand is truly the best I've tried.\"",
+        "author_name": "- Joanne | Review on Rose Serum",
+        "author_avatar_size": 50,
+        "author_quote_size": 20,
+        "author_name_size": 12,
+        "author_name_color": "rgba(255,255,255,0.7)",
+        "text_color": "#ffffff",
+        "review_text_color": "#ffffff"
       }
     }
   },
@@ -969,6 +956,6 @@
     "instagram_social_cards_8q9XxJ",
     "jordy_heroo_6RG4Xg",
     "video_test_gzdRJR",
-    "glozzy_premium_reviews_NEfakL"
+    "hero_33_t39XxJ"
   ]
 }
