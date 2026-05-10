@@ -144,18 +144,9 @@
                     {%- endif -%}
 
                   {%- when 'offer' -%}
-                    {%- assign previous_block_index = forloop.index0 | minus: 1 -%}
-                    {%- assign next_block_index = forloop.index0 | plus: 1 -%}
-
-                    {%- if section.blocks[next_block_index].type == 'offer' -%}
-                      <div class="v-stack gap-4">
-                    {%- endif -%}
-
-                    {%- render 'offer', block: block -%}
-
-                    {%- if section.blocks[previous_block_index].type == 'offer' -%}
-                      </div>
-                    {%- endif -%}
+                    <div class="v-stack gap-4">
+                      {%- render 'offer', block: block -%}
+                    </div>
 
                   {%- when 'accelerated_buttons' -%}
                     {% if additional_checkout_buttons %}

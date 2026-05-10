@@ -65,9 +65,6 @@
 
     <h2>{{ section.settings.heading }}</h2>
 
-    {% assign rating = section.settings.rating | plus: 0 %}
-    {% assign full = rating | floor %}
-
     <div class="video-trust-header__stars">
       {% for i in (1..5) %}
         <div class="video-trust-header__star">

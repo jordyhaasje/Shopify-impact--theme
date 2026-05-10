@@ -1,0 +1,867 @@
+{%- assign sid = section.id -%}
+
+<style>
+  #shopify-section-{{ sid }} {
+    --h33-section-radius: {{ section.settings.section_radius | default: 14 }}px;
+    --h33-section-radius-desktop: {{ section.settings.section_radius_desktop | default: 24 }}px;
+    --h33-margin-top: {{ section.settings.margin_top | default: 36 }}px;
+    --h33-margin-bottom: {{ section.settings.margin_bottom | default: 36 }}px;
+    --h33-margin-x: {{ section.settings.margin_x | default: 1.5 }}rem;
+    --h33-margin-x-desktop: {{ section.settings.margin_x_desktop | default: 2 }}rem;
+    --h33-min-height: {{ section.settings.min_height_mobile | default: 550 }}px;
+    --h33-min-height-desktop: {{ section.settings.min_height | default: 670 }}px;
+    --h33-overlay-opacity: {{ section.settings.overlay_opacity | default: 10 | divided_by: 100.0 }};
+    --h33-text-color: {{ section.settings.text_color | default: '#ffffff' }};
+    --h33-heading-size: {{ section.settings.heading_size | default: 32 }}px;
+    --h33-heading-size-desktop: {{ section.settings.heading_size_desktop | default: 48 }}px;
+    --h33-body-size: {{ section.settings.body_size | default: 14 }}px;
+    --h33-body-line-height: {{ section.settings.body_line_height | default: 1.70 }};
+    --h33-content-max-width: {{ section.settings.content_max_width | default: 45 }}%;
+    --h33-content-align: {{ section.settings.content_align | default: 'flex-start' }};
+    --h33-padding-y: {{ section.settings.padding_y | default: 27 }}px;
+    --h33-padding-y-desktop: {{ section.settings.padding_y_desktop | default: 36 }}px;
+    --h33-padding-x: {{ section.settings.padding_x | default: 1.5 }}rem;
+    --h33-padding-x-desktop: {{ section.settings.padding_x_desktop | default: 5 }}rem;
+    --h33-btn-bg: {{ section.settings.button_bg | default: '#ffffff' }};
+    --h33-btn-text: {{ section.settings.button_text | default: '#121212' }};
+    --h33-btn-hover-bg: {{ section.settings.button_hover_bg | default: '#121212' }};
+    --h33-btn-hover-text: {{ section.settings.button_hover_text | default: '#ffffff' }};
+    --h33-btn-radius: {{ section.settings.button_radius | default: 16 }}px;
+    --h33-btn-padding-y: {{ section.settings.button_padding_y | default: 18 }}px;
+    --h33-btn-padding-x: {{ section.settings.button_padding_x | default: 24 }}px;
+    --h33-btn-font-size: {{ section.settings.button_font_size | default: 12 }}px;
+    --h33-btn-font-size-desktop: {{ section.settings.button_font_size_desktop | default: 14 }}px;
+    --h33-review-text-color: {{ section.settings.review_text_color | default: '#ffffff' }};
+    --h33-review-stars-gap: {{ section.settings.review_stars_gap | default: 1 }}px;
+    --h33-review-star-size: {{ section.settings.review_star_size | default: 14 }}px;
+    --h33-author-avatar-size: {{ section.settings.author_avatar_size | default: 64 }}px;
+    --h33-author-quote-size: {{ section.settings.author_quote_size | default: 20 }}px;
+    --h33-author-name-size: {{ section.settings.author_name_size | default: 12 }}px;
+    --h33-author-name-color: {{ section.settings.author_name_color | default: 'rgba(255,255,255,0.7)' }};
+  }
+
+  #shopify-section-{{ sid }} .h33-section {
+    position: relative;
+    border-radius: var(--h33-section-radius);
+    overflow: hidden;
+    margin: var(--h33-margin-top) var(--h33-margin-x) var(--h33-margin-bottom);
+  }
+
+  #shopify-section-{{ sid }} .h33-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: var(--h33-min-height);
+  }
+
+  #shopify-section-{{ sid }} .h33-settings {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ sid }} .h33-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  #shopify-section-{{ sid }} .h33-bg img,
+  #shopify-section-{{ sid }} .h33-bg svg,
+  #shopify-section-{{ sid }} .h33-bg video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+  }
+
+  #shopify-section-{{ sid }} .h33-bg::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    background-color: rgba(18, 18, 18, var(--h33-overlay-opacity));
+    transition: all 0.25s ease;
+  }
+
+  #shopify-section-{{ sid }} .h33-bg .h33-bg-image-desktop {
+    display: none;
+  }
+
+  #shopify-section-{{ sid }} .h33-bg .h33-bg-image-mobile {
+    display: block;
+  }
+
+  #shopify-section-{{ sid }} .h33-body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    padding: var(--h33-padding-y) var(--h33-padding-x);
+  }
+
+  #shopify-section-{{ sid }} .h33-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ sid }} .h33-heading {
+    text-align: left;
+    margin: 0;
+    margin-top: 6px;
+  }
+
+  #shopify-section-{{ sid }} .h33-heading * {
+    margin: 0;
+    font-size: var(--h33-heading-size);
+    color: var(--h33-text-color);
+    line-height: 130%;
+    text-transform: unset;
+    word-break: break-word;
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ sid }} .h33-text {
+    text-align: left;
+    margin-top: 0;
+  }
+
+  #shopify-section-{{ sid }} .h33-text * {
+    margin: 0;
+    font-size: var(--h33-body-size);
+    color: var(--h33-text-color);
+    line-height: var(--h33-body-line-height);
+    text-transform: unset;
+  }
+
+  #shopify-section-{{ sid }} .h33-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  #shopify-section-{{ sid }} .h33-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: fit-content;
+    margin: 0;
+    margin-top: 20px;
+    font-size: var(--h33-btn-font-size);
+    color: var(--h33-btn-text);
+    line-height: 100%;
+    text-align: center;
+    text-transform: unset;
+    text-decoration: none;
+    padding: var(--h33-btn-padding-y) var(--h33-btn-padding-x);
+    border-radius: var(--h33-btn-radius);
+    transition: all 0.25s ease;
+    background-color: var(--h33-btn-bg);
+    border: 0;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ sid }} .h33-button:hover {
+    background-color: var(--h33-btn-hover-bg);
+    color: var(--h33-btn-hover-text);
+  }
+
+  #shopify-section-{{ sid }} .h33-review {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  #shopify-section-{{ sid }} .h33-review-text * {
+    word-wrap: break-word;
+    margin: 0;
+    font-size: 12px;
+    color: var(--h33-review-text-color);
+    line-height: 150%;
+    text-align: center;
+    text-transform: unset;
+  }
+
+  #shopify-section-{{ sid }} .h33-stars {
+    display: flex;
+    align-items: center;
+    gap: var(--h33-review-stars-gap);
+    max-width: fit-content;
+  }
+
+  #shopify-section-{{ sid }} .h33-stars svg,
+  #shopify-section-{{ sid }} .h33-stars img {
+    display: block;
+    width: var(--h33-review-star-size);
+    height: var(--h33-review-star-size);
+    background-color: transparent;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ sid }} .h33-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  #shopify-section-{{ sid }} .h33-author-image {
+    flex-shrink: 0;
+    width: var(--h33-author-avatar-size);
+    aspect-ratio: 1 / 1;
+    border-radius: 50px;
+    border: 0 solid #ffffff;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ sid }} .h33-author-image img,
+  #shopify-section-{{ sid }} .h33-author-image svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ sid }} .h33-author-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  #shopify-section-{{ sid }} .h33-author-text {
+    text-align: left;
+  }
+
+  #shopify-section-{{ sid }} .h33-author-text * {
+    margin: 0;
+    font-size: var(--h33-author-quote-size);
+    color: var(--h33-text-color);
+    line-height: 150%;
+    text-transform: unset;
+  }
+
+  #shopify-section-{{ sid }} .h33-author-name {
+    margin: 0;
+    font-size: var(--h33-author-name-size);
+    color: var(--h33-author-name-color);
+    line-height: 150%;
+    text-transform: unset;
+  }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ sid }} .h33-section {
+      border-radius: var(--h33-section-radius-desktop);
+      margin-top: 48px;
+      margin-bottom: 48px;
+      margin-left: var(--h33-margin-x-desktop);
+      margin-right: var(--h33-margin-x-desktop);
+    }
+
+    #shopify-section-{{ sid }} .h33-hero {
+      min-height: var(--h33-min-height-desktop);
+      height: var(--h33-min-height-desktop);
+    }
+
+    #shopify-section-{{ sid }} .h33-bg {
+      height: 100% !important;
+    }
+
+    #shopify-section-{{ sid }} .h33-bg .h33-bg-image-desktop {
+      display: block;
+    }
+
+    #shopify-section-{{ sid }} .h33-bg .h33-bg-image-mobile {
+      display: none;
+    }
+
+    #shopify-section-{{ sid }} .h33-content {
+      max-width: var(--h33-content-max-width);
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    #shopify-section-{{ sid }} .h33-body {
+      padding: var(--h33-padding-y-desktop) var(--h33-padding-x-desktop);
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    #shopify-section-{{ sid }} .h33-heading * {
+      font-size: var(--h33-heading-size-desktop);
+    }
+
+    #shopify-section-{{ sid }} .h33-button {
+      display: flex !important;
+      margin-top: 20px;
+      padding: 20px 90px;
+      font-size: var(--h33-btn-font-size-desktop);
+    }
+
+    #shopify-section-{{ sid }} .h33-author {
+      flex-direction: row;
+    }
+  }
+</style>
+
+<section class="h33-section section-{{ sid }}" data-section-id="{{ sid }}">
+  <div class="h33-hero">
+    <div class="h33-settings">
+      <div class="h33-bg">
+        {%- if section.settings.bg_image_desktop != blank -%}
+          {{ section.settings.bg_image_desktop | image_url: width: 3840 | image_tag:
+            class: 'h33-bg-image-desktop',
+            loading: 'eager',
+            widths: '375,550,750,1100,1500,1780,2000,3000,3840',
+            alt: section.settings.heading | default: ''
+          }}
+        {%- endif -%}
+        {%- if section.settings.bg_image_mobile != blank -%}
+          {{ section.settings.bg_image_mobile | image_url: width: 2000 | image_tag:
+            class: 'h33-bg-image-mobile',
+            loading: 'eager',
+            widths: '375,550,750,1100,1500,1780,2000',
+            alt: section.settings.heading | default: ''
+          }}
+        {%- elsif section.settings.bg_image_desktop != blank -%}
+          {{ section.settings.bg_image_desktop | image_url: width: 3840 | image_tag:
+            class: 'h33-bg-image-mobile',
+            loading: 'eager',
+            widths: '375,550,750,1100,1500,1780,2000,3000,3840',
+            alt: section.settings.heading | default: ''
+          }}
+        {%- else -%}
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);"></div>
+        {%- endif -%}
+      </div>
+
+      <div class="h33-body">
+        <div class="h33-content">
+                  {%- if section.settings.heading != blank -%}
+            <div class="h33-heading">
+              <h1>{{ section.settings.heading | newline_to_br }}</h1>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.subheading != blank -%}
+            <div class="h33-text">
+              {{ section.settings.subheading }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <div class="h33-buttons">
+              <a href="{{ section.settings.button_link | default: '#' }}" class="h33-button">
+                {{ section.settings.button_label | escape }}
+              </a>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_review -%}
+            <div class="h33-review">
+              {%- if section.settings.review_text != blank -%}
+                <div class="h33-review-text">
+                  <p>{{ section.settings.review_text }}</p>
+                </div>
+              {%- endif -%}
+              {%- if section.settings.show_stars -%}
+                {%- assign h33_star_count = section.settings.star_count | default: 5 -%}
+                <div class="h33-stars">
+                  {%- for i in (1..h33_star_count) -%}
+                    {%- if section.settings.star_icon != blank -%}
+                      {{ section.settings.star_icon | image_url: width: 28 | image_tag: loading: 'lazy', alt: 'Star' }}
+                    {%- else -%}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L14.472 9.266H22L15.764 13.848L18.236 21.114L12 16.532L5.764 21.114L8.236 13.848L2 9.266H9.528L12 2Z" fill="#FFD700" stroke="#FFD700" stroke-width="1.5" stroke-linejoin="round"/>
+                      </svg>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_author_review -%}
+            <div class="h33-author">
+              {%- if section.settings.author_image != blank -%}
+                <div class="h33-author-image">
+                  {{ section.settings.author_image | image_url: width: 200 | image_tag:
+                    loading: 'eager',
+                    widths: '64,128,200',
+                    alt: section.settings.author_name | default: ''
+                  }}
+                </div>
+              {%- endif -%}
+              <div class="h33-author-content">
+                {%- if section.settings.author_quote != blank -%}
+                  <div class="h33-author-text">
+                    {{ section.settings.author_quote }}
+                  </div>
+                {%- endif -%}
+                {%- if section.settings.author_name != blank -%}
+                  <p class="h33-author-name">{{ section.settings.author_name }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero 33",
+  "tag": "section",
+  "class": "shopify-section--hero-33",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Achtergrond"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_desktop",
+      "label": "Achtergrondafbeelding desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Achtergrondafbeelding mobiel (optioneel)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay donkerte",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "default": 10,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Afmetingen"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimale hoogte desktop",
+      "min": 400,
+      "max": 900,
+      "step": 10,
+      "default": 670,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "label": "Minimale hoogte mobiel",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "default": 550,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_radius",
+      "label": "Hoekradius sectie (mobiel)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_radius_desktop",
+      "label": "Hoekradius sectie (desktop)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Marge boven",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Marge onder",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_x",
+      "label": "Marge links/rechts (rem)",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 1.5,
+      "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "margin_x_desktop",
+      "label": "Marge links/rechts desktop (rem)",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 2,
+      "unit": "rem"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Koptekst",
+      "default": "Buy One, Get \nOne Half Off"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subtekst",
+      "default": "Make Mother's Day twice as nice! Select skincare and bodycare is buy one, get one half off, so you can give more to the special women in your life."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Koptekst grootte (mobiel)",
+      "min": 16,
+      "max": 80,
+      "step": 1,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Koptekst grootte (desktop)",
+      "min": 16,
+      "max": 100,
+      "step": 1,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Body tekst grootte",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "label": "Body regelhoogte",
+      "min": 1,
+      "max": 2.5,
+      "step": 0.1,
+      "default": 1.7
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Maximale content breedte (desktop %)",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "default": 45,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Padding verticaal (mobiel)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 27,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_y_desktop",
+      "label": "Padding verticaal (desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Padding horizontaal (rem)",
+      "min": 0,
+      "max": 10,
+      "step": 0.1,
+      "default": 1.5,
+      "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "padding_x_desktop",
+      "label": "Padding horizontaal desktop (rem)",
+      "min": 0,
+      "max": 10,
+      "step": 0.1,
+      "default": 5,
+      "unit": "rem"
+    },
+    {
+      "type": "header",
+      "content": "Knop"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Knop tekst",
+      "default": "Shop new"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Knop link"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "label": "Knop padding verticaal",
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "label": "Knop padding horizontaal (mobiel)",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Knop lettergrootte (mobiel)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size_desktop",
+      "label": "Knop lettergrootte (desktop)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Knop hoekradius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Knop achtergrond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Knop tekstkleur",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Knop hover achtergrond",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text",
+      "label": "Knop hover tekstkleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Review score"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_review",
+      "label": "Toon review score",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Toon sterren",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "review_text",
+      "label": "Review tekst",
+      "default": "Excellent 4.9 | 100,000+ Customers"
+    },
+    {
+      "type": "range",
+      "id": "star_count",
+      "label": "Aantal sterren",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "image_picker",
+      "id": "star_icon",
+      "label": "Ster icoon (optioneel)"
+    },
+    {
+      "type": "header",
+      "content": "Auteur review"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author_review",
+      "label": "Toon auteur review",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "author_image",
+      "label": "Auteur afbeelding"
+    },
+    {
+      "type": "textarea",
+      "id": "author_quote",
+      "label": "Auteur quote",
+      "default": "\"My skin looks amazing now! This brand is truly the best I've tried.\""
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "Auteur naam",
+      "default": "- Joanne | Review on Rose Serum"
+    },
+    {
+      "type": "range",
+      "id": "author_avatar_size",
+      "label": "Auteur avatar grootte",
+      "min": 32,
+      "max": 120,
+      "step": 1,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "author_quote_size",
+      "label": "Quote lettergrootte",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "author_name_size",
+      "label": "Naam lettergrootte",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "author_name_color",
+      "label": "Naam tekstkleur",
+      "default": "rgba(255,255,255,0.7)"
+    },
+    {
+      "type": "header",
+      "content": "Kleuren"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Tekstkleur",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "review_text_color",
+      "label": "Review tekstkleur",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero 33"
+    }
+  ]
+}
+{% endschema %}
