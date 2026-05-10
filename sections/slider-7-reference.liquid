@@ -1,0 +1,598 @@
+{%- liquid
+  assign section_id = section.id
+  assign card_gap = section.settings.card_gap
+  assign desktop_card_width = section.settings.desktop_card_width
+  assign mobile_card_width = section.settings.mobile_card_width
+  assign show_counter = section.settings.show_counter
+  assign autoplay = section.settings.autoplay
+  assign autoplay_speed = section.settings.autoplay_speed
+-%}
+
+<style>
+  #shopify-section-{{ section_id }} {
+    --slider7ref-gap: {{ card_gap }}px;
+    --slider7ref-desktop-card: {{ desktop_card_width }}px;
+    --slider7ref-mobile-card: {{ mobile_card_width }}px;
+    --slider7ref-section-bg: {{ section.settings.background_gradient | default: section.settings.background }};
+    --slider7ref-section-padding-top: {{ section.settings.padding_top }}px;
+    --slider7ref-section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref {
+    background: var(--slider7ref-section-bg);
+    padding-top: var(--slider7ref-section-padding-top);
+    padding-bottom: var(--slider7ref-section-padding-bottom);
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__inner {
+    max-width: {{ settings.page_width | default: 1200 }}px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__counter {
+    font-size: 14px;
+    font-weight: 500;
+    color: {{ section.settings.counter_color }};
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__nav {
+    display: flex;
+    gap: 8px;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid {{ section.settings.button_border_color }};
+    background: {{ section.settings.button_background }};
+    color: {{ section.settings.button_icon_color }};
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    padding: 0;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__btn:hover {
+    background: {{ section.settings.button_hover_background }};
+    border-color: {{ section.settings.button_hover_border_color }};
+    color: {{ section.settings.button_hover_icon_color }};
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__track {
+    display: flex;
+    gap: var(--slider7ref-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 8px;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__slide {
+    flex: 0 0 var(--slider7ref-mobile-card);
+    scroll-snap-align: start;
+    border-radius: {{ section.settings.card_border_radius }}px;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #ffffff;
+    box-shadow: {{ section.settings.card_shadow }};
+    transition: transform 0.25s ease;
+    min-height: 100%;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__slide:hover {
+    transform: scale(1.02);
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__content {
+    padding: 24px 24px 0;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--tag-color);
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__heading {
+    margin: 0 0 6px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--heading-color);
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-color);
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__media {
+    aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    overflow: hidden;
+    margin-top: auto;
+  }
+
+  #shopify-section-{{ section_id }} .slider7ref__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (min-width: 990px) {
+    #shopify-section-{{ section_id }} .slider7ref__slide {
+      flex: 0 0 var(--slider7ref-desktop-card);
+    }
+  }
+</style>
+
+<section class="slider7ref" id="slider7ref-{{ section_id }}" data-autoplay="{{ autoplay }}" data-speed="{{ autoplay_speed }}">
+  <div class="slider7ref__inner">
+    {%- if section.blocks.size > 1 -%}
+      <div class="slider7ref__header">
+        {%- if show_counter -%}
+          <div class="slider7ref__counter">
+            <span class="slider7ref__counter-current" data-current>1</span>
+            <span>/</span>
+            <span class="slider7ref__counter-total" data-total>{{ section.blocks.size }}</span>
+          </div>
+        {%- endif -%}
+        <div class="slider7ref__nav">
+          <button type="button" class="slider7ref__btn" data-prev aria-label="{{ 'general.accessibility.previous' | t }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="slider7ref__btn" data-next aria-label="{{ 'general.accessibility.next' | t }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="slider7ref__track" data-track>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign tag_color = block.settings.tag_color
+          assign heading_color = block.settings.heading_color
+          assign text_color = block.settings.text_color
+        -%}
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}" class="slider7ref__slide" style="--tag-color: {{ tag_color }}; --heading-color: {{ heading_color }}; --text-color: {{ text_color }};" {{ block.shopify_attributes }}>
+        {%- else -%}
+          <div class="slider7ref__slide" style="--tag-color: {{ tag_color }}; --heading-color: {{ heading_color }}; --text-color: {{ text_color }};" {{ block.shopify_attributes }}>
+        {%- endif -%}
+
+          <div class="slider7ref__content">
+            {%- if block.settings.tag != blank -%}
+              <p class="slider7ref__tag">{{ block.settings.tag | escape }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.heading != blank -%}
+              <h3 class="slider7ref__heading">{{ block.settings.heading | escape }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <p class="slider7ref__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </div>
+
+          <div class="slider7ref__media">
+            {%- if block.settings.image != blank -%}
+              {%- assign alt_text = block.settings.heading | escape -%}
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: alt_text, widths: '400,600,800,900' }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' }}
+            {%- endif -%}
+          </div>
+
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var sectionId = '{{ section_id }}';
+  var sectionEl = document.getElementById('slider7ref-' + sectionId);
+  if (!sectionEl) return;
+
+  var track = sectionEl.querySelector('[data-track]');
+  var prevBtn = sectionEl.querySelector('[data-prev]');
+  var nextBtn = sectionEl.querySelector('[data-next]');
+  var currentEl = sectionEl.querySelector('[data-current]');
+  var totalEl = sectionEl.querySelector('[data-total]');
+  var autoplay = sectionEl.dataset.autoplay === 'true';
+  var speed = parseInt(sectionEl.dataset.speed, 10) || 5;
+  var timer = null;
+
+  function getScrollStep() {
+    var slide = track.querySelector('.slider7ref__slide');
+    if (!slide) return 300;
+    var style = getComputedStyle(track);
+    var gap = parseInt(style.gap, 10) || 20;
+    return slide.offsetWidth + gap;
+  }
+
+  function updateCounter() {
+    if (!currentEl || !totalEl) return;
+    var step = getScrollStep();
+    var index = Math.round(track.scrollLeft / step) + 1;
+    var total = parseInt(totalEl.textContent, 10);
+    if (index < 1) index = 1;
+    if (index > total) index = total;
+    currentEl.textContent = index;
+  }
+
+  function scrollByStep(direction) {
+    var step = getScrollStep();
+    track.scrollBy({ left: direction * step, behavior: 'smooth' });
+  }
+
+  function startAutoplay() {
+    if (!autoplay) return;
+    stopAutoplay();
+    timer = setInterval(function() {
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      if (track.scrollLeft >= maxScroll - 2) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        scrollByStep(1);
+      }
+    }, speed * 1000);
+  }
+
+  function stopAutoplay() {
+    if (timer) clearInterval(timer);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function() { scrollByStep(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { scrollByStep(1); });
+
+  track.addEventListener('scroll', function() {
+    updateCounter();
+  }, { passive: true });
+
+  if (autoplay) {
+    startAutoplay();
+    sectionEl.addEventListener('mouseenter', stopAutoplay);
+    sectionEl.addEventListener('mouseleave', startAutoplay);
+  }
+
+  // Update counter on resize
+  window.addEventListener('resize', function() {
+    updateCounter();
+  });
+
+  // Shopify section editor support
+  document.addEventListener('shopify:section:load', function(e) {
+    if (e.target.id === 'shopify-section-' + sectionId) {
+      updateCounter();
+      if (autoplay) startAutoplay();
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Slider 7 cards",
+  "tag": "section",
+  "class": "shopify-section--slider-7-reference",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "desktop_card_width",
+      "min": 220,
+      "max": 520,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop card width",
+      "default": 368
+    },
+    {
+      "type": "range",
+      "id": "mobile_card_width",
+      "min": 180,
+      "max": 340,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile card width",
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card gap",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "card_shadow",
+      "label": "Card shadow",
+      "default": "2px 4px 12px rgba(0,0,0,0.08)"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "1 / 1", "label": "1:1" },
+        { "value": "3 / 4", "label": "3:4" },
+        { "value": "4 / 3", "label": "4:3" },
+        { "value": "16 / 9", "label": "16:9" }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Section background gradient"
+    },
+    {
+      "type": "color",
+      "id": "counter_color",
+      "label": "Counter color",
+      "default": "#1d1d1f"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button border color",
+      "default": "#cbcbcb"
+    },
+    {
+      "type": "color",
+      "id": "button_icon_color",
+      "label": "Button icon color",
+      "default": "#1d1d1f"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Button hover border color",
+      "default": "#cbcbcb"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_icon_color",
+      "label": "Button hover icon color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter",
+      "label": "Show slide counter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay speed",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag",
+          "default": "NEW"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Slide title"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "Short description text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "tag_color",
+          "label": "Tag color",
+          "default": "#6e6e73"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#1d1d1f"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#1d1d1f"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider 7 cards",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "tag": "NEW",
+            "heading": "AirPods",
+            "text": "Enjoy audio on the go"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "tag": "NEW",
+            "heading": "Headphones",
+            "text": "Unplug from the noise"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "tag": "NEW",
+            "heading": "Smartwatch",
+            "text": "Productivity at your fingertips"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "tag": "NEW",
+            "heading": "Watch Bands",
+            "text": "Customize your look"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "tag": "NEW",
+            "heading": "Controllers",
+            "text": "Level up your gameplay"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "tag": "NEW",
+            "heading": "Accessories",
+            "text": "Boost your productivity"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
