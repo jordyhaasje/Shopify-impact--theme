@@ -1,0 +1,561 @@
+{%- render 'section-spacing-collapsing' -%}
+
+{%- liquid
+  assign bg = section.settings.background
+  assign bg_gradient = section.settings.background_gradient
+  assign text = section.settings.text_color
+  assign muted = section.settings.muted_color
+  assign card_bg = section.settings.card_background
+  assign accent = section.settings.accent_color
+  assign star_color = section.settings.star_color
+  assign max_width = section.settings.content_width
+  assign padding_y = section.settings.padding_y
+  assign mobile_padding_y = section.settings.mobile_padding_y
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --t44-bg: {{ bg }};
+    --t44-bg-grad: {{ bg_gradient }};
+    --t44-text: {{ text }};
+    --t44-muted: {{ muted }};
+    --t44-card: {{ card_bg }};
+    --t44-accent: {{ accent }};
+    --t44-star: {{ star_color }};
+    --t44-max-width: {{ max_width }}px;
+    --t44-padding-y: {{ padding_y }}px;
+    --t44-mobile-padding-y: {{ mobile_padding_y }}px;
+    --t44-border: color-mix(in srgb, var(--t44-text) 10%, transparent);
+  }
+
+  #shopify-section-{{ section.id }} .t44 {
+    position: relative;
+    overflow: hidden;
+    color: var(--t44-text);
+    background: var(--t44-bg-grad, var(--t44-bg));
+    padding: var(--t44-padding-y) 0;
+  }
+
+  #shopify-section-{{ section.id }} .t44__shell {
+    max-width: var(--t44-max-width);
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+
+  #shopify-section-{{ section.id }} .t44__header {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 14px;
+    margin: 0 auto clamp(32px, 4vw, 52px);
+    max-width: 820px;
+  }
+
+  #shopify-section-{{ section.id }} .t44__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border: 1px solid var(--t44-border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--t44-card) 18%, transparent);
+    backdrop-filter: blur(10px);
+    color: var(--t44-muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .t44__title {
+    margin: 0;
+    color: var(--t44-text);
+    font-family: var(--heading-font-family);
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    font-weight: 800;
+  }
+
+  #shopify-section-{{ section.id }} .t44__intro {
+    max-width: 620px;
+    margin: 0;
+    color: var(--t44-muted);
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.65;
+  }
+
+  /* Carousel */
+  #shopify-section-{{ section.id }} .t44__viewport {
+    overflow: hidden;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .t44__track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 6px 2px 18px;
+    cursor: grab;
+  }
+
+  #shopify-section-{{ section.id }} .t44__track::-webkit-scrollbar { display: none; }
+
+  #shopify-section-{{ section.id }} .t44__track.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+  }
+
+  #shopify-section-{{ section.id }} .t44__slide {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: calc((100% - 40px) / 3);
+    min-width: 0;
+  }
+
+  /* Card */
+  #shopify-section-{{ section.id }} .t44-card {
+    height: 100%;
+    min-height: 320px;
+    padding: clamp(22px, 2.4vw, 30px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    border: 1px solid var(--t44-border);
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--t44-card) 92%, transparent);
+    backdrop-filter: blur(14px);
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--t44-accent) 40%, var(--t44-border));
+    box-shadow: 0 28px 70px rgba(0, 0, 0, .18);
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    overflow: hidden;
+    border: 2px solid color-mix(in srgb, var(--t44-accent) 40%, #fff);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--t44-accent) 35%, #fff), #fff);
+    color: var(--t44-text);
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__name {
+    margin: 0;
+    color: var(--t44-text);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__stars {
+    display: inline-flex;
+    gap: 3px;
+    margin-top: 6px;
+    color: var(--t44-star);
+    font-size: 14px;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__heading {
+    margin: 0;
+    color: var(--t44-text);
+    font-family: var(--heading-font-family);
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -.02em;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__text {
+    margin: 0;
+    color: var(--t44-muted);
+    font-size: clamp(14px, 1.1vw, 15px);
+    line-height: 1.7;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__text strong {
+    color: var(--t44-text);
+    font-weight: 700;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__foot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t44-accent);
+    letter-spacing: .04em;
+  }
+
+  #shopify-section-{{ section.id }} .t44-card__verified svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Controls */
+  #shopify-section-{{ section.id }} .t44__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .t44__btn {
+    width: 46px;
+    height: 46px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--t44-border);
+    background: color-mix(in srgb, var(--t44-card) 60%, transparent);
+    color: var(--t44-text);
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .t44__btn:hover {
+    transform: translateY(-2px);
+    background: var(--t44-text);
+    color: var(--t44-bg);
+  }
+
+  #shopify-section-{{ section.id }} .t44__dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  #shopify-section-{{ section.id }} .t44__dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--t44-text) 25%, transparent);
+    cursor: pointer;
+    transition: width .24s ease, background .24s ease;
+  }
+
+  #shopify-section-{{ section.id }} .t44__dot[aria-current="true"] {
+    width: 24px;
+    background: var(--t44-accent);
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .t44__slide {
+      width: calc((100% - 20px) / 2);
+    }
+  }
+
+  @media screen and (max-width: 699px) {
+    #shopify-section-{{ section.id }} .t44 {
+      padding: var(--t44-mobile-padding-y) 0;
+    }
+
+    #shopify-section-{{ section.id }} .t44__shell {
+      padding-inline: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .t44__header {
+      margin-bottom: 24px;
+      gap: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .t44__title {
+      font-size: clamp(24px, 7vw, 30px);
+    }
+
+    #shopify-section-{{ section.id }} .t44__slide {
+      width: 86%;
+      min-width: 280px;
+    }
+
+    #shopify-section-{{ section.id }} .t44-card {
+      min-height: 280px;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .t44-card__avatar {
+      width: 46px;
+      height: 46px;
+      font-size: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .t44-card__heading {
+      font-size: 17px;
+    }
+  }
+</style>
+
+<section class="t44" data-testimonials-44 data-section-id="{{ section.id }}">
+  <div class="t44__shell">
+    <div class="t44__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="t44__eyebrow">{{ section.settings.eyebrow | escape }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="t44__title">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.intro != blank -%}
+        <p class="t44__intro">{{ section.settings.intro | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="t44__viewport">
+      <div class="t44__track" data-t44-track aria-label="Customer reviews">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            <article class="t44__slide" data-t44-slide {{ block.shopify_attributes }}>
+              <div class="t44-card">
+                <div class="t44-card__head">
+                  <div class="t44-card__avatar">
+                    {%- if block.settings.avatar != blank -%}
+                      {{ block.settings.avatar | image_url: width: 120 | image_tag: loading: 'lazy', widths: '60,80,120', alt: block.settings.reviewer_name }}
+                    {%- else -%}
+                      {{ block.settings.reviewer_name | default: 'C' | slice: 0 | upcase }}
+                    {%- endif -%}
+                  </div>
+                  <div class="t44-card__meta">
+                    <p class="t44-card__name">{{ block.settings.reviewer_name | escape }}</p>
+                    <div class="t44-card__stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                      {%- for i in (1..5) -%}
+                        <span>{%- if i <= block.settings.rating -%}★{%- else -%}☆{%- endif -%}</span>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="t44-card__body">
+                  {%- if block.settings.review_title != blank -%}
+                    <h3 class="t44-card__heading">{{ block.settings.review_title | escape }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.review_text != blank -%}
+                    <p class="t44-card__text">{{ block.settings.review_text }}</p>
+                  {%- endif -%}
+                </div>
+
+                {%- if block.settings.show_verified -%}
+                  <div class="t44-card__foot">
+                    <span class="t44-card__verified">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 12.5l2.5 2.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      Verified Review
+                    </span>
+                  </div>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="t44__controls" aria-label="Review slider controls">
+      <button class="t44__btn" type="button" data-t44-prev aria-label="Previous review">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="t44__dots" data-t44-dots aria-hidden="false"></div>
+      <button class="t44__btn" type="button" data-t44-next aria-label="Next review">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const initSlider = (section) => {
+      if (!section || section.dataset.t44Ready === 'true') return;
+      section.dataset.t44Ready = 'true';
+
+      const track = section.querySelector('[data-t44-track]');
+      const slides = Array.from(section.querySelectorAll('[data-t44-slide]'));
+      const prev = section.querySelector('[data-t44-prev]');
+      const next = section.querySelector('[data-t44-next]');
+      const dotsWrap = section.querySelector('[data-t44-dots]');
+
+      if (!track || slides.length === 0 || !dotsWrap) return;
+
+      const getStep = () => {
+        const first = slides[0];
+        const styles = window.getComputedStyle(track);
+        const gap = parseFloat(styles.columnGap || styles.gap || '0');
+        return first.getBoundingClientRect().width + gap;
+      };
+
+      const getIndex = () => Math.round(track.scrollLeft / Math.max(getStep(), 1));
+
+      const goTo = (index) => {
+        const max = slides.length - 1;
+        const target = Math.max(0, Math.min(index, max));
+        track.scrollTo({ left: target * getStep(), behavior: 'smooth' });
+      };
+
+      const updateDots = () => {
+        const index = getIndex();
+        Array.from(dotsWrap.children).forEach((dot, dotIndex) => {
+          dot.setAttribute('aria-current', dotIndex === index ? 'true' : 'false');
+        });
+      };
+
+      dotsWrap.innerHTML = '';
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 't44__dot';
+        dot.setAttribute('aria-label', 'Go to review ' + (index + 1));
+        dot.setAttribute('aria-current', index === 0 ? 'true' : 'false');
+        dot.addEventListener('click', () => goTo(index));
+        dotsWrap.appendChild(dot);
+      });
+
+      if (prev) prev.addEventListener('click', () => goTo(getIndex() - 1));
+      if (next) next.addEventListener('click', () => goTo(getIndex() + 1));
+
+      // Drag to scroll
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        track.classList.add('is-dragging');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
+      track.addEventListener('mouseleave', () => {
+        isDown = false;
+        track.classList.remove('is-dragging');
+      });
+      track.addEventListener('mouseup', () => {
+        isDown = false;
+        track.classList.remove('is-dragging');
+        updateDots();
+      });
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        track.scrollLeft = scrollLeft - walk;
+      });
+
+      track.addEventListener('scroll', () => window.requestAnimationFrame(updateDots), { passive: true });
+      window.addEventListener('resize', updateDots, { passive: true });
+      updateDots();
+    };
+
+    const root = document.currentScript ? document.currentScript.previousElementSibling : null;
+    initSlider(root);
+
+    document.addEventListener('shopify:section:load', (event) => {
+      const loaded = event.target && event.target.querySelector ? event.target.querySelector('[data-testimonials-44]') : null;
+      initSlider(loaded);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials 44",
+  "class": "shopify-section--testimonials-44",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Customer stories" },
+    { "type": "text", "id": "heading", "label": "Headline", "default": "What our customers are saying" },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "Real reviews from real people who love our products." },
+    { "type": "range", "id": "content_width", "label": "Content width", "min": 900, "max": 1400, "step": 20, "unit": "px", "default": 1200 },
+    { "type": "range", "id": "padding_y", "label": "Desktop vertical padding", "min": 40, "max": 140, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "mobile_padding_y", "label": "Mobile vertical padding", "min": 32, "max": 100, "step": 4, "unit": "px", "default": 56 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#0d0d0d" },
+    { "type": "color_background", "id": "background_gradient", "label": "Background gradient" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#1a1a1a" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#f5f5f5" },
+    { "type": "color", "id": "muted_color", "label": "Muted text", "default": "#a0a0a0" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#00b67a" },
+    { "type": "color", "id": "star_color", "label": "Star color", "default": "#ffc107" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "avatar", "label": "Reviewer avatar" },
+        { "type": "text", "id": "reviewer_name", "label": "Reviewer name", "default": "Chris Wilson" },
+        { "type": "range", "id": "rating", "label": "Star rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "review_title", "label": "Review title", "default": "Completely Obsessed" },
+        { "type": "textarea", "id": "review_text", "label": "Review text", "default": "This product has changed my life for the better. It's simple to set up and use, and the results are truly remarkable. If you want the best, look no further." },
+        { "type": "checkbox", "id": "show_verified", "label": "Show verified badge", "default": true }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials 44",
+      "blocks": [
+        { "type": "review", "settings": { "reviewer_name": "Chris Wilson", "rating": 5, "review_title": "Completely Obsessed", "review_text": "This product has changed my life for the better. It's simple to set up and use, and the results are truly remarkable. If you want the best, look no further.", "show_verified": true } },
+        { "type": "review", "settings": { "reviewer_name": "Jessica Green", "rating": 5, "review_title": "Must-Have for Everyone!", "review_text": "I'm so impressed by this product. It's functional, beautifully designed, and feels incredibly premium. I find myself using it every single day.", "show_verified": true } },
+        { "type": "review", "settings": { "reviewer_name": "Sarah Miller", "rating": 5, "review_title": "Worth Every Single Penny", "review_text": "I'm blown away by the attention to detail. Every feature works exactly as described, and the experience is seamless from start to finish.", "show_verified": true } },
+        { "type": "review", "settings": { "reviewer_name": "Paul Smith", "rating": 5, "review_title": "Truly the Best Purchase", "review_text": "I've been on the hunt for a product that truly delivers on its promises, and this one exceeded every expectation. I could tell the quality was top-notch.", "show_verified": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}
