@@ -1,0 +1,993 @@
+{%- comment -%}
+  JSections - Testimonials Carousel
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-testimonials-carousel.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign section_class = 'testimonials-section jsections-testimonials-carousel section-' | append: section.id
+  assign rating_value = section.settings.summary_rating | times: 1.0
+  assign rating_floor = rating_value | floor
+  assign rating_next = rating_floor | plus: 1
+  assign has_partial = false
+  if rating_value > rating_floor
+    assign has_partial = true
+  endif
+-%}
+
+<style>
+  .testimonials-section.section-{{ section.id }} {
+    --testimonials-gap: {{ section.settings.card_gap }}px;
+    --card-width-mobile: {{ section.settings.card_width_mobile }}%;
+    --card-width-desktop: {{ section.settings.card_width_desktop }}px;
+    --testimonials-container-width: {{ section.settings.container_width }}px;
+    --mask-edge-mobile: {{ section.settings.mask_edge_mobile }}px;
+    --mask-edge-desktop: {{ section.settings.mask_edge_desktop }}px;
+    --heading-color: {{ section.settings.heading_color }};
+    --subtitle-color: {{ section.settings.subtitle_color }};
+    --accent-color: {{ section.settings.accent_color }};
+    --accent-gradient-from: {{ section.settings.accent_gradient_from }};
+    --accent-gradient-to: {{ section.settings.accent_gradient_to }};
+    --summary-bg: {{ section.settings.summary_bg }};
+    --summary-border: {{ section.settings.summary_border }};
+    --summary-text-color: {{ section.settings.summary_text_color }};
+    --card-bg: {{ section.settings.card_bg }};
+    --card-border: {{ section.settings.card_border }};
+    --card-text-color: {{ section.settings.card_text_color }};
+    --avatar-bg: {{ section.settings.avatar_bg }};
+    --avatar-color: {{ section.settings.avatar_color }};
+    --nav-bg: {{ section.settings.nav_bg }};
+    --nav-color: {{ section.settings.nav_color }};
+    --nav-border: {{ section.settings.nav_border }};
+    --dot-color: {{ section.settings.dot_color }};
+    --dot-active-color: {{ section.settings.dot_active_color }};
+    --card-radius: {{ section.settings.card_radius }}px;
+    --purchase-bg: {{ section.settings.purchase_bg }};
+    --purchase-border: {{ section.settings.purchase_border }};
+  }
+</style>
+
+<section
+  class="{{ section_class }}{% if section.settings.enable_fade_in %} page-fade-in{% endif %}"
+  data-use-theme-colors="{{ section.settings.use_theme_colors }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.use_theme_colors %}
+      background: var(--gradient-background);
+    {% else %}
+      background: {{ section.settings.section_background }};
+    {% endif %}
+  "
+>
+  <div class="testimonials-container">
+    <div class="testimonials-header">
+      {%- if section.settings.heading_prefix != blank or section.settings.heading_accent != blank or section.settings.heading_suffix != blank -%}
+        <h2
+          class="testimonials-heading testimonials-custom-heading"
+          style="
+            color: {{ section.settings.heading_color }} !important;
+            font-size: {{ section.settings.heading_size }}px;
+            font-weight: var(--font-weight-bold) !important;
+          "
+        >
+          {{ section.settings.heading_prefix }}
+          {%- if section.settings.heading_accent != blank -%}
+            <span class="testimonials-accent testimonials-accent--{{ section.settings.accent_style }}">
+              {{ section.settings.heading_accent }}
+            </span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <div
+          class="testimonials-subtitle testimonials-custom-subtitle"
+          style="
+            color: {{ section.settings.subtitle_color }} !important;
+            font-size: {{ section.settings.subtitle_size }}px;
+            font-weight: var(--font-weight-regular);
+          "
+        >
+          {{ section.settings.subtitle }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_rating_summary and section.settings.summary_text != blank -%}
+        <div class="testimonials-rating-summary-wrapper">
+          <div class="testimonials-rating-summary">
+            <span class="testimonials-rating-stars">
+              <div class="testimonials-stars">
+                {%- for i in (1..5) -%}
+                  {%- assign opacity = 1 -%}
+                  {%- if i <= rating_floor -%}
+                    {%- assign opacity = 1 -%}
+                  {%- elsif has_partial and i == rating_next -%}
+                    {%- assign opacity = section.settings.summary_partial_opacity -%}
+                  {%- else -%}
+                    {%- assign opacity = section.settings.summary_empty_opacity -%}
+                  {%- endif -%}
+                  <svg class="testimonials-star testimonials-summary-star trustpilot-star" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect width="96" height="96" fill="{{ section.settings.summary_star_color }}" style="opacity: {{ opacity }}"></rect>
+                    <path d="M48 64.7L62.6 61l6.1 18.8zm33.6-24.3H55.9L48 16.2l-7.9 24.2H14.4l20.8 15-7.9 24.2 20.8-15 12.8-9.2z" fill="#fff"></path>
+                  </svg>
+                {%- endfor -%}
+              </div>
+            </span>
+            <div class="testimonials-rating-text">
+              <p>{{ section.settings.summary_text }}</p>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="testimonials-carousel" id="testimonials-{{ section.id }}">
+        <div class="testimonials-track">
+          {%- for block in section.blocks -%}
+            {%- assign author_name = block.settings.author | default: 'Customer' -%}
+            {%- assign author_initial = block.settings.author_initial | default: author_name | strip | slice: 0, 1 | upcase -%}
+            <div class="testimonial-card" {{ block.shopify_attributes }}>
+              <div class="testimonials-card-rating">
+                <div class="testimonials-card-stars">
+                  <div class="testimonials-stars">
+                    {%- for i in (1..5) -%}
+                      {%- assign star_opacity = 1 -%}
+                      {%- if i > block.settings.rating -%}
+                        {%- assign star_opacity = section.settings.card_empty_opacity -%}
+                      {%- endif -%}
+                      <svg class="testimonials-star testimonials-card-star trustpilot-star" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <rect width="96" height="96" fill="{{ section.settings.card_star_color }}" style="opacity: {{ star_opacity }}"></rect>
+                        <path d="M48 64.7L62.6 61l6.1 18.8zm33.6-24.3H55.9L48 16.2l-7.9 24.2H14.4l20.8 15-7.9 24.2 20.8-15 12.8-9.2z" fill="#fff"></path>
+                      </svg>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="testimonial-title">
+                  {{ block.settings.title }}
+                </h3>
+              {%- endif -%}
+
+              {%- if block.settings.text != blank -%}
+                <div class="testimonial-content">
+                  <p>{{ block.settings.text }}</p>
+                </div>
+              {%- endif -%}
+
+              <div class="testimonial-author-container">
+                <div class="testimonial-author">
+                  <div class="author-avatar">
+                    {%- if block.settings.avatar_image != blank -%}
+                      <img
+                        src="{{ block.settings.avatar_image | image_url: width: 80 }}"
+                        alt="{{ author_name | escape }}"
+                        loading="lazy"
+                      >
+                    {%- else -%}
+                      {{ author_initial }}
+                    {%- endif -%}
+                  </div>
+                  <div class="author-info">
+                    <div class="author-info-container">
+                      <div class="author-info-details">
+                        <span class="author-name">{{ author_name }}</span>
+                        {%- if block.settings.verified -%}
+                          <span class="testimonials-verified-badge">
+                            <svg class="verified-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5924 3.20027C9.34888 3.4078 9.22711 3.51158 9.09706 3.59874C8.79896 3.79854 8.46417 3.93721 8.1121 4.00672C7.95851 4.03705 7.79903 4.04977 7.48008 4.07522C6.6787 4.13918 6.278 4.17115 5.94371 4.28923C5.17051 4.56233 4.56233 5.17051 4.28923 5.94371C4.17115 6.278 4.13918 6.6787 4.07522 7.48008C4.04977 7.79903 4.03705 7.95851 4.00672 8.1121C3.93721 8.46417 3.79854 8.79896 3.59874 9.09706C3.51158 9.22711 3.40781 9.34887 3.20027 9.5924C2.67883 10.2043 2.4181 10.5102 2.26522 10.8301C1.91159 11.57 1.91159 12.43 2.26522 13.1699C2.41811 13.4898 2.67883 13.7957 3.20027 14.4076C3.40778 14.6511 3.51158 14.7729 3.59874 14.9029C3.79854 15.201 3.93721 15.5358 4.00672 15.8879C4.03705 16.0415 4.04977 16.201 4.07522 16.5199C4.13918 17.3213 4.17115 17.722 4.28923 18.0563C4.56233 18.8295 5.17051 19.4377 5.94371 19.7108C6.278 19.8288 6.6787 19.8608 7.48008 19.9248C7.79903 19.9502 7.95851 19.963 8.1121 19.9933C8.46417 20.0628 8.79896 20.2015 9.09706 20.4013C9.22711 20.4884 9.34887 20.5922 9.5924 20.7997C10.2043 21.3212 10.5102 21.5819 10.8301 21.7348C11.57 22.0884 12.43 22.0884 13.1699 21.7348C13.4898 21.5819 13.7957 21.3212 14.4076 20.7997C14.6511 20.5922 14.7729 20.4884 14.9029 20.4013C15.201 20.2015 15.5358 20.0628 15.8879 19.9933C16.0415 19.963 16.201 19.9502 16.5199 19.9248C17.3213 19.8608 17.722 19.8288 18.0563 19.7108C18.8295 19.4377 19.4377 18.8295 19.7108 18.0563C19.8288 17.722 19.8608 17.3213 19.9248 16.5199C19.9502 16.201 19.963 16.0415 19.9933 15.8879C20.0628 15.5358 20.2015 15.201 20.4013 14.9029C20.4884 14.7729 20.5922 14.6511 20.7997 14.4076C21.3212 13.7957 21.5819 13.4898 21.7348 13.1699C22.0884 12.43 22.0884 11.57 21.7348 10.8301C21.5819 10.5102 21.3212 10.2043 20.7997 9.5924C20.5922 9.34887 20.4884 9.22711 20.4013 9.09706C20.2015 8.79896 20.0628 8.46417 19.9933 8.1121C19.963 7.95851 19.9502 7.79903 19.9248 7.48008C19.8608 6.6787 19.8288 6.278 19.7108 5.94371C19.4377 5.17051 18.8295 4.56233 18.0563 4.28923C17.722 4.17115 17.3213 4.13918 16.5199 4.07522C16.201 4.04977 16.0415 4.03705 15.8879 4.00672C15.5358 3.93721 15.201 3.79854 14.9029 3.59874C14.7729 3.51158 14.6511 3.40781 14.4076 3.20027C13.7957 2.67883 13.4898 2.41811 13.1699 2.26522C12.43 1.91159 11.57 1.91159 10.8301 2.26522C10.5102 2.4181 10.2043 2.67883 9.5924 3.20027ZM16.3735 9.86314C16.6913 9.5453 16.6913 9.03 16.3735 8.71216C16.0557 8.39433 15.5403 8.39433 15.2225 8.71216L10.3723 13.5624L8.77746 11.9676C8.45963 11.6498 7.94432 11.6498 7.62649 11.9676C7.30866 12.2854 7.30866 12.8007 7.62649 13.1186L9.79678 15.2889C10.1146 15.6067 10.6299 15.6067 10.9478 15.2889L16.3735 9.86314Z" fill="{{ section.settings.card_text_color }}"></path>
+                            </svg>
+                            {{ section.settings.verified_text }}
+                          </span>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                    {%- if block.settings.purchase_text != blank -%}
+                      <div class="testimonials-product-purchase-date">
+                        {{ block.settings.purchase_text }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if section.settings.show_navigation and section.blocks.size > 1 -%}
+        <div class="testimonials-navigation">
+          <button type="button" class="nav-button prev" aria-label="Previous testimonial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+          <button type="button" class="nav-button next" aria-label="Next testimonial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_dots and section.blocks.size > 1 -%}
+        <div class="testimonials-dots">
+          {%- for block in section.blocks -%}
+            <button type="button" class="dot{% if forloop.first %} active{% endif %}" aria-label="Go to testimonial {{ forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+(function() {
+  class TestimonialsCarousel {
+    constructor(section) {
+      this.section = section;
+      this.carousel = section.querySelector('.testimonials-carousel');
+      if (!this.carousel) return;
+      if (this.carousel.dataset.initialized === 'true') return;
+
+      this.track = this.carousel.querySelector('.testimonials-track');
+      this.prevButton = section.querySelector('.nav-button.prev');
+      this.nextButton = section.querySelector('.nav-button.next');
+      this.dots = section.querySelectorAll('.dot');
+      this.isAnimating = false;
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      this.touchEndX = 0;
+      this.touchEndY = 0;
+      this.isSwiping = false;
+      this.isMobile = window.innerWidth < 750;
+      this.init();
+    }
+
+    init() {
+      this.setupCards();
+      this.bindEvents();
+      this.carousel.dataset.initialized = 'true';
+      setTimeout(() => this.updateCarousel(false), 100);
+    }
+
+    resetClones() {
+      this.track.querySelectorAll('.testimonial-clone').forEach((node) => node.remove());
+      this.originalCards = Array.from(this.track.querySelectorAll('.testimonial-card'));
+    }
+
+    setupCards() {
+      this.resetClones();
+      if (this.isMobile) {
+        if (this.originalCards.length > 1) {
+          const lastCardClone = this.originalCards[this.originalCards.length - 1].cloneNode(true);
+          const firstCardClone = this.originalCards[0].cloneNode(true);
+          lastCardClone.classList.add('testimonial-clone', 'mobile-clone-before');
+          firstCardClone.classList.add('testimonial-clone', 'mobile-clone-after');
+          this.track.insertBefore(lastCardClone, this.track.firstChild);
+          this.track.appendChild(firstCardClone);
+          this.cards = this.track.querySelectorAll('.testimonial-card');
+          this.currentSlide = 1;
+          this.totalSlides = this.originalCards.length;
+        } else {
+          this.cards = this.originalCards;
+          this.currentSlide = 0;
+          this.totalSlides = this.originalCards.length;
+        }
+      } else if (this.originalCards.length > 1) {
+        const clonesBefore = this.originalCards.map((card) => {
+          const clone = card.cloneNode(true);
+          clone.classList.add('testimonial-clone', 'clone-before');
+          return clone;
+        });
+        const clonesAfter = this.originalCards.map((card) => {
+          const clone = card.cloneNode(true);
+          clone.classList.add('testimonial-clone', 'clone-after');
+          return clone;
+        });
+        clonesBefore.forEach((clone) => this.track.insertBefore(clone, this.track.firstChild));
+        clonesAfter.forEach((clone) => this.track.appendChild(clone));
+        this.cards = this.track.querySelectorAll('.testimonial-card');
+        this.currentSlide = this.originalCards.length;
+        this.totalSlides = this.originalCards.length;
+      } else {
+        this.cards = this.originalCards;
+        this.currentSlide = 0;
+        this.totalSlides = this.originalCards.length;
+      }
+    }
+
+    updateCarousel(animate = true) {
+      if (!this.cards[this.currentSlide]) return;
+
+      if (this.isMobile) {
+        const targetCard = this.cards[this.currentSlide];
+        if (!targetCard) return;
+        const containerRect = this.carousel.getBoundingClientRect();
+        const cardRect = targetCard.getBoundingClientRect();
+        const containerCenter = containerRect.left + containerRect.width / 2;
+        const cardCenter = cardRect.left + cardRect.width / 2;
+        const currentTransform = getComputedStyle(this.track).transform;
+        let currentOffset = 0;
+
+        if (currentTransform && currentTransform !== 'none') {
+          currentOffset = new DOMMatrix(currentTransform).m41;
+        }
+
+        const centeringError = cardCenter - containerCenter;
+        const newOffset = currentOffset - centeringError;
+        this.track.style.transition = animate ? 'transform 0.3s ease' : 'none';
+        this.track.style.transform = `translateX(${newOffset}px)`;
+
+        if (this.originalCards.length > 1) {
+          if (this.currentSlide === 0) {
+            setTimeout(() => {
+              this.currentSlide = this.totalSlides;
+              this.updateCarousel(false);
+            }, animate ? 300 : 0);
+          } else if (this.currentSlide === this.totalSlides + 1) {
+            setTimeout(() => {
+              this.currentSlide = 1;
+              this.updateCarousel(false);
+            }, animate ? 300 : 0);
+          }
+        }
+      } else {
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = parseInt(getComputedStyle(this.track).gap) || 0;
+        const containerWidth = this.carousel.offsetWidth;
+        const cardPosition = (cardWidth + gap) * this.currentSlide;
+        const centerOffset = containerWidth / 2 - cardWidth / 2;
+        const twoCardsOffset = (cardWidth + gap) * 2;
+        const newOffset = -(cardPosition - centerOffset + twoCardsOffset);
+
+        this.track.style.transition = animate ? 'transform 0.3s ease' : 'none';
+        this.track.style.transform = `translateX(${newOffset}px)`;
+
+        if (this.originalCards.length > 1) {
+          setTimeout(() => {
+            if (this.currentSlide < this.totalSlides) {
+              this.currentSlide = this.totalSlides + this.currentSlide;
+              this.updateCarousel(false);
+            } else if (this.currentSlide >= this.totalSlides * 2) {
+              this.currentSlide = this.totalSlides + (this.currentSlide - this.totalSlides * 2);
+              this.updateCarousel(false);
+            }
+          }, animate ? 350 : 10);
+        }
+      }
+
+      if (this.prevButton) this.prevButton.disabled = false;
+      if (this.nextButton) this.nextButton.disabled = false;
+
+      let realCardIndex;
+      if (this.isMobile) {
+        if (this.originalCards.length > 1) {
+          if (this.currentSlide === 0) realCardIndex = this.totalSlides - 1;
+          else if (this.currentSlide === this.totalSlides + 1) realCardIndex = 0;
+          else realCardIndex = this.currentSlide - 1;
+        } else {
+          realCardIndex = this.currentSlide;
+        }
+      } else {
+        if (this.currentSlide < this.totalSlides) realCardIndex = this.currentSlide;
+        else if (this.currentSlide >= this.totalSlides * 2) realCardIndex = this.currentSlide - this.totalSlides * 2;
+        else realCardIndex = this.currentSlide - this.totalSlides;
+      }
+
+      this.dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === realCardIndex);
+      });
+    }
+
+    bindEvents() {
+      if (this.prevButton) {
+        this.prevButton.addEventListener('click', () => {
+          if (this.isAnimating) return;
+          this.isAnimating = true;
+          if (this.isMobile) {
+            if (this.originalCards.length > 1) this.currentSlide--;
+            else this.currentSlide = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
+          } else {
+            this.currentSlide--;
+          }
+          this.updateCarousel();
+          setTimeout(() => {
+            this.isAnimating = false;
+          }, 350);
+        });
+      }
+
+      if (this.nextButton) {
+        this.nextButton.addEventListener('click', () => {
+          if (this.isAnimating) return;
+          this.isAnimating = true;
+          if (this.isMobile) {
+            if (this.originalCards.length > 1) this.currentSlide++;
+            else this.currentSlide = this.currentSlide === this.totalSlides - 1 ? 0 : this.currentSlide + 1;
+          } else {
+            this.currentSlide++;
+          }
+          this.updateCarousel();
+          setTimeout(() => {
+            this.isAnimating = false;
+          }, 350);
+        });
+      }
+
+      this.dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          if (this.isAnimating) return;
+          this.isAnimating = true;
+          if (this.isMobile) {
+            this.currentSlide = this.originalCards.length > 1 ? index + 1 : index;
+          } else {
+            this.currentSlide = this.totalSlides + index;
+          }
+          this.updateCarousel();
+          setTimeout(() => {
+            this.isAnimating = false;
+          }, 350);
+        });
+      });
+
+      this.bindTouchEvents();
+
+      window.addEventListener('resize', () => {
+        const nextIsMobile = window.innerWidth < 750;
+        if (nextIsMobile !== this.isMobile) {
+          this.isMobile = nextIsMobile;
+          this.setupCards();
+        }
+        setTimeout(() => this.updateCarousel(false), 50);
+      });
+    }
+
+    bindTouchEvents() {
+      const handleTouchStart = (event) => {
+        if (this.isAnimating) return;
+        this.touchStartX = event.touches[0].clientX;
+        this.touchStartY = event.touches[0].clientY;
+        this.isSwiping = true;
+      };
+
+      const handleTouchMove = (event) => {
+        if (!this.isSwiping) return;
+        this.touchEndX = event.touches[0].clientX;
+        this.touchEndY = event.touches[0].clientY;
+        const deltaX = this.touchEndX - this.touchStartX;
+        const deltaY = this.touchEndY - this.touchStartY;
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
+          event.preventDefault();
+        }
+      };
+
+      const handleTouchEnd = () => {
+        if (!this.isSwiping || this.isAnimating) return;
+        const deltaX = this.touchEndX - this.touchStartX;
+        const deltaY = this.touchEndY - this.touchStartY;
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+          this.isAnimating = true;
+          if (deltaX > 0) {
+            if (this.isMobile) {
+              if (this.originalCards.length > 1) this.currentSlide--;
+              else this.currentSlide = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
+            } else {
+              this.currentSlide--;
+            }
+          } else {
+            if (this.isMobile) {
+              if (this.originalCards.length > 1) this.currentSlide++;
+              else this.currentSlide = this.currentSlide === this.totalSlides - 1 ? 0 : this.currentSlide + 1;
+            } else {
+              this.currentSlide++;
+            }
+          }
+          this.updateCarousel(true);
+          setTimeout(() => {
+            this.isAnimating = false;
+          }, 350);
+        }
+        this.isSwiping = false;
+      };
+
+      this.track.addEventListener('touchstart', handleTouchStart, { passive: false });
+      this.track.addEventListener('touchmove', handleTouchMove, { passive: false });
+      this.track.addEventListener('touchend', handleTouchEnd, { passive: true });
+      this.track.addEventListener('contextmenu', (event) => event.preventDefault());
+    }
+  }
+
+  function initTestimonials(sectionRoot) {
+    if (!sectionRoot) return;
+    new TestimonialsCarousel(sectionRoot);
+  }
+
+  function initAllTestimonials() {
+    document.querySelectorAll('.jsections-testimonials-carousel').forEach((section) => {
+      initTestimonials(section);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initAllTestimonials);
+
+  if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+    document.addEventListener('shopify:section:load', (event) => {
+      initTestimonials(event.target);
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials Carousel",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading prefix",
+      "default": "there's a reason people"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading accent",
+      "default": "love us."
+    },
+    {
+      "type": "select",
+      "id": "accent_style",
+      "label": "Accent style",
+      "default": "gradient",
+      "options": [
+        { "value": "gradient", "label": "Gradient" },
+        { "value": "solid", "label": "Solid" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "real experiences from real customers who love our products and service."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating_summary",
+      "label": "Show rating summary",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "summary_text",
+      "label": "Summary text",
+      "default": "Excellent 4.8/5 based on 2,500+ customer reviews"
+    },
+    {
+      "type": "range",
+      "id": "summary_rating",
+      "label": "Summary rating",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container width",
+      "min": 960,
+      "max": 1440,
+      "step": 10,
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card gap",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_width_desktop",
+      "label": "Card width (desktop)",
+      "min": 240,
+      "max": 420,
+      "step": 10,
+      "default": 320
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width (mobile %)",
+      "min": 70,
+      "max": 100,
+      "step": 1,
+      "default": 85
+    },
+    {
+      "type": "range",
+      "id": "mask_edge_mobile",
+      "label": "Mask edge (mobile)",
+      "min": 40,
+      "max": 140,
+      "step": 5,
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "mask_edge_desktop",
+      "label": "Mask edge (desktop)",
+      "min": 80,
+      "max": 240,
+      "step": 10,
+      "default": 150
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show navigation buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_fade_in",
+      "label": "Enable fade-in animation",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 24,
+      "max": 64,
+      "step": 1,
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_theme_colors",
+      "label": "Use theme background",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section background",
+      "default": "#FFFDFB"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#484848"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#484848"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent solid color",
+      "default": "#EFA185"
+    },
+    {
+      "type": "color",
+      "id": "accent_gradient_from",
+      "label": "Accent gradient from",
+      "default": "#FF9C9F"
+    },
+    {
+      "type": "color",
+      "id": "accent_gradient_to",
+      "label": "Accent gradient to",
+      "default": "#EFC885"
+    },
+    {
+      "type": "color",
+      "id": "summary_bg",
+      "label": "Summary background",
+      "default": "#FFFDFB"
+    },
+    {
+      "type": "color",
+      "id": "summary_border",
+      "label": "Summary border",
+      "default": "#272727"
+    },
+    {
+      "type": "color",
+      "id": "summary_text_color",
+      "label": "Summary text color",
+      "default": "#484848"
+    },
+    {
+      "type": "color",
+      "id": "summary_star_color",
+      "label": "Summary star color",
+      "default": "#484848"
+    },
+    {
+      "type": "range",
+      "id": "summary_partial_opacity",
+      "label": "Summary partial star opacity",
+      "min": 0.1,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.5
+    },
+    {
+      "type": "range",
+      "id": "summary_empty_opacity",
+      "label": "Summary empty star opacity",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.1,
+      "default": 0.2
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#FFFDFB"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Card border",
+      "default": "#272727"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text color",
+      "default": "#484848"
+    },
+    {
+      "type": "color",
+      "id": "card_star_color",
+      "label": "Card star color",
+      "default": "#484848"
+    },
+    {
+      "type": "range",
+      "id": "card_empty_opacity",
+      "label": "Card empty star opacity",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.1,
+      "default": 0.2
+    },
+    {
+      "type": "color",
+      "id": "avatar_bg",
+      "label": "Avatar background",
+      "default": "#484848"
+    },
+    {
+      "type": "color",
+      "id": "avatar_color",
+      "label": "Avatar text color",
+      "default": "#FFFDFB"
+    },
+    {
+      "type": "color",
+      "id": "nav_bg",
+      "label": "Navigation background",
+      "default": "#FFFDFB"
+    },
+    {
+      "type": "color",
+      "id": "nav_border",
+      "label": "Navigation border",
+      "default": "#272727"
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Navigation icon color",
+      "default": "#484848"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#B4B4B4"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Dot active color",
+      "default": "#484848"
+    },
+    {
+      "type": "color",
+      "id": "purchase_bg",
+      "label": "Purchase badge background",
+      "default": "#FFFDFB"
+    },
+    {
+      "type": "color",
+      "id": "purchase_border",
+      "label": "Purchase badge border",
+      "default": "#E3E3E3"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "text",
+      "id": "verified_text",
+      "label": "Verified label",
+      "default": "Verified customer"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Must-Have"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text",
+          "default": "Your basic tees are anything but basic. They're crazy soft, really well-made, and they wash up perfectly every time. I've bought them in every color, seriously!"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Liam B."
+        },
+        {
+          "type": "text",
+          "id": "author_initial",
+          "label": "Author initial",
+          "default": "L"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar_image",
+          "label": "Avatar image"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Show verified badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "purchase_text",
+          "label": "Purchase text",
+          "default": "Verified customer"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Testimonials Carousel",
+      "category": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "title": "Worth It!",
+            "text": "Okay, so I thought about the price, but this jacket is 100% worth every penny. The way it's made is top-notch, and it's surprisingly warm without being super bulky. A total keeper.",
+            "author": "Jessica M.",
+            "author_initial": "J"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "title": "Outstanding Quality",
+            "text": "I've been shopping with this brand for over a year now and the quality never disappoints. Every purchase has exceeded my expectations and their customer service is exceptional.",
+            "author": "Sarah M.",
+            "author_initial": "S"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
