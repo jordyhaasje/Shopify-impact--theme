@@ -885,6 +885,115 @@
         "button_text_color": "#171217",
         "button_border_color": "#171217"
       }
+    },
+    "jsections_cloudpillo_reviews_Jag3mk": {
+      "type": "jsections-cloudpillo-reviews",
+      "blocks": {
+        "review_8LLEMy": {
+          "type": "review",
+          "settings": {
+            "title": "Heerlijk uitgerust wakker worden",
+            "text": "Heerlijk uitgerust wakker worden",
+            "author": "Twan",
+            "date": "1 dag geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69ac8b24f5cbef2753cf0bf0"
+          }
+        },
+        "review_JEziPE": {
+          "type": "review",
+          "settings": {
+            "title": "Prima bedrijf",
+            "text": "Goede communicatie en snelle levering. Er was iets met de betaling, maar dat werd heel goed en snel opgelost. Betrouwbaar bedrijf, nu nog uitproberen of het lekker slaapt!",
+            "author": "Ellen",
+            "date": "2 dagen geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69aab132a1d3a9059d1784f7"
+          }
+        },
+        "review_AdVdBk": {
+          "type": "review",
+          "settings": {
+            "title": "Door cloudpillo recharge van de rugklachten af!",
+            "text": "Ik werd 11 jaar wakker met rugklachten. Nieuw bed, ander kussen. Het had allemaal geen effect. Ik gebruik nu een week de cloudpillo recharge en ik heb de hele week geen last gehad van rugklachten in de ochtend. Ik raad het iedereen aan!",
+            "author": "Sander",
+            "date": "2 dagen geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69aa720e4e160228e4a9a0d2"
+          }
+        },
+        "review_q9d3Jq": {
+          "type": "review",
+          "settings": {
+            "title": "Super!",
+            "text": "Super snelle levering, fijne kussens en ook nog is een super service waar echt met je meegedacht wordt. Cloudpillo is zeker een aanrader.",
+            "author": "Thijs B.",
+            "date": "3 dagen geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69a9ed5380224f16b9219108"
+          }
+        },
+        "review_aKxc9C": {
+          "type": "review",
+          "settings": {
+            "title": "Ontvangen artikel defect en top service",
+            "text": "Ontvangen artikel defect. Na klacht, prettige communicatie en direct een nieuw artikel ontvangen.",
+            "author": "Wim12321",
+            "date": "3 dagen geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69a9729ccb6b6c20aec43e75"
+          }
+        },
+        "review_kh9X8A": {
+          "type": "review",
+          "settings": {
+            "title": "Goede topper",
+            "text": "Goede topper, goede service.",
+            "author": "Tekkie Wekkie",
+            "date": "3 dagen geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69a95d844f9c37392932eae4"
+          }
+        },
+        "review_cDx8CY": {
+          "type": "review",
+          "settings": {
+            "title": "Nooit meer nek last dankzij de…",
+            "text": "Nooit meer nek last dankzij de cloudpillo! Je hoeft 's nachts ook nooit meer een goede houding te zoeken om te slapen, je ligt altijd heerlijk op dit kussen!",
+            "author": "Lissa Thoen",
+            "date": "3 dagen geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69a93e3bc78c1898f5e70727"
+          }
+        },
+        "review_yccAbP": {
+          "type": "review",
+          "settings": {
+            "title": "Heerlijke kussens",
+            "text": "Hele fijne kussen, super luxe gevoel",
+            "author": "Lars",
+            "date": "4 dagen geleden",
+            "review_url": "https://www.trustpilot.com/reviews/69a88325965109598edae6f1"
+          }
+        }
+      },
+      "block_order": [
+        "review_8LLEMy",
+        "review_JEziPE",
+        "review_AdVdBk",
+        "review_q9d3Jq",
+        "review_aKxc9C",
+        "review_kh9X8A",
+        "review_cDx8CY",
+        "review_yccAbP"
+      ],
+      "name": "Cloudpillo Reviews Wall",
+      "settings": {
+        "heading": "Wat zeggen onze klanten?",
+        "subtitle": "<p>Lees wat anderen over hun ervaringen met ons zeggen.</p>",
+        "summary_rating": 4.6,
+        "review_count": "31106",
+        "summary_label": "beoordelingen op",
+        "trustpilot_profile_url": "",
+        "section_background": "#ECEBE4",
+        "desktop_min_height": 700,
+        "mobile_padding_top": 64,
+        "mobile_padding_bottom": 64,
+        "parallax_strength": 6
+      }
     }
   },
   "order": [
@@ -902,6 +1011,7 @@
     "video_trust_header_9Dpg7U",
     "instagram_social_cards_8q9XxJ",
     "jordy_heroo_6RG4Xg",
-    "video_test_gzdRJR"
+    "video_test_gzdRJR",
+    "jsections_cloudpillo_reviews_Jag3mk"
   ]
 }
