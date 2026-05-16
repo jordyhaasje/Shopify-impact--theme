@@ -1,0 +1,423 @@
+{%- comment -%}
+  JSections - Testimonials #28
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-testimonials-28.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="jtest28 jtest28--{{ section.settings.style_preset }}"
+  style="
+    --jtest28-bg-start: {{ section.settings.gradient_start }};
+    --jtest28-bg-mid: {{ section.settings.gradient_mid }};
+    --jtest28-bg-end: {{ section.settings.gradient_end }};
+    --jtest28-text: {{ section.settings.text_color }};
+    --jtest28-card-bg: {{ section.settings.card_background }};
+    --jtest28-card-border: {{ section.settings.card_border_color }};
+    --jtest28-accent: {{ section.settings.accent_color }};
+    --jtest28-badge-bg: {{ section.settings.badge_background }};
+    --jtest28-badge-text: {{ section.settings.badge_text_color }};
+    --jtest28-button-bg: {{ section.settings.button_background }};
+    --jtest28-button-text: {{ section.settings.button_text_color }};
+    --jtest28-guarantee-bg: {{ section.settings.guarantee_background }};
+    --jtest28-max-width: {{ section.settings.max_width }}px;
+    --jtest28-padding-top: {{ section.settings.padding_top }}px;
+    --jtest28-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --jtest28-columns: {{ section.settings.desktop_columns }};
+    --jtest28-gap: {{ section.settings.card_gap }}px;
+    --jtest28-mobile-width: {{ section.settings.mobile_card_width }}%;
+  "
+  data-jtest28-section="{{ section.id }}"
+  data-jtest28-columns="{{ section.settings.desktop_columns }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="jtest28__inner">
+    {%- if section.settings.show_summary -%}
+      <div class="jtest28__summary">
+        <div class="jtest28__avatars" aria-hidden="true">
+          {%- for index in (1..4) -%}
+            {%- liquid
+              assign avatar_key = 'avatar_' | append: index
+              assign avatar = section.settings[avatar_key]
+            -%}
+            <div class="jtest28__avatar">
+              {%- if avatar != blank -%}
+                {{
+                  avatar
+                  | image_url: width: 160
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '44px',
+                    alt: '',
+                    class: 'jtest28__avatar-image'
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'jtest28__avatar-placeholder' }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="jtest28__summary-content">
+          {%- if section.settings.summary_text != blank -%}
+            <p class="jtest28__summary-text">{{ section.settings.summary_text }}</p>
+          {%- endif -%}
+          <div class="jtest28__summary-rating">
+            <div class="jtest28__stars" aria-label="{{ section.settings.rating_text | escape }}">
+              {%- for i in (1..5) -%}
+                <svg viewBox="0 0 32 32" aria-hidden="true">
+                  <rect width="32" height="32" rx="0" />
+                  <path d="M16 5 18.7 12.4H26.6L20.2 17 22.8 24.7 16 20 9.2 24.7 11.8 17 5.4 12.4H13.3L16 5Z" />
+                </svg>
+              {%- endfor -%}
+            </div>
+            {%- if section.settings.rating_text != blank -%}
+              <p>{{ section.settings.rating_text }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <div class="jtest28__heading">{{ section.settings.heading }}</div>
+    {%- endif -%}
+
+    <div class="jtest28__slider" data-jtest28-slider>
+      <div class="jtest28__track" role="list">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign poster = block.settings.poster
+            assign video = block.settings.video
+            assign image_alt = block.settings.author | default: 'Video testimonial'
+
+            if poster != blank and poster.alt != blank
+              assign image_alt = poster.alt
+            endif
+          -%}
+          <article class="jtest28__card" role="listitem" {{ block.shopify_attributes }}>
+            <div class="jtest28__media">
+              {%- if video != blank -%}
+                {{
+                  video
+                  | video_tag:
+                    image_size: '900x',
+                    autoplay: false,
+                    loop: true,
+                    muted: false,
+                    controls: false,
+                    class: 'jtest28__video'
+                }}
+                <button type="button" class="jtest28__play is-active" aria-label="Play testimonial video">
+                  <svg viewBox="0 0 256 256" aria-hidden="true"><path d="M240 128a15.74 15.74 0 0 1-7.6 13.51L88.32 229.65a16 16 0 0 1-16.2.3A15.86 15.86 0 0 1 64 216.13V39.87a15.86 15.86 0 0 1 8.12-13.82 16 16 0 0 1 16.2.3L232.4 114.49A15.74 15.74 0 0 1 240 128Z"/></svg>
+                </button>
+              {%- elsif poster != blank -%}
+                {{
+                  poster
+                  | image_url: width: 900
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 1024px) 25vw, 78vw',
+                    alt: image_alt,
+                    class: 'jtest28__image'
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'jtest28__placeholder' }}
+              {%- endif -%}
+            </div>
+
+            <div class="jtest28__content">
+              {%- if block.settings.text != blank -%}
+                <div class="jtest28__quote">{{ block.settings.text }}</div>
+              {%- endif -%}
+              <div class="jtest28__bottom">
+                {%- if block.settings.show_stars -%}
+                  <div class="jtest28__card-rating">
+                    <div class="jtest28__stars jtest28__stars--small" aria-hidden="true">
+                      {%- for i in (1..5) -%}
+                        <svg viewBox="0 0 32 32">
+                          <rect width="32" height="32" rx="0" />
+                          <path d="M16 5 18.7 12.4H26.6L20.2 17 22.8 24.7 16 20 9.2 24.7 11.8 17 5.4 12.4H13.3L16 5Z" />
+                        </svg>
+                      {%- endfor -%}
+                    </div>
+                    {%- if block.settings.badge != blank -%}
+                      <span class="jtest28__badge">{{ block.settings.badge }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.author != blank -%}
+                  <p class="jtest28__author">{{ block.settings.author }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.settings.show_arrows and section.blocks.size > 1 -%}
+      <div class="jtest28__arrows">
+        <button type="button" class="jtest28__arrow" aria-label="Previous testimonial" data-jtest28-prev><span aria-hidden="true"></span></button>
+        <button type="button" class="jtest28__arrow" aria-label="Next testimonial" data-jtest28-next><span aria-hidden="true"></span></button>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_button and section.settings.button_label != blank -%}
+      <a class="jtest28__button" href="{{ section.settings.button_link | default: '#' }}">
+        <span>{{ section.settings.button_label }}</span>
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.show_guarantee and section.settings.guarantee_text != blank -%}
+      <div class="jtest28__guarantee">{{ section.settings.guarantee_text }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (() => {
+    const sectionId = {{ section.id | json }};
+    const selector = `[data-jtest28-section="${sectionId}"]`;
+    const registryKey = "jtest28Instances";
+    window[registryKey] = window[registryKey] || {};
+
+    function cleanup() {
+      const instance = window[registryKey][sectionId];
+      if (!instance) return;
+      instance.destroy();
+      delete window[registryKey][sectionId];
+    }
+
+    function init() {
+      const root = document.querySelector(selector);
+      if (!root) return;
+      cleanup();
+
+      const track = root.querySelector(".jtest28__track");
+      const slides = Array.from(root.querySelectorAll(".jtest28__card"));
+      const prev = root.querySelector("[data-jtest28-prev]");
+      const next = root.querySelector("[data-jtest28-next]");
+      const playButtons = Array.from(root.querySelectorAll(".jtest28__play"));
+      let index = 0;
+
+      function visibleCount() {
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+          return Math.max(1, Number(root.dataset.jtest28Columns || 4));
+        }
+        return 1;
+      }
+
+      function maxIndex() {
+        return Math.max(0, slides.length - visibleCount());
+      }
+
+      function update() {
+        index = Math.min(Math.max(index, 0), maxIndex());
+        const gap = parseFloat(getComputedStyle(track).gap || "0");
+        const width = slides[0]?.getBoundingClientRect().width || 0;
+        track.style.transform = `translate3d(${-index * (width + gap)}px, 0, 0)`;
+        if (prev) prev.disabled = index <= 0;
+        if (next) next.disabled = index >= maxIndex();
+      }
+
+      function pauseOthers(activeVideo) {
+        root.querySelectorAll("video").forEach((video) => {
+          if (video === activeVideo) return;
+          video.pause();
+          video.controls = false;
+          const media = video.closest(".jtest28__media");
+          media?.querySelector(".jtest28__play")?.classList.add("is-active");
+        });
+      }
+
+      const onPrev = () => {
+        index -= 1;
+        update();
+      };
+      const onNext = () => {
+        index += 1;
+        update();
+      };
+      const onResize = () => update();
+      const playHandlers = [];
+
+      playButtons.forEach((button) => {
+        const handler = () => {
+          const media = button.closest(".jtest28__media");
+          const video = media?.querySelector("video");
+          if (!video) return;
+          if (video.paused) {
+            pauseOthers(video);
+            video.play();
+            video.controls = true;
+            button.classList.remove("is-active");
+          } else {
+            video.pause();
+            video.controls = false;
+            button.classList.add("is-active");
+          }
+        };
+        button.addEventListener("click", handler);
+        playHandlers.push([button, handler]);
+      });
+
+      root.querySelectorAll("video").forEach((video) => {
+        video.addEventListener("pause", () => {
+          const media = video.closest(".jtest28__media");
+          if (!video.controls) return;
+          media?.querySelector(".jtest28__play")?.classList.add("is-active");
+        });
+      });
+
+      prev?.addEventListener("click", onPrev);
+      next?.addEventListener("click", onNext);
+      window.addEventListener("resize", onResize);
+      update();
+
+      window[registryKey][sectionId] = {
+        destroy() {
+          prev?.removeEventListener("click", onPrev);
+          next?.removeEventListener("click", onNext);
+          window.removeEventListener("resize", onResize);
+          playHandlers.forEach(([button, handler]) => button.removeEventListener("click", handler));
+        }
+      };
+    }
+
+    init();
+    document.addEventListener("shopify:section:load", init);
+    document.addEventListener("shopify:section:unload", (event) => {
+      if (event.detail?.sectionId === sectionId) cleanup();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials #28",
+  "tag": "section",
+  "class": "jsections-testimonials-28",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "header", "content": "Content" },
+    {
+      "type": "select",
+      "id": "style_preset",
+      "label": "Variant preset",
+      "options": [
+        { "value": "green", "label": "Green gradient" },
+        { "value": "orange", "label": "Orange reviews" },
+        { "value": "purple", "label": "Purple gradient" }
+      ],
+      "default": "green"
+    },
+    { "type": "checkbox", "id": "show_summary", "label": "Show review summary", "default": true },
+    { "type": "text", "id": "summary_text", "label": "Summary text", "default": "50K+ Happy Customers" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "Excellent 4.7" },
+    { "type": "image_picker", "id": "avatar_1", "label": "Avatar 1" },
+    { "type": "image_picker", "id": "avatar_2", "label": "Avatar 2" },
+    { "type": "image_picker", "id": "avatar_3", "label": "Avatar 3" },
+    { "type": "image_picker", "id": "avatar_4", "label": "Avatar 4" },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>In <strong>your</strong> own words —</h2>"
+    },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show desktop arrows", "default": true },
+    { "type": "checkbox", "id": "show_button", "label": "Show button", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "SHOP NOW" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "show_guarantee", "label": "Show guarantee", "default": true },
+    { "type": "richtext", "id": "guarantee_text", "label": "Guarantee text", "default": "<p><strong>Money-Back Guarantee</strong></p>" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 1000, "max": 1600, "step": 50, "unit": "px", "default": 1300 },
+    { "type": "range", "id": "desktop_columns", "label": "Desktop cards visible", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "range", "id": "mobile_card_width", "label": "Mobile card width", "min": 65, "max": 90, "step": 1, "unit": "%", "default": 72 },
+    { "type": "range", "id": "card_gap", "label": "Card gap", "min": 6, "max": 30, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 96, "step": 3, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 96, "step": 3, "unit": "px", "default": 36 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "gradient_start", "label": "Gradient start", "default": "#ffffff" },
+    { "type": "color", "id": "gradient_mid", "label": "Gradient middle", "default": "#d9f5e9" },
+    { "type": "color", "id": "gradient_end", "label": "Gradient end", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#121212" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "card_border_color", "label": "Card border", "default": "rgba(0,0,0,0)" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#00b67d" },
+    { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#00b67d" },
+    { "type": "color", "id": "badge_text_color", "label": "Badge text", "default": "#ffffff" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#00b67d" },
+    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#ffffff" },
+    { "type": "color", "id": "guarantee_background", "label": "Guarantee background", "default": "#cbfee8" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Video testimonial",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video" },
+        { "type": "image_picker", "id": "poster", "label": "Image fallback" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Testimonial",
+          "default": "<p>I'm hitting with more power and control than ever before, and my serve has improved dramatically.</p>"
+        },
+        { "type": "text", "id": "author", "label": "Author", "default": "David Smith" },
+        { "type": "checkbox", "id": "show_stars", "label": "Show stars", "default": true },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Verified" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials #28",
+      "blocks": [
+        { "type": "testimonial" },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>It's incredibly lightweight and maneuverable, which allows me to react quickly and hit with more power.</p>",
+            "author": "Michael Wilson"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>They never cease to impress me. The quality of their products is exceptional!</p>",
+            "author": "Kathy Miller"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Finally found the perfect racket! My game has improved significantly since switching.</p>",
+            "author": "Emily Johnson"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>I was impressed by the entire shopping experience. I found exactly what I was looking for in no time.</p>",
+            "author": "Sophia Brown"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>I'm a beginner tennis player, and I was looking for a racket that was both affordable and high-quality.</p>",
+            "author": "Chris Lee"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
