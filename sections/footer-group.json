@@ -11,87 +11,126 @@
   "type": "footer",
   "name": "Footer group",
   "sections": {
-    "jsections_footer_7_xUng6m": {
-      "type": "jsections-footer-7",
+    "jsections_footer_3_zJQpXe": {
+      "type": "jsections-footer-3",
       "blocks": {
-        "link_column_wiwbdX": {
-          "type": "link_column",
+        "menu_column_Nc9EeU": {
+          "type": "menu_column",
           "settings": {
-            "heading": "NAVIGATE",
-            "label_1": "Shop All",
+            "heading": "Popular sections",
+            "label_1": "Circle Menu",
             "link_1": "",
-            "label_2": "New Arrivals",
+            "label_2": "Scrolling Text",
             "link_2": "",
-            "label_3": "Accessories",
+            "label_3": "Feature #1 (FREE)",
             "link_3": "",
-            "label_4": "Caps",
+            "label_4": "FAQ #1 (FREE)",
             "link_4": "",
-            "label_5": "Backpacks",
+            "label_5": "Testimonial Slider",
             "link_5": "",
-            "label_6": "Cardigans",
+            "label_6": "Sections list",
             "link_6": "",
-            "label_7": "Pullovers",
+            "label_7": "",
             "link_7": "",
-            "label_8": "Mugs",
+            "label_8": "",
             "link_8": ""
           }
         },
-        "social_column_eHgzbn": {
-          "type": "social_column",
+        "menu_column_kJ6AJH": {
+          "type": "menu_column",
           "settings": {
-            "heading": "SOCIALS",
-            "label_1": "Instagram",
+            "heading": "Featured Links",
+            "label_1": "Home",
             "link_1": "",
-            "label_2": "Facebook",
+            "label_2": "Contact",
             "link_2": "",
-            "label_3": "Twitter",
+            "label_3": "Feature #1 (FREE)",
             "link_3": "",
-            "label_4": "LinkedIn",
+            "label_4": "FAQ #1 (FREE)",
             "link_4": "",
-            "label_5": "TikTok",
+            "label_5": "Testimonial Slider",
             "link_5": "",
-            "label_6": "",
-            "link_6": ""
+            "label_6": "Sections list",
+            "link_6": "",
+            "label_7": "",
+            "link_7": "",
+            "label_8": "",
+            "link_8": ""
           }
         },
-        "text_column_gkmUah": {
-          "type": "text_column",
+        "menu_column_xRjbLG": {
+          "type": "menu_column",
           "settings": {
-            "heading": "SUPPORT",
-            "text": "<p>We're here M-F 9am - 5pm CET.</p><p>Drop us a note anytime: <strong>help@hazifysections.com</strong></p><p><a href=\"#\">Cookie Preferences</a></p><p>© Hazify Sections 2026</p>"
+            "heading": "Featured Links",
+            "label_1": "Home",
+            "link_1": "",
+            "label_2": "Contact",
+            "link_2": "",
+            "label_3": "Feature #1 (FREE)",
+            "link_3": "",
+            "label_4": "FAQ #1 (FREE)",
+            "link_4": "",
+            "label_5": "Testimonial Slider",
+            "link_5": "",
+            "label_6": "Sections list",
+            "link_6": "",
+            "label_7": "",
+            "link_7": "",
+            "label_8": "",
+            "link_8": ""
+          }
+        },
+        "social_column_z7hfYD": {
+          "type": "social_column",
+          "settings": {
+            "heading": "Let's be social",
+            "label_1": "X",
+            "link_1": "",
+            "label_2": "LinkedIn",
+            "link_2": "",
+            "label_3": "Instagram",
+            "link_3": "",
+            "label_4": "YouTube",
+            "link_4": "",
+            "label_5": "Pinterest",
+            "link_5": ""
           }
         }
       },
       "block_order": [
-        "link_column_wiwbdX",
-        "social_column_eHgzbn",
-        "text_column_gkmUah"
+        "menu_column_Nc9EeU",
+        "menu_column_kJ6AJH",
+        "menu_column_xRjbLG",
+        "social_column_z7hfYD"
       ],
-      "name": "Footer #7",
+      "name": "Footer #3",
       "settings": {
-        "style_preset": "greige",
-        "background_color": "#f1f0ed",
-        "text_color": "#84827e",
-        "muted_color": "#84827e",
-        "logo_color": "#67645e",
-        "divider_color": "#84827e",
-        "card_radius": 12,
-        "margin_x": 3,
+        "style_preset": "subtle",
+        "background_color": "#fafafa",
+        "text_color": "#121212",
+        "muted_color": "#505152",
+        "border_color": "#121212",
+        "max_width": 1600,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "logo_image": "shopify://shop_images/HS_logo.png",
         "brand_text": "Hazify Sections",
-        "brand_link": "",
-        "logo_size": 112,
-        "logo_size_mobile": 48,
-        "newsletter_text": "<p>Subscribe to our newsletter for weekly excerpts, exclusive content, and special offers delivered straight to your inbox.</p>",
+        "logo_mark": "H",
+        "logo_alt": "Hazify Sections",
+        "logo_link": "",
+        "logo_width": 100,
+        "logo_width_mobile": 80,
         "show_newsletter": true,
-        "newsletter_placeholder": "Email Address",
-        "newsletter_button": "SUBSCRIBE",
-        "newsletter_success": "Thanks for subscribing.",
-        "privacy_text": "<p>By signing up, you agree to our <a href=\"#\">Privacy Policy*.</a></p>",
-        "input_background": "#ffffff",
-        "button_background": "#ffffff",
-        "button_text_color": "#84827e",
-        "button_hover_background": "#84827e",
-        "button_hover_text_color": "#ffffff"
+        "newsletter_placeholder": "Email",
+        "newsletter_button": "Join",
+        "newsletter_success": "Thanks for joining.",
+        "input_background": "rgba(0,0,0,0)",
+        "button_background": "#121212",
+        "button_text_color": "#ffffff",
+        "button_hover_background": "#121212",
+        "button_hover_text_color": "#ffffff",
+        "legal_text": "<p><a href=\"#\">Privacy Policy</a></p><p><a href=\"#\">Terms of Service</a></p>",
+        "copyright_text": "<p>© 2026, Hazify Sections</p>"
       }
     },
     "footer": {
@@ -138,7 +177,7 @@
     }
   },
   "order": [
-    "jsections_footer_7_xUng6m",
+    "jsections_footer_3_zJQpXe",
     "footer"
   ]
 }
