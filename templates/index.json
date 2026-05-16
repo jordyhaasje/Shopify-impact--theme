@@ -988,11 +988,80 @@
         "review_count": "31106",
         "summary_label": "beoordelingen op",
         "trustpilot_profile_url": "",
-        "section_background": "#ECEBE4",
+        "section_background": "#ecebe4",
         "desktop_min_height": 700,
         "mobile_padding_top": 64,
         "mobile_padding_bottom": 64,
         "parallax_strength": 6
+      }
+    },
+    "jsections_stats_3_nzAXxP": {
+      "type": "jsections-stats-3",
+      "blocks": {
+        "stat_card_WeCQpC": {
+          "type": "stat_card",
+          "settings": {
+            "fallback_style": "glow",
+            "title": "Glow without makeup",
+            "stat_number": "86",
+            "stat_suffix": "%",
+            "stat_text": "reported a healthier-looking glow after adding it to their morning ritual.",
+            "link": ""
+          }
+        },
+        "stat_card_DDnhQW": {
+          "type": "stat_card",
+          "settings": {
+            "fallback_style": "cream",
+            "title": "Smoother texture",
+            "stat_number": "92",
+            "stat_suffix": "%",
+            "stat_text": "said their skin felt softer and looked more even after two weeks.",
+            "link": ""
+          }
+        },
+        "stat_card_VyPgtK": {
+          "type": "stat_card",
+          "settings": {
+            "fallback_style": "texture",
+            "title": "Layers beautifully",
+            "stat_number": "89",
+            "stat_suffix": "%",
+            "stat_text": "said it sat well under moisturizer without pilling or feeling heavy.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "stat_card_WeCQpC",
+        "stat_card_DDnhQW",
+        "stat_card_VyPgtK"
+      ],
+      "name": "Stats #3",
+      "settings": {
+        "heading": "Why this serum earns a spot in the routine",
+        "heading_alignment": "center",
+        "max_width": 1180,
+        "desktop_columns": 3,
+        "card_gap": 22,
+        "mobile_card_width": 288,
+        "image_ratio": "1 / 1",
+        "padding_top": 44,
+        "padding_bottom": 44,
+        "panel_padding": 48,
+        "heading_size": 46,
+        "heading_size_mobile": 30,
+        "stat_size": 31,
+        "section_background": "#ffffff",
+        "panel_background": "#fbf5ed",
+        "panel_border_color": "#eadfd2",
+        "card_background": "#fffaf4",
+        "stat_background": "#ffffff",
+        "text_color": "#302928",
+        "muted_text_color": "#5f5651",
+        "panel_radius": 24,
+        "card_radius": 22,
+        "image_radius": 14
       }
     }
   },
@@ -1012,6 +1081,7 @@
     "instagram_social_cards_8q9XxJ",
     "jordy_heroo_6RG4Xg",
     "video_test_gzdRJR",
-    "jsections_cloudpillo_reviews_Jag3mk"
+    "jsections_cloudpillo_reviews_Jag3mk",
+    "jsections_stats_3_nzAXxP"
   ]
 }
