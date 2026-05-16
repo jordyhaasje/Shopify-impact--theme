@@ -1,1 +1,168 @@
-{"type":"custom.overlay","name":"Overlay group","sections":{"newsletter-popup":{"type":"newsletter-popup","settings":{}},"privacy-banner":{"type":"privacy-banner","settings":{}},"cart-drawer":{"type":"cart-drawer","settings":{"show_cart_note":true,"show_shipping_text":true,"show_checkout_button":true,"product_card_background":"#f2f2f2"}},"search-drawer":{"type":"search-drawer","settings":{"full_width":false,"show_article_category":true}}},"order":["newsletter-popup","privacy-banner","cart-drawer","search-drawer"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "custom.overlay",
+  "name": "Overlay group",
+  "sections": {
+    "newsletter-popup": {
+      "type": "newsletter-popup",
+      "settings": {
+        "apparition_delay": 5,
+        "show_only_on_index": true,
+        "show_only_for_visitors": true,
+        "show_only_once": true,
+        "title": "Signup for our newsletter",
+        "button_text": "Subscribe",
+        "subtext": "Describe what your customers will receive when subscribing to your newsletter."
+      }
+    },
+    "privacy-banner": {
+      "type": "privacy-banner",
+      "settings": {
+        "privacy_bar_title": "Cookie policy",
+        "privacy_bar_content": "<p>We use cookies and similar technologies to provide the best experience on our website. Refer to our Privacy Policy for more information.</p>"
+      }
+    },
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": {
+        "show_cart_note": true,
+        "show_shipping_text": true,
+        "show_view_cart_button": true,
+        "show_checkout_button": true,
+        "recommendations_title": "Trending this month",
+        "products": [],
+        "product_card_background": "#f2f2f2",
+        "product_card_text_color": ""
+      }
+    },
+    "search-drawer": {
+      "type": "search-drawer",
+      "settings": {
+        "full_width": false,
+        "show_article_category": true,
+        "search_menu": "",
+        "search_menu_show_title": true
+      }
+    },
+    "jsections_testimonials_28_WtaFir": {
+      "type": "jsections-testimonials-28",
+      "blocks": {
+        "testimonial_fwz8Un": {
+          "type": "testimonial",
+          "settings": {
+            "video": "shopify://files/videos/6006770_Advertising_App_3840x2160.mp4",
+            "text": "<p>I'm hitting with more power and control than ever before, and my serve has improved dramatically.</p>",
+            "author": "David Smith",
+            "show_stars": true,
+            "badge": "Verified"
+          }
+        },
+        "testimonial_9JQYqq": {
+          "type": "testimonial",
+          "settings": {
+            "poster": "shopify://shop_images/IMG_1550.webp",
+            "text": "<p>It's incredibly lightweight and maneuverable, which allows me to react quickly and hit with more power.</p>",
+            "author": "Michael Wilson",
+            "show_stars": true,
+            "badge": "Verified"
+          }
+        },
+        "testimonial_P3TUUh": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>They never cease to impress me. The quality of their products is exceptional!</p>",
+            "author": "Kathy Miller",
+            "show_stars": true,
+            "badge": "Verified"
+          }
+        },
+        "testimonial_UJGVBh": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Finally found the perfect racket! My game has improved significantly since switching.</p>",
+            "author": "Emily Johnson",
+            "show_stars": true,
+            "badge": "Verified"
+          }
+        },
+        "testimonial_LAnCfU": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>I was impressed by the entire shopping experience. I found exactly what I was looking for in no time.</p>",
+            "author": "Sophia Brown",
+            "show_stars": true,
+            "badge": "Verified"
+          }
+        },
+        "testimonial_8JWmGt": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>I'm a beginner tennis player, and I was looking for a racket that was both affordable and high-quality.</p>",
+            "author": "Chris Lee",
+            "show_stars": true,
+            "badge": "Verified"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_fwz8Un",
+        "testimonial_9JQYqq",
+        "testimonial_P3TUUh",
+        "testimonial_UJGVBh",
+        "testimonial_LAnCfU",
+        "testimonial_8JWmGt"
+      ],
+      "name": "Testimonials #28",
+      "settings": {
+        "style_preset": "green",
+        "show_summary": true,
+        "summary_text": "50K+ Happy Customers",
+        "rating_text": "Excellent 4.7",
+        "avatar_1": "shopify://shop_images/IMG_1549.webp",
+        "avatar_2": "shopify://shop_images/IMG_1548.webp",
+        "avatar_3": "shopify://shop_images/IMG_1550.webp",
+        "avatar_4": "shopify://shop_images/IMG_1548.webp",
+        "heading": "<h2>In <strong>your</strong> own words —</h2>",
+        "show_arrows": true,
+        "show_button": true,
+        "button_label": "SHOP NOW",
+        "button_link": "",
+        "show_guarantee": true,
+        "guarantee_text": "<p><strong>Money-Back Guarantee</strong></p>",
+        "max_width": 1300,
+        "desktop_columns": 4,
+        "mobile_card_width": 72,
+        "card_gap": 14,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "gradient_start": "#ffffff",
+        "gradient_mid": "#d9f5e9",
+        "gradient_end": "#ffffff",
+        "text_color": "#121212",
+        "card_background": "#ffffff",
+        "card_border_color": "rgba(0,0,0,0)",
+        "accent_color": "#00b67d",
+        "badge_background": "#00b67d",
+        "badge_text_color": "#ffffff",
+        "button_background": "#00b67d",
+        "button_text_color": "#ffffff",
+        "guarantee_background": "#cbfee8"
+      }
+    }
+  },
+  "order": [
+    "newsletter-popup",
+    "privacy-banner",
+    "cart-drawer",
+    "search-drawer",
+    "jsections_testimonials_28_WtaFir"
+  ]
+}
