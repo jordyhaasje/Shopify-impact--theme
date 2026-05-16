@@ -995,75 +995,92 @@
         "parallax_strength": 6
       }
     },
-    "jsections_stats_3_nzAXxP": {
-      "type": "jsections-stats-3",
+    "jsections_cloudpillo_collections_FBfWKM": {
+      "type": "jsections-cloudpillo-collections",
       "blocks": {
-        "stat_card_WeCQpC": {
-          "type": "stat_card",
+        "collection_card_QncG9U": {
+          "type": "collection_card",
           "settings": {
-            "image": "shopify://shop_images/IMG_1548.webp",
-            "fallback_style": "glow",
-            "title": "Glow without makeup",
-            "stat_number": "86",
-            "stat_suffix": "%",
-            "stat_text": "reported a healthier-looking glow after adding it to their morning ritual.",
-            "link": ""
+            "title": "Spring deals",
+            "link": "/nl-nl/collections/bestsellers",
+            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/spring-deals.jpg",
+            "image_alt": ""
           }
         },
-        "stat_card_DDnhQW": {
-          "type": "stat_card",
+        "collection_card_gNbz8V": {
+          "type": "collection_card",
           "settings": {
-            "image": "shopify://shop_images/IMG_1549.webp",
-            "fallback_style": "cream",
-            "title": "Smoother texture",
-            "stat_number": "92",
-            "stat_suffix": "%",
-            "stat_text": "said their skin felt softer and looked more even after two weeks.",
-            "link": ""
+            "title": "Toppers",
+            "link": "/nl-nl/collections/topmatrassen",
+            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/toppers.jpg",
+            "image_alt": ""
           }
         },
-        "stat_card_VyPgtK": {
-          "type": "stat_card",
+        "collection_card_YN9Ugb": {
+          "type": "collection_card",
           "settings": {
-            "fallback_style": "texture",
-            "title": "Layers beautifully",
-            "stat_number": "89",
-            "stat_suffix": "%",
-            "stat_text": "said it sat well under moisturizer without pilling or feeling heavy.",
-            "link": ""
+            "title": "Hoofdkussens",
+            "link": "/nl-nl/collections/hoofdkussens",
+            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/hoofdkussens.jpg",
+            "image_alt": ""
+          }
+        },
+        "collection_card_DHwGKK": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Matrassen",
+            "link": "/nl-nl/collections/matrassen",
+            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/matrassen.jpg",
+            "image_alt": ""
+          }
+        },
+        "collection_card_YaNbPw": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Beddengoed",
+            "link": "/nl-nl/collections/beddengoed",
+            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/beddengoed.jpg",
+            "image_alt": ""
+          }
+        },
+        "collection_card_bRwarW": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Dekbedden",
+            "link": "/nl-nl/collections/dekbedden",
+            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/dekbedden.jpg",
+            "image_alt": ""
           }
         }
       },
       "block_order": [
-        "stat_card_WeCQpC",
-        "stat_card_DDnhQW",
-        "stat_card_VyPgtK"
+        "collection_card_QncG9U",
+        "collection_card_gNbz8V",
+        "collection_card_YN9Ugb",
+        "collection_card_DHwGKK",
+        "collection_card_YaNbPw",
+        "collection_card_bRwarW"
       ],
-      "name": "Stats #3",
+      "name": "Cloudpillo Collections",
       "settings": {
-        "heading": "Why this serum earns a spot in the routine",
-        "heading_alignment": "center",
-        "max_width": 1180,
-        "desktop_columns": 3,
-        "card_gap": 22,
-        "mobile_card_width": 288,
-        "image_ratio": "1 / 1",
-        "padding_top": 44,
-        "padding_bottom": 44,
-        "panel_padding": 48,
-        "heading_size": 46,
-        "heading_size_mobile": 30,
-        "stat_size": 31,
-        "section_background": "#ffffff",
-        "panel_background": "#fbf5ed",
-        "panel_border_color": "#eadfd2",
-        "card_background": "#fffaf4",
-        "stat_background": "#ffffff",
-        "text_color": "#302928",
-        "muted_text_color": "#5f5651",
-        "panel_radius": 24,
-        "card_radius": 22,
-        "image_radius": 14
+        "heading_prefix": "Ontdek onze",
+        "heading_emphasis": "collecties",
+        "max_width": 1390,
+        "card_width": 334,
+        "card_gap": 8,
+        "card_radius": 12,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "mobile_padding_top": 40,
+        "mobile_padding_bottom": 40,
+        "section_background": "#f4f4f1",
+        "text_color": "#191d23",
+        "card_title_color": "#ffffff",
+        "show_arrows": true,
+        "enable_hover_zoom": true,
+        "enable_entrance_animation": true,
+        "previous_label": "Vorige collectie",
+        "next_label": "Volgende collectie"
       }
     }
   },
@@ -1084,6 +1101,6 @@
     "jordy_heroo_6RG4Xg",
     "video_test_gzdRJR",
     "jsections_cloudpillo_reviews_Jag3mk",
-    "jsections_stats_3_nzAXxP"
+    "jsections_cloudpillo_collections_FBfWKM"
   ]
 }
