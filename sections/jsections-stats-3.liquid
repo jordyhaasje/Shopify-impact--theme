@@ -1,0 +1,461 @@
+{%- comment -%}
+  JSections - Stats #3
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-stats-3.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign card_count = section.blocks.size
+  assign desktop_columns = section.settings.desktop_columns
+
+  if card_count > 0
+    assign desktop_columns = desktop_columns | at_most: card_count
+  endif
+-%}
+
+<div
+  class="jstats3"
+  style="
+    --jstats3-section-bg: {{ section.settings.section_background }};
+    --jstats3-panel-bg: {{ section.settings.panel_background }};
+    --jstats3-panel-border: {{ section.settings.panel_border_color }};
+    --jstats3-text: {{ section.settings.text_color }};
+    --jstats3-muted: {{ section.settings.muted_text_color }};
+    --jstats3-card-bg: {{ section.settings.card_background }};
+    --jstats3-stat-bg: {{ section.settings.stat_background }};
+    --jstats3-max-width: {{ section.settings.max_width }}px;
+    --jstats3-columns: {{ desktop_columns }};
+    --jstats3-gap: {{ section.settings.card_gap }}px;
+    --jstats3-padding-top: {{ section.settings.padding_top }}px;
+    --jstats3-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --jstats3-panel-padding: {{ section.settings.panel_padding }}px;
+    --jstats3-panel-radius: {{ section.settings.panel_radius }}px;
+    --jstats3-card-radius: {{ section.settings.card_radius }}px;
+    --jstats3-image-radius: {{ section.settings.image_radius }}px;
+    --jstats3-image-ratio: {{ section.settings.image_ratio }};
+    --jstats3-heading-size: {{ section.settings.heading_size }}px;
+    --jstats3-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --jstats3-stat-size: {{ section.settings.stat_size }}px;
+    --jstats3-mobile-card-width: {{ section.settings.mobile_card_width }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="jstats3__panel">
+    {%- if heading != blank -%}
+      <div class="jstats3__header jstats3__header--{{ section.settings.heading_alignment }}">
+        <h2 class="jstats3__heading">{{ heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="jstats3__cards" role="list">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign card_image = block.settings.image
+            assign card_title = block.settings.title
+            assign stat_number = block.settings.stat_number
+            assign stat_suffix = block.settings.stat_suffix
+            assign stat_text = block.settings.stat_text
+            assign fallback_style = block.settings.fallback_style
+            assign image_alt = card_title
+
+            if card_image != blank and card_image.alt != blank
+              assign image_alt = card_image.alt
+            endif
+          -%}
+          <article class="jstats3__card" role="listitem" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a class="jstats3__media-link" href="{{ block.settings.link }}" aria-label="{{ card_title | escape }}">
+            {%- endif -%}
+            <div class="jstats3__media jstats3__media--{{ fallback_style }}">
+              {%- if card_image != blank -%}
+                {{
+                  card_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 33vw, 78vw',
+                    alt: image_alt,
+                    class: 'jstats3__image'
+                }}
+              {%- else -%}
+                <span class="jstats3__fallback" aria-hidden="true">
+                  <span class="jstats3__fallback-orb jstats3__fallback-orb--one"></span>
+                  <span class="jstats3__fallback-orb jstats3__fallback-orb--two"></span>
+                  <span class="jstats3__fallback-line jstats3__fallback-line--one"></span>
+                  <span class="jstats3__fallback-line jstats3__fallback-line--two"></span>
+                </span>
+                <span class="jstats3__visually-hidden">{{ image_alt }}</span>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
+
+            {%- if card_title != blank -%}
+              <h3 class="jstats3__card-title">{{ card_title }}</h3>
+            {%- endif -%}
+
+            <div class="jstats3__stat">
+              <div class="jstats3__stat-value" aria-label="{{ stat_number | append: stat_suffix | escape }}">
+                <span>{{ stat_number }}</span>
+                {%- if stat_suffix != blank -%}
+                  <small>{{ stat_suffix }}</small>
+                {%- endif -%}
+              </div>
+              {%- if stat_text != blank -%}
+                <div class="jstats3__stat-copy">{{ stat_text }}</div>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for index in (1..3) -%}
+          <article class="jstats3__card" role="listitem">
+            <div class="jstats3__media jstats3__media--glow">
+              <span class="jstats3__fallback" aria-hidden="true">
+                <span class="jstats3__fallback-orb jstats3__fallback-orb--one"></span>
+                <span class="jstats3__fallback-orb jstats3__fallback-orb--two"></span>
+                <span class="jstats3__fallback-line jstats3__fallback-line--one"></span>
+                <span class="jstats3__fallback-line jstats3__fallback-line--two"></span>
+              </span>
+            </div>
+            <h3 class="jstats3__card-title">Add your best stat</h3>
+            <div class="jstats3__stat">
+              <div class="jstats3__stat-value"><span>0</span><small>%</small></div>
+              <div class="jstats3__stat-copy">Share a proof point that helps shoppers buy with confidence.</div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Stats #3",
+  "tag": "section",
+  "class": "jsections-stats-3",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why this serum earns a spot in the routine"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 900,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1180
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "mobile_card_width",
+      "label": "Mobile card width",
+      "min": 240,
+      "max": 340,
+      "step": 4,
+      "unit": "px",
+      "default": 288
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 3", "label": "Landscape" },
+        { "value": "4 / 5", "label": "Portrait" }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "panel_padding",
+      "label": "Panel padding",
+      "min": 20,
+      "max": 90,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 28,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size (mobile)",
+      "min": 22,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "stat_size",
+      "label": "Stat size",
+      "min": 22,
+      "max": 54,
+      "step": 1,
+      "unit": "px",
+      "default": 31
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "panel_background",
+      "label": "Panel background",
+      "default": "#fbf5ed"
+    },
+    {
+      "type": "color",
+      "id": "panel_border_color",
+      "label": "Panel border",
+      "default": "#eadfd2"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#fffaf4"
+    },
+    {
+      "type": "color",
+      "id": "stat_background",
+      "label": "Stat box background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#302928"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5f5651"
+    },
+    {
+      "type": "range",
+      "id": "panel_radius",
+      "label": "Panel radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card radius",
+      "min": 0,
+      "max": 34,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image radius",
+      "min": 0,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat_card",
+      "name": "Stat card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "fallback_style",
+          "label": "Fallback image style",
+          "options": [
+            { "value": "glow", "label": "Glow" },
+            { "value": "cream", "label": "Cream" },
+            { "value": "texture", "label": "Texture" }
+          ],
+          "default": "glow"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Glow without makeup"
+        },
+        {
+          "type": "text",
+          "id": "stat_number",
+          "label": "Stat number",
+          "default": "86"
+        },
+        {
+          "type": "text",
+          "id": "stat_suffix",
+          "label": "Stat suffix",
+          "default": "%"
+        },
+        {
+          "type": "textarea",
+          "id": "stat_text",
+          "label": "Stat text",
+          "default": "reported a healthier-looking glow after adding it to their morning ritual."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional card link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stats #3",
+      "blocks": [
+        {
+          "type": "stat_card",
+          "settings": {
+            "fallback_style": "glow",
+            "title": "Glow without makeup",
+            "stat_number": "86",
+            "stat_suffix": "%",
+            "stat_text": "reported a healthier-looking glow after adding it to their morning ritual."
+          }
+        },
+        {
+          "type": "stat_card",
+          "settings": {
+            "fallback_style": "cream",
+            "title": "Smoother texture",
+            "stat_number": "92",
+            "stat_suffix": "%",
+            "stat_text": "said their skin felt softer and looked more even after two weeks."
+          }
+        },
+        {
+          "type": "stat_card",
+          "settings": {
+            "fallback_style": "texture",
+            "title": "Layers beautifully",
+            "stat_number": "89",
+            "stat_suffix": "%",
+            "stat_text": "said it sat well under moisturizer without pilling or feeling heavy."
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
