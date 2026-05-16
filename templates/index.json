@@ -1001,6 +1001,7 @@
         "stat_card_WeCQpC": {
           "type": "stat_card",
           "settings": {
+            "image": "shopify://shop_images/IMG_1548.webp",
             "fallback_style": "glow",
             "title": "Glow without makeup",
             "stat_number": "86",
@@ -1012,6 +1013,7 @@
         "stat_card_DDnhQW": {
           "type": "stat_card",
           "settings": {
+            "image": "shopify://shop_images/IMG_1549.webp",
             "fallback_style": "cream",
             "title": "Smoother texture",
             "stat_number": "92",
