@@ -995,92 +995,104 @@
         "parallax_strength": 6
       }
     },
-    "jsections_cloudpillo_collections_FBfWKM": {
-      "type": "jsections-cloudpillo-collections",
+    "jsections_testimonials_28_zfKcLe": {
+      "type": "jsections-testimonials-28",
       "blocks": {
-        "collection_card_QncG9U": {
-          "type": "collection_card",
+        "testimonial_egze9V": {
+          "type": "testimonial",
           "settings": {
-            "title": "Spring deals",
-            "link": "/nl-nl/collections/bestsellers",
-            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/spring-deals.jpg",
-            "image_alt": ""
+            "video": "shopify://files/videos/video2.mov",
+            "text": "<p>I'm hitting with more power and control than ever before, and my serve has improved dramatically.</p>",
+            "author": "David Smith",
+            "show_stars": true,
+            "badge": "Verified"
           }
         },
-        "collection_card_gNbz8V": {
-          "type": "collection_card",
+        "testimonial_iFnLHA": {
+          "type": "testimonial",
           "settings": {
-            "title": "Toppers",
-            "link": "/nl-nl/collections/topmatrassen",
-            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/toppers.jpg",
-            "image_alt": ""
+            "text": "<p>It's incredibly lightweight and maneuverable, which allows me to react quickly and hit with more power.</p>",
+            "author": "Michael Wilson",
+            "show_stars": true,
+            "badge": "Verified"
           }
         },
-        "collection_card_YN9Ugb": {
-          "type": "collection_card",
+        "testimonial_j9mHNy": {
+          "type": "testimonial",
           "settings": {
-            "title": "Hoofdkussens",
-            "link": "/nl-nl/collections/hoofdkussens",
-            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/hoofdkussens.jpg",
-            "image_alt": ""
+            "text": "<p>They never cease to impress me. The quality of their products is exceptional!</p>",
+            "author": "Kathy Miller",
+            "show_stars": true,
+            "badge": "Verified"
           }
         },
-        "collection_card_DHwGKK": {
-          "type": "collection_card",
+        "testimonial_yV7tNL": {
+          "type": "testimonial",
           "settings": {
-            "title": "Matrassen",
-            "link": "/nl-nl/collections/matrassen",
-            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/matrassen.jpg",
-            "image_alt": ""
+            "text": "<p>Finally found the perfect racket! My game has improved significantly since switching.</p>",
+            "author": "Emily Johnson",
+            "show_stars": true,
+            "badge": "Verified"
           }
         },
-        "collection_card_YaNbPw": {
-          "type": "collection_card",
+        "testimonial_W7L6Kj": {
+          "type": "testimonial",
           "settings": {
-            "title": "Beddengoed",
-            "link": "/nl-nl/collections/beddengoed",
-            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/beddengoed.jpg",
-            "image_alt": ""
+            "text": "<p>I was impressed by the entire shopping experience. I found exactly what I was looking for in no time.</p>",
+            "author": "Sophia Brown",
+            "show_stars": true,
+            "badge": "Verified"
           }
         },
-        "collection_card_bRwarW": {
-          "type": "collection_card",
+        "testimonial_hJdqNL": {
+          "type": "testimonial",
           "settings": {
-            "title": "Dekbedden",
-            "link": "/nl-nl/collections/dekbedden",
-            "fallback_image_url": "https://sections-studio-web-production.up.railway.app/section-assets/cloudpillo-collections/dekbedden.jpg",
-            "image_alt": ""
+            "text": "<p>I'm a beginner tennis player, and I was looking for a racket that was both affordable and high-quality.</p>",
+            "author": "Chris Lee",
+            "show_stars": true,
+            "badge": "Verified"
           }
         }
       },
       "block_order": [
-        "collection_card_QncG9U",
-        "collection_card_gNbz8V",
-        "collection_card_YN9Ugb",
-        "collection_card_DHwGKK",
-        "collection_card_YaNbPw",
-        "collection_card_bRwarW"
+        "testimonial_egze9V",
+        "testimonial_iFnLHA",
+        "testimonial_j9mHNy",
+        "testimonial_yV7tNL",
+        "testimonial_W7L6Kj",
+        "testimonial_hJdqNL"
       ],
-      "name": "Cloudpillo Collections",
+      "name": "Testimonials #28",
       "settings": {
-        "heading_prefix": "Ontdek onze",
-        "heading_emphasis": "collecties",
-        "max_width": 1390,
-        "card_width": 334,
-        "card_gap": 8,
-        "card_radius": 12,
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "mobile_padding_top": 40,
-        "mobile_padding_bottom": 40,
-        "section_background": "#f4f4f1",
-        "text_color": "#191d23",
-        "card_title_color": "#ffffff",
+        "style_preset": "green",
+        "show_summary": true,
+        "summary_text": "50K+ Happy Customers",
+        "rating_text": "Excellent 4.7",
+        "heading": "<h2>In <strong>your</strong> own words —</h2>",
         "show_arrows": true,
-        "enable_hover_zoom": true,
-        "enable_entrance_animation": true,
-        "previous_label": "Vorige collectie",
-        "next_label": "Volgende collectie"
+        "show_button": true,
+        "button_label": "SHOP NOW",
+        "button_link": "",
+        "show_guarantee": true,
+        "guarantee_text": "<p><strong>Money-Back Guarantee</strong></p>",
+        "max_width": 1300,
+        "desktop_columns": 4,
+        "mobile_card_width": 72,
+        "card_gap": 14,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "gradient_start": "#ffffff",
+        "gradient_mid": "#d9f5e9",
+        "gradient_end": "#ffffff",
+        "text_color": "#121212",
+        "card_background": "#ffffff",
+        "card_border_color": "rgba(0,0,0,0)",
+        "accent_color": "#00b67d",
+        "badge_background": "#00b67d",
+        "badge_text_color": "#ffffff",
+        "button_background": "#00b67d",
+        "button_text_color": "#ffffff",
+        "guarantee_background": "#cbfee8"
       }
     }
   },
@@ -1101,6 +1113,6 @@
     "jordy_heroo_6RG4Xg",
     "video_test_gzdRJR",
     "jsections_cloudpillo_reviews_Jag3mk",
-    "jsections_cloudpillo_collections_FBfWKM"
+    "jsections_testimonials_28_zfKcLe"
   ]
 }

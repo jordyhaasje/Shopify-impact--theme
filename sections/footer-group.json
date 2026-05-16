@@ -11,6 +11,89 @@
   "type": "footer",
   "name": "Footer group",
   "sections": {
+    "jsections_footer_7_xUng6m": {
+      "type": "jsections-footer-7",
+      "blocks": {
+        "link_column_wiwbdX": {
+          "type": "link_column",
+          "settings": {
+            "heading": "NAVIGATE",
+            "label_1": "Shop All",
+            "link_1": "",
+            "label_2": "New Arrivals",
+            "link_2": "",
+            "label_3": "Accessories",
+            "link_3": "",
+            "label_4": "Caps",
+            "link_4": "",
+            "label_5": "Backpacks",
+            "link_5": "",
+            "label_6": "Cardigans",
+            "link_6": "",
+            "label_7": "Pullovers",
+            "link_7": "",
+            "label_8": "Mugs",
+            "link_8": ""
+          }
+        },
+        "social_column_eHgzbn": {
+          "type": "social_column",
+          "settings": {
+            "heading": "SOCIALS",
+            "label_1": "Instagram",
+            "link_1": "",
+            "label_2": "Facebook",
+            "link_2": "",
+            "label_3": "Twitter",
+            "link_3": "",
+            "label_4": "LinkedIn",
+            "link_4": "",
+            "label_5": "TikTok",
+            "link_5": "",
+            "label_6": "",
+            "link_6": ""
+          }
+        },
+        "text_column_gkmUah": {
+          "type": "text_column",
+          "settings": {
+            "heading": "SUPPORT",
+            "text": "<p>We're here M-F 9am - 5pm CET.</p><p>Drop us a note anytime: <strong>help@hazifysections.com</strong></p><p><a href=\"#\">Cookie Preferences</a></p><p>© Hazify Sections 2026</p>"
+          }
+        }
+      },
+      "block_order": [
+        "link_column_wiwbdX",
+        "social_column_eHgzbn",
+        "text_column_gkmUah"
+      ],
+      "name": "Footer #7",
+      "settings": {
+        "style_preset": "greige",
+        "background_color": "#f1f0ed",
+        "text_color": "#84827e",
+        "muted_color": "#84827e",
+        "logo_color": "#67645e",
+        "divider_color": "#84827e",
+        "card_radius": 12,
+        "margin_x": 3,
+        "brand_text": "Hazify Sections",
+        "brand_link": "",
+        "logo_size": 112,
+        "logo_size_mobile": 48,
+        "newsletter_text": "<p>Subscribe to our newsletter for weekly excerpts, exclusive content, and special offers delivered straight to your inbox.</p>",
+        "show_newsletter": true,
+        "newsletter_placeholder": "Email Address",
+        "newsletter_button": "SUBSCRIBE",
+        "newsletter_success": "Thanks for subscribing.",
+        "privacy_text": "<p>By signing up, you agree to our <a href=\"#\">Privacy Policy*.</a></p>",
+        "input_background": "#ffffff",
+        "button_background": "#ffffff",
+        "button_text_color": "#84827e",
+        "button_hover_background": "#84827e",
+        "button_hover_text_color": "#ffffff"
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -55,6 +138,7 @@
     }
   },
   "order": [
+    "jsections_footer_7_xUng6m",
     "footer"
   ]
 }
