@@ -1,0 +1,1010 @@
+{% liquid
+  assign section_id = section.id
+  assign slide_count = section.blocks.size
+%}
+
+<div id="shopify-section-{{ section_id }}" class="her-o3" data-section-id="{{ section_id }}" data-section-type="her-o3-slider">
+  <div class="her-o3__slider" data-slider>
+    <div class="her-o3__track" data-track style="--slide-count: {{ slide_count }};">
+      {% for block in section.blocks %}
+        {% if block.type == 'slide' %}
+          <div class="her-o3__slide" data-slide data-section-slide {{ block.shopify_attributes }}>
+            <div class="her-o3__media">
+              {% if block.settings.image != blank %}
+                {% if block.settings.mobile_image != blank %}
+                  <div class="her-o3__media-desktop">
+                    {{ block.settings.image | image_url: width: 2400 | image_tag:
+                      class: 'her-o3__image',
+                      widths: '750, 1100, 1500, 1800, 2200, 2400',
+                      sizes: '100vw',
+                      loading: 'lazy',
+                      alt: block.settings.image.alt | escape
+                    }}
+                  </div>
+                  <div class="her-o3__media-mobile">
+                    {{ block.settings.mobile_image | image_url: width: 1200 | image_tag:
+                      class: 'her-o3__image',
+                      widths: '375, 550, 750, 1100',
+                      sizes: '100vw',
+                      loading: 'lazy',
+                      alt: block.settings.mobile_image.alt | escape
+                    }}
+                  </div>
+                {% else %}
+                  {{ block.settings.image | image_url: width: 2400 | image_tag:
+                    class: 'her-o3__image',
+                    widths: '750, 1100, 1500, 1800, 2200, 2400',
+                    sizes: '100vw',
+                    loading: 'lazy',
+                    alt: block.settings.image.alt | escape
+                  }}
+                {% endif %}
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'her-o3__image her-o3__image--placeholder' }}
+              {% endif %}
+              <div class="her-o3__overlay"></div>
+            </div>
+
+            <div class="her-o3__content">
+              <div class="her-o3__content-inner">
+                {% if block.settings.heading != blank %}
+                  <h2 class="her-o3__heading">{{ block.settings.heading }}</h2>
+                {% endif %}
+
+                {% if block.settings.text != blank %}
+                  <div class="her-o3__text rte">{{ block.settings.text }}</div>
+                {% endif %}
+
+                <div class="her-o3__buttons">
+                  {% if block.settings.button_text != blank %}
+                    <a href="{{ block.settings.button_link | default: '#' }}" class="her-o3__btn her-o3__btn--primary">
+                      {{ block.settings.button_text }}
+                    </a>
+                  {% endif %}
+                  {% if block.settings.secondary_button_text != blank %}
+                    <a href="{{ block.settings.secondary_button_link | default: '#' }}" class="her-o3__btn her-o3__btn--secondary">
+                      {{ block.settings.secondary_button_text }}
+                    </a>
+                  {% endif %}
+                </div>
+
+                <div class="her-o3__reviews">
+                  {% if block.settings.avatar != blank or block.settings.quote_or_comment != blank or block.settings.author_or_name != blank %}
+                    <div class="her-o3__review">
+                      {% if block.settings.avatar != blank %}
+                        <div class="her-o3__review-avatar">
+                          {{ block.settings.avatar | image_url: width: 120 | image_tag:
+                            class: 'her-o3__avatar-img',
+                            widths: '60, 120',
+                            sizes: '60px',
+                            loading: 'lazy',
+                            alt: block.settings.author_or_name | escape
+                          }}
+                        </div>
+                      {% endif %}
+                      <div class="her-o3__review-body">
+                        {% if block.settings.quote_or_comment != blank %}
+                          <p class="her-o3__review-quote">{{ block.settings.quote_or_comment }}</p>
+                        {% endif %}
+                        <div class="her-o3__review-meta">
+                          {% if block.settings.reviewer_rating > 0 %}
+                            <div class="her-o3__review-stars">
+                              {% for s in (1..5) %}
+                                <span class="her-o3__star{% if s <= block.settings.reviewer_rating %} her-o3__star--active{% endif %}">★</span>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                          <span class="her-o3__review-author">{{ block.settings.author_or_name }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.reviewer_2_avatar != blank or block.settings.reviewer_2_quote != blank or block.settings.reviewer_2_name != blank %}
+                    <div class="her-o3__review">
+                      {% if block.settings.reviewer_2_avatar != blank %}
+                        <div class="her-o3__review-avatar">
+                          {{ block.settings.reviewer_2_avatar | image_url: width: 120 | image_tag:
+                            class: 'her-o3__avatar-img',
+                            widths: '60, 120',
+                            sizes: '60px',
+                            loading: 'lazy',
+                            alt: block.settings.reviewer_2_name | escape
+                          }}
+                        </div>
+                      {% endif %}
+                      <div class="her-o3__review-body">
+                        {% if block.settings.reviewer_2_quote != blank %}
+                          <p class="her-o3__review-quote">{{ block.settings.reviewer_2_quote }}</p>
+                        {% endif %}
+                        <div class="her-o3__review-meta">
+                          {% if block.settings.reviewer_2_rating > 0 %}
+                            <div class="her-o3__review-stars">
+                              {% for s in (1..5) %}
+                                <span class="her-o3__star{% if s <= block.settings.reviewer_2_rating %} her-o3__star--active{% endif %}">★</span>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                          <span class="her-o3__review-author">{{ block.settings.reviewer_2_name }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.reviewer_3_avatar != blank or block.settings.reviewer_3_quote != blank or block.settings.reviewer_3_name != blank %}
+                    <div class="her-o3__review">
+                      {% if block.settings.reviewer_3_avatar != blank %}
+                        <div class="her-o3__review-avatar">
+                          {{ block.settings.reviewer_3_avatar | image_url: width: 120 | image_tag:
+                            class: 'her-o3__avatar-img',
+                            widths: '60, 120',
+                            sizes: '60px',
+                            loading: 'lazy',
+                            alt: block.settings.reviewer_3_name | escape
+                          }}
+                        </div>
+                      {% endif %}
+                      <div class="her-o3__review-body">
+                        {% if block.settings.reviewer_3_quote != blank %}
+                          <p class="her-o3__review-quote">{{ block.settings.reviewer_3_quote }}</p>
+                        {% endif %}
+                        <div class="her-o3__review-meta">
+                          {% if block.settings.reviewer_3_rating > 0 %}
+                            <div class="her-o3__review-stars">
+                              {% for s in (1..5) %}
+                                <span class="her-o3__star{% if s <= block.settings.reviewer_3_rating %} her-o3__star--active{% endif %}">★</span>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                          <span class="her-o3__review-author">{{ block.settings.reviewer_3_name }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if slide_count > 1 %}
+      <button type="button" class="her-o3__arrow her-o3__arrow--prev" data-prev aria-label="Previous slide">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="her-o3__arrow her-o3__arrow--next" data-next aria-label="Next slide">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
+      <div class="her-o3__dots" data-dots></div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  #shopify-section-{{ section_id }} {
+    --h3-overlay-opacity: {{ section.settings.overlay_opacity | default: 60 }}%;
+    --h3-overlay-color: {{ section.settings.overlay_color | default: '#000000' }};
+    --h3-content-max: {{ section.settings.content_max_width | default: 1200 }}px;
+    --h3-padding-top: {{ section.settings.padding_top | default: 0 }}px;
+    --h3-padding-bottom: {{ section.settings.padding_bottom | default: 0 }}px;
+    --h3-mobile-padding-top: {{ section.settings.mobile_padding_top | default: 0 }}px;
+    --h3-mobile-padding-bottom: {{ section.settings.mobile_padding_bottom | default: 0 }}px;
+    --h3-heading-size: {{ section.settings.heading_size | default: 56 }}px;
+    --h3-text-size: {{ section.settings.text_size | default: 18 }}px;
+    --h3-btn-radius: {{ section.settings.button_radius | default: 8 }}px;
+    --h3-slide-height: {{ section.settings.slide_height | default: 700 }}px;
+    --h3-mobile-slide-height: {{ section.settings.mobile_slide_height | default: 600 }}px;
+    --h3-text-color: {{ section.settings.text_color | default: '#ffffff' }};
+    --h3-primary-btn-bg: {{ section.settings.primary_button_background | default: '#ffffff' }};
+    --h3-primary-btn-text: {{ section.settings.primary_button_text | default: '#111111' }};
+    --h3-secondary-btn-border: {{ section.settings.secondary_button_border | default: 'rgba(255,255,255,0.5)' }};
+  }
+
+  #shopify-section-{{ section_id }} .her-o3 {
+    position: relative;
+    padding-top: var(--h3-padding-top);
+    padding-bottom: var(--h3-padding-bottom);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__slider {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__slide {
+    flex: 0 0 100%;
+    position: relative;
+    min-height: var(--h3-slide-height);
+    display: flex;
+    align-items: center;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__media-mobile {
+    display: none;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__image--placeholder {
+    background: #1a1a1a;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 100%);
+    background-color: var(--h3-overlay-color);
+    opacity: calc(var(--h3-overlay-opacity) / 100);
+    z-index: 2;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: var(--h3-content-max);
+    margin: 0 auto;
+    padding: 4rem;
+    color: var(--h3-text-color);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__content-inner {
+    max-width: 640px;
+    animation: her-o3-fade-in 0.8s ease-out;
+  }
+
+  @keyframes her-o3-fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__heading {
+    margin: 0 0 1.2rem;
+    font-size: clamp(2.8rem, 5vw, var(--h3-heading-size));
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--h3-text-color);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__text {
+    margin: 0 0 2rem;
+    font-size: clamp(1.5rem, 2vw, var(--h3-text-size));
+    line-height: 1.6;
+    opacity: 0.9;
+    color: var(--h3-text-color);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__buttons {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.8rem;
+    padding: 0 2.8rem;
+    border-radius: var(--h3-btn-radius);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__btn--primary {
+    background: var(--h3-primary-btn-bg);
+    color: var(--h3-primary-btn-text);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__btn--secondary {
+    background: transparent;
+    color: var(--h3-text-color);
+    border: 1.5px solid var(--h3-secondary-btn-border);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__reviews {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__review {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    padding: 1rem 1.4rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__review-avatar {
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__review-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__review-quote {
+    margin: 0;
+    font-size: 1.3rem;
+    line-height: 1.4;
+    opacity: 0.95;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--h3-text-color);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__review-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__review-stars {
+    display: flex;
+    gap: 0.1rem;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__star {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__star--active {
+    color: #ffc107;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__review-author {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    font-weight: 500;
+    color: var(--h3-text-color);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--h3-text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__arrow:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__arrow--prev { left: 2rem; }
+  #shopify-section-{{ section_id }} .her-o3__arrow--next { right: 2rem; }
+
+  #shopify-section-{{ section_id }} .her-o3__dots {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.4);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+  }
+
+  #shopify-section-{{ section_id }} .her-o3__dot--active {
+    background: var(--h3-text-color);
+    border-color: var(--h3-text-color);
+    transform: scale(1.2);
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section_id }} .her-o3__slide {
+      min-height: var(--h3-mobile-slide-height);
+    }
+    #shopify-section-{{ section_id }} .her-o3__content {
+      padding: 3rem;
+    }
+    #shopify-section-{{ section_id }} .her-o3__arrow {
+      width: 3.8rem;
+      height: 3.8rem;
+    }
+    #shopify-section-{{ section_id }} .her-o3__arrow--prev { left: 1rem; }
+    #shopify-section-{{ section_id }} .her-o3__arrow--next { right: 1rem; }
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section_id }} {
+      padding-top: var(--h3-mobile-padding-top);
+      padding-bottom: var(--h3-mobile-padding-bottom);
+    }
+    #shopify-section-{{ section_id }} .her-o3__media-desktop {
+      display: none;
+    }
+    #shopify-section-{{ section_id }} .her-o3__media-mobile {
+      display: block;
+    }
+    #shopify-section-{{ section_id }} .her-o3__slide {
+      min-height: var(--h3-mobile-slide-height);
+      align-items: flex-end;
+    }
+    #shopify-section-{{ section_id }} .her-o3__content {
+      padding: 2rem 1.6rem 3.5rem;
+    }
+    #shopify-section-{{ section_id }} .her-o3__content-inner {
+      max-width: 100%;
+    }
+    #shopify-section-{{ section_id }} .her-o3__buttons {
+      gap: 0.8rem;
+    }
+    #shopify-section-{{ section_id }} .her-o3__btn {
+      min-height: 4.2rem;
+      padding: 0 2rem;
+      font-size: 1.4rem;
+      flex: 1 1 auto;
+    }
+    #shopify-section-{{ section_id }} .her-o3__reviews {
+      gap: 1rem;
+    }
+    #shopify-section-{{ section_id }} .her-o3__review {
+      padding: 0.8rem 1.1rem;
+    }
+    #shopify-section-{{ section_id }} .her-o3__review-avatar {
+      width: 3.2rem;
+      height: 3.2rem;
+    }
+    #shopify-section-{{ section_id }} .her-o3__review-quote {
+      font-size: 1.2rem;
+      max-width: 160px;
+    }
+    #shopify-section-{{ section_id }} .her-o3__arrow {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section_id }} .her-o3__track {
+      transition: none;
+    }
+    #shopify-section-{{ section_id }} .her-o3__content-inner {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    var sectionId = '{{ section_id }}';
+    var root = document.getElementById('shopify-section-' + sectionId);
+    if (!root) return;
+
+    var slider = root.querySelector('[data-slider]');
+    var track = root.querySelector('[data-track]');
+    var slides = root.querySelectorAll('[data-slide]');
+    var prevBtn = root.querySelector('[data-prev]');
+    var nextBtn = root.querySelector('[data-next]');
+    var dotsContainer = root.querySelector('[data-dots]');
+
+    if (!track || slides.length <= 1) return;
+
+    var current = 0;
+    var autoplayTimer = null;
+    var autoplayDelay = {{ section.settings.autoplay_delay | default: 5000 }};
+    var isAutoplay = {{ section.settings.autoplay | default: true | json }};
+
+    function updateSlider() {
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+      slides.forEach(function(slide, i) {
+        var inner = slide.querySelector('.her-o3__content-inner');
+        if (inner) {
+          if (i === current) {
+            inner.style.animation = 'none';
+            inner.offsetHeight;
+            inner.style.animation = 'her-o3-fade-in 0.8s ease-out';
+          }
+        }
+      });
+
+      if (dotsContainer) {
+        var dots = dotsContainer.querySelectorAll('.her-o3__dot');
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('her-o3__dot--active', i === current);
+        });
+      }
+    }
+
+    function goTo(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      current = index;
+      updateSlider();
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    if (prevBtn) prevBtn.addEventListener('click', function() { prev(); resetAutoplay(); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { next(); resetAutoplay(); });
+
+    if (dotsContainer) {
+      dotsContainer.innerHTML = '';
+      for (var i = 0; i < slides.length; i++) {
+        var dot = document.createElement('button');
+        dot.className = 'her-o3__dot' + (i === 0 ? ' her-o3__dot--active' : '');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.addEventListener('click', (function(idx) {
+          return function() { goTo(idx); resetAutoplay(); };
+        })(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    var startX = 0;
+    var isDragging = false;
+
+    track.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+
+    track.addEventListener('touchend', function(e) {
+      if (!isDragging) return;
+      var endX = e.changedTouches[0].clientX;
+      var diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) next(); else prev();
+        resetAutoplay();
+      }
+      isDragging = false;
+    }, { passive: true });
+
+    function startAutoplay() {
+      if (!isAutoplay || autoplayDelay < 1000) return;
+      autoplayTimer = setInterval(next, autoplayDelay);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    function resetAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    slider.addEventListener('mouseenter', stopAutoplay);
+    slider.addEventListener('mouseleave', startAutoplay);
+    slider.addEventListener('focusin', stopAutoplay);
+    slider.addEventListener('focusout', startAutoplay);
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === sectionId) {
+        current = 0;
+        updateSlider();
+        startAutoplay();
+      }
+    });
+
+    document.addEventListener('shopify:section:select', function(e) {
+      if (e.detail.sectionId === sectionId) {
+        updateSlider();
+      }
+    });
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) stopAutoplay(); else startAutoplay();
+    });
+
+    updateSlider();
+    startAutoplay();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Her-o3 Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "slide_height",
+      "label": "Slide height (desktop)",
+      "min": 400,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "mobile_slide_height",
+      "label": "Slide height (mobile)",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 800,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_background",
+      "label": "Primary button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_text",
+      "label": "Primary button text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_border",
+      "label": "Secondary button border",
+      "default": "rgba(255,255,255,0.5)"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 32,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Autoplay delay",
+      "min": 2000,
+      "max": 9500,
+      "step": 500,
+      "unit": "ms",
+      "default": 5000
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding (desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding (desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Top padding (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Bottom padding (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile background image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Transform Your Skin"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Discover our revolutionary skincare formulas designed to bring out your natural glow.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Primary button text",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Primary button link"
+        },
+        {
+          "type": "text",
+          "id": "secondary_button_text",
+          "label": "Secondary button text",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "secondary_button_link",
+          "label": "Secondary button link"
+        },
+        {
+          "type": "header",
+          "content": "Primary reviewer"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar"
+        },
+        {
+          "type": "text",
+          "id": "quote_or_comment",
+          "label": "Quote or comment",
+          "default": "Absolutely love this product!"
+        },
+        {
+          "type": "text",
+          "id": "author_or_name",
+          "label": "Author or name",
+          "default": "Sarah M."
+        },
+        {
+          "type": "range",
+          "id": "reviewer_rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "header",
+          "content": "Reviewer 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "reviewer_2_avatar",
+          "label": "Avatar"
+        },
+        {
+          "type": "text",
+          "id": "reviewer_2_quote",
+          "label": "Quote",
+          "default": "Best skincare routine ever"
+        },
+        {
+          "type": "text",
+          "id": "reviewer_2_name",
+          "label": "Reviewer name",
+          "default": "Emma K."
+        },
+        {
+          "type": "range",
+          "id": "reviewer_2_rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "header",
+          "content": "Reviewer 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "reviewer_3_avatar",
+          "label": "Avatar"
+        },
+        {
+          "type": "text",
+          "id": "reviewer_3_quote",
+          "label": "Quote",
+          "default": "Visible results in 2 weeks"
+        },
+        {
+          "type": "text",
+          "id": "reviewer_3_name",
+          "label": "Reviewer name",
+          "default": "Lisa J."
+        },
+        {
+          "type": "range",
+          "id": "reviewer_3_rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Her-o3 Hero",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
