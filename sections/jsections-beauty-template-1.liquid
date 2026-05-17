@@ -1,0 +1,760 @@
+{{ 'jsections-beauty-template-1.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign sid = section.id
+  assign full_width = section.settings.full_width
+%}
+
+<section
+  id="jsections-beauty-template-1-{{ sid }}"
+  class="jbt jbt--{{ sid }}{% if full_width %} jbt--full{% endif %}"
+  style="
+    --jbt-bg: {{ section.settings.background_color }};
+    --jbt-text: {{ section.settings.text_color }};
+    --jbt-muted: {{ section.settings.muted_color }};
+    --jbt-card: {{ section.settings.card_color }};
+    --jbt-border: {{ section.settings.border_color }};
+    --jbt-button-bg: {{ section.settings.button_background }};
+    --jbt-button-text: {{ section.settings.button_text_color }};
+    --jbt-radius: {{ section.settings.corner_radius }}px;
+    --jbt-gap: {{ section.settings.block_gap }}px;
+  "
+>
+  <div class="jbt__inner">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'hero' %}
+          <div class="jbt-block jbt-hero" {{ block.shopify_attributes }}>
+            <div class="jbt-hero__media">
+              {% if block.settings.video != blank %}
+                {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, class: 'jbt-hero__video' }}
+              {% elsif block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 2200 | image_tag: loading: 'lazy', class: 'jbt-hero__image', sizes: '100vw', alt: block.settings.heading }}
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'jbt-hero__placeholder' }}
+              {% endif %}
+              <div class="jbt-hero__shade"></div>
+            </div>
+            {% if block.settings.video != blank %}
+              <div class="jbt-hero__controls">
+                <button class="jbt-media-button" type="button" data-jbt-video-toggle aria-label="Play or pause video">
+                  <span data-state="playing">Pause</span>
+                  <span data-state="paused">Play</span>
+                </button>
+                <button class="jbt-media-button" type="button" data-jbt-mute-toggle aria-label="Mute or unmute video">
+                  <span data-state="muted">Muted</span>
+                  <span data-state="unmuted">Sound</span>
+                </button>
+              </div>
+            {% endif %}
+            <div class="jbt-hero__content jbt-align-{{ block.settings.alignment }}">
+              {% if block.settings.eyebrow != blank %}
+                <p class="jbt-eyebrow">{{ block.settings.eyebrow }}</p>
+              {% endif %}
+              {% if block.settings.heading != blank %}
+                <h2 class="jbt-heading jbt-heading--hero">{{ block.settings.heading }}</h2>
+              {% endif %}
+              {% if block.settings.text != blank %}
+                <p class="jbt-text">{{ block.settings.text }}</p>
+              {% endif %}
+              {% if block.settings.button_label != blank %}
+                <a class="jbt-button jbt-button--ghost" href="{{ block.settings.button_link | default: routes.root_url }}">
+                  {{ block.settings.button_label }}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+
+        {% when 'product_carousel' %}
+          <div class="jbt-block jbt-products" {{ block.shopify_attributes }}>
+            <div class="jbt-carousel" data-jbt-carousel>
+              <div class="jbt-carousel__track jbt-products__track" data-jbt-track>
+                {% for index in (1..4) %}
+                  {% liquid
+                    assign title_key = 'product_' | append: index | append: '_title'
+                    assign desc_key = 'product_' | append: index | append: '_description'
+                    assign price_key = 'product_' | append: index | append: '_price'
+                    assign badge_key = 'product_' | append: index | append: '_badge'
+                    assign product_key = 'product_' | append: index
+                    assign image_key = 'product_' | append: index | append: '_image'
+                    assign hover_key = 'product_' | append: index | append: '_hover_image'
+                    assign title = block.settings[title_key]
+                    assign desc = block.settings[desc_key]
+                    assign price = block.settings[price_key]
+                    assign badge = block.settings[badge_key]
+                    assign card_product = block.settings[product_key]
+                    assign image = block.settings[image_key]
+                    assign hover_image = block.settings[hover_key]
+                    assign selected_variant = blank
+                    if card_product != blank
+                      assign selected_variant = card_product.selected_or_first_available_variant
+                      if image == blank and selected_variant.featured_image != blank
+                        assign image = selected_variant.featured_image
+                      elsif image == blank
+                        assign image = card_product.featured_image
+                      endif
+                      if hover_image == blank
+                        for product_image in card_product.images
+                          if image == blank or product_image.id != image.id
+                            assign hover_image = product_image
+                            break
+                          endif
+                        endfor
+                      endif
+                      if price == blank
+                        if selected_variant != blank
+                          assign price = selected_variant.price | money
+                        else
+                          assign price = card_product.price | money
+                        endif
+                      endif
+                    endif
+                  %}
+                  <article class="jbt-product-card jbt-carousel__slide">
+                    <div class="jbt-product-card__media{% if hover_image != blank %} has-hover{% endif %}">
+                      {% if image != blank %}
+                        {{ image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'jbt-product-card__image jbt-product-card__image--main', sizes: '(min-width: 990px) 33vw, 84vw', alt: title }}
+                      {% else %}
+                        {% assign product_placeholder = 'product-' | append: index %}
+                        {{ product_placeholder | placeholder_svg_tag: 'jbt-product-card__placeholder' }}
+                      {% endif %}
+                      {% if hover_image != blank %}
+                        {{ hover_image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'jbt-product-card__image jbt-product-card__image--hover', sizes: '(min-width: 990px) 33vw, 84vw', alt: title }}
+                      {% endif %}
+                      {% if badge != blank %}
+                        <span class="jbt-badge">{{ badge }}</span>
+                      {% endif %}
+                    </div>
+                    <div class="jbt-product-card__body">
+                      <div class="jbt-product-card__title-row">
+                        <h3 class="jbt-product-title">{{ title }}</h3>
+                        <span class="jbt-product-price">{{ price }}</span>
+                      </div>
+                      {% if desc != blank %}
+                        <p class="jbt-small-text">{{ desc }}</p>
+                      {% endif %}
+                      {% if card_product != blank and selected_variant != blank %}
+                        {% form 'product', card_product, class: 'jbt-quick-add-form' %}
+                          <input type="hidden" name="id" value="{{ selected_variant.id }}">
+                          <button class="jbt-quick-add" type="submit">{{ block.settings.button_label }}</button>
+                        {% endform %}
+                      {% else %}
+                        <a class="jbt-quick-add" href="{{ block.settings.product_link | default: routes.root_url }}">{{ block.settings.button_label }}</a>
+                      {% endif %}
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+              <button class="jbt-arrow jbt-arrow--next" type="button" data-jbt-next aria-label="Next slide">›</button>
+            </div>
+          </div>
+
+        {% when 'image_banner' %}
+          <div class="jbt-block jbt-banner" {{ block.shopify_attributes }}>
+            <div class="jbt-banner__media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 2200 | image_tag: loading: 'lazy', class: 'jbt-fill-image', sizes: '100vw', alt: block.settings.heading }}
+              {% else %}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'jbt-fill-placeholder' }}
+              {% endif %}
+              <div class="jbt-banner__shade"></div>
+            </div>
+            <div class="jbt-banner__panel">
+              <h2 class="jbt-heading">{{ block.settings.heading }}</h2>
+              <p class="jbt-text">{{ block.settings.text }}</p>
+              {% if block.settings.button_label != blank %}
+                <a class="jbt-button jbt-button--ghost" href="{{ block.settings.button_link | default: routes.root_url }}">{{ block.settings.button_label }}</a>
+              {% endif %}
+            </div>
+          </div>
+
+        {% when 'split_products' %}
+          <div class="jbt-block jbt-split-products" {{ block.shopify_attributes }}>
+            <div class="jbt-carousel jbt-split-products__images" data-jbt-carousel>
+              <div class="jbt-carousel__track" data-jbt-track>
+                {% for index in (1..4) %}
+                  {% liquid
+                    assign image_key = 'image_' | append: index
+                    assign title_key = 'product_' | append: index | append: '_title'
+                    assign image = block.settings[image_key]
+                    assign title = block.settings[title_key]
+                  %}
+                  <div class="jbt-split-products__image-slide jbt-carousel__slide">
+                    {% if image != blank %}
+                      {{ image | image_url: width: 1100 | image_tag: loading: 'lazy', class: 'jbt-fill-image', sizes: '(min-width: 990px) 50vw, 100vw', alt: title }}
+                    {% else %}
+                      {% assign placeholder = 'product-' | append: index %}
+                      {{ placeholder | placeholder_svg_tag: 'jbt-fill-placeholder' }}
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="jbt-dots" data-jbt-dots></div>
+            </div>
+            <div class="jbt-carousel jbt-split-products__cards" data-jbt-carousel>
+              <div class="jbt-carousel__track" data-jbt-track>
+                {% for index in (1..4) %}
+                  {% liquid
+                    assign product_image_key = 'product_' | append: index | append: '_image'
+                    assign product_key = 'product_' | append: index
+                    assign title_key = 'product_' | append: index | append: '_title'
+                    assign desc_key = 'product_' | append: index | append: '_description'
+                    assign card_product = block.settings[product_key]
+                    assign image = block.settings[product_image_key]
+                    assign title = block.settings[title_key]
+                    assign desc = block.settings[desc_key]
+                    assign product_link = block.settings.button_link | default: routes.root_url
+                    if card_product != blank
+                      assign product_link = card_product.url
+                      if image == blank
+                        assign image = card_product.featured_image
+                      endif
+                    endif
+                  %}
+                  <article class="jbt-feature-card jbt-carousel__slide">
+                    <div class="jbt-feature-card__media">
+                      {% if image != blank %}
+                        {{ image | image_url: width: 850 | image_tag: loading: 'lazy', class: 'jbt-fill-image', sizes: '(min-width: 990px) 50vw, 100vw', alt: title }}
+                      {% else %}
+                        {% assign placeholder = 'product-' | append: index %}
+                        {{ placeholder | placeholder_svg_tag: 'jbt-fill-placeholder' }}
+                      {% endif %}
+                    </div>
+                    <div class="jbt-feature-card__body">
+                      <h3 class="jbt-product-title">{{ title }}</h3>
+                      <p class="jbt-small-text">{{ desc }}</p>
+                      <a class="jbt-button jbt-button--small" href="{{ product_link }}">{{ block.settings.button_label }}</a>
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+              <span class="jbt-counter" data-jbt-counter>1/4</span>
+              <button class="jbt-arrow jbt-arrow--next" type="button" data-jbt-next aria-label="Next slide">›</button>
+            </div>
+          </div>
+
+        {% when 'split_story' %}
+          <div class="jbt-block jbt-story jbt-story--{{ block.settings.image_position }}" {{ block.shopify_attributes }}>
+            <div class="jbt-story__copy">
+              {% if block.settings.marquee_text != blank %}
+                <div class="jbt-vertical-marquee" aria-hidden="true">
+                  {% for index in (1..18) %}
+                    <span>{{ block.settings.marquee_text }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              <div class="jbt-story__copy-inner">
+                <h2 class="jbt-heading">{{ block.settings.heading }}</h2>
+                <p class="jbt-text">{{ block.settings.text }}</p>
+                {% if block.settings.button_label != blank %}
+                  <a class="jbt-button jbt-button--ghost jbt-button--dark" href="{{ block.settings.button_link | default: routes.root_url }}">{{ block.settings.button_label }}</a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="jbt-story__media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'jbt-fill-image', sizes: '(min-width: 990px) 50vw, 100vw', alt: block.settings.heading }}
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'jbt-fill-placeholder' }}
+              {% endif %}
+            </div>
+          </div>
+
+        {% when 'social_gallery' %}
+          <div class="jbt-block jbt-social" {{ block.shopify_attributes }}>
+            <div class="jbt-social__heading-row">
+              <h2 class="jbt-heading">{{ block.settings.heading }}</h2>
+              {% if block.settings.button_label != blank %}
+                <a class="jbt-button jbt-button--ghost jbt-button--dark" href="{{ block.settings.button_link | default: routes.root_url }}">{{ block.settings.button_label }}</a>
+              {% endif %}
+            </div>
+            <div class="jbt-carousel" data-jbt-carousel>
+              <div class="jbt-carousel__track jbt-social__track" data-jbt-track>
+                {% for index in (1..4) %}
+                  {% liquid
+                    assign image_key = 'image_' | append: index
+                    assign image = block.settings[image_key]
+                  %}
+                  <div class="jbt-social__item jbt-carousel__slide">
+                    {% if image != blank %}
+                      {{ image | image_url: width: 760 | image_tag: loading: 'lazy', class: 'jbt-fill-image', sizes: '(min-width: 990px) 25vw, 70vw', alt: block.settings.heading }}
+                    {% else %}
+                      {% assign placeholder = 'lifestyle-' | append: index %}
+                      {{ placeholder | placeholder_svg_tag: 'jbt-fill-placeholder' }}
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="jbt-social__controls">
+                <button class="jbt-arrow" type="button" data-jbt-prev aria-label="Previous slide">‹</button>
+                <button class="jbt-arrow" type="button" data-jbt-next aria-label="Next slide">›</button>
+              </div>
+            </div>
+          </div>
+
+        {% when 'tabs' %}
+          <div class="jbt-block jbt-tabs" data-jbt-tabs {{ block.shopify_attributes }}>
+            <div class="jbt-tabs__content">
+              {% for index in (1..3) %}
+                {% liquid
+                  assign title_key = 'tab_' | append: index | append: '_title'
+                  assign text_key = 'tab_' | append: index | append: '_text'
+                  assign title = block.settings[title_key]
+                  assign text = block.settings[text_key]
+                %}
+                <div class="jbt-tabs__panel{% if forloop.first %} is-active{% endif %}" data-jbt-panel="{{ index }}">
+                  <h2 class="jbt-heading">{{ title }}</h2>
+                  <p class="jbt-text">{{ text }}</p>
+                </div>
+              {% endfor %}
+              <div class="jbt-tabs__nav" role="tablist">
+                {% for index in (1..3) %}
+                  {% liquid
+                    assign title_key = 'tab_' | append: index | append: '_title'
+                    assign title = block.settings[title_key]
+                  %}
+                  <button class="jbt-tab{% if forloop.first %} is-active{% endif %}" type="button" role="tab" data-jbt-tab="{{ index }}">{{ title }}</button>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="jbt-tabs__media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'jbt-fill-image', sizes: '(min-width: 990px) 50vw, 100vw', alt: block.settings.tab_1_title }}
+              {% else %}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'jbt-fill-placeholder' }}
+              {% endif %}
+            </div>
+          </div>
+
+        {% when 'testimonials' %}
+          <div class="jbt-block jbt-testimonials" {{ block.shopify_attributes }}>
+            <div class="jbt-testimonials__header">
+              <h2 class="jbt-heading">{{ block.settings.heading }}</h2>
+              <p class="jbt-text">{{ block.settings.text }}</p>
+            </div>
+            <div class="jbt-carousel" data-jbt-carousel>
+              <div class="jbt-carousel__track jbt-testimonials__track" data-jbt-track>
+                {% for index in (1..4) %}
+                  {% liquid
+                    assign image_key = 'review_' | append: index | append: '_image'
+                    assign quote_key = 'review_' | append: index | append: '_quote'
+                    assign author_key = 'review_' | append: index | append: '_author'
+                    assign image = block.settings[image_key]
+                    assign quote = block.settings[quote_key]
+                    assign author = block.settings[author_key]
+                  %}
+                  <article class="jbt-review-card jbt-carousel__slide">
+                    <div class="jbt-review-card__media">
+                      {% if image != blank %}
+                        {{ image | image_url: width: 760 | image_tag: loading: 'lazy', class: 'jbt-fill-image', sizes: '(min-width: 990px) 33vw, 90vw', alt: author }}
+                      {% else %}
+                        {% assign placeholder = 'lifestyle-' | append: index %}
+                        {{ placeholder | placeholder_svg_tag: 'jbt-fill-placeholder' }}
+                      {% endif %}
+                    </div>
+                    <div class="jbt-stars" aria-label="5 out of 5 stars">★★★★★</div>
+                    <p class="jbt-review-card__quote">“{{ quote }}”</p>
+                    <p class="jbt-review-card__author">— {{ author }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+              <button class="jbt-arrow jbt-arrow--next" type="button" data-jbt-next aria-label="Next slide">›</button>
+            </div>
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  (() => {
+    const initBeautyTemplate = (root) => {
+      if (!root || root.dataset.jbtInitialized === 'true') return;
+      root.dataset.jbtInitialized = 'true';
+
+      const cleanup = [];
+      const add = (node, event, handler, options) => {
+        node.addEventListener(event, handler, options);
+        cleanup.push(() => node.removeEventListener(event, handler, options));
+      };
+
+      root.querySelectorAll('[data-jbt-carousel]').forEach((carousel) => {
+        const track = carousel.querySelector('[data-jbt-track]');
+        if (!track) return;
+        const slides = [...track.children];
+        const counter = carousel.querySelector('[data-jbt-counter]');
+        const dots = carousel.querySelector('[data-jbt-dots]');
+
+        if (dots && slides.length > 1) {
+          slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'jbt-dot';
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            add(dot, 'click', () => {
+              track.scrollTo({ left: slides[index].offsetLeft, behavior: 'smooth' });
+            });
+            dots.appendChild(dot);
+          });
+        }
+
+        const update = () => {
+          const first = slides[0];
+          if (!first) return;
+          const index = Math.round(track.scrollLeft / Math.max(first.offsetWidth, 1));
+          if (counter) counter.textContent = `${Math.min(index + 1, slides.length)}/${slides.length}`;
+          if (dots) {
+            [...dots.children].forEach((dot, dotIndex) => {
+              dot.classList.toggle('is-active', dotIndex === index);
+            });
+          }
+        };
+
+        const move = (direction) => {
+          const first = slides[0];
+          const amount = first ? first.offsetWidth + 24 : track.clientWidth;
+          track.scrollBy({ left: amount * direction, behavior: 'smooth' });
+        };
+
+        carousel.querySelectorAll('[data-jbt-prev]').forEach((button) => add(button, 'click', () => move(-1)));
+        carousel.querySelectorAll('[data-jbt-next]').forEach((button) => add(button, 'click', () => move(1)));
+        add(track, 'scroll', update, { passive: true });
+        update();
+      });
+
+      root.querySelectorAll('[data-jbt-tabs]').forEach((tabs) => {
+        const buttons = [...tabs.querySelectorAll('[data-jbt-tab]')];
+        const panels = [...tabs.querySelectorAll('[data-jbt-panel]')];
+        buttons.forEach((button) => {
+          add(button, 'click', () => {
+            const id = button.dataset.jbtTab;
+            buttons.forEach((item) => item.classList.toggle('is-active', item === button));
+            panels.forEach((panel) => panel.classList.toggle('is-active', panel.dataset.jbtPanel === id));
+          });
+        });
+      });
+
+      root.querySelectorAll('.jbt-hero').forEach((hero) => {
+        const video = hero.querySelector('video');
+        const playToggle = hero.querySelector('[data-jbt-video-toggle]');
+        const muteToggle = hero.querySelector('[data-jbt-mute-toggle]');
+        if (!video) return;
+
+        const sync = () => {
+          if (playToggle) playToggle.classList.toggle('is-paused', video.paused);
+          if (muteToggle) muteToggle.classList.toggle('is-unmuted', !video.muted);
+        };
+
+        if (playToggle) {
+          add(playToggle, 'click', () => {
+            if (video.paused) {
+              video.play().then(sync).catch(sync);
+            } else {
+              video.pause();
+              sync();
+            }
+          });
+        }
+        if (muteToggle) {
+          add(muteToggle, 'click', () => {
+            video.muted = !video.muted;
+            sync();
+          });
+        }
+        add(video, 'play', sync);
+        add(video, 'pause', sync);
+        sync();
+      });
+
+      root.jbtCleanup = () => cleanup.splice(0).forEach((fn) => fn());
+    };
+
+    const root = document.getElementById('jsections-beauty-template-1-{{ sid }}');
+    initBeautyTemplate(root);
+
+    document.addEventListener('shopify:section:load', (event) => {
+      const target = event.target.querySelector('#jsections-beauty-template-1-{{ sid }}');
+      initBeautyTemplate(target);
+    });
+
+    document.addEventListener('shopify:section:unload', (event) => {
+      const target = event.target.querySelector('#jsections-beauty-template-1-{{ sid }}');
+      if (target && target.jbtCleanup) target.jbtCleanup();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Beauty template #1",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Use full viewport width",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f4efee"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#3b3835"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text",
+      "default": "#756f68"
+    },
+    {
+      "type": "color",
+      "id": "card_color",
+      "label": "Card background",
+      "default": "#eee9e7"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#ddd6d1"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#4f4a45"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "block_gap",
+      "label": "Spacing between blocks",
+      "min": 0,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero",
+      "name": "Video hero",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Hero video" },
+        { "type": "image_picker", "id": "image", "label": "Fallback image" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE LINEUP IS HERE" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Meet the new spring collection." },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Discover our latest arrivals designed to bring comfort, style, and durability to your daily life." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "SHOP THE COLLECTION" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Content alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        }
+      ]
+    },
+    {
+      "type": "product_carousel",
+      "name": "Product carousel",
+      "settings": [
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "QUICK ADD" },
+        { "type": "url", "id": "product_link", "label": "Product link" },
+        { "type": "header", "content": "Product 1" },
+        { "type": "product", "id": "product_1", "label": "Shopify product" },
+        { "type": "image_picker", "id": "product_1_image", "label": "Image" },
+        { "type": "image_picker", "id": "product_1_hover_image", "label": "Hover image" },
+        { "type": "text", "id": "product_1_badge", "label": "Badge", "default": "New" },
+        { "type": "text", "id": "product_1_title", "label": "Title", "default": "mood" },
+        { "type": "text", "id": "product_1_description", "label": "Description", "default": "Mood Patches" },
+        { "type": "text", "id": "product_1_price", "label": "Price", "default": "$24.99" },
+        { "type": "header", "content": "Product 2" },
+        { "type": "product", "id": "product_2", "label": "Shopify product" },
+        { "type": "image_picker", "id": "product_2_image", "label": "Image" },
+        { "type": "image_picker", "id": "product_2_hover_image", "label": "Hover image" },
+        { "type": "text", "id": "product_2_badge", "label": "Badge", "default": "New" },
+        { "type": "text", "id": "product_2_title", "label": "Title", "default": "recover" },
+        { "type": "text", "id": "product_2_description", "label": "Description", "default": "Recovery Patches" },
+        { "type": "text", "id": "product_2_price", "label": "Price", "default": "$24.99" },
+        { "type": "header", "content": "Product 3" },
+        { "type": "product", "id": "product_3", "label": "Shopify product" },
+        { "type": "image_picker", "id": "product_3_image", "label": "Image" },
+        { "type": "image_picker", "id": "product_3_hover_image", "label": "Hover image" },
+        { "type": "text", "id": "product_3_badge", "label": "Badge", "default": "New" },
+        { "type": "text", "id": "product_3_title", "label": "Title", "default": "boost" },
+        { "type": "text", "id": "product_3_description", "label": "Description", "default": "Boost Patches" },
+        { "type": "text", "id": "product_3_price", "label": "Price", "default": "$24.99" },
+        { "type": "header", "content": "Product 4" },
+        { "type": "product", "id": "product_4", "label": "Shopify product" },
+        { "type": "image_picker", "id": "product_4_image", "label": "Image" },
+        { "type": "image_picker", "id": "product_4_hover_image", "label": "Hover image" },
+        { "type": "text", "id": "product_4_badge", "label": "Badge", "default": "New" },
+        { "type": "text", "id": "product_4_title", "label": "Title", "default": "sleep" },
+        { "type": "text", "id": "product_4_description", "label": "Description", "default": "Sleep Patches" },
+        { "type": "text", "id": "product_4_price", "label": "Price", "default": "$24.99" }
+      ]
+    },
+    {
+      "type": "image_banner",
+      "name": "Image banner",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Spring Glow Routine" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Explore our limited edition collection perfect for spring. Mix and match these items displaying pink and red colors with shimmery accents handpicked by you." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "DISCOVER" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    },
+    {
+      "type": "split_products",
+      "name": "Split product showcase",
+      "settings": [
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "VIEW PRODUCT" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "header", "content": "Slides" },
+        { "type": "image_picker", "id": "image_1", "label": "Large image 1" },
+        { "type": "product", "id": "product_1", "label": "Shopify product 1" },
+        { "type": "image_picker", "id": "product_1_image", "label": "Product image 1" },
+        { "type": "text", "id": "product_1_title", "label": "Title 1", "default": "Sleep Patches" },
+        { "type": "text", "id": "product_1_description", "label": "Description 1", "default": "30 patches in each pack" },
+        { "type": "image_picker", "id": "image_2", "label": "Large image 2" },
+        { "type": "product", "id": "product_2", "label": "Shopify product 2" },
+        { "type": "image_picker", "id": "product_2_image", "label": "Product image 2" },
+        { "type": "text", "id": "product_2_title", "label": "Title 2", "default": "Boost Patches" },
+        { "type": "text", "id": "product_2_description", "label": "Description 2", "default": "30 patches in each pack" },
+        { "type": "image_picker", "id": "image_3", "label": "Large image 3" },
+        { "type": "product", "id": "product_3", "label": "Shopify product 3" },
+        { "type": "image_picker", "id": "product_3_image", "label": "Product image 3" },
+        { "type": "text", "id": "product_3_title", "label": "Title 3", "default": "Recovery Patches" },
+        { "type": "text", "id": "product_3_description", "label": "Description 3", "default": "30 patches in each pack" },
+        { "type": "image_picker", "id": "image_4", "label": "Large image 4" },
+        { "type": "product", "id": "product_4", "label": "Shopify product 4" },
+        { "type": "image_picker", "id": "product_4_image", "label": "Product image 4" },
+        { "type": "text", "id": "product_4_title", "label": "Title 4", "default": "Mood Patches" },
+        { "type": "text", "id": "product_4_description", "label": "Description 4", "default": "30 patches in each pack" }
+      ]
+    },
+    {
+      "type": "split_story",
+      "name": "Split story",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "right"
+        },
+        { "type": "text", "id": "marquee_text", "label": "Vertical marquee", "default": "online exclusive" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "plant-powered formulas" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Discover our range of cruelty-free, dermatologist-tested skincare. Formulated with potent botanicals to nourish, protect, and restore your skin's natural barrier." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "LEARN MORE" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    },
+    {
+      "type": "social_gallery",
+      "name": "Social gallery",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Hazify + you" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "FIND US ON SOCIALS" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "image_picker", "id": "image_1", "label": "Image 1" },
+        { "type": "image_picker", "id": "image_2", "label": "Image 2" },
+        { "type": "image_picker", "id": "image_3", "label": "Image 3" },
+        { "type": "image_picker", "id": "image_4", "label": "Image 4" }
+      ]
+    },
+    {
+      "type": "tabs",
+      "name": "Tabbed image text",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "tab_1_title", "label": "Tab 1 title", "default": "clean ingredients" },
+        { "type": "textarea", "id": "tab_1_text", "label": "Tab 1 text", "default": "We strictly use ethically sourced ingredients and eco-friendly packaging, ensuring your skincare routine is kind to both your skin and the planet." },
+        { "type": "text", "id": "tab_2_title", "label": "Tab 2 title", "default": "cruelty free" },
+        { "type": "textarea", "id": "tab_2_text", "label": "Tab 2 text", "default": "We craft high-quality formulas that are never tested on animals, so you can achieve your glow with a clear conscience." },
+        { "type": "text", "id": "tab_3_title", "label": "Tab 3 title", "default": "proven results" },
+        { "type": "textarea", "id": "tab_3_text", "label": "Tab 3 text", "default": "Our products are backed by clinical trials, delivering visible results that enhance your natural beauty and boost your confidence." }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "name": "Testimonials",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "loved by thousands" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Don't just take our word for it. See what our community has to say about their experience with us." },
+        { "type": "image_picker", "id": "review_1_image", "label": "Review image 1" },
+        { "type": "textarea", "id": "review_1_quote", "label": "Quote 1", "default": "Absolutely love the quality! It exceeded my expectations and arrived super fast. Will definitely be ordering again." },
+        { "type": "text", "id": "review_1_author", "label": "Author 1", "default": "Sarah M." },
+        { "type": "image_picker", "id": "review_2_image", "label": "Review image 2" },
+        { "type": "textarea", "id": "review_2_quote", "label": "Quote 2", "default": "This has completely transformed my daily routine. The attention to detail is incredible." },
+        { "type": "text", "id": "review_2_author", "label": "Author 2", "default": "Jess T." },
+        { "type": "image_picker", "id": "review_3_image", "label": "Review image 3" },
+        { "type": "textarea", "id": "review_3_quote", "label": "Quote 3", "default": "Customer service was fantastic, and the product itself is just perfect. Highly recommend!" },
+        { "type": "text", "id": "review_3_author", "label": "Author 3", "default": "Emily R." },
+        { "type": "image_picker", "id": "review_4_image", "label": "Review image 4" },
+        { "type": "textarea", "id": "review_4_quote", "label": "Quote 4", "default": "This looks beautiful on our product pages and gave the whole launch a more polished feel." },
+        { "type": "text", "id": "review_4_author", "label": "Author 4", "default": "Paula R." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beauty template #1",
+      "blocks": [
+        { "type": "hero" },
+        { "type": "product_carousel" },
+        { "type": "image_banner" },
+        { "type": "split_products" },
+        { "type": "split_story" },
+        {
+          "type": "split_story",
+          "settings": {
+            "image_position": "left",
+            "marquee_text": "",
+            "heading": "made with you, for you",
+            "text": "Last year, we asked you to vote on a few shades and pick the ones you loved most. These were your top choices, and we're thrilled for them to be yours.",
+            "button_label": "LEARN MORE"
+          }
+        },
+        { "type": "social_gallery" },
+        { "type": "tabs" },
+        { "type": "testimonials" }
+      ]
+    }
+  ]
+}
+{% endschema %}
