@@ -995,104 +995,320 @@
         "parallax_strength": 6
       }
     },
-    "jsections_testimonials_28_zfKcLe": {
-      "type": "jsections-testimonials-28",
+    "jsections_beauty_template_1_N9nct6": {
+      "type": "jsections-beauty-template-1",
       "blocks": {
-        "testimonial_egze9V": {
-          "type": "testimonial",
+        "video_hero_UUmUEk": {
+          "type": "video_hero",
           "settings": {
-            "video": "shopify://files/videos/video2.mov",
-            "text": "<p>I'm hitting with more power and control than ever before, and my serve has improved dramatically.</p>",
-            "author": "David Smith",
-            "show_stars": true,
-            "badge": "Verified"
+            "eyebrow": "THE LINEUP IS HERE",
+            "heading": "Meet the new spring collection.",
+            "text": "Discover our latest arrivals designed to bring comfort, style, and durability to your daily life.",
+            "button_label": "SHOP THE COLLECTION",
+            "button_link": "",
+            "text_horizontal_position": "flex-start",
+            "text_vertical_position": "flex-end",
+            "text_alignment": "left",
+            "media_position": "center center",
+            "heading_size": 36,
+            "text_size": 16,
+            "show_play_control": true,
+            "desktop_height": 620,
+            "mobile_height": 552,
+            "overlay_opacity": 25
           }
         },
-        "testimonial_iFnLHA": {
-          "type": "testimonial",
+        "product_card_CDC3zE": {
+          "type": "product_card",
           "settings": {
-            "text": "<p>It's incredibly lightweight and maneuverable, which allows me to react quickly and hit with more power.</p>",
-            "author": "Michael Wilson",
-            "show_stars": true,
-            "badge": "Verified"
+            "product": "",
+            "badge": "New",
+            "large_label": "mood",
+            "title": "Mood Patches",
+            "price_fallback": "$24.99",
+            "details": "30 patches in each pack",
+            "link": ""
           }
         },
-        "testimonial_j9mHNy": {
-          "type": "testimonial",
+        "product_card_cbbBLR": {
+          "type": "product_card",
           "settings": {
-            "text": "<p>They never cease to impress me. The quality of their products is exceptional!</p>",
-            "author": "Kathy Miller",
-            "show_stars": true,
-            "badge": "Verified"
+            "product": "",
+            "badge": "New",
+            "large_label": "recover",
+            "title": "Recovery Patches",
+            "price_fallback": "$24.99",
+            "details": "30 patches in each pack",
+            "link": ""
           }
         },
-        "testimonial_yV7tNL": {
-          "type": "testimonial",
+        "product_card_qMgtAE": {
+          "type": "product_card",
           "settings": {
-            "text": "<p>Finally found the perfect racket! My game has improved significantly since switching.</p>",
-            "author": "Emily Johnson",
-            "show_stars": true,
-            "badge": "Verified"
+            "product": "",
+            "badge": "New",
+            "large_label": "boost",
+            "title": "Boost Patches",
+            "price_fallback": "$24.99",
+            "details": "30 patches in each pack",
+            "link": ""
           }
         },
-        "testimonial_W7L6Kj": {
-          "type": "testimonial",
+        "product_card_jNgCTQ": {
+          "type": "product_card",
           "settings": {
-            "text": "<p>I was impressed by the entire shopping experience. I found exactly what I was looking for in no time.</p>",
-            "author": "Sophia Brown",
-            "show_stars": true,
-            "badge": "Verified"
+            "product": "",
+            "badge": "New",
+            "large_label": "sleep",
+            "title": "Sleep Patches",
+            "price_fallback": "$24.99",
+            "details": "30 patches in each pack",
+            "link": ""
           }
         },
-        "testimonial_hJdqNL": {
-          "type": "testimonial",
+        "image_banner_j7am9j": {
+          "type": "image_banner",
           "settings": {
-            "text": "<p>I'm a beginner tennis player, and I was looking for a racket that was both affordable and high-quality.</p>",
-            "author": "Chris Lee",
-            "show_stars": true,
-            "badge": "Verified"
+            "heading": "Spring Glow Routine",
+            "text": "Explore our limited edition collection perfect for spring. Mix and match these items displaying pink and red colors with shimmery accents handpicked by you.",
+            "button_label": "DISCOVER",
+            "button_link": "",
+            "text_horizontal_position": "center",
+            "text_vertical_position": "center",
+            "text_alignment": "center",
+            "media_position": "center center",
+            "heading_size": 36,
+            "text_size": 16,
+            "desktop_height": 600,
+            "mobile_height": 552,
+            "overlay_opacity": 15
+          }
+        },
+        "split_slide_EVAReD": {
+          "type": "split_slide",
+          "settings": {
+            "product": "",
+            "title": "Sleep Patches",
+            "details": "30 patches in each pack",
+            "link": ""
+          }
+        },
+        "split_slide_W7cD97": {
+          "type": "split_slide",
+          "settings": {
+            "product": "",
+            "title": "Boost Patches",
+            "details": "30 patches in each pack",
+            "link": ""
+          }
+        },
+        "split_slide_X3TJKR": {
+          "type": "split_slide",
+          "settings": {
+            "product": "",
+            "title": "Recovery Patches",
+            "details": "30 patches in each pack",
+            "link": ""
+          }
+        },
+        "split_slide_q3n8Kb": {
+          "type": "split_slide",
+          "settings": {
+            "product": "",
+            "title": "Mood Patches",
+            "details": "30 patches in each pack",
+            "link": ""
+          }
+        },
+        "story_panel_dcHAXd": {
+          "type": "story_panel",
+          "settings": {
+            "image_position": "right",
+            "desktop_height": 628,
+            "mobile_media_height": 420,
+            "media_width": 50,
+            "image_fit": "cover",
+            "text_vertical_position": "end",
+            "text_alignment": "left",
+            "media_position": "center center",
+            "heading_size": 36,
+            "text_size": 16,
+            "marquee_speed": 70,
+            "marquee_width": 48,
+            "marquee_mobile_height": 48,
+            "marquee_font_size_desktop": 36,
+            "marquee_font_size_mobile": 24,
+            "marquee_text": "online exclusive",
+            "heading": "plant-powered formulas",
+            "text": "Discover our range of cruelty-free, dermatologist-tested skincare. Formulated with potent botanicals to nourish, protect, and restore your skin's natural barrier.",
+            "button_label": "LEARN MORE",
+            "button_link": ""
+          }
+        },
+        "story_panel_nUm3Nf": {
+          "type": "story_panel",
+          "settings": {
+            "image_position": "left",
+            "desktop_height": 420,
+            "mobile_media_height": 420,
+            "media_width": 50,
+            "image_fit": "cover",
+            "text_vertical_position": "end",
+            "text_alignment": "left",
+            "media_position": "center center",
+            "heading_size": 36,
+            "text_size": 16,
+            "marquee_speed": 70,
+            "marquee_width": 48,
+            "marquee_mobile_height": 48,
+            "marquee_font_size_desktop": 36,
+            "marquee_font_size_mobile": 24,
+            "marquee_text": "online exclusive",
+            "heading": "made with you, for you",
+            "text": "Last year, we asked you to vote on a few shades and pick the ones you loved most. These were your top choices, and we're thrilled for them to be yours.",
+            "button_label": "LEARN MORE",
+            "button_link": ""
+          }
+        },
+        "gallery_image_UtCwfK": {
+          "type": "gallery_image",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "gallery_image_BDVUdP": {
+          "type": "gallery_image",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "gallery_image_3WF3rT": {
+          "type": "gallery_image",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "gallery_image_Cdbmwp": {
+          "type": "gallery_image",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "ingredient_tab_8zA4hJ": {
+          "type": "ingredient_tab",
+          "settings": {
+            "title": "clean ingredients",
+            "text": "We strictly use ethically sourced ingredients and eco-friendly packaging, ensuring your skincare routine is kind to both your skin and the planet."
+          }
+        },
+        "ingredient_tab_VXcJrG": {
+          "type": "ingredient_tab",
+          "settings": {
+            "title": "cruelty free",
+            "text": "Our formulas are created without animal testing and designed with responsible, skin-friendly ingredients."
+          }
+        },
+        "ingredient_tab_dmL7HF": {
+          "type": "ingredient_tab",
+          "settings": {
+            "title": "proven results",
+            "text": "Build a routine with visible results, soft textures and products made for everyday use."
+          }
+        },
+        "review_qJxFwn": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "\"Absolutely love the quality! It exceeded my expectations and arrived super fast. Will definitely be ordering again.\"",
+            "author": "- Sarah M."
+          }
+        },
+        "review_ghLJgk": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "\"This has completely transformed my daily routine. The attention to detail is incredible.\"",
+            "author": "- Jess T."
+          }
+        },
+        "review_HGppDj": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "\"Customer service was fantastic, and the product itself is just perfect. Highly recommend!\"",
+            "author": "- Emily R."
           }
         }
       },
       "block_order": [
-        "testimonial_egze9V",
-        "testimonial_iFnLHA",
-        "testimonial_j9mHNy",
-        "testimonial_yV7tNL",
-        "testimonial_W7L6Kj",
-        "testimonial_hJdqNL"
+        "video_hero_UUmUEk",
+        "product_card_CDC3zE",
+        "product_card_cbbBLR",
+        "product_card_qMgtAE",
+        "product_card_jNgCTQ",
+        "image_banner_j7am9j",
+        "split_slide_EVAReD",
+        "split_slide_W7cD97",
+        "split_slide_X3TJKR",
+        "split_slide_q3n8Kb",
+        "story_panel_dcHAXd",
+        "story_panel_nUm3Nf",
+        "gallery_image_UtCwfK",
+        "gallery_image_BDVUdP",
+        "gallery_image_3WF3rT",
+        "gallery_image_Cdbmwp",
+        "ingredient_tab_8zA4hJ",
+        "ingredient_tab_VXcJrG",
+        "ingredient_tab_dmL7HF",
+        "review_qJxFwn",
+        "review_ghLJgk",
+        "review_HGppDj"
       ],
-      "name": "Testimonials #28",
+      "name": "Beauty template #1",
       "settings": {
-        "style_preset": "green",
-        "show_summary": true,
-        "summary_text": "50K+ Happy Customers",
-        "rating_text": "Excellent 4.7",
-        "heading": "<h2>In <strong>your</strong> own words —</h2>",
-        "show_arrows": true,
-        "show_button": true,
-        "button_label": "SHOP NOW",
-        "button_link": "",
-        "show_guarantee": true,
-        "guarantee_text": "<p><strong>Money-Back Guarantee</strong></p>",
-        "max_width": 1300,
-        "desktop_columns": 4,
-        "mobile_card_width": 72,
-        "card_gap": 14,
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "gradient_start": "#ffffff",
-        "gradient_mid": "#d9f5e9",
-        "gradient_end": "#ffffff",
-        "text_color": "#121212",
-        "card_background": "#ffffff",
-        "card_border_color": "rgba(0,0,0,0)",
-        "accent_color": "#00b67d",
-        "badge_background": "#00b67d",
-        "badge_text_color": "#ffffff",
-        "button_background": "#00b67d",
-        "button_text_color": "#ffffff",
-        "guarantee_background": "#cbfee8"
+        "full_width": true,
+        "block_gap": 32,
+        "corner_radius": 12,
+        "page_width": 1440,
+        "side_padding_desktop": 20,
+        "side_padding_mobile": 15,
+        "heading_size_desktop": 36,
+        "heading_size_mobile": 28,
+        "body_size_desktop": 16,
+        "body_size_mobile": 14,
+        "button_font_size": 16,
+        "product_card_width_desktop": 31,
+        "product_card_width_mobile": 82,
+        "product_card_height_desktop": 432,
+        "product_card_height_mobile": 520,
+        "split_desktop_height": 628,
+        "split_mobile_media_height": 420,
+        "gallery_card_width_desktop": 28,
+        "gallery_card_width_mobile": 82,
+        "gallery_card_height": 388,
+        "tabs_desktop_height": 628,
+        "review_card_width_desktop": 31,
+        "review_card_width_mobile": 82,
+        "review_image_height": 284,
+        "marquee_width_desktop": 64,
+        "marquee_font_size_desktop": 36,
+        "marquee_font_size_mobile": 24,
+        "marquee_speed": 70,
+        "quick_add_label": "QUICK ADD",
+        "option_label": "Select option",
+        "view_product_label": "VIEW PRODUCT",
+        "gallery_heading": "Hazify + you",
+        "gallery_button_label": "FIND US ON SOCIALS",
+        "gallery_button_link": "",
+        "reviews_heading": "loved by thousands",
+        "reviews_text": "Don't just take our word for it. See what our community has to say about their experience with us.",
+        "background_color": "#ffffff",
+        "panel_background": "#f1f0ed",
+        "text_color": "#66635f",
+        "muted_text_color": "#6f6b66",
+        "button_background": "#ffffff",
+        "button_text_color": "#5d5a55",
+        "star_color": "#5f5b55"
       }
     }
   },
@@ -1113,6 +1329,6 @@
     "jordy_heroo_6RG4Xg",
     "video_test_gzdRJR",
     "jsections_cloudpillo_reviews_Jag3mk",
-    "jsections_testimonials_28_zfKcLe"
+    "jsections_beauty_template_1_N9nct6"
   ]
 }
