@@ -1124,6 +1124,7 @@
           "type": "story_panel",
           "settings": {
             "image_position": "right",
+            "image": "shopify://shop_images/IMG_1548.webp",
             "desktop_height": 628,
             "mobile_media_height": 420,
             "media_width": 50,
@@ -1152,7 +1153,7 @@
             "desktop_height": 420,
             "mobile_media_height": 420,
             "media_width": 50,
-            "image_fit": "cover",
+            "image_fit": "contain",
             "text_vertical_position": "end",
             "text_alignment": "left",
             "media_position": "center center",
