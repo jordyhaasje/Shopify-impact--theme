@@ -1,0 +1,194 @@
+{{ 'jsections-beauty-video-hero.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign sid = section.id
+  assign media_label = section.settings.heading | default: 'Beauty video hero'
+%}
+
+<section
+  id="jsections-beauty-video-hero-{{ sid }}"
+  class="jbv-hero{% if section.settings.full_width %} jbv-hero--full{% endif %}"
+  style="
+    --jbv-text: {{ section.settings.text_color }};
+    --jbv-radius: {{ section.settings.corner_radius }}px;
+    --jbv-height-desktop: {{ section.settings.height_desktop }}px;
+    --jbv-height-mobile: {{ section.settings.height_mobile }}px;
+    --jbv-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  "
+>
+  <div class="jbv-hero__frame">
+    <div class="jbv-hero__media">
+      {% if section.settings.video != blank %}
+        {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, class: 'jbv-hero__video', aria-label: media_label }}
+      {% elsif section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 2200 | image_tag: loading: 'lazy', class: 'jbv-hero__image', sizes: '100vw', alt: media_label }}
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'jbv-hero__placeholder' }}
+      {% endif %}
+      <div class="jbv-hero__shade"></div>
+    </div>
+
+    {% if section.settings.video != blank and section.settings.show_play_control %}
+      <button class="jbv-hero__play" type="button" data-jbv-video-toggle aria-label="Play / Pause">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path class="jbv-hero__icon-play" d="M9 7.2v9.6L17 12 9 7.2Z"></path>
+          <path class="jbv-hero__icon-pause" d="M8 6.5h3v11H8v-11Zm5 0h3v11h-3v-11Z"></path>
+        </svg>
+      </button>
+    {% endif %}
+
+    <div class="jbv-hero__content">
+      {% if section.settings.eyebrow != blank %}
+        <p class="jbv-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="jbv-hero__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="jbv-hero__text">{{ section.settings.text }}</div>
+      {% endif %}
+      {% if section.settings.button_label != blank %}
+        <a class="jbv-hero__button" href="{{ section.settings.button_link | default: routes.root_url }}">{{ section.settings.button_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const init = (root) => {
+      if (!root || root.dataset.jbvReady === 'true') return;
+      root.dataset.jbvReady = 'true';
+      const video = root.querySelector('video');
+      const button = root.querySelector('[data-jbv-video-toggle]');
+      if (!video || !button) return;
+      const sync = () => root.classList.toggle('is-paused', video.paused);
+      button.addEventListener('click', () => {
+        if (video.paused) {
+          video.play().then(sync).catch(sync);
+        } else {
+          video.pause();
+          sync();
+        }
+      });
+      video.addEventListener('play', sync);
+      video.addEventListener('pause', sync);
+      sync();
+    };
+    const root = document.getElementById('jsections-beauty-video-hero-{{ sid }}');
+    init(root);
+    document.addEventListener('shopify:section:load', (event) => {
+      init(event.target.querySelector('#jsections-beauty-video-hero-{{ sid }}'));
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Beauty video hero",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Use full viewport width",
+      "default": true
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Background video"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE LINEUP IS HERE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Meet the new spring collection."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Discover our latest arrivals designed to bring comfort, style, and durability to your daily life."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "SHOP THE COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_play_control",
+      "label": "Show icon-only play control",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "label": "Desktop height",
+      "min": 420,
+      "max": 820,
+      "step": 20,
+      "unit": "px",
+      "default": 620
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Mobile height",
+      "min": 420,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 540
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beauty video hero"
+    }
+  ]
+}
+{% endschema %}
