@@ -1,0 +1,617 @@
+{%- comment -%}
+  JSections - Hero #33
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  ⚠️ Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-hero-33.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="hero-33"
+  style="
+    --bg-color: {{ section.settings.background_color }};
+    --border-radius: {{ section.settings.border_radius }}px;
+    --section-margin: {{ section.settings.section_margin }}px;
+    --section-padding: {{ section.settings.section_padding }}px;
+    --min-height: {{ section.settings.min_height }}px;
+    --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="hero-33__container">
+    <div class="hero-33__background">
+      {%- if section.settings.background_video != blank -%}
+        {{ section.settings.background_video | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'hero-33__video' }}
+      {%- elsif section.settings.image != blank -%}
+        <img
+          srcset="
+            {%- if section.settings.image.width >= 375 -%}{{ section.settings.image | image_url: width: 375 }} 375w,{%- endif -%}
+            {%- if section.settings.image.width >= 750 -%}{{ section.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if section.settings.image.width >= 1100 -%}{{ section.settings.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+            {%- if section.settings.image.width >= 1500 -%}{{ section.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+            {%- if section.settings.image.width >= 2000 -%}{{ section.settings.image | image_url: width: 2000 }} 2000w,{%- endif -%}
+            {%- if section.settings.image.width >= 3000 -%}{{ section.settings.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+            {{ section.settings.image | image_url }} {{ section.settings.image.width }}w
+          "
+          src="{{ section.settings.image | image_url: width: 1500 }}"
+          loading="lazy"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          class="hero-33__image"
+        >
+      {%- endif -%}
+    </div>
+
+    <div class="hero-33__body">
+      <div class="hero-33__content">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              <div
+                class="hero-33__heading"
+                style="
+                  --heading-color: {{ block.settings.color }};
+                  --heading-size: {{ block.settings.font_size }}px;
+                  --heading-align: {{ block.settings.text_align }};
+                  --heading-spacing: {{ block.settings.margin_top }}px;
+                "
+                {{ block.shopify_attributes }}
+              >
+                <h1>{{ block.settings.heading }}</h1>
+              </div>
+
+            {%- when 'text' -%}
+              <div
+                class="hero-33__text"
+                style="
+                  --text-color: {{ block.settings.color }};
+                  --text-size: {{ block.settings.font_size }}px;
+                  --text-align: {{ block.settings.text_align }};
+                  --text-spacing: {{ block.settings.margin_top }}px;
+                "
+                {{ block.shopify_attributes }}
+              >
+                <p>{{ block.settings.text }}</p>
+              </div>
+
+            {%- when 'buttons' -%}
+              <div
+                class="hero-33__buttons"
+                style="--buttons-spacing: {{ block.settings.margin_top }}px;"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.button_label_1 != blank -%}
+                  <a
+                    href="{{ block.settings.button_link_1 }}"
+                    class="hero-33__button"
+                    style="
+                      --button-bg: {{ block.settings.button_bg_1 }};
+                      --button-color: {{ block.settings.button_color_1 }};
+                      --button-hover-bg: {{ block.settings.button_hover_bg_1 }};
+                      --button-hover-color: {{ block.settings.button_hover_color_1 }};
+                      --button-border-radius: {{ block.settings.button_border_radius }}px;
+                    "
+                  >
+                    <span>{{ block.settings.button_label_1 }}</span>
+                  </a>
+                {%- endif -%}
+
+                {%- if block.settings.button_label_2 != blank -%}
+                  <a
+                    href="{{ block.settings.button_link_2 }}"
+                    class="hero-33__button"
+                    style="
+                      --button-bg: {{ block.settings.button_bg_2 }};
+                      --button-color: {{ block.settings.button_color_2 }};
+                      --button-hover-bg: {{ block.settings.button_hover_bg_2 }};
+                      --button-hover-color: {{ block.settings.button_hover_color_2 }};
+                      --button-border-radius: {{ block.settings.button_border_radius }}px;
+                    "
+                  >
+                    <span>{{ block.settings.button_label_2 }}</span>
+                  </a>
+                {%- endif -%}
+              </div>
+
+            {%- when 'review' -%}
+              <div
+                class="hero-33__review-container"
+                style="--review-spacing: {{ block.settings.margin_top }}px;"
+                {{ block.shopify_attributes }}
+              >
+                <div class="hero-33__review">
+                  <div
+                    class="hero-33__review-text"
+                    style="--review-text-color: {{ block.settings.text_color }};"
+                  >
+                    <p>{{ block.settings.review_label }} <strong>{{ block.settings.rating }}</strong> | {{ block.settings.customer_count }}</p>
+                  </div>
+                  <div class="hero-33__stars" style="--star-color: {{ block.settings.star_color }};">
+                    {%- for i in (1..5) -%}
+                      {%- if block.settings.star_icon == 'image' and block.settings.star_image != blank -%}
+                        {{ block.settings.star_image | image_url: width: 20 | image_tag: loading: 'lazy', width: 20, height: 20 }}
+                      {%- else -%}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19" fill="none">
+                          <path d="M10 0L12.9389 5.95492L19.5106 6.90983L14.7553 11.5451L15.8779 18.0902L10 15L4.12215 18.0902L5.24472 11.5451L0.489435 6.90983L7.06107 5.95492L10 0Z" fill="currentColor"/>
+                        </svg>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+
+                {%- if block.settings.show_testimonial -%}
+                  <div class="hero-33__author">
+                    {%- if block.settings.author_image != blank -%}
+                      <div class="hero-33__author-image">
+                        {{ block.settings.author_image | image_url: width: 128 | image_tag: loading: 'lazy', width: 64, height: 64 }}
+                      </div>
+                    {%- endif -%}
+                    <div class="hero-33__author-content">
+                      <div
+                        class="hero-33__author-text"
+                        style="--author-text-color: {{ block.settings.testimonial_color }};"
+                      >
+                        <p>{{ block.settings.testimonial }}</p>
+                      </div>
+                      <p
+                        class="hero-33__author-name"
+                        style="--author-name-color: {{ block.settings.author_color }};"
+                      >
+                        {{ block.settings.author_name }}
+                      </p>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JSections - Hero #33",
+  "tag": "section",
+  "class": "jsections-hero-33",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Background video"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height",
+      "min": 300,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "default": 550
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "section_margin",
+      "label": "Section margin",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading text",
+          "default": "Buy One, Get One Half Off"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "Font size",
+          "min": 16,
+          "max": 72,
+          "step": 2,
+          "unit": "px",
+          "default": 32
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 6
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text content",
+          "default": "Make Mother's Day twice as nice! Select skincare and bodycare is buy one, get one half off, so you can give more to the special women in your life."
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "label": "Font size",
+          "min": 12,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button 1"
+        },
+        {
+          "type": "text",
+          "id": "button_label_1",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "Button link"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_1",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_color_1",
+          "label": "Text color",
+          "default": "#121212"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_bg_1",
+          "label": "Hover background color",
+          "default": "#121212"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_color_1",
+          "label": "Hover text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Button 2"
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Button link"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_2",
+          "label": "Background color",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "type": "color",
+          "id": "button_color_2",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_bg_2",
+          "label": "Hover background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_hover_color_2",
+          "label": "Hover text color",
+          "default": "#121212"
+        },
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "type": "range",
+          "id": "button_border_radius",
+          "label": "Border radius",
+          "min": 0,
+          "max": 50,
+          "step": 2,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "default": 20
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Rating"
+        },
+        {
+          "type": "text",
+          "id": "review_label",
+          "label": "Review label",
+          "default": "Rating label"
+        },
+        {
+          "type": "text",
+          "id": "rating",
+          "label": "Rating score",
+          "default": "0.0"
+        },
+        {
+          "type": "text",
+          "id": "customer_count",
+          "label": "Customer count text",
+          "default": "Add accurate customer count"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "select",
+          "id": "star_icon",
+          "label": "Star type",
+          "options": [
+            {
+              "value": "svg",
+              "label": "SVG icon"
+            },
+            {
+              "value": "image",
+              "label": "Custom image"
+            }
+          ],
+          "default": "svg"
+        },
+        {
+          "type": "image_picker",
+          "id": "star_image",
+          "label": "Star image"
+        },
+        {
+          "type": "color",
+          "id": "star_color",
+          "label": "Star color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Testimonial"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_testimonial",
+          "label": "Show testimonial",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Author image"
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial",
+          "label": "Testimonial text",
+          "default": "Add a real customer testimonial or merchant-approved quote here."
+        },
+        {
+          "type": "color",
+          "id": "testimonial_color",
+          "label": "Testimonial color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author name",
+          "default": "Customer name"
+        },
+        {
+          "type": "color",
+          "id": "author_color",
+          "label": "Author name color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Top spacing",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 20
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "JSections - Hero #33",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "buttons"
+        },
+        {
+          "type": "review"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
