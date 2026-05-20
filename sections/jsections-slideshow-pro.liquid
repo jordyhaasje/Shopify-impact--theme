@@ -1,0 +1,968 @@
+{{ 'jsections-slideshow-pro.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign section_dom_id = 'jssp-' | append: section.id
+  assign overlay_main_alpha = section.settings.overlay_main_opacity | times: 0.01
+  assign overlay_glow_alpha = section.settings.overlay_glow_opacity | times: 0.01
+-%}
+
+<div
+  id="{{ section_dom_id }}"
+  class="jssp"
+  data-jssp-section-id="{{ section.id }}"
+  style="
+    --jssp-height-desktop: {{ section.settings.height_desktop }}px;
+    --jssp-height-mobile: {{ section.settings.height_mobile }}px;
+    --jssp-content-max-width: {{ section.settings.content_max_width }}px;
+    --jssp-content-offset-x-desktop: {{ section.settings.content_offset_x_desktop }}px;
+    --jssp-content-offset-y-desktop: {{ section.settings.content_offset_y_desktop }}px;
+    --jssp-content-offset-y-mobile: {{ section.settings.content_offset_y_mobile }}px;
+    --jssp-side-padding-mobile: {{ section.settings.side_padding_mobile }}px;
+    --jssp-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+    --jssp-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+    --jssp-body-size-desktop: {{ section.settings.body_size_desktop }}px;
+    --jssp-body-size-mobile: {{ section.settings.body_size_mobile }}px;
+    --jssp-radius: {{ section.settings.section_radius }}px;
+    --jssp-speed: {{ section.settings.transition_speed }}ms;
+    --jssp-text: {{ section.settings.text_color }};
+    --jssp-muted-text: {{ section.settings.muted_text_color }};
+    --jssp-accent: {{ section.settings.accent_color }};
+    --jssp-overlay-main: {{ section.settings.overlay_main_color | color_modify: 'alpha', overlay_main_alpha }};
+    --jssp-overlay-glow: {{ section.settings.overlay_glow_color | color_modify: 'alpha', overlay_glow_alpha }};
+    --jssp-caption-bg: {{ section.settings.caption_bg }};
+    --jssp-caption-border: {{ section.settings.caption_border }};
+    --jssp-review-bg: {{ section.settings.review_bg }};
+    --jssp-review-border: {{ section.settings.review_border }};
+    --jssp-chip-bg: {{ section.settings.chip_bg }};
+    --jssp-chip-border: {{ section.settings.chip_border }};
+    --jssp-chip-text: {{ section.settings.chip_text_color }};
+    --jssp-button-bg: {{ section.settings.button_bg }};
+    --jssp-button-text: {{ section.settings.button_text }};
+    --jssp-progress-track: {{ section.settings.progress_track }};
+    --jssp-progress-fill: {{ section.settings.progress_fill }};
+    --jssp-arrow-bg: {{ section.settings.arrow_bg }};
+    --jssp-arrow-text: {{ section.settings.arrow_text }};
+    --jssp-star-box-bg: {{ section.settings.star_box_bg }};
+    --jssp-star-color: {{ section.settings.star_color }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div
+    class="jssp__slider"
+    data-jssp-slider
+    data-autoplay="{{ section.settings.autoplay }}"
+    data-delay="{{ section.settings.autoplay_delay | times: 1000 }}"
+    data-loop="{{ section.settings.loop_slides }}"
+    data-pause-hover="{{ section.settings.pause_on_hover }}"
+    data-show-progress="{{ section.settings.show_progress }}"
+  >
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'slide' -%}
+          {%- liquid
+            assign desktop_image = block.settings.desktop_image
+            assign mobile_image = block.settings.mobile_image | default: desktop_image
+            assign feature_1_text = block.settings.feature_1_text | strip
+            assign feature_2_text = block.settings.feature_2_text | strip
+            assign feature_3_text = block.settings.feature_3_text | strip
+          -%}
+
+          <article
+            class="jssp__slide{% if forloop.first %} is-active{% endif %}"
+            data-slide-index="{{ forloop.index0 }}"
+            data-block-id="{{ block.id }}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="jssp__media">
+              {%- if desktop_image != blank -%}
+                {{
+                  desktop_image
+                  | image_url: width: 3840
+                  | image_tag:
+                    class: 'jssp__image jssp__image--desktop',
+                    loading: 'eager',
+                    widths: '750, 1100, 1500, 2000, 3000, 3840',
+                    sizes: '100vw',
+                    alt: desktop_image.alt
+                }}
+              {%- else -%}
+                <div class="jssp__placeholder jssp__placeholder--desktop">{{ 'lifestyle-2' | placeholder_svg_tag }}</div>
+              {%- endif -%}
+
+              {%- if mobile_image != blank -%}
+                {{
+                  mobile_image
+                  | image_url: width: 2000
+                  | image_tag:
+                    class: 'jssp__image jssp__image--mobile',
+                    loading: 'eager',
+                    widths: '550, 750, 1100, 1500, 2000',
+                    sizes: '100vw',
+                    alt: mobile_image.alt
+                }}
+              {%- else -%}
+                {%- if desktop_image != blank -%}
+                  {{
+                    desktop_image
+                    | image_url: width: 2000
+                    | image_tag:
+                      class: 'jssp__image jssp__image--mobile',
+                      loading: 'eager',
+                      widths: '550, 750, 1100, 1500, 2000',
+                      sizes: '100vw',
+                      alt: desktop_image.alt
+                  }}
+                {%- else -%}
+                  <div class="jssp__placeholder jssp__placeholder--mobile">{{ 'lifestyle-2' | placeholder_svg_tag }}</div>
+                {%- endif -%}
+              {%- endif -%}
+
+              <span class="jssp__overlay" aria-hidden="true"></span>
+            </div>
+
+            <div class="jssp__content-wrap">
+              <div class="jssp__content">
+                {%- if block.settings.caption != blank -%}
+                  <p class="jssp__caption">{{ block.settings.caption }}</p>
+                {%- endif -%}
+
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="jssp__heading">{{ block.settings.heading }}</h2>
+                {%- endif -%}
+
+                {%- if section.settings.show_review and block.settings.review_text != blank -%}
+                  <div class="jssp__review">
+                    <span class="jssp__stars" aria-hidden="true">
+                      {%- for i in (1..5) -%}
+                        <span class="jssp__star-box">★</span>
+                      {%- endfor -%}
+                    </span>
+                    <span class="jssp__review-text">{{ block.settings.review_text }}</span>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.description != blank -%}
+                  <p class="jssp__description">{{ block.settings.description }}</p>
+                {%- endif -%}
+
+                {%- if section.settings.show_features -%}
+                  <div class="jssp__features">
+                    {%- if feature_1_text != blank -%}
+                      <div class="jssp__feature">
+                        <span class="jssp__feature-icon" aria-hidden="true">
+                          {%- case block.settings.feature_1_icon -%}
+                            {%- when 'leaf' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.3 10.9C3.3 6.5 6.9 3 11.3 3h5.4v5.4c0 4.4-3.6 7.9-7.9 7.9h-.9C5.4 16.3 3.3 14.2 3.3 11.7v-.8Z" stroke="currentColor" stroke-width="1.8"/><path d="M6.8 13.2c2.5-2.5 4.9-4 8.9-5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                            {%- when 'brain' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 4.1a2.9 2.9 0 0 0-4.7 2.3c0 .3 0 .6.1.8a2.9 2.9 0 0 0 .6 5.6h.2a3.2 3.2 0 0 0 3.2 3.1h1.3M12 4.1a2.9 2.9 0 0 1 4.7 2.3c0 .3 0 .6-.1.8a2.9 2.9 0 0 1-.6 5.6h-.2a3.2 3.2 0 0 1-3.2 3.1h-1.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10 4v12M7 7.2h3M7.4 10h2.6M10 12.8h2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'snow' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8V17.2M4.1 6.2l11.8 7.6M4.1 13.8l11.8-7.6M6.8 3.8l6.4 12.4M13.2 3.8 6.8 16.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'bulb' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 12.8a4.2 4.2 0 1 1 6 0c-.6.6-.9 1.2-.9 1.9V15H8v-.3c0-.7-.3-1.3-1-1.9Z" stroke="currentColor" stroke-width="1.6"/><path d="M8.3 17h3.4M9 15h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'moon' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.4 13.4a6.4 6.4 0 0 1-7.8-7.8 6.8 6.8 0 1 0 7.8 7.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                            {%- when 'drop' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8c1.9 2.8 4.8 5.5 4.8 8.7a4.8 4.8 0 1 1-9.6 0c0-3.2 2.9-6 4.8-8.7Z" stroke="currentColor" stroke-width="1.8"/><path d="M7.7 11.7a2.3 2.3 0 0 0 2.3 2.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            {%- when 'spark' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8 11.9 8l5.3 1.9-5.3 1.9-1.9 5.4-1.9-5.4-5.3-1.9L8.1 8 10 2.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                            {%- else -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.8 10h12.4M10 3.8V16.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                          {%- endcase -%}
+                        </span>
+                        <span class="jssp__feature-text">{{ feature_1_text }}</span>
+                      </div>
+                    {%- endif -%}
+
+                    {%- if feature_2_text != blank -%}
+                      <div class="jssp__feature">
+                        <span class="jssp__feature-icon" aria-hidden="true">
+                          {%- case block.settings.feature_2_icon -%}
+                            {%- when 'leaf' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.3 10.9C3.3 6.5 6.9 3 11.3 3h5.4v5.4c0 4.4-3.6 7.9-7.9 7.9h-.9C5.4 16.3 3.3 14.2 3.3 11.7v-.8Z" stroke="currentColor" stroke-width="1.8"/><path d="M6.8 13.2c2.5-2.5 4.9-4 8.9-5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                            {%- when 'brain' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 4.1a2.9 2.9 0 0 0-4.7 2.3c0 .3 0 .6.1.8a2.9 2.9 0 0 0 .6 5.6h.2a3.2 3.2 0 0 0 3.2 3.1h1.3M12 4.1a2.9 2.9 0 0 1 4.7 2.3c0 .3 0 .6-.1.8a2.9 2.9 0 0 1-.6 5.6h-.2a3.2 3.2 0 0 1-3.2 3.1h-1.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10 4v12M7 7.2h3M7.4 10h2.6M10 12.8h2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'snow' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8V17.2M4.1 6.2l11.8 7.6M4.1 13.8l11.8-7.6M6.8 3.8l6.4 12.4M13.2 3.8 6.8 16.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'bulb' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 12.8a4.2 4.2 0 1 1 6 0c-.6.6-.9 1.2-.9 1.9V15H8v-.3c0-.7-.3-1.3-1-1.9Z" stroke="currentColor" stroke-width="1.6"/><path d="M8.3 17h3.4M9 15h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'moon' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.4 13.4a6.4 6.4 0 0 1-7.8-7.8 6.8 6.8 0 1 0 7.8 7.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                            {%- when 'drop' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8c1.9 2.8 4.8 5.5 4.8 8.7a4.8 4.8 0 1 1-9.6 0c0-3.2 2.9-6 4.8-8.7Z" stroke="currentColor" stroke-width="1.8"/><path d="M7.7 11.7a2.3 2.3 0 0 0 2.3 2.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            {%- when 'spark' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8 11.9 8l5.3 1.9-5.3 1.9-1.9 5.4-1.9-5.4-5.3-1.9L8.1 8 10 2.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                            {%- else -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.8 10h12.4M10 3.8V16.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                          {%- endcase -%}
+                        </span>
+                        <span class="jssp__feature-text">{{ feature_2_text }}</span>
+                      </div>
+                    {%- endif -%}
+
+                    {%- if feature_3_text != blank -%}
+                      <div class="jssp__feature">
+                        <span class="jssp__feature-icon" aria-hidden="true">
+                          {%- case block.settings.feature_3_icon -%}
+                            {%- when 'leaf' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.3 10.9C3.3 6.5 6.9 3 11.3 3h5.4v5.4c0 4.4-3.6 7.9-7.9 7.9h-.9C5.4 16.3 3.3 14.2 3.3 11.7v-.8Z" stroke="currentColor" stroke-width="1.8"/><path d="M6.8 13.2c2.5-2.5 4.9-4 8.9-5.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                            {%- when 'brain' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 4.1a2.9 2.9 0 0 0-4.7 2.3c0 .3 0 .6.1.8a2.9 2.9 0 0 0 .6 5.6h.2a3.2 3.2 0 0 0 3.2 3.1h1.3M12 4.1a2.9 2.9 0 0 1 4.7 2.3c0 .3 0 .6-.1.8a2.9 2.9 0 0 1-.6 5.6h-.2a3.2 3.2 0 0 1-3.2 3.1h-1.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10 4v12M7 7.2h3M7.4 10h2.6M10 12.8h2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'snow' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8V17.2M4.1 6.2l11.8 7.6M4.1 13.8l11.8-7.6M6.8 3.8l6.4 12.4M13.2 3.8 6.8 16.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'bulb' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 12.8a4.2 4.2 0 1 1 6 0c-.6.6-.9 1.2-.9 1.9V15H8v-.3c0-.7-.3-1.3-1-1.9Z" stroke="currentColor" stroke-width="1.6"/><path d="M8.3 17h3.4M9 15h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                            {%- when 'moon' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.4 13.4a6.4 6.4 0 0 1-7.8-7.8 6.8 6.8 0 1 0 7.8 7.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                            {%- when 'drop' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8c1.9 2.8 4.8 5.5 4.8 8.7a4.8 4.8 0 1 1-9.6 0c0-3.2 2.9-6 4.8-8.7Z" stroke="currentColor" stroke-width="1.8"/><path d="M7.7 11.7a2.3 2.3 0 0 0 2.3 2.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            {%- when 'spark' -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.8 11.9 8l5.3 1.9-5.3 1.9-1.9 5.4-1.9-5.4-5.3-1.9L8.1 8 10 2.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                            {%- else -%}
+                              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.8 10h12.4M10 3.8V16.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                          {%- endcase -%}
+                        </span>
+                        <span class="jssp__feature-text">{{ feature_3_text }}</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.button_label != blank -%}
+                  <a href="{{ block.settings.button_link | default: '#' }}" class="jssp__button">
+                    {{ block.settings.button_label }}
+                  </a>
+                {%- endif -%}
+
+                {%- if section.settings.show_guarantee and block.settings.guarantee_text != blank -%}
+                  <p class="jssp__guarantee">
+                    <span class="jssp__guarantee-icon" aria-hidden="true">
+                      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="M14.783 2.813 9.533 1.133a1.75 1.75 0 0 0-1.066 0L3.216 2.813A1.75 1.75 0 0 0 2 4.48V11c0 3.508 4.946 5.379 6.46 5.869.177.057.358.086.54.086s.362-.028.538-.085C11.054 16.379 16 14.508 16 11V4.48a1.75 1.75 0 0 0-1.217-1.667Zm-2.681 4.389-3.397 4.5a.75.75 0 0 1-1.11.094l-1.609-1.5a.75.75 0 1 1 1.022-1.098l1.001.933 2.896-3.836a.75.75 0 0 1 1.197.907Z" fill="currentColor"/></svg>
+                    </span>
+                    <span>{{ block.settings.guarantee_text }}</span>
+                  </p>
+                {%- endif -%}
+              </div>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <article class="jssp__slide is-active">
+        <div class="jssp__media">
+          <div class="jssp__placeholder">{{ 'lifestyle-2' | placeholder_svg_tag }}</div>
+          <span class="jssp__overlay" aria-hidden="true"></span>
+        </div>
+        <div class="jssp__content-wrap">
+          <div class="jssp__content">
+            <p class="jssp__caption">Slideshow Pro</p>
+            <h2 class="jssp__heading">Add slides to start building</h2>
+          </div>
+        </div>
+      </article>
+    {%- endif -%}
+
+    {%- if section.settings.show_progress and section.blocks.size > 1 -%}
+      <div class="jssp__progress" aria-hidden="true">
+        <span class="jssp__progress-fill" data-jssp-progress-fill></span>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function() {
+    const sectionId = "{{ section.id }}";
+    const rootSelector = '[data-jssp-section-id="' + sectionId + '"]';
+
+    function destroy(root) {
+      if (!root || !root.__jsspState) return;
+      const state = root.__jsspState;
+
+      if (typeof state.stopTimer === "function") {
+        state.stopTimer();
+      }
+
+      if (Array.isArray(state.listeners)) {
+        state.listeners.forEach(function(listener) {
+          listener.el.removeEventListener(listener.type, listener.fn);
+        });
+      }
+
+      if (typeof state.onVisibility === "function") {
+        document.removeEventListener("visibilitychange", state.onVisibility);
+      }
+
+      root.__jsspState = null;
+    }
+
+    function init() {
+      const root = document.querySelector(rootSelector);
+      if (!root) return;
+
+      destroy(root);
+
+      const slider = root.querySelector("[data-jssp-slider]");
+      const slides = Array.from(root.querySelectorAll(".jssp__slide"));
+      if (!slider || slides.length <= 1) return;
+
+      const progressFill = root.querySelector("[data-jssp-progress-fill]");
+      const autoplay = slider.dataset.autoplay === "true";
+      const pauseOnHover = slider.dataset.pauseHover === "true";
+      const shouldLoop = slider.dataset.loop === "true";
+      const delay = Math.max(2000, Number(slider.dataset.delay || "5000"));
+      let currentIndex = slides.findIndex(function(slide) {
+        return slide.classList.contains("is-active");
+      });
+      if (currentIndex < 0) currentIndex = 0;
+
+      const state = {
+        listeners: [],
+        timer: null,
+        onVisibility: null,
+        stopTimer: null,
+        goTo: null
+      };
+
+      function bind(el, type, fn) {
+        if (!el) return;
+        el.addEventListener(type, fn);
+        state.listeners.push({ el: el, type: type, fn: fn });
+      }
+
+      function updateProgress() {
+        if (!progressFill) return;
+        const progress = ((currentIndex + 1) / slides.length) * 100;
+        progressFill.style.width = progress + "%";
+      }
+
+      function setActive(targetIndex) {
+        if (targetIndex === currentIndex) return;
+        if (targetIndex < 0 || targetIndex >= slides.length) return;
+
+        slides[currentIndex].classList.remove("is-active");
+        slides[targetIndex].classList.add("is-active");
+        currentIndex = targetIndex;
+        updateProgress();
+      }
+
+      function next() {
+        const target = currentIndex + 1;
+        if (target >= slides.length) {
+          if (shouldLoop) setActive(0);
+          return;
+        }
+        setActive(target);
+      }
+
+      function prev() {
+        const target = currentIndex - 1;
+        if (target < 0) {
+          if (shouldLoop) setActive(slides.length - 1);
+          return;
+        }
+        setActive(target);
+      }
+
+      function stopTimer() {
+        if (state.timer) {
+          clearInterval(state.timer);
+          state.timer = null;
+        }
+      }
+
+      function startTimer() {
+        if (!autoplay) return;
+        stopTimer();
+        state.timer = setInterval(function() {
+          if (document.hidden) return;
+          next();
+        }, delay);
+      }
+
+      state.stopTimer = stopTimer;
+      state.goTo = setActive;
+
+      let touchStartX = null;
+      bind(slider, "touchstart", function(event) {
+        if (!event.touches || !event.touches[0]) return;
+        touchStartX = event.touches[0].clientX;
+      });
+      bind(slider, "touchend", function(event) {
+        if (touchStartX === null || !event.changedTouches || !event.changedTouches[0]) {
+          touchStartX = null;
+          return;
+        }
+        const delta = event.changedTouches[0].clientX - touchStartX;
+        touchStartX = null;
+        if (Math.abs(delta) < 45) return;
+        if (delta < 0) next();
+        if (delta > 0) prev();
+      });
+
+      if (pauseOnHover) {
+        bind(root, "mouseenter", stopTimer);
+        bind(root, "mouseleave", startTimer);
+      }
+
+      state.onVisibility = function() {
+        if (document.hidden) {
+          stopTimer();
+        } else {
+          startTimer();
+        }
+      };
+      document.addEventListener("visibilitychange", state.onVisibility);
+
+      updateProgress();
+      startTimer();
+      root.__jsspState = state;
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+
+    if (typeof Shopify !== "undefined" && Shopify.designMode) {
+      document.addEventListener("shopify:section:load", function(event) {
+        if (!event || !event.detail || event.detail.sectionId !== sectionId) return;
+        init();
+      });
+
+      document.addEventListener("shopify:section:unload", function(event) {
+        if (!event || !event.detail || event.detail.sectionId !== sectionId) return;
+        const root = document.querySelector(rootSelector);
+        destroy(root);
+      });
+
+      document.addEventListener("shopify:block:select", function(event) {
+        if (!event || !event.detail || event.detail.sectionId !== sectionId) return;
+        const root = document.querySelector(rootSelector);
+        if (!root || !root.__jsspState || typeof root.__jsspState.goTo !== "function") return;
+        const block = root.querySelector('[data-block-id="' + event.detail.blockId + '"]');
+        if (!block) return;
+        const index = Number(block.getAttribute("data-slide-index"));
+        if (!Number.isNaN(index)) {
+          root.__jsspState.goTo(index);
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Slideshow Pro",
+  "tag": "section",
+  "class": "jsections-slideshow-pro",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Slider behavior"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Autoplay delay",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover (desktop)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_slides",
+      "label": "Loop slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "label": "Transition speed",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "unit": "ms",
+      "default": 600
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show progress bar",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content elements"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_review",
+      "label": "Show review badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Show feature chips",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantee",
+      "label": "Show guarantee row",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "label": "Desktop height",
+      "min": 500,
+      "max": 960,
+      "step": 10,
+      "unit": "px",
+      "default": 690
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Mobile height",
+      "min": 520,
+      "max": 980,
+      "step": 10,
+      "unit": "px",
+      "default": 760
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Desktop content width",
+      "min": 320,
+      "max": 760,
+      "step": 10,
+      "unit": "px",
+      "default": 640
+    },
+    {
+      "type": "range",
+      "id": "content_offset_x_desktop",
+      "label": "Desktop left offset",
+      "min": 16,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "content_offset_y_desktop",
+      "label": "Desktop top offset",
+      "min": 16,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "content_offset_y_mobile",
+      "label": "Mobile top offset",
+      "min": 20,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "side_padding_mobile",
+      "label": "Mobile side padding",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_radius",
+      "label": "Section corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading size desktop",
+      "min": 32,
+      "max": 86,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size mobile",
+      "min": 28,
+      "max": 62,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "body_size_desktop",
+      "label": "Body size desktop",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "body_size_mobile",
+      "label": "Body size mobile",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Main text",
+      "default": "#f0eee9"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text",
+      "default": "#d4d8e1"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent heading text",
+      "default": "#ced29a"
+    },
+    {
+      "type": "color",
+      "id": "overlay_main_color",
+      "label": "Overlay base color",
+      "default": "#0a1430"
+    },
+    {
+      "type": "range",
+      "id": "overlay_main_opacity",
+      "label": "Overlay base opacity",
+      "min": 0,
+      "max": 95,
+      "step": 5,
+      "unit": "%",
+      "default": 70
+    },
+    {
+      "type": "color",
+      "id": "overlay_glow_color",
+      "label": "Overlay glow color",
+      "default": "#f4a56a"
+    },
+    {
+      "type": "range",
+      "id": "overlay_glow_opacity",
+      "label": "Overlay glow opacity",
+      "min": 0,
+      "max": 95,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "caption_bg",
+      "label": "Caption background",
+      "default": "#3d4a60"
+    },
+    {
+      "type": "color",
+      "id": "caption_border",
+      "label": "Caption border",
+      "default": "#738097"
+    },
+    {
+      "type": "color",
+      "id": "review_bg",
+      "label": "Review badge background",
+      "default": "#2a3650"
+    },
+    {
+      "type": "color",
+      "id": "review_border",
+      "label": "Review badge border",
+      "default": "#5f6980"
+    },
+    {
+      "type": "color",
+      "id": "chip_bg",
+      "label": "Feature chip background",
+      "default": "#2a3650"
+    },
+    {
+      "type": "color",
+      "id": "chip_border",
+      "label": "Feature chip border",
+      "default": "#5f6980"
+    },
+    {
+      "type": "color",
+      "id": "chip_text_color",
+      "label": "Feature chip text",
+      "default": "#f0eee9"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button background",
+      "default": "#f3d400"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "#141414"
+    },
+    {
+      "type": "color",
+      "id": "progress_track",
+      "label": "Progress track",
+      "default": "#6d7383"
+    },
+    {
+      "type": "color",
+      "id": "progress_fill",
+      "label": "Progress fill",
+      "default": "#f0eee9"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Arrow background",
+      "default": "#f0eee9"
+    },
+    {
+      "type": "color",
+      "id": "arrow_text",
+      "label": "Arrow icon color",
+      "default": "#131722"
+    },
+    {
+      "type": "color",
+      "id": "star_box_bg",
+      "label": "Star box background",
+      "default": "#00b67a"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star icon color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image override"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Nocturnal Rituals"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "A calming <strong>botanical</strong> reset"
+        },
+        {
+          "type": "text",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "Rated 5/5 for relaxation"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Experience the benefits of magnesium-infused sleep blends and organic weighted masks designed to optimize your rest."
+        },
+        {
+          "type": "select",
+          "id": "feature_1_icon",
+          "label": "Feature 1 icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "brain", "label": "Brain" },
+            { "value": "snow", "label": "Snowflake" },
+            { "value": "bulb", "label": "Light bulb" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "drop", "label": "Drop" },
+            { "value": "spark", "label": "Spark" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "feature_1_text",
+          "label": "Feature 1 text",
+          "default": "100% Organic"
+        },
+        {
+          "type": "select",
+          "id": "feature_2_icon",
+          "label": "Feature 2 icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "brain", "label": "Brain" },
+            { "value": "snow", "label": "Snowflake" },
+            { "value": "bulb", "label": "Light bulb" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "drop", "label": "Drop" },
+            { "value": "spark", "label": "Spark" }
+          ],
+          "default": "brain"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_text",
+          "label": "Feature 2 text",
+          "default": "Magnesium Rich"
+        },
+        {
+          "type": "select",
+          "id": "feature_3_icon",
+          "label": "Feature 3 icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "brain", "label": "Brain" },
+            { "value": "snow", "label": "Snowflake" },
+            { "value": "bulb", "label": "Light bulb" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "drop", "label": "Drop" },
+            { "value": "spark", "label": "Spark" }
+          ],
+          "default": "bulb"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_text",
+          "label": "Feature 3 text",
+          "default": "Smart-Sync Light"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop The Ritual"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "guarantee_text",
+          "label": "Guarantee text",
+          "default": "30-Night Comfort Guarantee"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow Pro",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "caption": "Nocturnal Rituals",
+            "heading": "A calming <strong>botanical</strong> reset",
+            "review_text": "Rated 5/5 for relaxation",
+            "description": "Experience the benefits of magnesium-infused sleep blends and organic weighted masks designed to optimize your rest.",
+            "feature_1_icon": "leaf",
+            "feature_1_text": "100% Organic",
+            "feature_2_icon": "brain",
+            "feature_2_text": "Magnesium Rich",
+            "feature_3_icon": "bulb",
+            "feature_3_text": "Smart-Sync Light",
+            "button_label": "Shop The Ritual",
+            "guarantee_text": "30-Night Comfort Guarantee"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "caption": "Rest & Recover",
+            "heading": "Master your <strong>circadian</strong> rhythm",
+            "review_text": "The science of superior sleep",
+            "description": "Enhance your nightly rest with intelligent lighting and fabrics that promote deeper REM cycles.",
+            "feature_1_icon": "brain",
+            "feature_1_text": "REM+ Optimization",
+            "feature_2_icon": "snow",
+            "feature_2_text": "Active Cooling",
+            "feature_3_icon": "bulb",
+            "feature_3_text": "Smart-Sync Light",
+            "button_label": "Explore Sleep Tech",
+            "guarantee_text": "Clinically tested sleep results"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
