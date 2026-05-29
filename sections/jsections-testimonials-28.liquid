@@ -1,0 +1,727 @@
+{%- comment -%}
+  JSections - Testimonials #28
+  Version: 1.0.0
+  Installed by: Hazify Sections
+
+  Do not modify - updates will overwrite changes.
+  To customize, duplicate this section in your theme.
+{%- endcomment -%}
+
+{{ 'jsections-testimonials-28.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="jtest28 jtest28--{{ section.settings.style_preset }}"
+  style="
+    --jtest28-bg-start: {{ section.settings.gradient_start }};
+    --jtest28-bg-mid: {{ section.settings.gradient_mid }};
+    --jtest28-bg-end: {{ section.settings.gradient_end }};
+    --jtest28-text: {{ section.settings.text_color }};
+    --jtest28-card-bg: {{ section.settings.card_background }};
+    --jtest28-card-border: {{ section.settings.card_border_color }};
+    --jtest28-accent: {{ section.settings.accent_color }};
+    --jtest28-badge-bg: {{ section.settings.badge_background }};
+    --jtest28-badge-text: {{ section.settings.badge_text_color }};
+    --jtest28-button-bg: {{ section.settings.button_background }};
+    --jtest28-button-text: {{ section.settings.button_text_color }};
+    --jtest28-guarantee-bg: {{ section.settings.guarantee_background }};
+    --jtest28-max-width: {{ section.settings.max_width }}px;
+    --jtest28-margin-top: {{ section.settings.margin_top }}px;
+    --jtest28-padding-top: {{ section.settings.padding_top }}px;
+    --jtest28-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --jtest28-columns: {{ section.settings.desktop_columns }};
+    --jtest28-gap: {{ section.settings.card_gap }}px;
+    --jtest28-mobile-width: {{ section.settings.mobile_card_width }}%;
+    --jtest28-avatar-size: {{ section.settings.avatar_size }}px;
+    --jtest28-avatar-overlap: {{ section.settings.avatar_overlap }}px;
+    --jtest28-avatar-drop: {{ section.settings.avatar_vertical_step | default: 3 }}px;
+    --jtest28-avatar-drop-high: -{{ section.settings.avatar_vertical_step | default: 3 | times: 1.5 }}px;
+    --jtest28-avatar-drop-up: -{{ section.settings.avatar_vertical_step | default: 3 | times: 0.5 }}px;
+    --jtest28-avatar-drop-down: {{ section.settings.avatar_vertical_step | default: 3 | times: 0.5 }}px;
+    --jtest28-avatar-drop-low: {{ section.settings.avatar_vertical_step | default: 3 | times: 1.5 }}px;
+    --jtest28-avatar-tilt: {{ section.settings.avatar_tilt | default: 4 }}deg;
+    --jtest28-avatar-tilt-reverse: -{{ section.settings.avatar_tilt | default: 4 }}deg;
+    --jtest28-avatar-tilt-soft: {{ section.settings.avatar_tilt | default: 4 | times: 0.35 }}deg;
+    --jtest28-avatar-tilt-soft-reverse: -{{ section.settings.avatar_tilt | default: 4 | times: 0.35 }}deg;
+    --jtest28-summary-star-size: {{ section.settings.summary_star_size }}px;
+    --jtest28-card-star-size: {{ section.settings.card_star_size }}px;
+  "
+  data-jtest28-section="{{ section.id }}"
+  data-jtest28-columns="{{ section.settings.desktop_columns }}"
+  data-jtest28-loop="{{ section.settings.loop_slider }}"
+  data-jtest28-autoplay-videos="{{ section.settings.autoplay_videos }}"
+  data-jtest28-native-controls="{{ section.settings.show_native_video_controls }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="jtest28__inner">
+    {%- if section.settings.show_summary -%}
+      <div class="jtest28__summary">
+        {%- if section.settings.show_avatars and section.settings.avatar_count > 0 -%}
+          <div class="jtest28__avatars" aria-hidden="true">
+            {%- for index in (1..4) -%}
+              {%- if index <= section.settings.avatar_count -%}
+                {%- liquid
+                  assign avatar_key = 'avatar_' | append: index
+                  assign avatar = section.settings[avatar_key]
+                -%}
+                <div class="jtest28__avatar">
+                  {%- if avatar != blank -%}
+                    {{
+                      avatar
+                      | image_url: width: 160
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: '44px',
+                        alt: '',
+                        class: 'jtest28__avatar-image'
+                    }}
+                  {%- else -%}
+                    {{ 'image' | placeholder_svg_tag: 'jtest28__avatar-placeholder' }}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <div class="jtest28__summary-content">
+          {%- if section.settings.summary_text != blank -%}
+            <p class="jtest28__summary-text">{{ section.settings.summary_text }}</p>
+          {%- endif -%}
+          <div class="jtest28__summary-rating">
+            {%- if section.settings.show_summary_stars and section.settings.summary_star_count > 0 -%}
+              <div class="jtest28__stars" aria-label="{{ section.settings.rating_text | escape }}">
+                {%- for i in (1..5) -%}
+                  {%- if i <= section.settings.summary_star_count -%}
+                    <svg viewBox="0 0 32 32" aria-hidden="true">
+                      <rect width="32" height="32" rx="0" />
+                      <path d="M16 5 18.7 12.4H26.6L20.2 17 22.8 24.7 16 20 9.2 24.7 11.8 17 5.4 12.4H13.3L16 5Z" />
+                    </svg>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+            {%- if section.settings.rating_text != blank -%}
+              <p>{{ section.settings.rating_text }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <div class="jtest28__heading">{{ section.settings.heading }}</div>
+    {%- endif -%}
+
+    <div class="jtest28__slider" data-jtest28-slider>
+      <div class="jtest28__track" role="list">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign poster = block.settings.poster
+            assign video = block.settings.video
+            assign image_alt = block.settings.author | default: 'Video testimonial'
+            assign star_count = block.settings.star_count | default: 5 | plus: 0
+
+            if poster != blank and poster.alt != blank
+              assign image_alt = poster.alt
+            endif
+          -%}
+          <article class="jtest28__card" role="listitem" {{ block.shopify_attributes }}>
+            <div class="jtest28__media">
+              {%- if video != blank -%}
+                {{
+                  video
+                  | video_tag:
+                    image_size: '900x',
+                    autoplay: section.settings.autoplay_videos,
+                    loop: true,
+                    muted: section.settings.autoplay_videos,
+                    controls: false,
+                    playsinline: true,
+                    preload: 'none',
+                    class: 'jtest28__video'
+                }}
+                <button type="button" class="jtest28__play is-active" aria-label="Play testimonial video" aria-pressed="false">
+                  <svg viewBox="0 0 256 256" aria-hidden="true"><path d="M240 128a15.74 15.74 0 0 1-7.6 13.51L88.32 229.65a16 16 0 0 1-16.2.3A15.86 15.86 0 0 1 64 216.13V39.87a15.86 15.86 0 0 1 8.12-13.82 16 16 0 0 1 16.2.3L232.4 114.49A15.74 15.74 0 0 1 240 128Z"/></svg>
+                </button>
+              {%- elsif poster != blank -%}
+                {{
+                  poster
+                  | image_url: width: 900
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 1024px) 25vw, 78vw',
+                    alt: image_alt,
+                    class: 'jtest28__image'
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'jtest28__placeholder' }}
+              {%- endif -%}
+            </div>
+
+            <div class="jtest28__content">
+              {%- if block.settings.text != blank -%}
+                <div class="jtest28__quote">{{ block.settings.text }}</div>
+              {%- endif -%}
+              <div class="jtest28__bottom">
+                {%- if block.settings.show_stars -%}
+                  <div class="jtest28__card-rating">
+                    {%- if star_count > 0 -%}
+                      <div class="jtest28__stars jtest28__stars--small" aria-label="{{ star_count }} out of 5 stars">
+                        {%- for i in (1..5) -%}
+                          {%- if i <= star_count -%}
+                            <svg viewBox="0 0 32 32" aria-hidden="true">
+                              <rect width="32" height="32" rx="0" />
+                              <path d="M16 5 18.7 12.4H26.6L20.2 17 22.8 24.7 16 20 9.2 24.7 11.8 17 5.4 12.4H13.3L16 5Z" />
+                            </svg>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.badge != blank -%}
+                      <span class="jtest28__badge">{{ block.settings.badge }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.author != blank -%}
+                  <p class="jtest28__author">{{ block.settings.author }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.settings.show_arrows and section.blocks.size > 1 -%}
+      <div class="jtest28__arrows">
+        <button type="button" class="jtest28__arrow" aria-label="Previous testimonial" data-jtest28-prev><span aria-hidden="true"></span></button>
+        <button type="button" class="jtest28__arrow" aria-label="Next testimonial" data-jtest28-next><span aria-hidden="true"></span></button>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_button and section.settings.button_label != blank -%}
+      <a class="jtest28__button" href="{{ section.settings.button_link | default: routes.root_url }}">
+        <span>{{ section.settings.button_label }}</span>
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.show_guarantee and section.settings.guarantee_text != blank -%}
+      <div class="jtest28__guarantee">{{ section.settings.guarantee_text }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (() => {
+    const sectionId = {{ section.id | json }};
+    const selector = `[data-jtest28-section="${sectionId}"]`;
+    const registryKey = "jtest28Instances";
+    window[registryKey] = window[registryKey] || {};
+
+    function cleanup() {
+      const instance = window[registryKey][sectionId];
+      if (!instance) return;
+      instance.destroy();
+      delete window[registryKey][sectionId];
+    }
+
+    function init() {
+      const root = document.querySelector(selector);
+      if (!root) return;
+      cleanup();
+
+      const track = root.querySelector(".jtest28__track");
+      const slider = root.querySelector("[data-jtest28-slider]");
+      const slides = Array.from(root.querySelectorAll(".jtest28__card"));
+      const prev = root.querySelector("[data-jtest28-prev]");
+      const next = root.querySelector("[data-jtest28-next]");
+      const playButtons = Array.from(root.querySelectorAll(".jtest28__play"));
+      const shouldLoop = root.dataset.jtest28Loop === "true";
+      const shouldAutoplayVideos = root.dataset.jtest28AutoplayVideos === "true";
+      const showNativeControls = root.dataset.jtest28NativeControls === "true";
+      const supportsPointer = "PointerEvent" in window;
+      let index = 0;
+      let dragging = false;
+      let startX = 0;
+      let startY = 0;
+      let startTranslate = 0;
+      let currentTranslate = 0;
+      let pointerId = null;
+      let dragAxis = null;
+
+      function visibleCount() {
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+          return Math.max(1, Number(root.dataset.jtest28Columns || 4));
+        }
+        return 1;
+      }
+
+      function maxIndex() {
+        if (window.matchMedia("(min-width: 1024px)").matches) {
+          return Math.max(0, slides.length - visibleCount());
+        }
+        return Math.max(0, slides.length - 1);
+      }
+
+      function slideStep() {
+        const gap = parseFloat(getComputedStyle(track).gap || "0");
+        const width = slides[0]?.getBoundingClientRect().width || 0;
+        return width + gap;
+      }
+
+      function setTranslate(value) {
+        currentTranslate = value;
+        track.style.transform = `translate3d(${value}px, 0, 0)`;
+      }
+
+      function update() {
+        index = Math.min(Math.max(index, 0), maxIndex());
+        setTranslate(-index * slideStep());
+        if (prev) prev.disabled = !shouldLoop && index <= 0;
+        if (next) next.disabled = !shouldLoop && index >= maxIndex();
+      }
+
+      function setButtonActive(button, active) {
+        if (!button) return;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", active ? "false" : "true");
+      }
+
+      function syncVideoButton(video) {
+        const media = video.closest(".jtest28__media");
+        const button = media?.querySelector(".jtest28__play");
+        setButtonActive(button, video.paused || video.ended);
+      }
+
+      function pauseOthers(activeVideo) {
+        root.querySelectorAll("video").forEach((video) => {
+          if (video === activeVideo) return;
+          video.pause();
+          video.controls = false;
+          syncVideoButton(video);
+        });
+      }
+
+      function playVideo(video, button) {
+        pauseOthers(video);
+        video.controls = showNativeControls;
+        const playAttempt = video.play();
+        if (playAttempt && typeof playAttempt.then === "function") {
+          playAttempt
+            .then(() => {
+              setButtonActive(button, false);
+            })
+            .catch(() => {
+              video.controls = false;
+              setButtonActive(button, true);
+            });
+        } else {
+          setButtonActive(button, false);
+        }
+      }
+
+      const onPrev = () => {
+        if (shouldLoop && index <= 0) {
+          index = maxIndex();
+        } else {
+          index -= 1;
+        }
+        update();
+      };
+      const onNext = () => {
+        if (shouldLoop && index >= maxIndex()) {
+          index = 0;
+        } else {
+          index += 1;
+        }
+        update();
+      };
+      const onResize = () => update();
+      const playHandlers = [];
+      const pauseHandlers = [];
+
+      function isInteractiveTarget(target) {
+        return Boolean(target?.closest?.(".jtest28__play, .jtest28__button, .jtest28__arrow, a, button, input, textarea, select"));
+      }
+
+      function beginDrag(clientX, target) {
+        if (isInteractiveTarget(target)) return false;
+        if (!slider || dragging || slides.length <= visibleCount()) return false;
+        dragging = true;
+        startX = clientX;
+        startTranslate = currentTranslate;
+        dragAxis = null;
+        slider.classList.add("is-dragging");
+        return true;
+      }
+
+      function moveDrag(clientX, clientY) {
+        if (!dragging) return;
+        const delta = clientX - startX;
+        if (!dragAxis && typeof clientY === "number") {
+          const verticalDelta = Math.abs((clientY || 0) - startY);
+          if (Math.abs(delta) > 8 || verticalDelta > 8) {
+            dragAxis = Math.abs(delta) >= verticalDelta ? "x" : "y";
+          }
+        }
+        if (dragAxis === "y") return;
+        const minTranslate = -maxIndex() * slideStep();
+        let nextTranslate = startTranslate + delta;
+        if (!shouldLoop) {
+          if (nextTranslate > 0) nextTranslate = nextTranslate / 4;
+          if (nextTranslate < minTranslate) nextTranslate = minTranslate + (nextTranslate - minTranslate) / 4;
+        }
+        setTranslate(nextTranslate);
+      }
+
+      function finishDrag(clientX) {
+        if (!dragging) return;
+        const delta = clientX - startX;
+        dragging = false;
+        pointerId = null;
+        dragAxis = null;
+        slider.classList.remove("is-dragging");
+        if (Math.abs(delta) > 40) {
+          if (delta < 0) {
+            onNext();
+          } else {
+            onPrev();
+          }
+          return;
+        }
+        index = Math.round(Math.abs(currentTranslate) / Math.max(1, slideStep()));
+        if (shouldLoop) {
+          if (index > maxIndex()) index = 0;
+          if (index < 0) index = maxIndex();
+        }
+        update();
+      }
+
+      const onPointerDown = (event) => {
+        startY = event.clientY;
+        if (!beginDrag(event.clientX, event.target)) return;
+        pointerId = event.pointerId;
+        try {
+          slider.setPointerCapture?.(pointerId);
+        } catch {
+        }
+        window.addEventListener("pointermove", onPointerMove, { passive: false });
+        window.addEventListener("pointerup", onPointerUp);
+        window.addEventListener("pointercancel", onPointerUp);
+      };
+      const onPointerMove = (event) => {
+        if (!dragging || event.pointerId !== pointerId) return;
+        moveDrag(event.clientX, event.clientY);
+        if (dragAxis === "x" && event.cancelable) event.preventDefault();
+      };
+      const onPointerUp = (event) => {
+        if (!dragging || event.pointerId !== pointerId) return;
+        try {
+          slider.releasePointerCapture?.(event.pointerId);
+        } catch {
+        }
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+        finishDrag(event.clientX);
+      };
+      const onTouchStart = (event) => {
+        const touch = event.touches?.[0];
+        startY = touch?.clientY || 0;
+        if (!touch || !beginDrag(touch.clientX, event.target)) return;
+        pointerId = `touch-${touch.identifier}`;
+        window.addEventListener("touchmove", onTouchMove, { passive: false });
+        window.addEventListener("touchend", onTouchEnd);
+        window.addEventListener("touchcancel", onTouchEnd);
+      };
+      const onTouchMove = (event) => {
+        if (!dragging || typeof pointerId !== "string" || !pointerId.startsWith("touch-")) return;
+        const touches = Array.from(event.touches || []);
+        const touch = touches.find((item) => `touch-${item.identifier}` === pointerId) || touches[0];
+        if (!touch) return;
+        moveDrag(touch.clientX, touch.clientY);
+        if (dragAxis === "x") event.preventDefault();
+      };
+      const onTouchEnd = (event) => {
+        if (!dragging || typeof pointerId !== "string" || !pointerId.startsWith("touch-")) return;
+        const touches = Array.from(event.changedTouches || []);
+        const touch = touches.find((item) => `touch-${item.identifier}` === pointerId) || touches[0];
+        if (!touch) return;
+        window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchend", onTouchEnd);
+        window.removeEventListener("touchcancel", onTouchEnd);
+        finishDrag(touch.clientX);
+      };
+      const onMouseMove = (event) => {
+        if (!dragging || pointerId !== "mouse") return;
+        moveDrag(event.clientX);
+      };
+      const onMouseUp = (event) => {
+        if (!dragging || pointerId !== "mouse") return;
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", onMouseUp);
+        finishDrag(event.clientX);
+      };
+      const onMouseDown = (event) => {
+        startY = event.clientY;
+        if (supportsPointer || !beginDrag(event.clientX, event.target)) return;
+        pointerId = "mouse";
+        event.preventDefault();
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mouseup", onMouseUp);
+      };
+
+      playButtons.forEach((button) => {
+        const stopDrag = (event) => {
+          event.stopPropagation();
+        };
+        const handler = (event) => {
+          event.stopPropagation();
+          const media = button.closest(".jtest28__media");
+          const video = media?.querySelector("video");
+          if (!video) return;
+          if (video.paused) {
+            playVideo(video, button);
+          } else {
+            video.pause();
+            video.controls = false;
+            setButtonActive(button, true);
+          }
+        };
+        button.addEventListener("pointerdown", stopDrag);
+        button.addEventListener("touchstart", stopDrag, { passive: true });
+        button.addEventListener("click", handler);
+        playHandlers.push([button, handler, stopDrag]);
+      });
+
+      root.querySelectorAll("video").forEach((video) => {
+        const syncHandler = () => syncVideoButton(video);
+        const playHandler = () => syncVideoButton(video);
+        video.addEventListener("play", playHandler);
+        video.addEventListener("pause", syncHandler);
+        video.addEventListener("ended", syncHandler);
+        video.addEventListener("error", syncHandler);
+        pauseHandlers.push([video, playHandler, syncHandler]);
+
+        if (shouldAutoplayVideos) {
+          video.muted = true;
+          video.controls = false;
+          playVideo(video, video.closest(".jtest28__media")?.querySelector(".jtest28__play"));
+        } else {
+          syncVideoButton(video);
+        }
+      });
+
+      if (supportsPointer) {
+        slider?.addEventListener("pointerdown", onPointerDown);
+      } else {
+        slider?.addEventListener("touchstart", onTouchStart, { passive: true });
+        slider?.addEventListener("mousedown", onMouseDown);
+      }
+
+      const onVisibilityChange = () => {
+        if (!document.hidden) return;
+        root.querySelectorAll("video").forEach((video) => {
+          video.pause();
+          video.controls = false;
+          syncVideoButton(video);
+        });
+      };
+      document.addEventListener("visibilitychange", onVisibilityChange);
+
+      const onBlockSelect = (event) => {
+        const card = event.target.closest?.(".jtest28__card");
+        if (!card) return;
+        const nextIndex = slides.indexOf(card);
+        if (nextIndex >= 0) {
+          index = nextIndex;
+          update();
+        }
+      };
+      root.addEventListener("shopify:block:select", onBlockSelect);
+
+      prev?.addEventListener("click", onPrev);
+      next?.addEventListener("click", onNext);
+      window.addEventListener("resize", onResize);
+      update();
+
+      window[registryKey][sectionId] = {
+        destroy() {
+          prev?.removeEventListener("click", onPrev);
+          next?.removeEventListener("click", onNext);
+          slider?.removeEventListener("pointerdown", onPointerDown);
+          slider?.removeEventListener("touchstart", onTouchStart);
+          slider?.removeEventListener("mousedown", onMouseDown);
+          window.removeEventListener("pointermove", onPointerMove);
+          window.removeEventListener("pointerup", onPointerUp);
+          window.removeEventListener("pointercancel", onPointerUp);
+          window.removeEventListener("touchmove", onTouchMove);
+          window.removeEventListener("touchend", onTouchEnd);
+          window.removeEventListener("touchcancel", onTouchEnd);
+          window.removeEventListener("mousemove", onMouseMove);
+          window.removeEventListener("mouseup", onMouseUp);
+          window.removeEventListener("resize", onResize);
+          document.removeEventListener("visibilitychange", onVisibilityChange);
+          root.removeEventListener("shopify:block:select", onBlockSelect);
+          playHandlers.forEach(([button, handler, stopDrag]) => {
+            button.removeEventListener("click", handler);
+            button.removeEventListener("pointerdown", stopDrag);
+            button.removeEventListener("touchstart", stopDrag);
+          });
+          pauseHandlers.forEach(([video, playHandler, syncHandler]) => {
+            video.removeEventListener("play", playHandler);
+            video.removeEventListener("pause", syncHandler);
+            video.removeEventListener("ended", syncHandler);
+            video.removeEventListener("error", syncHandler);
+          });
+        }
+      };
+    }
+
+    init();
+    document.addEventListener("shopify:section:load", init);
+    document.addEventListener("shopify:section:unload", (event) => {
+      if (event.detail?.sectionId === sectionId) cleanup();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Testimonials #28",
+  "tag": "section",
+  "class": "jsections-testimonials-28",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "header", "content": "Content" },
+    {
+      "type": "select",
+      "id": "style_preset",
+      "label": "Variant preset",
+      "options": [
+        { "value": "green", "label": "Green gradient" },
+        { "value": "orange", "label": "Orange reviews" },
+        { "value": "purple", "label": "Purple gradient" }
+      ],
+      "default": "green"
+    },
+    { "type": "checkbox", "id": "show_summary", "label": "Show review summary", "default": true },
+    { "type": "text", "id": "summary_text", "label": "Summary text", "default": "Customer reviews" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "Add verified rating" },
+    { "type": "checkbox", "id": "show_avatars", "label": "Show avatars", "default": true },
+    { "type": "range", "id": "avatar_count", "label": "Visible avatars", "min": 0, "max": 4, "step": 1, "default": 4 },
+    { "type": "range", "id": "avatar_size", "label": "Avatar size desktop", "min": 32, "max": 64, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "avatar_overlap", "label": "Avatar overlap", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "avatar_vertical_step", "label": "Avatar vertical step", "min": 0, "max": 8, "step": 1, "unit": "px", "default": 3 },
+    { "type": "range", "id": "avatar_tilt", "label": "Avatar tilt", "min": 0, "max": 10, "step": 1, "unit": "deg", "default": 4 },
+    { "type": "image_picker", "id": "avatar_1", "label": "Avatar 1" },
+    { "type": "image_picker", "id": "avatar_2", "label": "Avatar 2" },
+    { "type": "image_picker", "id": "avatar_3", "label": "Avatar 3" },
+    { "type": "image_picker", "id": "avatar_4", "label": "Avatar 4" },
+    { "type": "checkbox", "id": "show_summary_stars", "label": "Show summary stars", "default": true },
+    { "type": "range", "id": "summary_star_count", "label": "Summary star count", "min": 0, "max": 5, "step": 1, "default": 5 },
+    { "type": "range", "id": "summary_star_size", "label": "Summary star size", "min": 12, "max": 28, "step": 1, "unit": "px", "default": 20 },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>In <strong>your</strong> own words —</h2>"
+    },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show desktop arrows", "default": true },
+    { "type": "checkbox", "id": "loop_slider", "label": "Loop slider", "default": true },
+    { "type": "checkbox", "id": "autoplay_videos", "label": "Autoplay videos muted", "default": false },
+    { "type": "checkbox", "id": "show_native_video_controls", "label": "Show native video controls after play", "default": true },
+    { "type": "checkbox", "id": "show_button", "label": "Show button", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "SHOP NOW" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "show_guarantee", "label": "Show guarantee", "default": true },
+    { "type": "richtext", "id": "guarantee_text", "label": "Guarantee text", "default": "<p><strong>Money-Back Guarantee</strong></p>" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 1000, "max": 1600, "step": 50, "unit": "px", "default": 1300 },
+    { "type": "range", "id": "desktop_columns", "label": "Desktop cards visible", "min": 2, "max": 4, "step": 1, "default": 4 },
+    { "type": "range", "id": "mobile_card_width", "label": "Mobile card width", "min": 65, "max": 90, "step": 1, "unit": "%", "default": 72 },
+    { "type": "range", "id": "card_gap", "label": "Card gap", "min": 6, "max": 30, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "margin_top", "label": "Space above section", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 96, "step": 3, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 96, "step": 3, "unit": "px", "default": 36 },
+    { "type": "range", "id": "card_star_size", "label": "Card star size", "min": 12, "max": 28, "step": 1, "unit": "px", "default": 20 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "gradient_start", "label": "Gradient start", "default": "#ffffff" },
+    { "type": "color", "id": "gradient_mid", "label": "Gradient middle", "default": "#d9f5e9" },
+    { "type": "color", "id": "gradient_end", "label": "Gradient end", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#121212" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#ffffff" },
+    { "type": "color", "id": "card_border_color", "label": "Card border", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#00b67d" },
+    { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#00b67d" },
+    { "type": "color", "id": "badge_text_color", "label": "Badge text", "default": "#ffffff" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#00b67d" },
+    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#ffffff" },
+    { "type": "color", "id": "guarantee_background", "label": "Guarantee background", "default": "#cbfee8" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Video testimonial",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video" },
+        { "type": "image_picker", "id": "poster", "label": "Image fallback" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Testimonial",
+          "default": "<p>Add a real customer testimonial or merchant-approved quote here.</p>"
+        },
+        { "type": "text", "id": "author", "label": "Author", "default": "Customer name" },
+        { "type": "checkbox", "id": "show_stars", "label": "Show stars", "default": true },
+        { "type": "range", "id": "star_count", "label": "Star count", "min": 0, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Verified" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials #28",
+      "blocks": [
+        { "type": "testimonial" },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Add a real customer testimonial or merchant-approved quote here.</p>",
+            "author": "Customer name"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Add a real customer testimonial or merchant-approved quote here.</p>",
+            "author": "Customer name"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Add a real customer testimonial or merchant-approved quote here.</p>",
+            "author": "Customer name"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Add a real customer testimonial or merchant-approved quote here.</p>",
+            "author": "Customer name"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Add a real customer testimonial or merchant-approved quote here.</p>",
+            "author": "Customer name"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
