@@ -1,0 +1,198 @@
+{{ 'jsections-beauty-testimonials-row.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign sid = section.id
+%}
+
+<section
+  id="jsections-beauty-testimonials-row-{{ sid }}"
+  class="jbtr{% if section.settings.full_width %} jbtr--full{% endif %}"
+  style="
+    --jbtr-bg: {{ section.settings.background_color }};
+    --jbtr-text: {{ section.settings.text_color }};
+    --jbtr-star: {{ section.settings.star_color }};
+    --jbtr-radius: {{ section.settings.corner_radius }}px;
+  "
+  data-jbtr-section
+>
+  <div class="jbtr__frame">
+    <div class="jbtr__header">
+      <h2 class="jbtr__heading">{{ section.settings.heading }}</h2>
+      <div class="jbtr__text">{{ section.settings.text }}</div>
+    </div>
+
+    <div class="jbtr__slider">
+      <div class="jbtr__track" data-jbtr-track>
+        {% for block in section.blocks %}
+          <article class="jbtr-card" {{ block.shopify_attributes }}>
+            <div class="jbtr-card__media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 760 | image_tag: loading: 'lazy', class: 'jbtr-card__image', sizes: '(min-width: 990px) 379px, 85vw', alt: block.settings.author }}
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'jbtr-card__placeholder' }}
+              {% endif %}
+            </div>
+            <div class="jbtr-card__stars" aria-label="{{ block.settings.star_count }} out of 5 stars">
+              {% for index in (1..5) %}
+                {% if index <= block.settings.star_count %}
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 1.5 2.6 5.2 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8L10 1.5Z"></path></svg>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <p class="jbtr-card__quote">"{{ block.settings.quote }}"</p>
+            <p class="jbtr-card__author">- {{ block.settings.author }}</p>
+          </article>
+        {% endfor %}
+      </div>
+      {% if section.blocks.size > 3 %}
+        <button class="jbtr__next" type="button" data-jbtr-next aria-label="Next slide">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const init = (root) => {
+      if (!root || root.dataset.jbtrReady === 'true') return;
+      root.dataset.jbtrReady = 'true';
+      const track = root.querySelector('[data-jbtr-track]');
+      const next = root.querySelector('[data-jbtr-next]');
+      if (!track || !next) return;
+      next.addEventListener('click', () => {
+        const first = track.firstElementChild;
+        track.scrollBy({ left: first ? first.offsetWidth + 72 : track.clientWidth, behavior: 'smooth' });
+      });
+    };
+    const root = document.getElementById('jsections-beauty-testimonials-row-{{ sid }}');
+    init(root);
+    document.addEventListener('shopify:section:load', (event) => {
+      init(event.target.querySelector('#jsections-beauty-testimonials-row-{{ sid }}'));
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Beauty testimonials row",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Use full viewport width",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "customer reviews"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Add real customer reviews or approved quotes from your store."
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 7
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f1f0ed"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#67645e"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#67645e"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "star_count",
+          "label": "Stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Add a real customer review or merchant-approved quote here."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Customer name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beauty testimonials row",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Add a real customer review or merchant-approved quote here.",
+            "author": "Customer name"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Add a real customer review or merchant-approved quote here.",
+            "author": "Customer name"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Add a real customer review or merchant-approved quote here.",
+            "author": "Customer name"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Add a real customer review or merchant-approved quote here.",
+            "author": "Customer name"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

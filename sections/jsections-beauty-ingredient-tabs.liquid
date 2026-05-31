@@ -1,0 +1,163 @@
+{{ 'jsections-beauty-ingredient-tabs.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign sid = section.id
+%}
+
+<section
+  id="jsections-beauty-ingredient-tabs-{{ sid }}"
+  class="jbit{% if section.settings.full_width %} jbit--full{% endif %}"
+  style="
+    --jbit-bg: {{ section.settings.background_color }};
+    --jbit-text: {{ section.settings.text_color }};
+    --jbit-muted: {{ section.settings.muted_color }};
+    --jbit-radius: {{ section.settings.corner_radius }}px;
+  "
+  data-jbit-section
+>
+  <div class="jbit__frame">
+    <div class="jbit__content">
+      <div class="jbit__panels">
+        {% for block in section.blocks %}
+          <div class="jbit__panel{% if forloop.first %} is-active{% endif %}" data-jbit-panel="{{ forloop.index }}" {{ block.shopify_attributes }}>
+            <h2 class="jbit__heading">{{ block.settings.title }}</h2>
+            <div class="jbit__text">{{ block.settings.text }}</div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="jbit__tabs" role="tablist">
+        {% for block in section.blocks %}
+          <button class="jbit__tab{% if forloop.first %} is-active{% endif %}" type="button" role="tab" data-jbit-tab="{{ forloop.index }}">
+            {{ block.settings.title }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="jbit__media">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'jbit__image', sizes: '(min-width: 990px) 50vw, 100vw', alt: section.blocks.first.settings.title }}
+      {% else %}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'jbit__placeholder' }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const init = (root) => {
+      if (!root || root.dataset.jbitReady === 'true') return;
+      root.dataset.jbitReady = 'true';
+      const tabs = [...root.querySelectorAll('[data-jbit-tab]')];
+      const panels = [...root.querySelectorAll('[data-jbit-panel]')];
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const id = tab.dataset.jbitTab;
+          tabs.forEach((item) => item.classList.toggle('is-active', item === tab));
+          panels.forEach((panel) => panel.classList.toggle('is-active', panel.dataset.jbitPanel === id));
+        });
+      });
+    };
+    const root = document.getElementById('jsections-beauty-ingredient-tabs-{{ sid }}');
+    init(root);
+    document.addEventListener('shopify:section:load', (event) => {
+      init(event.target.querySelector('#jsections-beauty-ingredient-tabs-{{ sid }}'));
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Beauty ingredient tabs",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Use full viewport width",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 7
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f1f0ed"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#67645e"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#84827e"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "clean ingredients"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "We strictly use ethically sourced ingredients and eco-friendly packaging, ensuring your skincare routine is kind to both your skin and the planet."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beauty ingredient tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "title": "clean ingredients"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "cruelty free",
+            "text": "We craft high-quality formulas that are never tested on animals, so you can achieve your glow with care."
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "proven results",
+            "text": "Our products are backed by clinical trials, delivering visible results that enhance your daily ritual."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

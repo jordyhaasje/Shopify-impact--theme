@@ -1,0 +1,279 @@
+{{ 'jsections-beauty-split-products.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign sid = section.id
+%}
+
+<section
+  id="jsections-beauty-split-products-{{ sid }}"
+  class="jbsp{% if section.settings.full_width %} jbsp--full{% endif %}"
+  style="
+    --jbsp-bg: {{ section.settings.background_color }};
+    --jbsp-text: {{ section.settings.text_color }};
+    --jbsp-muted: {{ section.settings.muted_color }};
+    --jbsp-radius: {{ section.settings.corner_radius }}px;
+    --jbsp-desktop-height: {{ section.settings.desktop_height }}px;
+    --jbsp-product-bg: {{ section.settings.product_background }};
+    --jbsp-product-scale: {{ section.settings.product_image_scale | divided_by: 100.0 }};
+  "
+  data-jbsp-section
+>
+  <div class="jbsp__frame">
+    <div class="jbsp__gallery" data-jbsp-gallery>
+      <div class="jbsp__track" data-jbsp-image-track>
+        {% for block in section.blocks %}
+          <div class="jbsp__image-slide" {{ block.shopify_attributes }}>
+            {% if block.settings.feature_image != blank %}
+              {{ block.settings.feature_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'jbsp__image', sizes: '(min-width: 990px) 50vw, 100vw', alt: block.settings.title }}
+            {% elsif block.settings.product.featured_image != blank %}
+              {{ block.settings.product.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'jbsp__image', sizes: '(min-width: 990px) 50vw, 100vw', alt: block.settings.title }}
+            {% else %}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'jbsp__placeholder' }}
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="jbsp__dots" data-jbsp-dots></div>
+    </div>
+
+    <div class="jbsp__products">
+      <div class="jbsp__track" data-jbsp-card-track>
+        {% for block in section.blocks %}
+          {% liquid
+            assign product = block.settings.product
+            assign title = block.settings.title
+            assign product_url = block.settings.link | default: routes.root_url
+            assign image = block.settings.product_image
+            if product != blank
+              if title == blank
+                assign title = product.title
+              endif
+              assign product_url = product.url
+              if image == blank
+                assign image = product.featured_image
+              endif
+            endif
+          %}
+          <article class="jbsp-card">
+            <a class="jbsp-card__media" href="{{ product_url }}" aria-label="{{ title | escape }}">
+              {% if image != blank %}
+                {{ image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'jbsp__product-image', sizes: '(min-width: 990px) 45vw, 100vw', alt: title }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'jbsp__placeholder' }}
+              {% endif %}
+            </a>
+            <div class="jbsp-card__body">
+              <p class="jbsp-card__title">{{ title }}</p>
+              {% if block.settings.details != blank %}
+                <p class="jbsp-card__details">{{ block.settings.details }}</p>
+              {% endif %}
+              <a class="jbsp-card__button" href="{{ product_url }}">{{ section.settings.button_label }}</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+      <span class="jbsp__counter" data-jbsp-counter>1/{{ section.blocks.size }}</span>
+      {% if section.blocks.size > 1 %}
+        <button class="jbsp__next" type="button" data-jbsp-next aria-label="Next slide">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const init = (root) => {
+      if (!root || root.dataset.jbspReady === 'true') return;
+      root.dataset.jbspReady = 'true';
+      const imageTrack = root.querySelector('[data-jbsp-image-track]');
+      const cardTrack = root.querySelector('[data-jbsp-card-track]');
+      const next = root.querySelector('[data-jbsp-next]');
+      const counter = root.querySelector('[data-jbsp-counter]');
+      const dots = root.querySelector('[data-jbsp-dots]');
+      const slides = imageTrack ? [...imageTrack.children] : [];
+      if (!imageTrack || !cardTrack || !slides.length) return;
+      const go = (index) => {
+        const imageSlide = slides[index];
+        const cardSlide = cardTrack.children[index];
+        if (imageSlide) imageTrack.scrollTo({ left: imageSlide.offsetLeft, behavior: 'smooth' });
+        if (cardSlide) cardTrack.scrollTo({ left: cardSlide.offsetLeft, behavior: 'smooth' });
+      };
+      if (dots) {
+        slides.forEach((_, index) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+          dot.addEventListener('click', () => go(index));
+          dots.appendChild(dot);
+        });
+      }
+      const update = () => {
+        const width = slides[0] ? slides[0].offsetWidth : 1;
+        const index = Math.max(0, Math.min(slides.length - 1, Math.round(imageTrack.scrollLeft / width)));
+        if (counter) counter.textContent = `${index + 1}/${slides.length}`;
+        if (dots) [...dots.children].forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === index));
+        const card = cardTrack.children[index];
+        if (card) cardTrack.scrollTo({ left: card.offsetLeft, behavior: 'auto' });
+      };
+      if (next) next.addEventListener('click', () => {
+        const width = slides[0] ? slides[0].offsetWidth : 1;
+        const index = Math.round(imageTrack.scrollLeft / width);
+        go((index + 1) % slides.length);
+      });
+      imageTrack.addEventListener('scroll', update, { passive: true });
+      update();
+    };
+    const root = document.getElementById('jsections-beauty-split-products-{{ sid }}');
+    init(root);
+    document.addEventListener('shopify:section:load', (event) => {
+      init(event.target.querySelector('#jsections-beauty-split-products-{{ sid }}'));
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Beauty split products",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Use full viewport width",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "VIEW PRODUCT"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 520,
+      "max": 900,
+      "step": 4,
+      "unit": "px",
+      "default": 628
+    },
+    {
+      "type": "range",
+      "id": "product_image_scale",
+      "label": "Product image scale",
+      "min": 35,
+      "max": 90,
+      "step": 1,
+      "unit": "%",
+      "default": 62
+    },
+    {
+      "type": "color",
+      "id": "product_background",
+      "label": "Product panel background",
+      "default": "#f1f0ed"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f1f0ed"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#67645e"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text color",
+      "default": "#84827e"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product slide",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Shopify product"
+        },
+        {
+          "type": "image_picker",
+          "id": "feature_image",
+          "label": "Left image"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Mood Patches"
+        },
+        {
+          "type": "text",
+          "id": "details",
+          "label": "Details",
+          "default": "30 patches in each pack"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Fallback link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Beauty split products",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "title": "Sleep Patches"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Boost Patches"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Recovery Patches"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Mood Patches"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
