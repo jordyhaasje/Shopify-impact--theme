@@ -1,0 +1,522 @@
+{%- liquid
+  assign hero_id = 'hero-24-' | append: section.id
+-%}
+
+<div id="{{ hero_id }}" class="hero24 {% if section.settings.full_height %}hero24--full-height{% endif %}" style="
+  --h24-min-height: {{ section.settings.min_height }}px;
+  --h24-mobile-min-height: {{ section.settings.mobile_min_height }}px;
+  --h24-text-color: {{ section.settings.text_color }};
+  --h24-heading-color: {{ section.settings.heading_color }};
+  --h24-accent: {{ section.settings.accent_color }};
+  --h24-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  --h24-overlay-color: {{ section.settings.overlay_color }};
+  --h24-content-max-width: {{ section.settings.content_max_width }}px;
+  --h24-btn-primary-bg: {{ section.settings.button_primary_background }};
+  --h24-btn-primary-text: {{ section.settings.button_primary_text }};
+">
+  <div class="hero24__media">
+    {%- if section.settings.mobile_image != blank -%}
+      {{ section.settings.mobile_image | image_url: width: 1000 | image_tag: class: 'hero24__bg hero24__bg--mobile', loading: 'lazy', sizes: '100vw' }}
+    {%- endif -%}
+
+    {%- if section.settings.background_image != blank -%}
+      {{ section.settings.background_image | image_url: width: 2400 | image_tag: class: 'hero24__bg hero24__bg--desktop', loading: 'eager', fetchpriority: 'high', widths: '480,640,768,900,1024,1200,1440,1600,1920,2200,2400', sizes: '100vw' }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero24__bg hero24__bg--placeholder' }}
+    {%- endif -%}
+
+    {%- if section.settings.enable_overlay -%}
+      <div class="hero24__overlay"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="hero24__content">
+    <div class="hero24__inner">
+      {%- if section.settings.show_review -%}
+        <div class="hero24__review" aria-label="{{ section.settings.review_text | escape }}">
+          {%- if section.settings.avatar_1 != blank or section.settings.avatar_2 != blank or section.settings.avatar_3 != blank or section.settings.avatar_4 != blank or section.settings.avatar_5 != blank -%}
+            <div class="hero24__avatars">
+              {%- assign avatar_limit = 5 -%}
+              {%- for i in (1..avatar_limit) -%}
+                {%- assign avatar_key = 'avatar_' | append: i -%}
+                {%- assign avatar = section.settings[avatar_key] -%}
+                {%- if avatar != blank -%}
+                  <img src="{{ avatar | image_url: width: 120 }}" width="80" height="80" loading="lazy" alt="" class="hero24__avatar">
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          <div class="hero24__review-text">
+            {%- if section.settings.review_text != blank -%}
+              <p class="hero24__review-label">{{ section.settings.review_text }}</p>
+            {%- endif -%}
+
+            {%- if section.settings.show_stars -%}
+              <div class="hero24__stars">
+                {%- assign full_stars = section.settings.star_score | divided_by: 10 | floor -%}
+                {%- for i in (1..5) -%}
+                  <svg class="hero24__star" viewBox="0 0 32 32" aria-hidden="true">
+                    {%- if i <= full_stars -%}
+                      <rect width="32" height="32" fill="{{ section.settings.accent_color }}"/><path d="M9.2 27 16 21.8 22.8 27l-2.6-8.4L27 13.4h-8.4L16 5l-2.6 8.4H5l6.8 5.2L9.2 27z" fill="#ffffff"/>
+                    {%- else -%}
+                      <defs><linearGradient id="h24-half-{{ section.id }}-{{ i }}"><stop offset="50%" stop-color="{{ section.settings.accent_color }}"/><stop offset="50%" stop-color="#d5d5d5"/></linearGradient></defs>
+                      <rect width="32" height="32" fill="url(#h24-half-{{ section.id }}-{{ i }})"/><path d="M9.2 27 16 21.8 22.8 27l-2.6-8.4L27 13.4h-8.4L16 5l-2.6 8.4H5l6.8 5.2L9.2 27z" fill="#ffffff"/>
+                    {%- endif -%}
+                  </svg>
+                {%- endfor -%}
+                <span class="hero24__score">{{ section.settings.star_score_display }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero24__heading">
+          {%- assign heading_parts = section.settings.heading | split: '|' -%}
+          {%- for part in heading_parts -%}
+            {%- assign part_index = forloop.index0 | modulo: 2 -%}
+            {%- if part_index == 1 -%}
+              <span class="hero24__heading-highlight">{{ part }}</span>
+            {%- else -%}
+              {{- part -}}
+            {%- endif -%}
+          {%- endfor -%}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.subtext != blank -%}
+        <p class="hero24__subtext">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_1_label != blank or section.settings.button_2_label != blank -%}
+        <div class="hero24__buttons">
+          {%- if section.settings.button_1_label != blank -%}
+            <a href="{{ section.settings.button_1_url | default: '#' }}" class="hero24__btn hero24__btn--primary">{{ section.settings.button_1_label }}</a>
+          {%- endif -%}
+          {%- if section.settings.button_2_label != blank -%}
+            <a href="{{ section.settings.button_2_url | default: '#' }}" class="hero24__btn hero24__btn--secondary">{{ section.settings.button_2_label }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.trust_text != blank -%}
+        <p class="hero24__trust">{{ section.settings.trust_text }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  #{{ hero_id }}.hero24 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: var(--h24-min-height, 640px);
+    color: var(--h24-text-color, #1a1a1a);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  #{{ hero_id }} .hero24__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  #{{ hero_id }} .hero24__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  #{{ hero_id }} .hero24__bg--mobile { display: none; }
+
+  #{{ hero_id }} .hero24__bg--placeholder { opacity: 0.35; }
+
+  #{{ hero_id }} .hero24__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: var(--h24-overlay-color, #000000);
+    opacity: var(--h24-overlay-opacity, 0.35);
+  }
+
+  #{{ hero_id }} .hero24__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: min(var(--page-width, 1600px), calc(100% - 4rem));
+    margin: 0 auto;
+    padding: clamp(3rem, 8vw, 6rem) 1.5rem;
+  }
+
+  #{{ hero_id }} .hero24__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    max-width: var(--h24-content-max-width, 640px);
+  }
+
+  #{{ hero_id }} .hero24__review {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  #{{ hero_id }} .hero24__avatars { display: flex; align-items: center; }
+
+  #{{ hero_id }} .hero24__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    margin-left: -12px;
+    display: block;
+  }
+
+  #{{ hero_id }} .hero24__avatars .hero24__avatar:first-child { margin-left: 0; }
+
+  #{{ hero_id }} .hero24__review-text { display: flex; flex-direction: column; gap: 0.2rem; }
+
+  #{{ hero_id }} .hero24__review-label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  #{{ hero_id }} .hero24__stars { display: flex; align-items: center; gap: 0.15rem; }
+
+  #{{ hero_id }} .hero24__star { width: 18px; height: 18px; flex-shrink: 0; }
+
+  #{{ hero_id }} .hero24__score {
+    font-size: 0.875rem;
+    font-weight: 800;
+    margin-left: 0.3rem;
+  }
+
+  #{{ hero_id }} .hero24__heading {
+    margin: 0;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--h24-heading-color, var(--h24-text-color, #1a1a1a));
+  }
+
+  #{{ hero_id }} .hero24__heading-highlight {
+    font-weight: 800;
+    color: var(--h24-accent, #1a1a1a);
+    text-decoration: underline;
+    text-decoration-color: var(--h24-accent, #1a1a1a);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.1em;
+  }
+
+  #{{ hero_id }} .hero24__subtext {
+    margin: 0;
+    font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+    line-height: 1.65;
+    max-width: 44ch;
+    opacity: 0.92;
+  }
+
+  #{{ hero_id }} .hero24__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  #{{ hero_id }} .hero24__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.9rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+    border: 1px solid transparent;
+  }
+
+  #{{ hero_id }} .hero24__btn--primary {
+    background-color: var(--h24-btn-primary-bg, #1a1a1a);
+    color: var(--h24-btn-primary-text, #ffffff);
+  }
+
+  #{{ hero_id }} .hero24__btn--secondary {
+    background-color: transparent;
+    color: var(--h24-text-color, #1a1a1a);
+    border-color: currentColor;
+  }
+
+  #{{ hero_id }} .hero24__trust {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    padding-top: 0.25rem;
+  }
+
+  #{{ hero_id }}.hero24--full-height { min-height: 100svh; }
+
+  @media (max-width: 699px) {
+    #{{ hero_id }}.hero24 {
+      min-height: var(--h24-mobile-min-height, 560px);
+      align-items: center;
+    }
+    #{{ hero_id }} .hero24__bg--desktop { display: none; }
+    #{{ hero_id }} .hero24__bg--mobile { display: block; }
+    #{{ hero_id }} .hero24__content {
+      max-width: calc(100% - 2.5rem);
+      padding: 2rem 0;
+    }
+    #{{ hero_id }} .hero24__inner { align-items: center; text-align: center; }
+    #{{ hero_id }} .hero24__buttons { justify-content: center; }
+    #{{ hero_id }} .hero24__subtext { max-width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero #24",
+  "tag": "section",
+  "class": "hero24-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Desktop min. height",
+      "min": 400,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "default": 640
+    },
+    {
+      "type": "range",
+      "id": "mobile_min_height",
+      "label": "Mobile min. height",
+      "min": 360,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 560
+    },
+    {
+      "type": "checkbox",
+      "id": "full_height",
+      "label": "Full viewport height",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max. width",
+      "min": 320,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 640
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile background image",
+      "info": "Optional. Recommended for vertical/portrait crops."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "Enable overlay",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "Review"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_review",
+      "label": "Show review block",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_1",
+      "label": "Avatar 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_2",
+      "label": "Avatar 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_3",
+      "label": "Avatar 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_4",
+      "label": "Avatar 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_5",
+      "label": "Avatar 5"
+    },
+    {
+      "type": "text",
+      "id": "review_text",
+      "label": "Review label",
+      "default": "50K+ Happy Customers"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Show stars",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "star_score",
+      "label": "Star score (x10)",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "default": 49,
+      "info": "49 shows 4 full stars + half star"
+    },
+    {
+      "type": "text",
+      "id": "star_score_display",
+      "label": "Score text",
+      "default": "4.7"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading — wrap a phrase between | | to highlight it",
+      "default": "It's |all about| the crave"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Our products are easy to understand, made from organic, nutritious and delicious ingredients."
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Button 1 label",
+      "default": "Shop bars"
+    },
+    {
+      "type": "url",
+      "id": "button_1_url",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Button 2 label",
+      "default": "Shop chips"
+    },
+    {
+      "type": "url",
+      "id": "button_2_url",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "text",
+      "id": "trust_text",
+      "label": "Trust text",
+      "default": "Over 50.000 Happy Customers"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / stars",
+      "default": "#00b67a"
+    },
+    {
+      "type": "color",
+      "id": "button_primary_background",
+      "label": "Primary button background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "button_primary_text",
+      "label": "Primary button text",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero #24"
+    }
+  ]
+}
+{% endschema %}
