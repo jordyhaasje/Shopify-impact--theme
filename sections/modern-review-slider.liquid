@@ -1,0 +1,728 @@
+{% liquid
+  assign section_id = 'modern-review-slider-' | append: section.id
+  assign slider_autoplay = section.settings.enable_autoplay
+  if section.blocks.size < 2
+    assign slider_autoplay = false
+  endif
+%}
+
+<section id="{{ section_id }}" class="modern-review-slider section section--flush">
+  <div class="modern-review-slider__inner">
+    <div class="modern-review-slider__header">
+      <div class="modern-review-slider__heading-col">
+        {% if section.settings.subheading != blank %}
+          <p class="modern-review-slider__subheading">{{ section.settings.subheading }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <div class="modern-review-slider__heading-wrap rte">
+            {{ section.settings.heading | replace: '[brand]', '<span class="modern-review-slider__brand">' | replace: '[/brand]', '</span>' }}
+          </div>
+        {% endif %}
+      </div>
+      <div class="modern-review-slider__summary">
+        <div class="modern-review-slider__summary-stars" aria-hidden="true">
+          {% for i in (1..5) %}
+            <svg viewBox="0 0 20 20" fill="none" focusable="false" aria-hidden="true">
+              <path d="M10 1.6l2.57 5.2 5.74.84-4.15 4.04.98 5.72L10 14.7 4.86 17.4l.98-5.72L1.7 7.64l5.73-.84L10 1.6Z" fill="currentColor"/>
+            </svg>
+          {% endfor %}
+        </div>
+        {% if section.settings.summary_text != blank %}
+          <p class="modern-review-slider__summary-text">{{ section.settings.summary_text }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="modern-review-slider__stage">
+      <div class="modern-review-slider__track" data-modern-review-track>
+        {% for block in section.blocks %}
+          <article class="modern-review-slider__card" {{ block.shopify_attributes }} data-modern-review-slide>
+            <div class="modern-review-slider__card-top">
+              <div class="modern-review-slider__stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                {% for i in (1..5) %}
+                  <svg viewBox="0 0 20 20" fill="none" focusable="false" aria-hidden="true" {% if i > block.settings.rating %}style="opacity:.35"{% endif %}>
+                    <path d="M10 1.6l2.57 5.2 5.74.84-4.15 4.04.98 5.72L10 14.7 4.86 17.4l.98-5.72L1.7 7.64l5.73-.84L10 1.6Z" fill="currentColor"/>
+                  </svg>
+                {% endfor %}
+              </div>
+              {% if block.settings.verified %}
+                <span class="modern-review-slider__verified">
+                  <svg viewBox="0 0 16 16" fill="none" focusable="false" aria-hidden="true"><path d="M8 1l1.6 1.2 2-.2.6 2L14 6l-1 1.8.3 2-1.8 1L11 12.7l-2.1.4L8 14l-.9-1.4-2.1-.4.2-2L2.9 9 4 7.8l-.6-2.2 2-.2L7 4 8 1Z" fill="currentColor"/><path d="M6.6 8.3l1 1 1.9-2.2" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  {{ block.settings.verified_text }}
+                </span>
+              {% endif %}
+            </div>
+
+            {% if block.settings.quote != blank %}
+              <div class="modern-review-slider__quote rte">
+                <svg class="modern-review-slider__quote-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 7C6.5 8 5 10 5 13.5V17h5v-5H7.8c.2-1.5 1-2.6 2.4-3.4L9.5 7Zm9 0c-3 1-4.5 3-4.5 6.5V17h5v-5h-2.2c.2-1.5 1-2.6 2.4-3.4L18.5 7Z" fill="currentColor"/></svg>
+                {{ block.settings.quote }}
+              </div>
+            {% endif %}
+
+            <div class="modern-review-slider__person">
+              {% if block.settings.avatar != blank %}
+                <div class="modern-review-slider__avatar">
+                  {{ block.settings.avatar | image_url: width: 96 | image_tag: loading: 'lazy', widths: '48,64,96', class: 'modern-review-slider__avatar-image' }}
+                </div>
+              {% else %}
+                <div class="modern-review-slider__avatar modern-review-slider__avatar--placeholder" aria-hidden="true">
+                  {{ block.settings.author | default: 'R' | slice: 0, 1 | upcase }}
+                </div>
+              {% endif %}
+              <div class="modern-review-slider__person-meta">
+                {% if block.settings.author != blank %}
+                  <p class="modern-review-slider__author">{{ block.settings.author }}</p>
+                {% endif %}
+                {% if block.settings.role != blank %}
+                  <p class="modern-review-slider__role">{{ block.settings.role }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if section.blocks.size > 1 %}
+        <button type="button" class="modern-review-slider__nav modern-review-slider__nav--prev" data-modern-review-prev aria-label="{{ section.settings.prev_label }}">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="modern-review-slider__nav modern-review-slider__nav--next" data-modern-review-next aria-label="{{ section.settings.next_label }}">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 1 %}
+      <div class="modern-review-slider__footer">
+        <div class="modern-review-slider__dots" data-modern-review-dots role="tablist" aria-label="{{ section.settings.slides_label }}">
+          {% for block in section.blocks %}
+            <button type="button" class="modern-review-slider__dot{% if forloop.first %} is-active{% endif %}" data-modern-review-dot="{{ forloop.index0 }}" role="tab" aria-label="{{ section.settings.slide_label }} {{ forloop.index }} of {{ section.blocks.size }}"></button>
+          {% endfor %}
+        </div>
+        {% if section.settings.enable_autoplay %}
+          <div class="modern-review-slider__progress" data-modern-review-progress role="progressbar" aria-hidden="true">
+            <span class="modern-review-slider__progress-bar" data-modern-review-progress-bar></span>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  #{{ section_id }} {
+    --mrs-bg-1: {{ section.settings.background_1 }};
+    --mrs-bg-2: {{ section.settings.background_2 }};
+    --mrs-card-bg: {{ section.settings.card_background }};
+    --mrs-card-border: {{ section.settings.card_border }};
+    --mrs-text: {{ section.settings.text_color }};
+    --mrs-muted: {{ section.settings.muted_text_color }};
+    --mrs-accent: {{ section.settings.accent_color }};
+    --mrs-star: {{ section.settings.star_color }};
+    --mrs-verified-bg: {{ section.settings.verified_bg }};
+    --mrs-verified-text: {{ section.settings.verified_text_color }};
+    --mrs-card-radius: {{ section.settings.card_radius }}px;
+    --mrs-card-gap: {{ section.settings.card_gap }}px;
+    background: radial-gradient(1200px 600px at 85% -10%, var(--mrs-bg-2), transparent 60%), var(--mrs-bg-1);
+    color: var(--mrs-text);
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    overflow: hidden;
+  }
+
+  #{{ section_id }} .modern-review-slider__inner {
+    max-width: {{ section.settings.content_width }}px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  #{{ section_id }} .modern-review-slider__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 44px;
+  }
+
+  #{{ section_id }} .modern-review-slider__subheading {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mrs-accent);
+  }
+
+  #{{ section_id }} .modern-review-slider__heading-wrap > * {
+    margin: 0;
+    font-size: clamp(34px, 4.2vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+  }
+
+  #{{ section_id }} .modern-review-slider__heading-wrap p,
+  #{{ section_id }} .modern-review-slider__heading-wrap h1,
+  #{{ section_id }} .modern-review-slider__heading-wrap h2,
+  #{{ section_id }} .modern-review-slider__heading-wrap h3 {
+    margin: 0;
+  }
+
+  #{{ section_id }} .modern-review-slider__brand {
+    background: linear-gradient(90deg, var(--mrs-accent), color-mix(in srgb, var(--mrs-accent) 40%, #fff));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  #{{ section_id }} .modern-review-slider__summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  #{{ section_id }} .modern-review-slider__summary-stars {
+    display: inline-flex;
+    gap: 5px;
+    color: var(--mrs-star);
+  }
+
+  #{{ section_id }} .modern-review-slider__summary-stars svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  #{{ section_id }} .modern-review-slider__summary-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--mrs-muted);
+    text-align: right;
+  }
+
+  #{{ section_id }} .modern-review-slider__stage {
+    position: relative;
+  }
+
+  #{{ section_id }} .modern-review-slider__track {
+    display: flex;
+    gap: var(--mrs-card-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 8px 2px 24px;
+    cursor: grab;
+    scroll-behavior: smooth;
+  }
+
+  #{{ section_id }} .modern-review-slider__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  #{{ section_id }} .modern-review-slider__track.modern-review-slider__track--dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+
+  #{{ section_id }} .modern-review-slider__card {
+    flex: 0 0 calc((100% - var(--mrs-card-gap) * 2) / 3);
+    scroll-snap-align: start;
+    background: var(--mrs-card-bg);
+    border: 1px solid var(--mrs-card-border);
+    border-radius: var(--mrs-card-radius);
+    padding: 26px 26px 24px;
+    display: flex;
+    flex-direction: column;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 20px 50px -24px rgba(0, 0, 0, 0.55);
+    user-select: none;
+  }
+
+  #{{ section_id }} .modern-review-slider__card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  #{{ section_id }} .modern-review-slider__stars {
+    display: inline-flex;
+    gap: 3px;
+    color: var(--mrs-star);
+  }
+
+  #{{ section_id }} .modern-review-slider__stars svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  #{{ section_id }} .modern-review-slider__verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--mrs-verified-bg);
+    color: var(--mrs-verified-text);
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  #{{ section_id }} .modern-review-slider__verified svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  #{{ section_id }} .modern-review-slider__quote {
+    position: relative;
+    margin: 0 0 24px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--mrs-muted);
+    flex: 1;
+  }
+
+  #{{ section_id }} .modern-review-slider__quote p {
+    margin: 0;
+  }
+
+  #{{ section_id }} .modern-review-slider__quote-mark {
+    width: 22px;
+    height: 22px;
+    color: var(--mrs-accent);
+    opacity: 0.7;
+    margin-bottom: 10px;
+  }
+
+  #{{ section_id }} .modern-review-slider__person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+  }
+
+  #{{ section_id }} .modern-review-slider__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 2px solid color-mix(in srgb, var(--mrs-accent) 60%, transparent);
+    flex-shrink: 0;
+  }
+
+  #{{ section_id }} .modern-review-slider__avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #{{ section_id }} .modern-review-slider__avatar--placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--mrs-accent), color-mix(in srgb, var(--mrs-accent) 40%, transparent));
+    color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  #{{ section_id }} .modern-review-slider__author {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--mrs-text);
+  }
+
+  #{{ section_id }} .modern-review-slider__role {
+    margin: 3px 0 0;
+    font-size: 13px;
+    line-height: 1.25;
+    color: var(--mrs-muted);
+  }
+
+  #{{ section_id }} .modern-review-slider__nav {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    border: 1px solid var(--mrs-card-border);
+    background: color-mix(in srgb, var(--mrs-card-bg) 80%, transparent);
+    color: var(--mrs-text);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  #{{ section_id }} .modern-review-slider__nav:hover {
+    transform: translateY(-50%) scale(1.06);
+    background: var(--mrs-card-bg);
+  }
+
+  #{{ section_id }} .modern-review-slider__nav svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  #{{ section_id }} .modern-review-slider__nav--prev {
+    left: -8px;
+  }
+
+  #{{ section_id }} .modern-review-slider__nav--next {
+    right: -8px;
+  }
+
+  #{{ section_id }} .modern-review-slider__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 22px;
+  }
+
+  #{{ section_id }} .modern-review-slider__dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #{{ section_id }} .modern-review-slider__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: 0;
+    padding: 0;
+    background: var(--mrs-muted);
+    opacity: 0.4;
+    cursor: pointer;
+    transition: width 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+  }
+
+  #{{ section_id }} .modern-review-slider__dot.is-active {
+    width: 26px;
+    background: var(--mrs-accent);
+    opacity: 1;
+  }
+
+  #{{ section_id }} .modern-review-slider__progress {
+    flex: 1;
+    height: 3px;
+    max-width: 200px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--mrs-text) 18%, transparent);
+    overflow: hidden;
+  }
+
+  #{{ section_id }} .modern-review-slider__progress-bar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--mrs-accent);
+    border-radius: 999px;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.3s linear;
+  }
+
+  @media screen and (min-width: 768px) {
+    #{{ section_id }} .modern-review-slider__card {
+      flex-basis: calc((100% - var(--mrs-card-gap) * 2) / 3);
+    }
+  }
+
+  @media screen and (max-width: 1199px) and (min-width: 768px) {
+    #{{ section_id }} .modern-review-slider__card {
+      flex-basis: calc((100% - var(--mrs-card-gap)) / 2);
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    #{{ section_id }} {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    #{{ section_id }} .modern-review-slider__inner {
+      padding: 0 20px;
+    }
+
+    #{{ section_id }} .modern-review-slider__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+      margin-bottom: 30px;
+    }
+
+    #{{ section_id }} .modern-review-slider__heading-wrap > * {
+      font-size: clamp(30px, 10vw, 40px);
+    }
+
+    #{{ section_id }} .modern-review-slider__summary {
+      align-items: flex-start;
+    }
+
+    #{{ section_id }} .modern-review-slider__summary-text {
+      text-align: left;
+    }
+
+    #{{ section_id }} .modern-review-slider__track {
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+
+    #{{ section_id }} .modern-review-slider__card {
+      flex: 0 0 82%;
+      scroll-padding-left: 88%;
+    }
+
+    #{{ section_id }} .modern-review-slider__nav {
+      display: none;
+    }
+
+    #{{ section_id }} .modern-review-slider__progress {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const root = document.getElementById('{{ section_id }}');
+    const track = root.querySelector('[data-modern-review-track]');
+    if (!track || track.children.length < 2) return;
+
+    const dots = Array.from(root.querySelectorAll('[data-modern-review-dot]'));
+    const prevBtn = root.querySelector('[data-modern-review-prev]');
+    const nextBtn = root.querySelector('[data-modern-review-next]');
+    const progressBar = root.querySelector('[data-modern-review-progress-bar]');
+    const total = track.children.length;
+
+    const stepSize = () => {
+      const slide = track.children[0];
+      if (!slide) return 0;
+      const cloned = slide.cloneNode(true);
+      cloned.style.position = 'absolute';
+      cloned.style.visibility = 'hidden';
+      cloned.style.flex = '0 0 auto';
+      track.appendChild(cloned);
+      const width = cloned.getBoundingClientRect().width;
+      cloned.remove();
+      const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
+      return width + gap;
+    };
+
+    let step = stepSize();
+    const cardStyle = getComputedStyle(track.children[0]);
+    const baseBasis = cardStyle.getPropertyValue('flex-basis');
+
+    const currentIndex = () => {
+      const s = stepSize();
+      return Math.max(0, Math.round(track.scrollLeft / s));
+    };
+
+    const updateDots = (index) => {
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+    };
+
+    const maxIndex = () => {
+      const s = stepSize();
+      return Math.max(0, total - Math.ceil((track.clientWidth - s) / s) - 0);
+    };
+
+    const scrollToIndex = (index) => {
+      const s = stepSize();
+      const idx = Math.max(0, Math.min(index, maxIndex()));
+      track.scrollTo({ left: idx * s, behavior: 'smooth' });
+      updateDots(idx);
+    };
+
+    const updateProgress = () => {
+      if (!progressBar) return;
+      const s = stepSize();
+      const idx = Math.max(0, Math.min(currentIndex(), maxIndex()));
+      const max = maxIndex();
+      const pct = max > 0 ? idx / max : 0;
+      progressBar.style.transform = 'scaleX(' + pct + ')';
+    };
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => scrollToIndex(i));
+    });
+
+    let scrollTimer;
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        updateDots(currentIndex());
+        updateProgress();
+      }, 60);
+    }, { passive: true });
+
+    prevBtn && prevBtn.addEventListener('click', () => scrollToIndex(currentIndex() - 1));
+    nextBtn && nextBtn.addEventListener('click', () => scrollToIndex(currentIndex() + 1));
+
+    let pointerDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    track.addEventListener('pointerdown', (e) => {
+      pointerDown = true;
+      startX = e.clientX;
+      startScroll = track.scrollLeft;
+      track.classList.add('modern-review-slider__track--dragging');
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!pointerDown) return;
+      e.preventDefault();
+      track.scrollLeft = startScroll - (e.clientX - startX);
+    });
+    window.addEventListener('pointerup', () => {
+      if (!pointerDown) return;
+      pointerDown = false;
+      track.classList.remove('modern-review-slider__track--dragging');
+      track.scrollTo({ left: currentIndex() * stepSize(), behavior: 'smooth' });
+      updateDots(currentIndex());
+      updateProgress();
+    });
+
+    let autoplayActive = {{ slider_autoplay }} ? true : false;
+    let autoplayTimer = null;
+    const speed = Math.max(1, ({{ section.settings.autoplay_speed }} || 4)) * 1000;
+
+    const startAutoplay = () => {
+      if (!autoplayActive || progressBar == null) return;
+      stopAutoplay();
+      const s = stepSize();
+      const idx = Math.max(0, Math.min(currentIndex(), maxIndex()));
+      const max = maxIndex();
+      const remain = max > 0 ? (max - idx + 1) : total;
+      progressBar.style.transition = 'none';
+      progressBar.style.transform = 'scaleX(0)';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          progressBar.style.transition = 'transform ' + speed + 'ms linear';
+          progressBar.style.transform = 'scaleX(1)';
+        });
+      });
+      autoplayTimer = setTimeout(() => {
+        const next = currentIndex() >= maxIndex() ? 0 : currentIndex() + 1;
+        scrollToIndex(next);
+        startAutoplay();
+      }, speed);
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayTimer) {
+        clearTimeout(autoplayTimer);
+        autoplayTimer = null;
+      }
+    };
+
+    if (autoplayActive) {
+      startAutoplay();
+      root.addEventListener('pointerenter', stopAutoplay);
+      root.addEventListener('pointerleave', startAutoplay);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { stopAutoplay(); } else { startAutoplay(); }
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      step = stepSize();
+      updateDots(currentIndex());
+      updateProgress();
+    });
+
+    updateDots(currentIndex());
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Modern review slider",
+  "tag": "section",
+  "class": "shopify-section--modern-review-slider",
+  "enabled_on": {
+    "templates": ["index", "page", "product", "collection"]
+  },
+  "settings": [
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Reviews" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Loved by [brand]thousands[/brand]</p>" },
+    { "type": "checkbox", "id": "enable_autoplay", "label": "Enable autoplay", "default": true },
+    { "type": "range", "id": "autoplay_speed", "label": "Autoplay speed (seconds)", "min": 2, "max": 10, "step": 1, "default": 4, "unit": "s" },
+    { "type": "text", "id": "summary_text", "label": "Summary text", "default": "Rated 4.9/5 from 2,000+ reviews" },
+    { "type": "text", "id": "prev_label", "label": "Previous button label", "default": "Previous reviews" },
+    { "type": "text", "id": "next_label", "label": "Next button label", "default": "Next reviews" },
+    { "type": "text", "id": "slides_label", "label": "Slides label", "default": "Choose a review" },
+    { "type": "text", "id": "slide_label", "label": "Slide label", "default": "Review" },
+    { "type": "color", "id": "background_1", "label": "Background color 1", "default": "#0B0F1A" },
+    { "type": "color", "id": "background_2", "label": "Accent glow color", "default": "#1E2A4A" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#141A2B" },
+    { "type": "color", "id": "card_border", "label": "Card border", "default": "#26324C" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#F4F6FB" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#9AA3B8" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#6C8CFF" },
+    { "type": "color", "id": "star_color", "label": "Star color", "default": "#FFB83B" },
+    { "type": "color", "id": "verified_bg", "label": "Verified badge background", "default": "#173B34" },
+    { "type": "color", "id": "verified_text_color", "label": "Verified badge text", "default": "#58D6A5" },
+    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 8, "max": 40, "step": 2, "default": 22, "unit": "px" },
+    { "type": "range", "id": "card_gap", "label": "Card gap", "min": 8, "max": 48, "step": 2, "default": 18, "unit": "px" },
+    { "type": "range", "id": "content_width", "label": "Content width", "min": 960, "max": 1600, "step": 20, "default": 1360, "unit": "px" },
+    { "type": "range", "id": "padding_top", "label": "Desktop padding top", "min": 0, "max": 160, "step": 4, "default": 72, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Desktop padding bottom", "min": 0, "max": 160, "step": 4, "default": 72, "unit": "px" },
+    { "type": "range", "id": "mobile_padding_top", "label": "Mobile padding top", "min": 0, "max": 160, "step": 4, "default": 56, "unit": "px" },
+    { "type": "range", "id": "mobile_padding_bottom", "label": "Mobile padding bottom", "min": 0, "max": 160, "step": 4, "default": 56, "unit": "px" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "image_picker", "id": "avatar", "label": "Avatar image" },
+        { "type": "text", "id": "author", "label": "Author", "default": "Sarah M." },
+        { "type": "text", "id": "role", "label": "Role / label", "default": "Verified buyer" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Review text", "default": "Absolutely love the quality! It exceeded my expectations and arrived super fast. Will definitely be ordering again." },
+        { "type": "checkbox", "id": "verified", "label": "Show verified badge", "default": true },
+        { "type": "text", "id": "verified_text", "label": "Verified badge text", "default": "Verified" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Modern review slider",
+      "blocks": [
+        { "type": "review", "settings": { "author": "Sarah M.", "role": "Verified buyer", "quote": "Absolutely love the quality! It exceeded my expectations and arrived super fast. Will definitely be ordering again.", "rating": 5 } },
+        { "type": "review", "settings": { "author": "James T.", "role": "Design lead", "quote": "This has completely transformed my daily routine. The attention to detail is incredible.", "rating": 5 } },
+        { "type": "review", "settings": { "author": "Emily R.", "role": "Happy customer", "quote": "Customer service was fantastic, and the product itself is just perfect. Highly recommend!", "rating": 5 } },
+        { "type": "review", "settings": { "author": "Daniel K.", "role": "Verified buyer", "quote": "Been using it for a month now and I can honestly say it's the best purchase I've made this year.", "rating": 4 } },
+        { "type": "review", "settings": { "author": "Olivia P.", "role": "Repeat customer", "quote": "Beautifully designed and built to last. You can tell a lot of care went into making this.", "rating": 5 } },
+        { "type": "review", "settings": { "author": "Lucas B.", "role": "Verified buyer", "quote": "Shipping was lightning fast and the product arrived well packaged. Five stars!", "rating": 5 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
