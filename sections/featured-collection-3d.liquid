@@ -1,0 +1,621 @@
+{%- render 'section-spacing-collapsing' -%}
+
+{%- liquid
+  assign products = section.settings.products | default: section.settings.collection.products
+  assign link_url = section.settings.link_url | default: section.settings.collection.url
+  assign shadow_opacity = section.settings.shadow_opacity | divided_by: 100.0
+  assign glow_shadow_opacity = shadow_opacity | plus: 0.08
+  assign shadow_blur = section.settings.card_depth | times: 2 | plus: 32
+  assign shadow_offset = section.settings.card_depth | plus: 18
+  assign subtle_depth = section.settings.card_depth | divided_by: 2.0
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --fc3d-accent: {{ section.settings.accent_color.rgb }};
+    --fc3d-card-gap: {{ section.settings.card_gap }}px;
+    --fc3d-depth: {{ section.settings.card_depth }}px;
+    --fc3d-hover-lift: -{{ section.settings.hover_lift }}px;
+    --fc3d-perspective: {{ section.settings.perspective }}px;
+    --fc3d-radius: {{ section.settings.card_radius }}px;
+    --fc3d-shadow-blur: {{ shadow_blur }}px;
+    --fc3d-shadow-offset: {{ shadow_offset }}px;
+    --fc3d-shadow-opacity: {{ shadow_opacity }};
+    --fc3d-stagger: {{ section.settings.stagger_offset }}px;
+    --fc3d-subtle-depth: {{ subtle_depth }}px;
+    --fc3d-glow-shadow-opacity: {{ glow_shadow_opacity }};
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d {
+    position: relative;
+    isolation: isolate;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__stage {
+    position: relative;
+    padding-block: clamp(8px, 2vw, 28px);
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__stage::before,
+  #shopify-section-{{ section.id }} .featured-collection-3d__stage::after {
+    position: absolute;
+    z-index: -1;
+    width: min(42vw, 520px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgb(var(--fc3d-accent) / 0.15);
+    filter: blur(90px);
+    opacity: 0;
+    pointer-events: none;
+    content: "";
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d--background-glow .featured-collection-3d__stage::before,
+  #shopify-section-{{ section.id }} .featured-collection-3d--background-glow .featured-collection-3d__stage::after {
+    opacity: 1;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__stage::before {
+    inset-block-start: 2%;
+    inset-inline-start: -12%;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__stage::after {
+    inset-block-end: 0;
+    inset-inline-end: -10%;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.products_per_row_mobile }}, minmax(0, 1fr));
+    gap: var(--fc3d-card-gap);
+    perspective: var(--fc3d-perspective);
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__item {
+    min-width: 0;
+    padding-block-start: var(--fc3d-item-stagger, 0px);
+    transform-style: preserve-3d;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__float {
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d--floating .featured-collection-3d__float {
+    animation: fc3d-float-{{ section.id }} 5.5s ease-in-out infinite;
+    animation-delay: var(--fc3d-float-delay, 0s);
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__card {
+    --fc3d-glare-x: 50%;
+    --fc3d-glare-y: 50%;
+    --fc3d-tilt-x: 0deg;
+    --fc3d-tilt-y: 0deg;
+    position: relative;
+    height: 100%;
+    border-radius: var(--fc3d-radius);
+    transform: perspective(var(--fc3d-perspective)) rotateX(var(--fc3d-tilt-x)) rotateY(calc(var(--fc3d-base-rotation, 0deg) + var(--fc3d-tilt-y))) translateY(0);
+    transform-style: preserve-3d;
+    transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 380ms ease;
+    will-change: transform;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__card::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: inherit;
+    background: rgb(var(--fc3d-accent) / 0.22);
+    box-shadow: 0 var(--fc3d-shadow-offset) var(--fc3d-shadow-blur) rgb(0 0 0 / var(--fc3d-shadow-opacity));
+    transform: translate3d(var(--fc3d-depth), var(--fc3d-depth), -1px);
+    content: "";
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d--effect-subtle .featured-collection-3d__card::before {
+    background: rgb(var(--fc3d-accent) / 0.1);
+    transform: translate3d(var(--fc3d-subtle-depth), var(--fc3d-subtle-depth), -1px);
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d--effect-glow .featured-collection-3d__card::before {
+    background: linear-gradient(135deg, rgb(var(--fc3d-accent) / 0.48), rgb(var(--fc3d-accent) / 0.08));
+    box-shadow: 0 var(--fc3d-shadow-offset) var(--fc3d-shadow-blur) rgb(var(--fc3d-accent) / var(--fc3d-glow-shadow-opacity));
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__card > product-card,
+  #shopify-section-{{ section.id }} .featured-collection-3d__card > product-card-placeholder {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--fc3d-radius);
+    transform: translateZ(1px);
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__glare {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
+    overflow: hidden;
+    border-radius: var(--fc3d-radius);
+    background: radial-gradient(circle at var(--fc3d-glare-x) var(--fc3d-glare-y), rgb(255 255 255 / 0.6), rgb(255 255 255 / 0.16) 18%, transparent 48%);
+    mix-blend-mode: soft-light;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(2px);
+    transition: opacity 220ms ease;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__card.is-tilting .featured-collection-3d__glare {
+    opacity: 1;
+  }
+
+  #shopify-section-{{ section.id }} .featured-collection-3d__item:hover .featured-collection-3d__card,
+  #shopify-section-{{ section.id }} .featured-collection-3d__item:focus-within .featured-collection-3d__card {
+    transform: perspective(var(--fc3d-perspective)) rotateX(var(--fc3d-tilt-x)) rotateY(calc(var(--fc3d-base-rotation, 0deg) + var(--fc3d-tilt-y))) translateY(var(--fc3d-hover-lift));
+    filter: saturate(1.04);
+  }
+
+  @keyframes fc3d-float-{{ section.id }} {
+    0%, 100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @media screen and (min-width: 700px) {
+    #shopify-section-{{ section.id }} .featured-collection-3d__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    #shopify-section-{{ section.id }} .featured-collection-3d__grid {
+      grid-template-columns: repeat({{ section.settings.products_per_row_desktop }}, minmax(0, 1fr));
+    }
+
+    #shopify-section-{{ section.id }} .featured-collection-3d--staggered .featured-collection-3d__item:nth-child(even) {
+      --fc3d-item-stagger: var(--fc3d-stagger);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .featured-collection-3d__float {
+      animation: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .featured-collection-3d__card {
+      transition: none;
+    }
+
+    #shopify-section-{{ section.id }} .featured-collection-3d__item:hover .featured-collection-3d__card,
+    #shopify-section-{{ section.id }} .featured-collection-3d__item:focus-within .featured-collection-3d__card {
+      transform: perspective(var(--fc3d-perspective)) rotateY(var(--fc3d-base-rotation, 0deg));
+    }
+  }
+</style>
+
+<div {% render 'section-properties' %}>
+  <featured-collection-3d
+    class="featured-collection-3d featured-collection-3d--effect-{{ section.settings.effect_style }}{% if section.settings.enable_float %} featured-collection-3d--floating{% endif %}{% if section.settings.stagger_cards %} featured-collection-3d--staggered{% endif %}{% if section.settings.show_background_glow %} featured-collection-3d--background-glow{% endif %}"
+    data-enable-tilt="{{ section.settings.enable_tilt }}"
+    data-tilt-strength="{{ section.settings.tilt_strength }}"
+  >
+    <div class="section-stack">
+      {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, heading_color: section.settings.heading_color, heading_gradient: section.settings.heading_gradient, content: section.settings.content, link_text: section.settings.link_text, link_url: link_url -%}
+
+      <div class="featured-collection-3d__stage">
+        <reveal-items selector=".featured-collection-3d__grid > *">
+          <div class="featured-collection-3d__grid">
+            {%- for product in products limit: section.settings.products_count -%}
+              {%- liquid
+                assign rotation_remainder = forloop.index0 | modulo: 2
+                assign base_rotation = section.settings.card_rotation
+
+                if rotation_remainder == 0
+                  assign base_rotation = base_rotation | times: -1
+                endif
+
+                assign float_delay = forloop.index0 | times: -0.35
+              -%}
+              <div class="featured-collection-3d__item" style="--fc3d-base-rotation: {{ base_rotation }}deg; --fc3d-float-delay: {{ float_delay }}s;">
+                <div class="featured-collection-3d__float">
+                  <div class="featured-collection-3d__card" data-3d-card>
+                    {%- render 'product-card', product: product, stacked: true, background: section.settings.product_card_background, text_color: section.settings.product_card_text_color, show_badges: true -%}
+
+                    {%- if section.settings.enable_glare -%}
+                      <span class="featured-collection-3d__glare" aria-hidden="true"></span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            {%- else -%}
+              {%- for i in (1..section.settings.products_count) -%}
+                {%- liquid
+                  assign rotation_remainder = forloop.index0 | modulo: 2
+                  assign base_rotation = section.settings.card_rotation
+
+                  if rotation_remainder == 0
+                    assign base_rotation = base_rotation | times: -1
+                  endif
+
+                  assign float_delay = forloop.index0 | times: -0.35
+                -%}
+                {%- capture placeholder_image -%}product-{% cycle '1', '2', '3', '4', '5', '6' %}{%- endcapture -%}
+                <div class="featured-collection-3d__item" style="--fc3d-base-rotation: {{ base_rotation }}deg; --fc3d-float-delay: {{ float_delay }}s;">
+                  <div class="featured-collection-3d__float">
+                    <div class="featured-collection-3d__card" data-3d-card>
+                      {%- render 'product-card-placeholder', stacked: true, placeholder_image: placeholder_image, background: section.settings.product_card_background, text_color: section.settings.product_card_text_color, text_alignment: settings.product_info_alignment -%}
+
+                      {%- if section.settings.enable_glare -%}
+                        <span class="featured-collection-3d__glare" aria-hidden="true"></span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </reveal-items>
+      </div>
+    </div>
+  </featured-collection-3d>
+</div>
+
+<script>
+  if (!customElements.get('featured-collection-3d')) {
+    customElements.define('featured-collection-3d', class extends HTMLElement {
+      connectedCallback() {
+        this.initialize();
+      }
+
+      disconnectedCallback() {
+        this.destroy();
+      }
+
+      initialize() {
+        this.destroy();
+
+        const canTilt = this.dataset.enableTilt === 'true'
+          && window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches;
+
+        if (!canTilt) return;
+
+        const strength = Number(this.dataset.tiltStrength || 8);
+        this.handlers = [];
+
+        this.querySelectorAll('[data-3d-card]').forEach((card) => {
+          const move = (event) => {
+            const bounds = card.getBoundingClientRect();
+            const x = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+            const y = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
+
+            card.style.setProperty('--fc3d-tilt-x', `${(0.5 - y) * strength}deg`);
+            card.style.setProperty('--fc3d-tilt-y', `${(x - 0.5) * strength}deg`);
+            card.style.setProperty('--fc3d-glare-x', `${x * 100}%`);
+            card.style.setProperty('--fc3d-glare-y', `${y * 100}%`);
+            card.classList.add('is-tilting');
+          };
+
+          const reset = () => {
+            card.style.setProperty('--fc3d-tilt-x', '0deg');
+            card.style.setProperty('--fc3d-tilt-y', '0deg');
+            card.style.setProperty('--fc3d-glare-x', '50%');
+            card.style.setProperty('--fc3d-glare-y', '50%');
+            card.classList.remove('is-tilting');
+          };
+
+          card.addEventListener('pointermove', move, { passive: true });
+          card.addEventListener('pointerleave', reset);
+          card.addEventListener('pointercancel', reset);
+          this.handlers.push({ card, move, reset });
+        });
+      }
+
+      destroy() {
+        if (!this.handlers) return;
+
+        this.handlers.forEach(({ card, move, reset }) => {
+          card.removeEventListener('pointermove', move);
+          card.removeEventListener('pointerleave', reset);
+          card.removeEventListener('pointercancel', reset);
+        });
+
+        this.handlers = [];
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Featured collection 3D",
+  "class": "shopify-section--featured-collection-3d",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products",
+      "limit": 12,
+      "info": "Replaces the collection when products are selected."
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "products_per_row_mobile",
+      "label": "Products per row (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Products per row (desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between cards",
+      "default": 28
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL",
+      "info": "Defaults to the collection URL."
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text",
+      "default": "View all"
+    },
+    {
+      "type": "header",
+      "content": "3D effects"
+    },
+    {
+      "type": "select",
+      "id": "effect_style",
+      "label": "Depth style",
+      "options": [
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "sculpted",
+          "label": "Sculpted"
+        },
+        {
+          "value": "glow",
+          "label": "Glow"
+        }
+      ],
+      "default": "sculpted"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_tilt",
+      "label": "Interactive pointer tilt",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "tilt_strength",
+      "min": 2,
+      "max": 18,
+      "step": 2,
+      "unit": "°",
+      "label": "Tilt strength",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "perspective",
+      "min": 600,
+      "max": 1800,
+      "step": 100,
+      "unit": "px",
+      "label": "Perspective",
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "card_depth",
+      "min": 0,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Card depth",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_rotation",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "°",
+      "label": "Alternating card rotation",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "hover_lift",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Hover lift",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "%",
+      "label": "Shadow opacity",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_glare",
+      "label": "Pointer glare",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_float",
+      "label": "Floating animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "stagger_cards",
+      "label": "Stagger cards",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "stagger_offset",
+      "min": 0,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Stagger offset",
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_background_glow",
+      "label": "Background glow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "3D accent",
+      "default": "#7867ff"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient",
+      "label": "Heading gradient"
+    },
+    {
+      "type": "color",
+      "id": "product_card_background",
+      "label": "Product card background"
+    },
+    {
+      "type": "color",
+      "id": "product_card_text_color",
+      "label": "Product card text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection 3D"
+    }
+  ]
+}
+{% endschema %}
