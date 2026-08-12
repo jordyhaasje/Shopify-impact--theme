@@ -1,0 +1,75 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "feature-54",
+      "blocks": {
+        "origin": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "Authentic Japanese Origin",
+            "text": "<p>Sourced directly from heritage organic farms in Uji, Japan, ensuring traditional cultivation and authentic taste.</p>"
+          }
+        },
+        "energy": {
+          "type": "feature",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Sustained Energy & Focus",
+            "text": "<p>Rich in L-Theanine to promote relaxation and mental clarity without the crash associated with coffee.</p>"
+          }
+        },
+        "quality": {
+          "type": "feature",
+          "settings": {
+            "icon": "leaf",
+            "title": "Ceremonial Grade Quality",
+            "text": "<p>Only the youngest, shade-grown tea leaves are stone-ground to preserve vibrant color and nutrients.</p>"
+          }
+        },
+        "antioxidants": {
+          "type": "feature",
+          "settings": {
+            "icon": "target",
+            "title": "Rich in Antioxidants",
+            "text": "<p>Packed with catechins and EGCG to support metabolism, immunity, and overall cellular health.</p>"
+          }
+        }
+      },
+      "block_order": ["origin", "energy", "quality", "antioxidants"],
+      "settings": {
+        "heading": "Pure Ceremonial Energy.",
+        "intro": "<p>Experience the vibrant flavor and focused calm that sets our stone-ground ceremonial grade matcha apart.</p>",
+        "layout": "image-left",
+        "image_width": 40,
+        "heading_font": "nunito_n7",
+        "body_font": "open_sans_n4",
+        "background": "#ffffff",
+        "text_color": "#13371f",
+        "muted_color": "#647568",
+        "accent_color": "#13371f",
+        "card_background": "linear-gradient(180deg, rgba(250, 250, 250, 1), rgba(242, 241, 247, 1) 100%)",
+        "card_border": "#f2f1f7",
+        "button_background": "#13371f",
+        "button_text": "#ffffff",
+        "max_width": 1300,
+        "desktop_gap": 60,
+        "desktop_padding": 60,
+        "mobile_padding": 24,
+        "section_radius": 0,
+        "card_radius": 12,
+        "image_radius": 0
+      }
+    }
+  },
+  "order": ["main"]
+}

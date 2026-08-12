@@ -1,0 +1,211 @@
+{% liquid
+  assign heading_font_bold = section.settings.heading_font | font_modify: 'weight', '700'
+  assign image_loading = 'lazy'
+  if section.index <= 2
+    assign image_loading = 'eager'
+  endif
+%}
+
+{% style %}
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {% if heading_font_bold %}{{ heading_font_bold | font_face: font_display: 'swap' }}{% endif %}
+  {{ section.settings.body_font | font_face: font_display: 'swap' }}
+
+  #shopify-section-{{ section.id }} {
+    --f54-background: {{ section.settings.background }};
+    --f54-text: {{ section.settings.text_color }};
+    --f54-muted: {{ section.settings.muted_color }};
+    --f54-accent: {{ section.settings.accent_color }};
+    --f54-card-background: {{ section.settings.card_background }};
+    --f54-card-border: {{ section.settings.card_border }};
+    --f54-button-background: {{ section.settings.button_background }};
+    --f54-button-text: {{ section.settings.button_text }};
+    --f54-heading-font: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+    --f54-heading-style: {{ section.settings.heading_font.style }};
+    --f54-heading-weight: {{ section.settings.heading_font.weight }};
+    --f54-body-font: {{ section.settings.body_font.family }}, {{ section.settings.body_font.fallback_families }};
+    --f54-body-style: {{ section.settings.body_font.style }};
+    --f54-body-weight: {{ section.settings.body_font.weight }};
+    --f54-radius: {{ section.settings.section_radius }}px;
+    --f54-card-radius: {{ section.settings.card_radius }}px;
+    --f54-image-radius: {{ section.settings.image_radius }}px;
+    --f54-mobile-padding: {{ section.settings.mobile_padding }}px;
+    --f54-desktop-padding: {{ section.settings.desktop_padding }}px;
+    --f54-max-width: {{ section.settings.max_width }}px;
+    --f54-gap: {{ section.settings.desktop_gap }}px;
+    --f54-image-column: {{ section.settings.image_width }}%;
+  }
+{% endstyle %}
+
+<section class="f54 f54--{{ section.settings.layout }}" aria-labelledby="f54-heading-{{ section.id }}">
+  <div class="f54__inner">
+    <div class="f54__media">
+      {% if section.settings.image != blank %}
+        {% capture sizes %}(max-width: 1023px) calc(100vw - {{ section.settings.mobile_padding | times: 2 }}px), min({{ section.settings.max_width | times: section.settings.image_width | divided_by: 100 }}px, {{ section.settings.image_width }}vw){% endcapture %}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: loading: image_loading, widths: '320, 480, 640, 750, 960, 1200, 1500, 1600', sizes: sizes, class: 'f54__image' }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'f54__image f54__placeholder' }}
+      {% endif %}
+    </div>
+
+    <div class="f54__content">
+      {% if section.settings.heading != blank %}
+        <h2 id="f54-heading-{{ section.id }}" class="f54__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.intro != blank %}
+        <div class="f54__intro rte">{{ section.settings.intro }}</div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="f54__features">
+          {% for block in section.blocks %}
+            <article class="f54__feature" {{ block.shopify_attributes }}>
+              <div class="f54__feature-heading">
+                <span class="f54__icon" aria-hidden="true">
+                  {% case block.settings.icon %}
+                    {% when 'shield' %}
+                      <svg viewBox="0 0 24 24"><path d="M12 2 20 5v6c0 5.2-3.4 9.3-8 11-4.6-1.7-8-5.8-8-11V5l8-3Zm-1.2 13.6 5.7-5.7-1.4-1.4-4.3 4.3-2-2-1.4 1.4 3.4 3.4Z"/></svg>
+                    {% when 'sparkle' %}
+                      <svg viewBox="0 0 24 24"><path d="m12 2 1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2Zm7 12 .9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14ZM5 13l1.2 3.8L10 18l-3.8 1.2L5 23l-1.2-3.8L0 18l3.8-1.2L5 13Z"/></svg>
+                    {% when 'leaf' %}
+                      <svg viewBox="0 0 24 24"><path d="M20.8 2.1C13.4 2.7 7.6 5.7 5.7 10.2c-1.1 2.6-.5 5.2 1.2 6.8-1.4 1.5-2.4 3.2-3 5l2 .7c1-2.5 2.4-4.5 4.2-6.2 2.1.5 4.5-.3 6.4-2.2 3.2-3.2 3.9-8.4 4.3-12.2ZM9.2 15c2-3.5 4.6-5.9 8.3-8-2.9 2.8-4.8 5.4-6 7.8-.8.3-1.6.4-2.3.2Z"/></svg>
+                    {% when 'target' %}
+                      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 9.8 12h-2.1a8 8 0 1 1-1.5-6.7l-2.1 2.1A5 5 0 1 0 17 14h-2.1a3 3 0 1 1-.3-3.1l-3.3 3.3 1.4 1.4 3.3-3.3A5 5 0 0 0 17 14h2a7 7 0 0 0-1.5-4.3L20.2 7H23V5h-2V3h-2v2.8l-2.8 2.8A7 7 0 0 0 12 7a7 7 0 1 0 7 7h2A9 9 0 0 1 12 23 9 9 0 0 1 12 5c1 0 2 .2 2.9.5l1.6-1.6A10 10 0 0 0 12 2Z"/></svg>
+                    {% when 'heart' %}
+                      <svg viewBox="0 0 24 24"><path d="M12 21S3 15.8 3 8.5A5.5 5.5 0 0 1 12 4a5.5 5.5 0 0 1 9 4.5C21 15.8 12 21 12 21Z"/></svg>
+                    {% when 'refresh' %}
+                      <svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 0 1 7.4 5H17l3.5 3.5L24 9h-2.5A10 10 0 1 0 22 15h-2.1A8 8 0 1 1 12 4Z"/></svg>
+                    {% else %}
+                      <svg viewBox="0 0 24 24"><path d="m12 2 1.7 5.3L19 9l-5.3 1.7L12 16l-1.7-5.3L5 9l5.3-1.7L12 2Z"/></svg>
+                  {% endcase %}
+                </span>
+                {% if block.settings.title != blank %}<h3>{{ block.settings.title }}</h3>{% endif %}
+              </div>
+              {% if block.settings.text != blank %}<div class="f54__feature-text rte">{{ block.settings.text }}</div>{% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a class="f54__button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .f54 {
+    margin: var(--f54-margin-top, 0) var(--f54-side-margin, 0) var(--f54-margin-bottom, 0);
+    overflow: hidden;
+    border-radius: var(--f54-radius);
+    color: var(--f54-text);
+    background: var(--f54-background);
+  }
+
+  .f54__inner {
+    display: grid;
+    grid-template-areas: "media" "content";
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    max-width: var(--f54-max-width);
+    margin-inline: auto;
+    padding: var(--f54-mobile-padding);
+  }
+
+  .f54__media { grid-area: media; overflow: hidden; border-radius: var(--f54-image-radius); }
+  .f54__image { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .f54__placeholder { background: color-mix(in srgb, var(--f54-background), var(--f54-text) 8%); color: color-mix(in srgb, var(--f54-background), var(--f54-text) 18%); }
+  .f54__content { grid-area: content; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; text-align: center; }
+  .f54__heading { margin: 0; max-width: 100%; color: var(--f54-text); font-family: var(--f54-heading-font); font-size: clamp(32px, 4vw, 48px); font-style: var(--f54-heading-style); font-weight: var(--f54-heading-weight); line-height: 1.3; letter-spacing: -.02em; }
+  .f54__intro { margin-top: 10px; color: var(--f54-muted); font-family: var(--f54-body-font); font-size: 15px; font-style: var(--f54-body-style); font-weight: var(--f54-body-weight); line-height: 1.7; }
+  .f54__intro p, .f54__feature-text p { margin: 0; }
+  .f54__features { display: flex; width: 100%; flex-direction: column; gap: 20px; margin-top: 30px; padding: 18px; border: 1px solid var(--f54-card-border); border-radius: var(--f54-card-radius); background: var(--f54-card-background); }
+  .f54__feature { width: 100%; }
+  .f54__feature-heading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .f54__icon { display: inline-flex; width: 28px; min-width: 28px; height: 28px; color: var(--f54-accent); }
+  .f54__icon svg { width: 100%; height: 100%; fill: currentColor; }
+  .f54__feature h3 { margin: 0; color: var(--f54-text); font-family: var(--f54-heading-font); font-size: 16px; font-style: var(--f54-heading-style); font-weight: 700; line-height: 1.3; }
+  .f54__feature-text { margin-top: 8px; color: var(--f54-muted); font-family: var(--f54-body-font); font-size: 13px; font-style: var(--f54-body-style); font-weight: var(--f54-body-weight); line-height: 1.7; }
+  .f54__button { display: inline-flex; min-height: 56px; align-items: center; justify-content: center; margin-top: 36px; padding: 14px 42px; border-radius: 999px; color: var(--f54-button-text); background: var(--f54-button-background); font-family: var(--f54-body-font); font-size: 15px; font-weight: 700; line-height: 1; text-decoration: none; transition: transform .2s ease, filter .2s ease; }
+  .f54__button:hover { filter: brightness(.94); transform: translateY(-1px); }
+  .f54__button:focus-visible { outline: 3px solid var(--f54-accent); outline-offset: 3px; }
+
+  @media (min-width: 1024px) {
+    .f54__inner { grid-template-columns: var(--f54-image-column, 40%) minmax(0, 1fr); grid-template-areas: "media content"; gap: var(--f54-gap); padding: var(--f54-desktop-padding); }
+    .f54--image-right .f54__inner { grid-template-columns: minmax(0, 1fr) var(--f54-image-column, 45%); grid-template-areas: "content media"; }
+    .f54__media { position: relative; min-height: 0; }
+    .f54__image { position: absolute; inset: 0; height: 100%; min-height: 0; aspect-ratio: auto; }
+    .f54__feature-heading { flex-direction: row; justify-content: flex-start; }
+    .f54__feature h3, .f54__feature-text { text-align: left; }
+    .f54__feature h3 { font-size: 18px; }
+    .f54__feature-text { font-size: 14px; }
+    .f54__features { gap: 34px; padding: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .f54__button { transition: none; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Feature #54",
+  "tag": "section",
+  "class": "shopify-section--feature-54",
+  "disabled_on": { "groups": ["header", "custom.overlay"] },
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Pure Ceremonial Energy." },
+    { "type": "richtext", "id": "intro", "label": "Introduction", "default": "<p>Experience the vibrant flavor and focused calm that sets our stone-ground ceremonial grade matcha apart.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "select", "id": "layout", "label": "Desktop image position", "options": [{ "value": "image-left", "label": "Left" }, { "value": "image-right", "label": "Right" }], "default": "image-left" },
+    { "type": "range", "id": "image_width", "label": "Desktop image width", "min": 30, "max": 60, "step": 5, "unit": "%", "default": 40 },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Label" },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    { "type": "header", "content": "Typography" },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "nunito_n7" },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "open_sans_n4" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color_background", "id": "background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Heading and title", "default": "#13371f" },
+    { "type": "color", "id": "muted_color", "label": "Body text", "default": "#647568" },
+    { "type": "color", "id": "accent_color", "label": "Icons", "default": "#13371f" },
+    { "type": "color_background", "id": "card_background", "label": "Feature card", "default": "linear-gradient(180deg, rgba(250, 250, 250, 1), rgba(242, 241, 247, 1) 100%)" },
+    { "type": "color", "id": "card_border", "label": "Feature card border", "default": "#f2f1f7" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#13371f" },
+    { "type": "color", "id": "button_text", "label": "Button text", "default": "#ffffff" },
+    { "type": "header", "content": "Spacing and shape" },
+    { "type": "range", "id": "max_width", "label": "Content width", "min": 1000, "max": 1600, "step": 50, "unit": "px", "default": 1300 },
+    { "type": "range", "id": "desktop_gap", "label": "Desktop column gap", "min": 24, "max": 100, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "desktop_padding", "label": "Desktop padding", "min": 20, "max": 120, "step": 5, "unit": "px", "default": 60 },
+    { "type": "range", "id": "mobile_padding", "label": "Mobile padding", "min": 16, "max": 60, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "section_radius", "label": "Section corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 0 },
+    { "type": "range", "id": "card_radius", "label": "Feature card corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 12 },
+    { "type": "range", "id": "image_radius", "label": "Image corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 0 }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [{ "value": "shield", "label": "Shield" }, { "value": "sparkle", "label": "Sparkle" }, { "value": "leaf", "label": "Leaf" }, { "value": "target", "label": "Target" }, { "value": "heart", "label": "Heart" }, { "value": "refresh", "label": "Refresh" }], "default": "shield" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Authentic Japanese Origin" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Sourced directly from heritage organic farms in Uji, Japan, ensuring traditional cultivation and authentic taste.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature #54",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "shield", "title": "Authentic Japanese Origin", "text": "<p>Sourced directly from heritage organic farms in Uji, Japan, ensuring traditional cultivation and authentic taste.</p>" } },
+        { "type": "feature", "settings": { "icon": "sparkle", "title": "Sustained Energy & Focus", "text": "<p>Rich in L-Theanine to promote relaxation and mental clarity without the crash associated with coffee.</p>" } },
+        { "type": "feature", "settings": { "icon": "leaf", "title": "Ceremonial Grade Quality", "text": "<p>Only the youngest, shade-grown tea leaves are stone-ground to preserve vibrant color and nutrients.</p>" } },
+        { "type": "feature", "settings": { "icon": "target", "title": "Rich in Antioxidants", "text": "<p>Packed with catechins and EGCG to support metabolism, immunity, and overall cellular health.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
